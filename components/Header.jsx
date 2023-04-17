@@ -5,8 +5,8 @@ import Center from '/components/Center';
 import CartButton from '/components/CartButton';
 import logoIcon from "../assets/logo.svg";
 import { keyframes } from 'styled-components';
-
-//import { useStateContext } from '../context/StateContext';
+import Cart from '../components/Cart';
+import { useStateContext } from '../context/StateContext';
 
 const StyledHeader = styled.header`
   background-color: #eee;
@@ -34,11 +34,6 @@ const NavLink = styled(Link)`
 
   color: #fff;
   text-decoration: none;
-  font-size: 23px;
-  font-weight: 800;
-  -webkit-text-stroke-width: 0.8px;
-  -webkit-text-stroke-color: var(--border);
-  letter-spacing: -0.7px;
   text-shadow:
         0.1px 0.3px 0 var(--border),
         0.3px 0.6px 0 var(--border),
@@ -47,10 +42,10 @@ const NavLink = styled(Link)`
         0.9px 1.5px 0 var(--border),
         1.0px 1.8px 0 var(--border),
         1.1px 2.1px 0 var(--border);
+
   &:hover {
     animation: ${rise} 0.1s ease 0s forwards;
   }
-
 
 `;
 
@@ -65,7 +60,8 @@ const Logo = styled(Image)`
 `;
 
 export default function Header() {
-  //const { showCart,setShowCart,totalQuantities } = useStateContext();
+  const { showCart } = useStateContext();
+
   return (
     <StyledHeader>
       <Center>
@@ -74,16 +70,13 @@ export default function Header() {
             <Logo src={logoIcon} alt='logo' />
           </Link>
           <StyledNav>
-            <NavLink href=''>Produtos</NavLink>
-            <NavLink href=''>LookBook</NavLink>
+            <NavLink href=''><h1>Produtos</h1></NavLink>
+            <NavLink href=''><h1>LookBook</h1></NavLink>
           </StyledNav>
           <CartButton />
         </Wrapper>
       </Center>
-      
-      {
-      //showCart && <Cart />
-      }
+      {showCart && < Cart />}
     </StyledHeader>
   )
 }

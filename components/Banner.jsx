@@ -57,6 +57,7 @@ const BannerImage = styled(Image)`
 
 const OverlayImage = styled(Image)`
   position: absolute;
+  z-index: 2;
   top: calc(${props => props.y} / 1000 * 100%);
   left: calc(${props => props.x} / 1500 * 100%);
   width: calc(${props => props.size.split('x')[0]} / 1500 * 100%);
