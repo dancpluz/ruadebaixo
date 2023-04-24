@@ -1,31 +1,60 @@
 import Link from 'next/link';
 import urlFor from '../lib/urlFor';
 import Image from 'next/image';
+import styled from 'styled-components';
+import { useState } from 'react';
+
+const Container = styled(Link)`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 20px;
+  width: 100%;
+  text-decoration: none;
+`;
+
+const Card = styled.div`
+  cursor: pointer;
+`;
+
+const Name = styled.p`
+  font-weight: 800;
+  color: black;
+`;
+
+const Price = styled.p`
+  font-weight: 500;
+  margin-top: 6px;
+  color: black;
+`;
 
 export default function Product({ product: { _id,slug,image,name,price } }) {
+  const [isHovering,setIsHovering] = useState(false);
 
-  const product = {
-    _id: 0,
-    slug: 'test',
-    image: '',
-    name: 'juan',
-    price: 20,
-  };
+  function onMouseEnter() {
+    //console.log('in');
+    setIsHovering(true);
+  }
+
+  function onMouseLeave() {
+    //console.log('out');
+    setIsHovering(false);
+  } 
 
   return (
-    <div>
-      <Link href={`/produto/${slug.current}`}>
-        <div>
-          <Image
-            src={urlFor(image && image[0]).url()}
-            alt={_id}
-            width={250}
-            height={250}
-          />
-          <p>{name}</p>
-          <p>R${price}</p>
-        </div>
-      </Link>
-    </div>
+    <Container href={`/produto/${slug}`} onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
+      <Card>
+        <Image
+          src={//urlFor(image && image[0]).url()
+          image}
+          alt={_id}
+          width={300}
+          height={300}
+        />
+        <Name>{name}</Name>
+        <Price>R$ {price}</Price>
+      </Card>
+    </Container>
   );
 }

@@ -8,11 +8,13 @@ const GlobalStyles = createGlobalStyle`
     font-family: 'Montserrat', sans-serif;
   }
   h1 {
-  font-size: 23px;
-  font-weight: 800;
-  -webkit-text-stroke-width: 0.8px;
-  -webkit-text-stroke-color: black;
-  letter-spacing: -0.7px;
+    color: #fff;
+    margin: 0;
+    font-size: 23px;
+    font-weight: 800;
+    -webkit-text-stroke-width: 0.8px;
+    -webkit-text-stroke-color: black;
+    letter-spacing: -0.7px;
   }
 `;
 

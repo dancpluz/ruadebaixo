@@ -1,6 +1,8 @@
 import styled from 'styled-components';
 import { useStateContext } from '../context/StateContext';
 import { ArrowBack } from '@mui/icons-material';
+import BoxIcon from '../assets/box.svg';
+import Image from 'next/image';
 
 const CartWrapper = styled.div`
   width: 100vw;
@@ -48,7 +50,8 @@ export default function Cart() {
       <CartContainer>
         <BackButton type='button' onClick={() => setShowCart(false)}>
           <ArrowBack />
-          <span>Sua Sacola</span>
+          <Image src={BoxIcon} alt={'box'} height={40} />
+          <span>Sua Caixa</span>
           <Quantity>2</Quantity>
         </BackButton>
       </CartContainer>

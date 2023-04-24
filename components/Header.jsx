@@ -1,15 +1,15 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import styled from 'styled-components';
-import Center from '/components/Center';
-import CartButton from '/components/CartButton';
+import Center from './Center';
+import CartButton from './CartButton';
+import Cart from '../components/Cart';
 import logoIcon from "../assets/logo.svg";
 import { keyframes } from 'styled-components';
-import Cart from '../components/Cart';
 import { useStateContext } from '../context/StateContext';
 
 const StyledHeader = styled.header`
-  background-color: #eee;
+  background-color: #fff;
 `;
 
 const Wrapper = styled.div`

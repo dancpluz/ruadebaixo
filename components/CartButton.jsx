@@ -2,7 +2,7 @@ import Image from 'next/image';
 import BoxIcon from '../assets/box.svg';
 import styled from 'styled-components';
 import { useStateContext } from '../context/StateContext';
-
+import Badge from '@mui/material/Badge';
 
 const StyledButton = styled.button`
   font-size: 25px;
@@ -27,14 +27,32 @@ const StyledSpan = styled.span`
   font-weight: 600;
 `;
 
+const StyledBadge = styled(Badge)`
+  cursor: pointer;
+  .MuiBadge-badge {
+    font-family: 'Montserrat', sans-serif;
+    right: 5px;
+    top: 10px;
+    background-color: red;
+    color: white;
+    }
+`;
+
 export default function CartButton({}) {
   const { setShowCart, totalQuantities } = useStateContext();
 
-  return (
-    <StyledButton type='button' onClick={() => setShowCart(true)}>
-      <Image src={BoxIcon} alt={'box'} height={30} />
+{/*
+  <StyledButton type='button' onClick={() => setShowCart(true)}>
+      <Image src={BoxIcon} alt={'box'} height={40} />
       <StyledSpan>{totalQuantities}</StyledSpan>
     </StyledButton>
+*/ }
+
+
+  return (
+    <StyledBadge onClick={() => setShowCart(true)} badgeContent={totalQuantities} showZero>
+      <Image src={BoxIcon} alt={'box'} height={40} />
+    </StyledBadge>
     );
 }
   
