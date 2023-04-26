@@ -72,6 +72,7 @@ export default function Header() {
           <StyledNav>
             <NavLink href=''><h1>Produtos</h1></NavLink>
             <NavLink href=''><h1>LookBook</h1></NavLink>
+            <NavLink href=''><h1>FAQ</h1></NavLink>
           </StyledNav>
           <CartButton />
         </Wrapper>

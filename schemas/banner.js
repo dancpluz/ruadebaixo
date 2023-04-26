@@ -1,4 +1,4 @@
-export default {
+export default banner = {
     name: 'banner',
     title: 'Banner',
     type: 'document',

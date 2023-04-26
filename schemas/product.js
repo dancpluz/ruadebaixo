@@ -1,4 +1,4 @@
-export default {
+export default product = {
     name: 'product',
     title: 'Produtos Brechó',
     type: 'document',
@@ -78,6 +78,12 @@ export default {
             title: 'Preço',
             description: 'Preço do produto',
             type: 'number',
+        },
+        {
+            name: 'sold',
+            title: 'Vendido',
+            description: 'Marque se já foi vendido',
+            type: 'boolean',
         }
     ]
 }
