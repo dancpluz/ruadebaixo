@@ -1,5 +1,6 @@
-import { createGlobalStyle } from "styled-components"
+import { createGlobalStyle } from "styled-components";
 import { StateContext } from '../context/StateContext';
+import Layout from "../components/Layout";
 
 const GlobalStyles = createGlobalStyle`
   body{
@@ -15,6 +16,7 @@ const GlobalStyles = createGlobalStyle`
     -webkit-text-stroke-width: 0.8px;
     -webkit-text-stroke-color: black;
     letter-spacing: -0.7px;
+    font-style: italic;
   }
 `;
 
@@ -23,7 +25,9 @@ export default function App({ Component, pageProps }) {
     <>
       <StateContext>
         <GlobalStyles/>
-          <Component {...pageProps} />
+          <Layout>
+              <Component {...pageProps} />
+          </Layout>
       </StateContext>
     </>
   )

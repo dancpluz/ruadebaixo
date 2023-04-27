@@ -19,24 +19,25 @@ const Price = styled.p`
   color: black;
 `;
 
-export default function Product({ product: { _id,slug,image,name,price } }) {
+export default function Product({ product: { _id,slug,images,name,price } }) {
   const [isHovering,setIsHovering] = useState(false);
+  const [showImage, setShowImage] = useState(images[0])
 
   function onMouseEnter() {
-    //console.log('in');
     setIsHovering(true);
+    setShowImage(images[1]);
   }
 
   function onMouseLeave() {
-    //console.log('out');
     setIsHovering(false);
+    setShowImage(images[0]);
   } 
 
   return (
-    <Card>
+    <Card onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
       <Image
         src={//urlFor(image && image[0]).url()
-        image}
+        showImage}
         alt={_id}
         width={300}
         height={300}

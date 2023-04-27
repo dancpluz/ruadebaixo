@@ -4,9 +4,10 @@ import TwitterIcon from '@mui/icons-material/Twitter';
 import styled from 'styled-components';
 
 const FooterContainer = styled.footer`
-  color: black;
+  color: white;
+  background-color: black;
   text-align: center;
-  margin-top: 20px;
+  margin-top: 10px;
   padding: 30px 10px;
   font-weight: 700;
   display: flex;
@@ -22,7 +23,7 @@ const IconContainer = styled.div`
 `;
 
 const Icon = styled(Link)`
-  color: black;
+  color: white;
 `;
 
 

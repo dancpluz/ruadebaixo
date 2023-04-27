@@ -6,10 +6,8 @@ import Footer from '../components/Footer';
 export default function HomePage() {
   return (
     <div>
-      <Header />
       <Banner />
       <FeaturedProducts />
-      <Footer />
     </div>
   )
 }

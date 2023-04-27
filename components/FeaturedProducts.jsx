@@ -14,7 +14,8 @@ const ProductsContainer = styled.div`
 `;
 
 const FeaturedWrapper = styled.div`
-  margin-top: 120px;
+  margin-top: 80px;
+  margin-bottom: 80px;
 `;
 
 const marquee = keyframes`
@@ -43,23 +44,24 @@ const FeaturedProducts = styled.div`
   position: absolute;
   white-space: nowrap;
   will-change: transform;
-  animation: ${marquee} 15s linear infinite;
-  animation-fill-mode: forwards;
-  width: 180%;
 
   &:hover {
     animation-play-state: paused;
-    transform: translateX(-50%);
-    transition: all 0.5s ease-in-out;
   }
 
+`;
+
+const FeaturedText = styled.h2`
+  text-align: center;
+  margin: 50px;
+  font-size: 28px;  
 `;
 
 export default function ProductList() {
   const product1 = {
     _id: 0,
     slug: 'test',
-    image: camisa1,
+    images: [camisa1,camisa2],
     name: 'Camiseta Noggers',
     price: 20,
     sold: true
@@ -68,17 +70,17 @@ export default function ProductList() {
   const product2 = {
     _id: 0,
     slug: 'test',
-    image: camisa2,
+    images: [camisa1,camisa2],
     name: 'Camiseta Pog',
     price: 20,
-    sold: false,
+    sold: true,
   };
 
   const products = [product1,product2,product1,product2]
   
   return (
     <FeaturedWrapper>
-      <h2>OIEE</h2>
+      <FeaturedText>OIEE</FeaturedText>
       <FeaturedContainer>
         <FeaturedProducts>
           {products.filter(product => product.sold).map((product) => <Product key={product._id} product={product} />)}
