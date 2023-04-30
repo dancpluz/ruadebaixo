@@ -1,41 +1,25 @@
 import Image from 'next/image';
-import BoxIcon from '../assets/box.svg';
+import BoxIcon from '../assets/boxclosed.svg';
 import styled from 'styled-components';
 import { useStateContext } from '../context/StateContext';
 import Badge from '@mui/material/Badge';
 
-const StyledButton = styled.button`
-  font-size: 25px;
-  color: black;
-  cursor: pointer;
-  position: relative;
-  transition: transform .4s ease;
-  border: none;
-  background-color: transparent;
-`;
-
-const StyledSpan = styled.span`
-  position: absolute;
-  right: 1px;
-  top: 3px;
-  font-size: 8px;
-  color: #fff;
-  background-color: #f02d34;
-  width: 13px;
-  height: 13px;
-  border-radius: 50%;
-  font-weight: 600;
-`;
-
 const StyledBadge = styled(Badge)`
   cursor: pointer;
   .MuiBadge-badge {
-    font-family: 'Montserrat', sans-serif;
-    right: 5px;
-    top: 10px;
-    background-color: red;
-    color: white;
+    font-family: 'Clash Display', sans-serif;
+    font-weight: 700;
+    right: 7px;
+    top: 12px;
+    background-color: white;
+    color: black;
     }
+`;
+
+const Box = styled(Image)`
+  height: 40px;
+  width: 40px;
+  filter: invert(100%);
 `;
 
 export default function CartButton({}) {
@@ -51,7 +35,7 @@ export default function CartButton({}) {
 
   return (
     <StyledBadge onClick={() => setShowCart(true)} badgeContent={totalQuantities} showZero>
-      <Image src={BoxIcon} alt={'box'} height={40} />
+      <Box src={BoxIcon} alt={'box'} />
     </StyledBadge>
     );
 }

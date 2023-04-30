@@ -1,4 +1,4 @@
-export default banner = {
+const banner = {
     name: 'banner',
     title: 'Banner',
     type: 'document',
@@ -35,3 +35,4 @@ export default banner = {
         },
     ],
 };
+export default banner;

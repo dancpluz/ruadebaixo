@@ -8,16 +8,13 @@ import logoIcon from "../assets/logo.svg";
 import { keyframes } from 'styled-components';
 import { useStateContext } from '../context/StateContext';
 
-const StyledHeader = styled.header`
-  background-color: #fff;
-`;
-
 const Wrapper = styled.div`
+  background-color: black;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 40px;
-  padding: 20px 0;
+  height: 65px;
+  padding: 0 8vw;
 `;
 
 const rise = keyframes`
@@ -29,55 +26,42 @@ const rise = keyframes`
 `;
 
 const NavLink = styled(Link)`
-  --border: black; 
-  --fill: white;
-
   color: #fff;
   text-decoration: none;
-  text-shadow:
-        0.1px 0.3px 0 var(--border),
-        0.3px 0.6px 0 var(--border),
-        0.5px 0.9px 0 var(--border),
-        0.7px 1.2px 0 var(--border),
-        0.9px 1.5px 0 var(--border),
-        1.0px 1.8px 0 var(--border),
-        1.1px 2.1px 0 var(--border);
-
-  &:hover {
-    animation: ${rise} 0.1s ease 0s forwards;
-  }
-
+  width: 100px;
+  text-align: center;
 `;
 
 const StyledNav = styled.nav`
   display: flex;
-  gap: 8vw;
 `;
 
 const Logo = styled(Image)`
-  height: 90px;
-  width: 150px;
+  height: 50px;
+  width: 80px;
+  filter: invert(100%);
+`;
+
+const LogoContainer = styled(Link)`
+  display: flex;
+  justify-content: center;
 `;
 
 export default function Header() {
   const { showCart } = useStateContext();
 
   return (
-    <StyledHeader>
-      <Center>
-        <Wrapper>
-          <Link href='/'>
-            <Logo src={logoIcon} alt='logo' />
-          </Link>
-          <StyledNav>
-            <NavLink href=''><h1>Produtos</h1></NavLink>
-            <NavLink href=''><h1>LookBook</h1></NavLink>
-            <NavLink href=''><h1>FAQ</h1></NavLink>
-          </StyledNav>
-          <CartButton />
-        </Wrapper>
-      </Center>
-      {showCart && < Cart />}
-    </StyledHeader>
+    <Wrapper>
+      <LogoContainer href='/'>
+        <Logo src={logoIcon} alt='logo' />
+      </LogoContainer>
+      <StyledNav>
+        <NavLink href=''><h1>Sobre</h1></NavLink>
+        <NavLink href=''><h1>Produtos</h1></NavLink>
+        <NavLink href=''><h1>FAQ</h1></NavLink>
+      </StyledNav>
+      <CartButton />
+    {showCart && < Cart />}
+    </Wrapper>
   )
 }

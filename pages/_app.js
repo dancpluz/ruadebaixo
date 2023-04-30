@@ -6,17 +6,13 @@ const GlobalStyles = createGlobalStyle`
   body{
     padding: 0;
     margin: 0;
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Clash Display', sans-serif;
   }
   h1 {
     color: #fff;
     margin: 0;
-    font-size: 23px;
-    font-weight: 800;
-    -webkit-text-stroke-width: 0.8px;
-    -webkit-text-stroke-color: black;
-    letter-spacing: -0.7px;
-    font-style: italic;
+    font-size: 15px;
+    font-weight: 500;
   }
 `;
 

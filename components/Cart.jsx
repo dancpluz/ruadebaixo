@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { useStateContext } from '../context/StateContext';
 import { ArrowBack } from '@mui/icons-material';
-import BoxIcon from '../assets/box.svg';
+import BoxIcon from '../assets/boxclosed.svg';
 import Image from 'next/image';
 
 const CartWrapper = styled.div`
