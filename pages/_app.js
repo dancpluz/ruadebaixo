@@ -9,10 +9,16 @@ const GlobalStyles = createGlobalStyle`
     font-family: 'Clash Display', sans-serif;
   }
   h1 {
-    color: #fff;
     margin: 0;
     font-size: 15px;
     font-weight: 500;
+  }
+  p {
+    margin: 0;
+  }
+  hr {
+    border: 1px solid black;
+    margin: 0;
   }
 `;
 

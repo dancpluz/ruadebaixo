@@ -1,8 +1,8 @@
 import Image from 'next/image';
 import BoxIcon from '../assets/boxclosed.svg';
 import styled from 'styled-components';
-import { useStateContext } from '../context/StateContext';
 import Badge from '@mui/material/Badge';
+import { useStateContext } from '../context/StateContext';
 
 const StyledBadge = styled(Badge)`
   cursor: pointer;
@@ -11,8 +11,9 @@ const StyledBadge = styled(Badge)`
     font-weight: 700;
     right: 7px;
     top: 12px;
-    background-color: white;
-    color: black;
+    background-color: black;
+    color: white;
+    border: 2px solid white;
     }
 `;
 

@@ -1,5 +1,3 @@
-import Product from "./Product";
-import Center from "./Center";
 import camisa1 from '../assets/overlay.png';
 import camisa2 from '../assets/camisa.webp';
 import styled, { keyframes } from 'styled-components';

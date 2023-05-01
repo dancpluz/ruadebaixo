@@ -1,9 +1,9 @@
+import Navbar from './Navbar';
 import Link from 'next/link';
 import Image from 'next/image';
 import styled from 'styled-components';
-import Center from './Center';
 import CartButton from './CartButton';
-import Cart from '../components/Cart';
+import Cart from './Cart';
 import logoIcon from "../assets/logo.svg";
 import { keyframes } from 'styled-components';
 import { useStateContext } from '../context/StateContext';
@@ -14,7 +14,7 @@ const Wrapper = styled.div`
   align-items: center;
   justify-content: space-between;
   height: 65px;
-  padding: 0 8vw;
+  padding: 0 12vw;
 `;
 
 const rise = keyframes`
@@ -23,17 +23,6 @@ const rise = keyframes`
                 0.3px 0.6px 0 var(--border);
 		transform: translateY(2px) translateX(2px);
 	}
-`;
-
-const NavLink = styled(Link)`
-  color: #fff;
-  text-decoration: none;
-  width: 100px;
-  text-align: center;
-`;
-
-const StyledNav = styled.nav`
-  display: flex;
 `;
 
 const Logo = styled(Image)`
@@ -55,11 +44,7 @@ export default function Header() {
       <LogoContainer href='/'>
         <Logo src={logoIcon} alt='logo' />
       </LogoContainer>
-      <StyledNav>
-        <NavLink href=''><h1>Sobre</h1></NavLink>
-        <NavLink href=''><h1>Produtos</h1></NavLink>
-        <NavLink href=''><h1>FAQ</h1></NavLink>
-      </StyledNav>
+      <Navbar />
       <CartButton />
     {showCart && < Cart />}
     </Wrapper>

@@ -4,7 +4,7 @@ export default function Document() {
   return (
     <Html lang="en">
       <Head>
-        <link href="https://api.fontshare.com/v2/css?f[]=clash-display@400,600&display=swap" rel="stylesheet" />
+        <link href="https://api.fontshare.com/v2/css?f[]=clash-display@400,700,600&display=swap" rel="stylesheet" /> 
       </Head>
       <body>
         <Main />
