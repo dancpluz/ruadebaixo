@@ -15,6 +15,7 @@ const GlobalStyles = createGlobalStyle`
   }
   p {
     margin: 0;
+    font-family: 'Clash Display', sans-serif;
   }
   hr {
     border: 1px solid black;

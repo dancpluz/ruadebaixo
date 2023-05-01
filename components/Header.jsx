@@ -14,7 +14,7 @@ const Wrapper = styled.div`
   align-items: center;
   justify-content: space-between;
   height: 65px;
-  padding: 0 12vw;
+  padding: 0 10vw;
 `;
 
 const rise = keyframes`

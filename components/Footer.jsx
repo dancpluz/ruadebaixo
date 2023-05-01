@@ -10,21 +10,20 @@ const FooterDiv = styled.footer`
   display: flex;
   height: 90px;
   justify-content: space-between;
-  padding: 0 180px;
+  padding: 0 10vw;
 `;
 
 const EmailDiv = styled.div`
-  margin: auto 0;
   width: 202px;
+  margin-top: 20px;
 `;
 
 const NavDiv = styled.div`
-  margin: auto 0;
+  margin-top: 20px;
 `;
 
 const SocialsDiv = styled.div`
-  margin: auto 0;
-  width: 202px;
+  margin-top: 20px;
 `;
 
 const Title = styled.h1`

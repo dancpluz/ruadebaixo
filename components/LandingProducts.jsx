@@ -1,15 +1,68 @@
+import Image from 'next/image';
+import Link from 'next/link';
 import styled from 'styled-components';
 import Card from './Card';
+import camisa1 from '../assets/overlay.png';
+import camisa2 from '../assets/camisa.webp';
+import arrowIcon from '../assets/arrow.svg';
 
+const Container = styled.div`
+  margin: 0 350px;
+  margin-bottom: 100px;
+`;
 
 const Flexbox = styled.div`
-  
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+  gap: 30px 90px;
+`;
+
+const ButtonLink = styled(Link)`
+  margin-left: auto;
+  margin-top: 50px;
+  height: 60px;
+  width: 250px;
+  display: flex;
+  background-color: white;
+  color: black;
+  border: 1px solid black;
+  justify-content: center;
+  align-items: center;
+  gap: 50px;
+  cursor: pointer;
+  text-decoration: none;
+`;
+
+const Text = styled.p`
+  font-weight: 600;
+  font-size: 20px;
+`;
+
+const Arrow = styled(Image)`
+
 `;
 
 export default function LandingProducts() {
+  const product1 = {
+    _id: 0,
+    slug: 'test',
+    images: [camisa1,camisa2],
+    name: 'Camiseta Noggers',
+    price: 20,
+    tags: ['internacional', 'vintage'],
+    sold: true
+  };
+
   return (
-    <Flexbox>
-      {[1,2,3,4].map()<Card/>}
-    </Flexbox>
+    <Container>
+      <Flexbox>
+        {[1,2,3,4,5,6].map((n) => <Card product={product1} key={n} />)}
+      </Flexbox>
+      <ButtonLink href={'/produtos'}>
+        <Text>VEJA MAIS</Text>
+        <Arrow src={arrowIcon}/>
+      </ButtonLink>
+    </Container>
   )
 }
