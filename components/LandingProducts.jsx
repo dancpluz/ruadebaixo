@@ -32,6 +32,37 @@ const ButtonLink = styled(Link)`
   gap: 50px;
   cursor: pointer;
   text-decoration: none;
+  transition: all .10s ease;
+  position: relative;
+
+  img, p{
+    position: relative;
+    z-index: 2;
+    transition: all .10s;
+  }
+
+  &:after{
+    position: absolute;
+    content: "";
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 100%;
+    background: #000000;
+    transition: all .20s;
+  }
+
+  &:hover{
+    color: #fff;
+    img{
+      filter: invert(1);
+    }
+  }
+
+  &:hover:after{
+    width: 100%;
+  }
+
 `;
 
 const Text = styled.p`
@@ -40,7 +71,7 @@ const Text = styled.p`
 `;
 
 const Arrow = styled(Image)`
-
+  
 `;
 
 export default function LandingProducts() {
@@ -48,7 +79,7 @@ export default function LandingProducts() {
     _id: 0,
     slug: 'test',
     images: [camisa1,camisa2],
-    name: 'Camiseta Noggers',
+    name: 'abcdefghijklmnopqrstuv',
     price: 20,
     tags: ['internacional', 'vintage'],
     sold: true

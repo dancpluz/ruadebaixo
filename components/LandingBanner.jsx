@@ -6,7 +6,6 @@ import photo2 from '../assets/photo2.png';
 import photo3 from '../assets/photo3.png';
 
 const MainContainer = styled.div`
-  display: inline-block;
   padding-bottom: 70px
 `;
 
@@ -16,7 +15,7 @@ const Logo = styled(Image)`
 `;
 
 const TopImage = styled(Image)`
-  margin-left: 180px;
+  margin-left: 20vw;
 `;
 
 const Caption = styled.div`
@@ -39,8 +38,8 @@ const LeftImage = styled(Image)`
 `;
 
 const RightImage = styled(Image)`
-  margin-top: -400px;
-  margin-left: 1100px;
+  margin-top: -20vw;
+  margin-left: 70vw;
 `;
 
 export default function LandingBanner() {

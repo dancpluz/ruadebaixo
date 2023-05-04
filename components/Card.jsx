@@ -2,7 +2,8 @@ import Link from 'next/link';
 import Image from 'next/image';
 import Chip from '@mui/material/Chip';
 import { useState } from 'react';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
+
 
 const StyledLink = styled(Link)`
   z-index: 1;
@@ -13,6 +14,7 @@ const StyledLink = styled(Link)`
 `;
 
 const ImageFrame = styled.div`
+  position: relative;
   background-color: #f6f6f6;
   width: 300px;
   height: 400px;
@@ -20,10 +22,15 @@ const ImageFrame = styled.div`
 `;
 
 const CardImage = styled(Image)`
-  margin: auto;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   height: 320px;
   width: 240px;
   object-fit: contain;
+  transition: opacity 0.2s ease-in-out;
+  opacity: ${({ fade }) => fade ? 0 : 1};
 `;
 
 const TagDiv = styled.div`
@@ -42,6 +49,13 @@ const Tag = styled(Chip)`
   background-color: white;
   border: 1px solid black;
   cursor: pointer;
+  transition: all .20s ease;
+
+
+  &:hover{
+    background-color: black;
+    color: white;
+  }
 `;
 
 const Caption = styled.div`
@@ -51,12 +65,46 @@ const Caption = styled.div`
   justify-content: space-between;
   align-items: center;
   border-bottom: 1px solid black;
+  transition: all .10s ease;
+  position: relative;
+
+  h2, p{
+    position: relative;
+    z-index: 2;
+    margin: 0 8px;
+  }
+
+  &:after{
+  position: absolute;
+  content: "";
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 0;
+  background: #000000;
+  transition: all .20s;
+  }
+
+  &:hover{
+    color: #fff;
+    h2, p{
+      margin: 0 8px;
+      transition: all .20s ease;
+    }
+  }
+
+  &:hover:after{
+    height: calc(100% + 8px);
+  }
 `;
 
 const Title = styled.h2`
   margin: 0;
   font-size: 16px;
   font-weight: 600;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 `;
 
 const Price = styled.p`
@@ -65,26 +113,27 @@ const Price = styled.p`
 
 export default function Card({ product: { _id,slug,images,name,price,tags } }) {
   const [isHovering,setIsHovering] = useState(false);
-  const [showImage,setShowImage] = useState(images[0])
 
   function onMouseEnter() {
-    setIsHovering(true);
-    setShowImage(images[1]);
-  }
+    setIsHovering(true);  }
 
   function onMouseLeave() {
     setIsHovering(false);
-    setShowImage(images[0]);
   } 
 
   return (
     <StyledLink href={`/produtos/${slug}`}>
-      <ImageFrame onMouseEnter={onMouseEnter} 
-      onMouseLeave={onMouseLeave}>
+      <ImageFrame>
         <TagDiv>
-          {tags?.map((tag) => <Tag key='' label={tag} component='a' href={`/produtos/${tag}`} clickable />)}
+          {tags?.map((tag) => 
+          <Link key='' href={`/produtos/${tag}`}>
+            <Tag key='' label={tag}  clickable />
+          </Link>)}
         </TagDiv>
-        <CardImage alt={slug} src={showImage}/>
+        <CardImage onMouseEnter={onMouseEnter}
+          onMouseLeave={onMouseLeave} fade={!isHovering} alt={slug} src={images[1]}/>
+        <CardImage onMouseEnter={onMouseEnter}
+          onMouseLeave={onMouseLeave} fade={isHovering} alt={slug} src={images[0]} />
       </ImageFrame>
       <Caption>
         <Title>{name}</Title>

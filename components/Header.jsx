@@ -4,7 +4,7 @@ import Image from 'next/image';
 import styled from 'styled-components';
 import CartButton from './CartButton';
 import Cart from './Cart';
-import logoIcon from "../assets/logo.svg";
+import logoIcon from "../assets/logonew.svg";
 import { keyframes } from 'styled-components';
 import { useStateContext } from '../context/StateContext';
 
@@ -15,14 +15,6 @@ const Wrapper = styled.div`
   justify-content: space-between;
   height: 65px;
   padding: 0 10vw;
-`;
-
-const rise = keyframes`
- to {
-    text-shadow: 0.1px 0.3px 0 var(--border),
-                0.3px 0.6px 0 var(--border);
-		transform: translateY(2px) translateX(2px);
-	}
 `;
 
 const Logo = styled(Image)`
