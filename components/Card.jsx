@@ -2,7 +2,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import Chip from '@mui/material/Chip';
 import { useState } from 'react';
-import styled, { keyframes } from 'styled-components';
+import styled from 'styled-components';
 
 
 const StyledLink = styled(Link)`
@@ -111,7 +111,7 @@ const Price = styled.p`
   font-size: 18px;
 `;
 
-export default function Card({ product: { _id,slug,images,name,price,tags } }) {
+export default function Card({ product: { _id,slug,images,name,price,tags,sold } }) {
   const [isHovering,setIsHovering] = useState(false);
 
   function onMouseEnter() {
@@ -122,12 +122,12 @@ export default function Card({ product: { _id,slug,images,name,price,tags } }) {
   } 
 
   return (
-    <StyledLink href={`/produtos/${slug}`}>
+    <StyledLink href={`/produto/${slug}`}>
       <ImageFrame>
         <TagDiv>
-          {tags?.map((tag) => 
-          <Link key='' href={`/produtos/${tag}`}>
-            <Tag key='' label={tag}  clickable />
+          {tags?.map((tag, n) => 
+          <Link key={n} href={`/produtos/${tag}`}>
+            <Tag key={n} label={tag} clickable />
           </Link>)}
         </TagDiv>
         <CardImage onMouseEnter={onMouseEnter}

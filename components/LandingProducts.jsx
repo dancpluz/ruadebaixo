@@ -82,13 +82,14 @@ export default function LandingProducts() {
     name: 'abcdefghijklmnopqrstuv',
     price: 20,
     tags: ['internacional', 'vintage'],
-    sold: true
+    sold: false
   };
+  const products = [product1,product1,product1,product1,product1,product1,product1]
 
   return (
     <Container>
       <Flexbox>
-        {[1,2,3,4,5,6].map((n) => <Card product={product1} key={n} />)}
+        {products.filter((product) => !product.sold).slice(-6).map((product) => <Card product={product} key={product.slug} />)}
       </Flexbox>
       <ButtonLink href={'/produtos'}>
         <Text>VEJA MAIS</Text>

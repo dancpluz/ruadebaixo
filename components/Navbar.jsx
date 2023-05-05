@@ -5,6 +5,9 @@ const NavLink = styled(Link)`
   color: #fff;
   text-decoration: none;
   text-align: center;
+  &:hover {
+    text-decoration: underline;
+  }
 `;
 
 const StyledNav = styled.nav`

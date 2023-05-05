@@ -5,7 +5,6 @@ import styled from 'styled-components';
 import CartButton from './CartButton';
 import Cart from './Cart';
 import logoIcon from "../assets/logonew.svg";
-import { keyframes } from 'styled-components';
 import { useStateContext } from '../context/StateContext';
 
 const Wrapper = styled.div`

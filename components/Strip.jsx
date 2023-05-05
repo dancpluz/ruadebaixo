@@ -8,6 +8,7 @@ const StripDiv = styled.div`
   text-overflow: clip;
   margin-left: -40px;
   margin-bottom: 160px;
+  transition: all 0.15s ease;
   rotate: 7deg;
 `;
 
