@@ -61,6 +61,7 @@ const ButtonLink = styled(Link)`
 
   &:hover:after{
     width: 100%;
+    
   }
 
 `;
@@ -79,7 +80,7 @@ export default function LandingProducts() {
     _id: 0,
     slug: 'test',
     images: [camisa1,camisa2],
-    name: 'abcdefghijklmnopqrstuv',
+    name: 'Camiseta Taguatinga-DF Poggers',
     price: 20,
     tags: ['internacional', 'vintage'],
     sold: false

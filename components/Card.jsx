@@ -87,9 +87,11 @@ const Caption = styled.div`
 
   &:hover{
     color: #fff;
-    h2, p{
-      margin: 0 8px;
-      transition: all .20s ease;
+    justify-content: center;
+    p {
+      opacity: 0;
+      width: 0;
+      margin: 0;
     }
   }
 
