@@ -67,10 +67,10 @@ export default function ProductPage() {
 
   const [imageIndex,setImageIndex] = useState(0)
 
-  function selectImage() {
-    setImageImage(1);
+  function selectImage(i) {
+    console.log(i);
   }
-
+  document.getElementById("previewImage").addEventListener("click",selectImage('a'),false);
 
   return (
     <Container>
@@ -78,7 +78,8 @@ export default function ProductPage() {
         <ImagesDiv>
           <MainImage src={product.images[imageIndex]} />
           <PreviewImagesDiv>
-            {product.images.map((image, n) => <PreviewImage alt={product.slug} key={n} src={image} />)}
+            {product.images.map((image,i) =>
+            <PreviewImage id='previewImage' alt={product.slug} key={i} src={image} onclick={selectImage} />)}
           </PreviewImagesDiv>
         </ImagesDiv>
         <DetailsDiv>
