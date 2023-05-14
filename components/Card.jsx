@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import Chip from '@mui/material/Chip';
+import Tag from './Tag';
 import { useState } from 'react';
 import styled from 'styled-components';
 
@@ -31,31 +32,6 @@ const CardImage = styled(Image)`
   object-fit: contain;
   transition: opacity 0.2s ease-in-out;
   opacity: ${({ fade }) => fade ? 0 : 1};
-`;
-
-const TagDiv = styled.div`
-  margin-top: 12px;
-  margin-left: 12px;
-  position: absolute;
-  display: flex;
-  gap: 5px;
-`;
-
-const Tag = styled(Chip)`
-  z-index: 2;
-  color: black;
-  text-transform: capitalize;
-  font-family: 'Clash Display', sans-serif;
-  background-color: white;
-  border: 1px solid black;
-  cursor: pointer;
-  transition: all .20s ease;
-
-
-  &:hover{
-    background-color: black;
-    color: white;
-  }
 `;
 
 const Caption = styled.div`
@@ -126,12 +102,7 @@ export default function Card({ product: { _id,slug,images,name,price,tags,sold }
   return (
     <StyledLink href={`/produto/${slug}`}>
       <ImageFrame>
-        <TagDiv>
-          {tags?.map((tag, n) => 
-          <Link key={n} href={`/produtos/${tag}`}>
-            <Tag key={n} label={tag} clickable />
-          </Link>)}
-        </TagDiv>
+        <Tag tags={tags} marginTop={12} marginLeft={12} />
         <CardImage onMouseEnter={onMouseEnter}
           onMouseLeave={onMouseLeave} fade={!isHovering} alt={slug} src={images[1]}/>
         <CardImage onMouseEnter={onMouseEnter}

@@ -13,9 +13,13 @@ const GlobalStyles = createGlobalStyle`
     font-size: 15px;
     font-weight: 500;
   }
+  h2 {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 600;
+  }
   p {
     margin: 0;
-    font-family: 'Clash Display', sans-serif;
   }
   hr {
     border: 1px solid black;
