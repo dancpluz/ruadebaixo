@@ -1,6 +1,5 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import Chip from '@mui/material/Chip';
 import Tag from './Tag';
 import { useState } from 'react';
 import styled from 'styled-components';

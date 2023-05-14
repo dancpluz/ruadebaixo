@@ -8,6 +8,10 @@ const GlobalStyles = createGlobalStyle`
     margin: 0;
     font-family: 'Clash Display', sans-serif;
   }
+  button {
+    font-family: 'Clash Display', sans-serif;
+    font-weight: 600;
+  }
   h1 {
     margin: 0;
     font-size: 15px;

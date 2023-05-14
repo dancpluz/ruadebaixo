@@ -61,7 +61,6 @@ const ButtonLink = styled(Link)`
 
   &:hover:after{
     width: 100%;
-    
   }
 
 `;
