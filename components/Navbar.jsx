@@ -24,7 +24,7 @@ export default function Navbar() {
         <NavLink href={'/produtos'}>
           <h1>Produtos</h1>
         </NavLink>
-        <NavLink href=''>
+        <NavLink href={'/lookbook'}>
           <h1>LookBook</h1>
         </NavLink>
         <NavLink href=''>
