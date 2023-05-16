@@ -1,18 +1,31 @@
 import styled from 'styled-components';
 import Chip from '@mui/material/Chip';
-import Link from 'next/link';
+import Image from 'next/image';
+import plusIcon from '../assets/plus.svg'
 
 const TagDiv = styled.div`
   margin-top: ${props => props.marginTop}px;
   margin-left: ${props => props.marginLeft}px;
   display: flex;
   flex-flow: row wrap;
-  gap: 5px;
+  gap: 10px;
+`;
+
+const RemoveIcon = styled(Image)`
+  height: 14px;
+  width: 14px;
+  rotate: 45deg;
+  padding: 3px;
+  transition: filter .20s ease;
 `;
 
 const StyledChip = styled(Chip)`
   z-index: 2;
   color: black;
+  font-size: 18px;
+  height: 50px;
+  padding: 10px;
+  border-radius: 28px;
   text-transform: capitalize;
   font-family: 'Clash Display', sans-serif;
   background-color: white;
@@ -20,19 +33,24 @@ const StyledChip = styled(Chip)`
   cursor: pointer;
   transition: all .20s ease;
   
-  &:hover{
+  &:hover {
     background-color: black;
-    color: white;
+    color: white; 
+      ${RemoveIcon} {
+      filter: invert(100%);
+    }
   }
 `;
 
-export default function Tag({ tags, isSize, marginTop, marginLeft }) {
+export default function Tag({ tags, marginTop, marginLeft }) {
+  function handleDelete() {
+    return
+  }
+
   return (
     <TagDiv marginTop={marginTop} marginLeft={marginLeft}>
       {tags?.map((tag,n) =>
-      <Link key={n} href={isSize ? `/produtos/tamanho/${tag}` : `/produtos/${tag}`}>
-        <StyledChip key={n} label={tag} clickable />
-      </Link>
+        <StyledChip key={n} label={tag} deleteIcon={<RemoveIcon src={plusIcon} />} onDelete={handleDelete}/>
       )}
     </TagDiv>
   )

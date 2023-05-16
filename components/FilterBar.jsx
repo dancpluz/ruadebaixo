@@ -3,10 +3,12 @@ import TextField from '@mui/material/TextField';
 import Image from 'next/image';
 import searchIcon from '../assets/search.svg'
 import plusIcon from '../assets/plus.svg'
-import { productTypes, productTags, productQualities } from '../schemas/product' 
+import { productTypes, productTags, productQualities } from '../schemas/product';
+import RemovableTag from '../components/RemovableTag';
 import { Accordion, AccordionSummary, AccordionDetails, Plus } from '../components/Info'; 
 import { useEffect } from 'react';
 import Link from 'next/link';
+import { useState } from 'react';
 
 const Container = styled.div`
   width: 360px;
@@ -35,6 +37,7 @@ const SearchIcon = styled(Image)`
 
 const FilterText = styled(Link)`
   color: black;
+  font-size: 18px;
 `;
 
 const FilterDiv = styled.div`
@@ -44,12 +47,13 @@ const FilterDiv = styled.div`
   row-gap: 10px;
 `;
 
-export default function FilterBar() {
-  useEffect(() => {
-    console.log(productTypes)
-  })
+const ChipsDiv = styled.div`
   
+`;
 
+export default function FilterBar() {
+  const [selectedTags, setSelectedTags] = useState(['teste','pog'])
+  
   return (
     <Container>
       <SearchDiv>
@@ -86,6 +90,17 @@ export default function FilterBar() {
           </FilterDiv>
         </AccordionDetails>
       </Accordion>
+      <Accordion>
+        <AccordionSummary expandIcon={<Plus alt='plus' src={plusIcon} />}>Preço</AccordionSummary>
+        <AccordionDetails>
+          <FilterDiv>
+            {
+              // Input de numero para preço
+            }
+          </FilterDiv>
+        </AccordionDetails>
+      </Accordion>
+      <RemovableTag tags={selectedTags} ></RemovableTag>
     </Container>
   )
 }
