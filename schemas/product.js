@@ -1,3 +1,29 @@
+export const productTypes = {
+    list: [
+        { title: 'Camiseta',value: 'camiseta' },
+        { title: 'Boné',value: 'boné' },
+        { title: 'Calça',value: 'calça' },
+        { title: 'Shorts',value: 'shorts' },
+        { title: 'Acessório',value: 'acessório' },
+    ]
+}
+
+export const productTags = {
+    list: [
+        { title: 'Internacional',value: 'internacional' },
+        { title: 'Customizado',value: 'customizado' },
+        { title: 'Vintage',value: 'vintage' },
+    ]
+}
+
+export const productQualities = {
+    list: [
+        { title: 'Usado',value: 'usado' },
+        { title: 'Semi-novo',value: 'semi-novo' },
+        { title: 'Novo',value: 'novo' },
+    ]
+}
+
 const product = {
     name: 'product',
     title: 'Produtos Brechó',
@@ -33,6 +59,16 @@ const product = {
             validation: Rule => Rule.required()
         },
         {
+            name: 'type',
+            title: 'Tipo da Peça',
+            description: 'Nome dps da barra no url ex: https://ruadebaixo.com/produtos/camiseta-poggers',
+            type: 'string',
+            options: {
+                productTypes
+            },
+            validation: Rule => Rule.required()
+        },
+        {
             name: 'details',
             title: 'Detalhes',
             description: 'Descrição do produto, medida da cintura, tipo de tecido etc...',
@@ -45,28 +81,18 @@ const product = {
             description: 'Qualidade da peça',
             type: 'string',
             options: {
-                list: [
-                    { title: 'Usado', value: 'Usado' },
-                    { title: 'Semi-novo', value: 'Semi-novo' },
-                    { title: 'Novo', value: 'Novo' }
-                ],
+                productQualities,
                 layout: 'radio'
             },
             validation: Rule => Rule.required()
         },
         {
-            name: 'category',
-            title: 'Categoria',
-            description: 'Categoria da peça, especificar se é calça, camisa etc',
+            name: 'tag',
+            title: 'Tag',
+            description: 'Categoria da peça, internacional, vintage, customizado',
             type: 'string',
             options: {
-                list: [
-                    { title: 'Camiseta',value: 'Camiseta' },
-                    { title: 'Boné',value: 'Boné' },
-                    { title: 'Calça',value: 'Calça' },
-                    { title: 'Shorts',value: 'Shorts' },
-                    { title: 'Acessório',value: 'Acessório' },
-                ]
+                productTags
             },
             validation: Rule => Rule.required()
         },

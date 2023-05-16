@@ -2,7 +2,6 @@ import styled from 'styled-components';
 import MuiAccordion from '@mui/material/Accordion';
 import MuiAccordionSummary from '@mui/material/AccordionSummary';
 import MuiAccordionDetails from '@mui/material/AccordionDetails';
-import { Transition } from 'react-transition-group';
 import plusIcon from '../assets/plus.svg'
 import Image from 'next/image'
 
@@ -10,7 +9,7 @@ const Container = styled.div`
   margin: 50px 0;
 `;
 
-const Accordion = styled(MuiAccordion)`
+export const Accordion = styled(MuiAccordion)`
   box-shadow: none;
   margin-bottom: 30px;
   &::before {
@@ -18,7 +17,7 @@ const Accordion = styled(MuiAccordion)`
   }
 `;
 
-const AccordionSummary = styled(MuiAccordionSummary)`
+export const AccordionSummary = styled(MuiAccordionSummary)`
   border-bottom: black solid 1px;
   color: black;
   font-weight: 600;
@@ -29,13 +28,13 @@ const AccordionSummary = styled(MuiAccordionSummary)`
   }
 `;
 
-const AccordionDetails = styled(MuiAccordionDetails)`
+export const AccordionDetails = styled(MuiAccordionDetails)`
   background-color: #F7F7FF;
   font-size: 18px;
   padding: 20px; 
 `;
 
-const Plus = styled(Image)`
+export const Plus = styled(Image)`
   height: 20px;
   width: 20px;
 `;
