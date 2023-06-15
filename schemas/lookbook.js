@@ -14,5 +14,6 @@ const lookbook = {
         },
         validation: Rule => Rule.required()
       },
-
+    ]
 }
+//WIP

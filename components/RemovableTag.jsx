@@ -1,7 +1,8 @@
 import styled from 'styled-components';
 import Chip from '@mui/material/Chip';
 import Image from 'next/image';
-import plusIcon from '../assets/plus.svg'
+import plusIcon from '../assets/plus.svg';
+import { useStateContext } from '../context/StateContext';
 
 const TagDiv = styled.div`
   margin-top: ${props => props.marginTop}px;
@@ -43,14 +44,16 @@ const StyledChip = styled(Chip)`
 `;
 
 export default function Tag({ tags, marginTop, marginLeft }) {
-  function handleDelete() {
-    return
+  const { selectedTags, setSelectedTags } = useStateContext();
+
+  function handleDelete(tag) {
+    setSelectedTags(selectedTags.filter((e) => {return e !== tag}))
   }
 
   return (
     <TagDiv marginTop={marginTop} marginLeft={marginLeft}>
       {tags?.map((tag,n) =>
-        <StyledChip key={n} label={tag} deleteIcon={<RemoveIcon src={plusIcon} />} onDelete={handleDelete}/>
+        <StyledChip key={n} label={tag} deleteIcon={<RemoveIcon src={plusIcon} />} onDelete={() => handleDelete(tag)}/>
       )}
     </TagDiv>
   )

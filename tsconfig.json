@@ -22,7 +22,7 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx"
-, "sanity.cli.js", "sanity.config.js", "pages/studio/[[...index]]/head.jsx", "pages/studio/[[...index]]/page.jsx", "pages/studio/[[...index]]/next.jsx", "context/StateContext.jsx", "lib/sanity.client.js", "lib/urlFor.js"  ],
+, "sanity.cli.js", "sanity.config.js", "pages/studio/[[...index]]/head.jsx", "pages/studio/[[...index]]/page.jsx", "pages/studio/[[...index]]/next.jsx", "context/StateContextOLD.jsx", "lib/sanity.client.js", "lib/urlFor.js"  ],
   "exclude": [
     "node_modules"
   ]

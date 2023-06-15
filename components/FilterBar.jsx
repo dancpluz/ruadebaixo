@@ -6,9 +6,9 @@ import plusIcon from '../assets/plus.svg'
 import { productTypes, productTags, productQualities } from '../schemas/product';
 import RemovableTag from '../components/RemovableTag';
 import { Accordion, AccordionSummary, AccordionDetails, Plus } from '../components/Info'; 
-import { useEffect } from 'react';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useStateContext } from '../context/StateContext';
+import { useEffect } from 'react';
 
 const Container = styled.div`
   width: 360px;
@@ -19,6 +19,7 @@ const SearchDiv = styled.div`
   align-items: end;
   width: 100%;
   height: 40px;
+  margin-bottom: 40px;
 `;
 
 const SearchField = styled(TextField)`
@@ -32,12 +33,14 @@ const SearchField = styled(TextField)`
 const SearchIcon = styled(Image)`
   height: 24px;
   width: 24px;
+  margin-right: -3px;
 `;
 
-
-const FilterText = styled(Link)`
+const FilterText = styled.p`
   color: black;
   font-size: 18px;
+  text-decoration: ${props => props.selected ? 'none' : 'underline'};
+  cursor: pointer;
 `;
 
 const FilterDiv = styled.div`
@@ -52,7 +55,15 @@ const ChipsDiv = styled.div`
 `;
 
 export default function FilterBar() {
-  const [selectedTags, setSelectedTags] = useState(['teste','pog'])
+  const { selectedTags, setSelectedTags } = useStateContext();
+
+  function handleSelectFilter(item) {
+    if (!selectedTags.includes(item)) {
+      setSelectedTags((oldArray) => [...oldArray,item]);
+    }
+    
+    // Adicionar lógica de filtragem na busca
+  }
   
   return (
     <Container>
@@ -65,7 +76,7 @@ export default function FilterBar() {
         <AccordionDetails>
           <FilterDiv>
             {productTypes.list.map((item) => (
-              <FilterText key={item.title} href=''>{item.value}</FilterText>
+              <FilterText key={item.value} selected={selectedTags.includes(item.title)} onClick={() => handleSelectFilter(item.title)}>{item.title}</FilterText>
             ))}
           </FilterDiv>
         </AccordionDetails>
@@ -75,7 +86,7 @@ export default function FilterBar() {
         <AccordionDetails>
           <FilterDiv>
             {productTags.list.map((item) => (
-              <FilterText key={item.title} href=''>{item.value}</FilterText>
+              <FilterText key={item.value} selected={selectedTags.includes(item.title)} onClick={() => handleSelectFilter(item.title)}>{item.title}</FilterText>
             ))}
           </FilterDiv>
         </AccordionDetails>
@@ -85,7 +96,7 @@ export default function FilterBar() {
         <AccordionDetails>
           <FilterDiv>
             {productQualities.list.map((item) => (
-              <FilterText key={item.title} href=''>{item.value}</FilterText>
+              <FilterText key={item.value} selected={selectedTags.includes(item.title)} onClick={() => handleSelectFilter(item.title)}>{item.title}</FilterText>
             ))}
           </FilterDiv>
         </AccordionDetails>
@@ -104,3 +115,5 @@ export default function FilterBar() {
     </Container>
   )
 }
+
+
