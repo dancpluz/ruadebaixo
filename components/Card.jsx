@@ -1,11 +1,12 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import Tag from './Tag';
+import Tag,{ TagDiv } from './Tag';
+import Strip, { StripDiv } from './Strip';
 import { useState } from 'react';
 import styled from 'styled-components';
 
-
 const StyledLink = styled(Link)`
+  position: relative;
   z-index: 1;
   height: auto;
   width: 300px;
@@ -18,7 +19,10 @@ const ImageFrame = styled.div`
   background-color: #f6f6f6;
   width: 300px;
   height: 400px;
-  display: flex;
+
+  ${TagDiv} {
+    padding: 12px;
+  }
 `;
 
 const CardImage = styled(Image)`
@@ -30,7 +34,7 @@ const CardImage = styled(Image)`
   width: 240px;
   object-fit: contain;
   transition: opacity 0.2s ease-in-out;
-  opacity: ${({ fade }) => fade ? 0 : 1};
+  opacity: ${ props => props.fade ? 0 : 1};
 `;
 
 const Caption = styled.div`
@@ -88,6 +92,34 @@ const Price = styled.p`
   font-size: 18px;
 `;
 
+const SoldStyledLink = styled.div`
+  position: relative;
+  z-index: 1;
+  height: auto;
+  width: 300px;
+  text-decoration: none;
+  color: black;
+  overflow: hidden;
+
+  ${StripDiv} {
+    z-index: 2;
+    position: absolute;
+    top: 240px;
+    left: -50px;
+  }
+
+  ${CardImage} {
+    filter: saturate(0);
+    opacity: 0.3;
+    pointer-events: none;
+  }
+  
+  ${Caption} {
+    justify-content: center;
+    pointer-events: none;
+  }
+`;
+
 export default function Card({ product: { _id,slug,images,name,price,tags,sold } }) {
   const [isHovering,setIsHovering] = useState(false);
 
@@ -98,10 +130,23 @@ export default function Card({ product: { _id,slug,images,name,price,tags,sold }
     setIsHovering(false);
   } 
 
-  return (
-    <StyledLink href={`/produto/${slug}`}>
+  if (sold) {return (
+    <SoldStyledLink>
+      <Strip text={"VENDIDO - "} />
       <ImageFrame>
         <Tag tags={tags} marginTop={12} marginLeft={12} />
+        <CardImage alt={slug} src={images[0]} />
+      </ImageFrame>
+      <Caption>
+        <Title>{name}</Title>
+      </Caption>
+    </SoldStyledLink>
+  )}
+
+  return (
+    <StyledLink href={`/produto/${slug}`} >
+      <ImageFrame>
+        <Tag tags={tags} />
         <CardImage onMouseEnter={onMouseEnter}
           onMouseLeave={onMouseLeave} fade={!isHovering} alt={slug} src={images[1]}/>
         <CardImage onMouseEnter={onMouseEnter}

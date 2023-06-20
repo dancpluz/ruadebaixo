@@ -2,9 +2,7 @@ import styled from 'styled-components';
 import Chip from '@mui/material/Chip';
 import Link from 'next/link';
 
-const TagDiv = styled.div`
-  margin-top: ${props => props.marginTop}px;
-  margin-left: ${props => props.marginLeft}px;
+export const TagDiv = styled.div`
   display: flex;
   flex-flow: row wrap;
   gap: 5px;

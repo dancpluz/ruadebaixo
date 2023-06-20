@@ -28,7 +28,7 @@ const LogoContainer = styled(Link)`
 `;
 
 export default function Header() {
-  const { showCart } = useStateContext();
+  const { showCart, setShowCart } = useStateContext();
 
   return (
     <Wrapper>
@@ -36,7 +36,7 @@ export default function Header() {
         <Logo src={logoIcon} alt='logo' />
       </LogoContainer>
       <Navbar />
-      <CartButton />
+      <CartButton onClick={() => setShowCart(true)} />
     {showCart && < Cart />}
     </Wrapper>
   )

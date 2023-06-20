@@ -94,7 +94,6 @@ const product = {
             options: {
                 productTags
             },
-            validation: Rule => Rule.required()
         },
         {
             name: 'size',
@@ -111,11 +110,18 @@ const product = {
             validation: Rule => Rule.required()
         },
         {
+            name: 'ordered',
+            title: 'Pedido',
+            description: 'Define se foi pedido',
+            type: 'boolean',
+            initialValue: false
+        },
+        {
             name: 'sold',
             title: 'Vendido',
             description: 'Marque se já foi vendido',
             type: 'boolean',
-            validation: Rule => Rule.required()
+            initialValue: false
         }
     ]
 }

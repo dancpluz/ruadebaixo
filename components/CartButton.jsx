@@ -26,13 +26,6 @@ const Box = styled(Image)`
 export default function CartButton({}) {
   const { setShowCart, totalQuantities } = useStateContext();
 
-{/*
-  <StyledButton type='button' onClick={() => setShowCart(true)}>
-      <Image src={BoxIcon} alt={'box'} height={40} />
-      <StyledSpan>{totalQuantities}</StyledSpan>
-    </StyledButton>
-*/ }
-
 
   return (
     <StyledBadge onClick={() => setShowCart(true)} badgeContent={totalQuantities} showZero>

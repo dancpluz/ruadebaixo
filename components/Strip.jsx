@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-const StripDiv = styled.div`
+export const StripDiv = styled.div`
   overflow: hidden;
   white-space: nowrap;
   border-top: 1px solid black;
@@ -16,16 +16,16 @@ const Text = styled.p`
   font-weight: 700;
   font-size: 30px;
   margin: 6px 0;
-  color: white;
+  color: transparent;
   -webkit-text-stroke: 1px black;
   letter-spacing: 1px;
 `;
 
-export default function Strip() {
+export default function Strip({ text }) {
   return (
     <StripDiv>
       <Text>
-      {"RUA DE BAIXO - ".repeat(9)}
+        {text.repeat(9)}
       </Text>
     </StripDiv>
   )

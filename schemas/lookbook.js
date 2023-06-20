@@ -16,4 +16,6 @@ const lookbook = {
       },
     ]
 }
+
+export default lookbook;
 //WIP

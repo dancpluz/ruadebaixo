@@ -40,7 +40,7 @@ const FilterText = styled.p`
   color: black;
   font-size: 18px;
   text-decoration: ${props => props.selected ? 'none' : 'underline'};
-  cursor: pointer;
+  cursor: ${props => props.selected ? 'default' : 'pointer'};;
 `;
 
 const FilterDiv = styled.div`
@@ -48,10 +48,6 @@ const FilterDiv = styled.div`
   flex-flow: row wrap;
   column-gap: 20px;
   row-gap: 10px;
-`;
-
-const ChipsDiv = styled.div`
-  
 `;
 
 export default function FilterBar() {
@@ -67,7 +63,7 @@ export default function FilterBar() {
   
   return (
     <Container>
-      <SearchDiv>
+      <SearchDiv> 
         <SearchField variant="standard" />
         <SearchIcon src={searchIcon} />
       </SearchDiv>

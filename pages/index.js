@@ -10,7 +10,7 @@ export default function HomePage() {
   return (
     <div>
       <LandingBanner />
-      <Strip/>
+      <Strip text={"RUA DE BAIXO - "}/>
       <LandingProducts />
     </div>
   )

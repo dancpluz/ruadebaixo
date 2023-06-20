@@ -16,6 +16,7 @@ const StyledNav = styled.nav`
 `;
 
 export default function Navbar() {
+
   return (
       <StyledNav>
         <NavLink href=''>
