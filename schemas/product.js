@@ -97,8 +97,15 @@ const product = {
         },
         {
             name: 'size',
-            title: 'Tamanho',
+            title: 'Tamanho na Etiqueta',
             description: 'Tamanho da peça(PP,P,M,G,GG)',
+            type: 'string',
+            validation: Rule => Rule.required().uppercase().error('Somente letras em maíusculo')
+        },
+        {
+            name: 'wears',
+            title: 'Veste',
+            description: 'Tamanho da peça de acordo com nossa tabela',
             type: 'string',
             validation: Rule => Rule.required().uppercase().error('Somente letras em maíusculo')
         },
@@ -108,6 +115,13 @@ const product = {
             description: 'Preço do produto',
             type: 'number',
             validation: Rule => Rule.required()
+        },
+        {
+            name: 'discount',
+            title: 'Desconto padrão',
+            description: 'Não opcional, desconto aplicado (Preço - desconto)',
+            type: 'number',
+            initialValue: 0
         },
         {
             name: 'ordered',

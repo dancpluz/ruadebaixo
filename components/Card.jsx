@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import Tag,{ TagDiv } from './Tag';
+import Tag, { TagDiv } from './Tag';
 import Strip, { StripDiv } from './Strip';
 import { useState } from 'react';
 import styled from 'styled-components';
