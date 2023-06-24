@@ -6,9 +6,7 @@ import plusIcon from '../assets/plus.svg'
 import { productTypes, productTags, productQualities } from '../schemas/product';
 import RemovableTag from '../components/RemovableTag';
 import { Accordion, AccordionSummary, AccordionDetails, Plus } from '../components/Info'; 
-import Link from 'next/link';
 import { useStateContext } from '../context/StateContext';
-import { useEffect } from 'react';
 
 const Container = styled.div`
   width: 360px;

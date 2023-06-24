@@ -24,7 +24,7 @@ const TextDiv = styled.div`
   display: flex;
   flex-flow: column nowrap;
   flex-grow: 1;
-  h2, h3 {
+  h2, h3, p {
     text-transform: capitalize;
     font-weight: 500;
     font-size: 16px;
@@ -35,6 +35,11 @@ const TextDiv = styled.div`
     font-size: 20px;
     margin: 0;
   }
+  p {
+    text-decoration: underline;
+    cursor: pointer;
+  }
+  
 `;
 
 const PriceDiv = styled.div`
@@ -64,31 +69,57 @@ const RemoveIcon = styled(Image)`
   cursor: pointer;
 `;
 
-export default function CartItem({product, product: { images,type,name,wears,discount,price }}) {
-  const { setLastRemovedItem } = useStateContext();
+const DisabledImage = styled(Image)`
+  width: 150px;
+  height: 150px;
+  object-fit: contain;
+  background-color: #f6f6f6;
+  box-sizing: border-box;
+  align-self: right;
+  filter: saturate(0);
+`;
 
-  function handleRemoveItem(product) {
-    
+export default function CartItem({lastRemoved, product, product: { _id,images,type,name,wears,discount,price }}) {
+  const { cartItems, setCartItems, setLastRemovedItem, onRemove, onUndo } = useStateContext();
+
+  function handleUndoRemove() {
+    setCartItems(oldArray => [...oldArray, product]);
+    setLastRemovedItem(null);
   }
 
-  return (
-    <ItemDiv>
-      <RemoveIcon src={plusIcon} onClick={() => handleRemoveItem(product)}/>
-      <ProductImage src={images[0]}/>
-      <TextDiv>
-        <h2>{type}</h2>
-        <h1>{name}</h1>
-        <h3>Veste {wears}</h3>
-      </TextDiv>
-      <PriceDiv>
-        {(discount > 0) ? 
-          <>
-            <p>R${price - discount}</p>
-            <h1>R${price}</h1>
-          </> : 
-          <h1>R${price - discount}</h1>
-        }
-      </PriceDiv>
-    </ItemDiv>
-  )
+  if (!lastRemoved) {
+    return (
+      <ItemDiv>
+        <RemoveIcon src={plusIcon} onClick={() => onRemove(product)} />
+        <ProductImage src={images[0]} />
+        <TextDiv>
+          <h2>{type}</h2>
+          <h1>{name}</h1>
+          <h3>Veste {wears}</h3>
+        </TextDiv>
+        <PriceDiv>
+          {(discount > 0) ?
+            <>
+              <p>R${price}</p>
+              <h1>R${price - discount}</h1>
+            </> :
+            <h1>R${price - discount}</h1>
+          }
+        </PriceDiv>
+      </ItemDiv>
+    )
+  } else {
+    return (
+      <ItemDiv>
+        <RemoveIcon src={plusIcon} onClick={() => setLastRemovedItem(null)} />
+        <DisabledImage src={images[0]} />
+        <TextDiv>
+          <h2>Item Removido</h2>
+          <h1>Deseja desfazer?</h1>
+          <p onClick={() => handleUndoRemove()}>Sim</p>
+        </TextDiv>
+      </ItemDiv>
+    )
+  }
+  
 }

@@ -159,7 +159,7 @@ const Button = styled.button`
 
 export default function Cart() {
   const [isVisible,setIsVisible] = useState(true);
-  const { totalPrice,totalItems,cartItems,setShowCart,lastRemovedItem } = useStateContext();
+  const { totalPrice, totalDiscount, totalItems,cartItems,setShowCart,lastRemovedItem } = useStateContext();
 
   useEffect(() => {
     if (!isVisible) {
@@ -176,23 +176,25 @@ export default function Cart() {
         <CartHeader>
           <BoxIcon alt={'openbox'} src={boxOpen} onClick={() => setIsVisible(false)}/>
           <h1>Sua Caixa</h1>
-          <p>({totalItems} itens)</p>
+          <p>({cartItems.length} {cartItems.length == 1 ? "item" : "itens"})</p>
         </CartHeader>
         <ItemsDiv>
           {cartItems.map((item) => {
-            if (item === lastRemovedItem) {
-              return <CartItem key={item.name} lastRemoved={true} product={item} />
-            } else {
-              return <CartItem key={item.name} lastRemoved={false} product={item} />
-            }
+            return <CartItem key={item.name} product={item} />
           })}
+          {lastRemovedItem && <CartItem lastRemoved={true} product={lastRemovedItem} />}
         </ItemsDiv>
         <CartFooter>
           <SubtotalDiv>
             <h1>Subtotal</h1>
             <PriceDiv>
-              <p>R$20</p>
-              <h2>R${totalPrice}</h2>
+              {(totalDiscount > 0) ?
+                <>
+                  <p>R${totalPrice}</p>
+                  <h1>R${totalPrice - totalDiscount}</h1>
+                </> :
+                <h1>R${totalPrice - totalDiscount}</h1>
+              }
             </PriceDiv>
           </SubtotalDiv>
           <ButtonDiv>

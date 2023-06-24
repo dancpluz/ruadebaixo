@@ -11,7 +11,7 @@ import Image from 'next/image';
 import Tag from '../../components/Tag';
 import Info from '../../components/Info';
 import { useState } from 'react';
-import Alert from '@mui/material/Alert';
+import { useStateContext } from '../../context/StateContext';
 
 
 const Container = styled.div`
@@ -178,7 +178,9 @@ export default function ProductPage() {
     name: '5 Panel Cairo Beige',
     desc: 'Boné 5 panel com protetor de pescoço estampado removível e gráfico bordado.',
     size: 'm',
+    wears: 'g',
     price: 20,
+    discount: 0,
     type: 'boné',
     quality: 'usado',
     tags: ['internacional','vintage'],
@@ -186,6 +188,7 @@ export default function ProductPage() {
     sold: true
   };
 
+  const { onAdd } = useStateContext();
   const [imageIndex,setImageIndex] = useState(0)
 
   function selectImage(index) {
@@ -224,10 +227,10 @@ export default function ProductPage() {
             </BulletPoints>
           </BulletDiv>
           <BuyDiv>
-            <BuyButton href={''}>
+            <BuyButton>
               COMPRAR
             </BuyButton>
-            <AddButton href={''}>
+            <AddButton onClick={() => onAdd(product)}>
               <Box alt={'addCart'} src={BoxIcon}/>
             </AddButton>
           </BuyDiv>

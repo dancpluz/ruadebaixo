@@ -10,7 +10,7 @@ const product = {
   desc: 'Boné 5 panel com protetor de pescoço estampado removível e gráfico bordado.',
   size: 'M',
   wears: 'G',
-  discount: 0,
+  discount: 5,
   price: 20,
   type: 'boné',
   quality: 'usado',
@@ -22,10 +22,39 @@ const product = {
 export const StateContext = ({ children }) => {
   const [selectedTags,setSelectedTags] = useState([]);
   const [showCart, setShowCart] = useState(false);
-  const [cartItems,setCartItems] = useState([product]);
+  const [cartItems,setCartItems] = useState([]);
   const [totalPrice,setTotalPrice] = useState(0);
-  const [totalItems,setTotalItems] = useState(0);
-  const [lastRemovedItem,setLastRemovedItem] = useState(null)
+  const [totalDiscount,setTotalDiscount] = useState(0);
+  const [lastRemovedItem,setLastRemovedItem] = useState(null);
+
+  const onAdd = (product) => {
+    const checkProductInCart = cartItems.find((item) => item._id === product._id);
+
+    if (!checkProductInCart) {
+      setTotalDiscount(totalDiscount + product.discount);
+      setTotalPrice(totalPrice + product.price);
+      setCartItems(oldArray => [...oldArray,product]);
+      setShowCart(true);
+    } else {
+      setShowCart(true);
+    }
+  }
+
+  const onRemove = (product) => {
+    if (!lastRemovedItem) {
+      setTotalDiscount(totalDiscount - product.discount);
+      setTotalPrice(totalPrice - product.price);
+      setCartItems(cartItems.filter((item) => item !== product));
+      setLastRemovedItem(product);
+    } else {
+      setLastRemovedItem(null);
+    }
+    
+  }
+
+  const onUndo = () => {
+    
+  }
 
   return (
     <Context.Provider
@@ -36,12 +65,12 @@ export const StateContext = ({ children }) => {
         setShowCart,
         cartItems,
         setCartItems,
+        totalDiscount,
         totalPrice,
-        setTotalPrice,
-        totalItems,
-        setTotalItems,
         lastRemovedItem,
-        setLastRemovedItem
+        setLastRemovedItem,
+        onAdd,
+        onRemove
       }}
     >
       {children}
