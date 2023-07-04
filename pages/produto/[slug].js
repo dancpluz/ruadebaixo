@@ -12,6 +12,7 @@ import Tag from '../../components/Tag';
 import Info from '../../components/Info';
 import { useState } from 'react';
 import { useStateContext } from '../../context/StateContext';
+import axios from 'axios';
 
 
 const Container = styled.div`
@@ -195,6 +196,42 @@ export default function ProductPage() {
     setImageIndex(index);
   }
 
+  async function sendObjectToZap() {
+    const url = 'http://localhost:3001/send-object'; // Replace with the ngrok URL or the appropriate endpoint URL on your Node.js backend
+    const clienteRDB = {
+      firstName: "Caiok",
+      lastName: 'Poggers',
+      id: "2023-03-02_1454",// biblioteca pra pegar data e hora
+      email: "caioquinha123@gmail.com",
+      phone: "5561998118398",
+      insta: "caiok",
+      delivery: "na mao",
+      payment: "PIX",
+      order: {
+        totalPrice: '56',products: [{
+          name: 'Fear of God',
+          type: 'Camiseta',
+          size: 'm',
+          fullPrice: '40',
+          offerPrice: '40',
+        },{
+          name: 'Sea World',
+          type: 'Boné',
+          size: 'U',
+          fullPrice: '40',
+          offerPrice: '30',
+        }]
+      }
+    };
+
+    try {
+      const response = await axios.post(url,clienteRDB); // clienteRDB is the JavaScript object you want to send
+      console.log('Object sent successfully');
+    } catch (error) {
+      console.error('Error sending object:',error);
+    }
+  };
+
   return (
     <Container>
       <ProductDiv>
@@ -227,10 +264,11 @@ export default function ProductPage() {
             </BulletPoints>
           </BulletDiv>
           <BuyDiv>
-            <BuyButton>
+            <BuyButton onClick={sendObjectToZap}>Poggers</BuyButton>
+            <BuyButton onClick={() => onAdd(product,true)}>
               COMPRAR
             </BuyButton>
-            <AddButton onClick={() => onAdd(product)}>
+            <AddButton onClick={() => onAdd(product,false)}>
               <Box alt={'addCart'} src={BoxIcon}/>
             </AddButton>
           </BuyDiv>

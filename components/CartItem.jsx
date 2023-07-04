@@ -82,11 +82,6 @@ const DisabledImage = styled(Image)`
 export default function CartItem({lastRemoved, product, product: { _id,images,type,name,wears,discount,price }}) {
   const { cartItems, setCartItems, setLastRemovedItem, onRemove, onUndo } = useStateContext();
 
-  function handleUndoRemove() {
-    setCartItems(oldArray => [...oldArray, product]);
-    setLastRemovedItem(null);
-  }
-
   if (!lastRemoved) {
     return (
       <ItemDiv>
@@ -116,7 +111,7 @@ export default function CartItem({lastRemoved, product, product: { _id,images,ty
         <TextDiv>
           <h2>Item Removido</h2>
           <h1>Deseja desfazer?</h1>
-          <p onClick={() => handleUndoRemove()}>Sim</p>
+          <p onClick={onUndo}>Sim</p>
         </TextDiv>
       </ItemDiv>
     )

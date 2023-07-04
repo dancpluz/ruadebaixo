@@ -2,22 +2,22 @@ import { createContext, useState, useContext } from "react";
 import camisa1 from '../assets/product2.png';
 
 const Context = createContext();
-const product = {
-  _id: 0,
-  slug: 'test',
-  images: [camisa1],
-  name: '5 Panel Cairo Beige',
-  desc: 'Boné 5 panel com protetor de pescoço estampado removível e gráfico bordado.',
-  size: 'M',
-  wears: 'G',
-  discount: 5,
-  price: 20,
-  type: 'boné',
-  quality: 'usado',
-  tags: ['internacional','vintage'],
-  points: ['Pequeno arranhão no lado esquerdo','Gola deformada','Pequena mancha no canto da camiseta','teste','214124','poggers'],
-  sold: true
-};
+// const product = {
+//   _id: 0,
+//   slug: 'test',
+//   images: [camisa1],
+//   name: '5 Panel Cairo Beige',
+//   desc: 'Boné 5 panel com protetor de pescoço estampado removível e gráfico bordado.',
+//   size: 'M',
+//   wears: 'G',
+//   discount: 5,
+//   price: 20,
+//   type: 'boné',
+//   quality: 'usado',
+//   tags: ['internacional','vintage'],
+//   points: ['Pequeno arranhão no lado esquerdo','Gola deformada','Pequena mancha no canto da camiseta','teste','214124','poggers'],
+//   sold: true
+// };
 
 export const StateContext = ({ children }) => {
   const [selectedTags,setSelectedTags] = useState([]);
@@ -27,15 +27,19 @@ export const StateContext = ({ children }) => {
   const [totalDiscount,setTotalDiscount] = useState(0);
   const [lastRemovedItem,setLastRemovedItem] = useState(null);
 
-  const onAdd = (product) => {
+  const onAdd = (product,show) => {
     const checkProductInCart = cartItems.find((item) => item._id === product._id);
 
     if (!checkProductInCart) {
       setTotalDiscount(totalDiscount + product.discount);
       setTotalPrice(totalPrice + product.price);
       setCartItems(oldArray => [...oldArray,product]);
-      setShowCart(true);
+      // Toast
     } else {
+      // Toast
+    }
+
+    if (show) {
       setShowCart(true);
     }
   }
@@ -53,7 +57,10 @@ export const StateContext = ({ children }) => {
   }
 
   const onUndo = () => {
-    
+    setTotalDiscount(totalDiscount + lastRemovedItem.discount);
+    setTotalPrice(totalPrice + lastRemovedItem.price);
+    setCartItems(oldArray => [...oldArray,lastRemovedItem]);
+    setLastRemovedItem(null);
   }
 
   return (
@@ -70,7 +77,8 @@ export const StateContext = ({ children }) => {
         lastRemovedItem,
         setLastRemovedItem,
         onAdd,
-        onRemove
+        onRemove,
+        onUndo
       }}
     >
       {children}

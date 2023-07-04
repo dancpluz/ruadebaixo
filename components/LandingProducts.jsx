@@ -82,16 +82,16 @@ export default function LandingProducts() {
     name: 'Camiseta Taguatinga-DF Poggers',
     price: 20,
     tags: ['internacional', 'vintage'],
-    sold: true
+    sold: false
   };
 
   const product2 = {
-    _id: 0,
-    slug: 'test',
-    images: [camisa1,camisa2],
+    _id: 1,
+    slug: 'test2',
+    images: [camisa2,camisa1],
     name: 'Noggers',
     price: 50,
-    tags: ['internacional','vintage', 'poggers', 'customizado'],
+    tags: ['vintage', 'poggers', 'customizado'],
     sold: false
   };
 
