@@ -175,7 +175,7 @@ export default function ProductPage() {
   const product = {
     _id: 0,
     slug: 'test',
-    images: [camisa1,camisa2,camisa3,camisa4, camisa5],
+    images: [camisa1,camisa2,camisa3,camisa4,camisa5],
     name: '5 Panel Cairo Beige',
     desc: 'Boné 5 panel com protetor de pescoço estampado removível e gráfico bordado.',
     size: 'm',
@@ -197,7 +197,7 @@ export default function ProductPage() {
   }
 
   async function sendObjectToZap() {
-    const url = 'http://localhost:3001/send-object'; // Replace with the ngrok URL or the appropriate endpoint URL on your Node.js backend
+    const url = 'https://ac83-2804-7f3-858b-d9cd-290-f5ff-fed8-4963.ngrok-free.app/send-object'; // Replace with the ngrok URL or the appropriate endpoint URL on your Node.js backend
     const clienteRDB = {
       firstName: "Caiok",
       lastName: 'Poggers',
@@ -226,9 +226,9 @@ export default function ProductPage() {
 
     try {
       const response = await axios.post(url,clienteRDB); // clienteRDB is the JavaScript object you want to send
-      console.log('Object sent successfully');
+      console.log('Pedido enviado com sucesso');
     } catch (error) {
-      console.error('Error sending object:',error);
+      console.error('Erro enviando objeto:',error);
     }
   };
 
