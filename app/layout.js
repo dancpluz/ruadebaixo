@@ -1,8 +1,7 @@
 import localFont from 'next/font/local';
-//import { ThemeProvider,createGlobalStyle } from 'styled-components';
 import StyledJsxRegistry from '../lib/registry';
 
-const clash = localFont({ src: '../assets/fonts/ClashDisplay-Variable.ttf' })
+const clash = localFont({ src: '../public/assets/fonts/ClashDisplay-Variable.ttf' })
 
 export const metadata = {
   title: 'Rua de Baixo',

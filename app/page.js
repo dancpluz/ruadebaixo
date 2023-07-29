@@ -12,10 +12,16 @@ const Container = styled.div`
   height: 90vh;
 `;
 
+const Logo = styled(Image)`
+  width: 100%;
+  height: auto;
+  max-width: 400px;
+`;
+
 export default function Home() {
   return (
     <Container>
-      <Image src={logo} alt="RDB Logo" />
+      <Logo src={logo} alt="RDB Logo" />
       <h1>Em breve...</h1>
     </Container>
   )
