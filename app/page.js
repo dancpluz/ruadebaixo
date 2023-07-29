@@ -1,12 +1,22 @@
+'use client'
+
+import Image from 'next/image';
+import logo from '../public/assets/logonew.svg';
+import styled from 'styled-components';
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 90vh;
+`;
+
 export default function Home() {
   return (
-    <div>
-      <h1>h1</h1>
-      <h2>h2</h2>
-      <h3>h3</h3>
-      <h4>h4</h4>
-      <p>p</p>
-      <span>span</span>
-    </div>
+    <Container>
+      <Image src={logo} alt="RDB Logo" />
+      <h1>Em breve...</h1>
+    </Container>
   )
 }
