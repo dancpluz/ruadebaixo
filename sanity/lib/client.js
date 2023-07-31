@@ -1,4 +1,4 @@
-import { createClient } from 'next-sanity'
+import { createClient, groq } from 'next-sanity'
 
 import { apiVersion, dataset, projectId, useCdn } from '../env'
 
@@ -8,3 +8,6 @@ export const client = createClient({
   projectId,
   useCdn,
 })
+
+const data = await client.fetch(groq`*[]`)
+

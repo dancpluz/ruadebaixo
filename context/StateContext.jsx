@@ -1,7 +1,10 @@
+'use client'
+
 import { createContext, useState, useContext } from "react";
 import camisa1 from 'test/product1.png';
 
 const Context = createContext();
+
 const product = {
   _id: 0,
   slug: 'test',

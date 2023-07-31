@@ -40,7 +40,6 @@ const TextDiv = styled.div`
     text-decoration: underline;
     cursor: pointer;
   }
-  
 `;
 
 const PriceDiv = styled.div`
@@ -48,12 +47,12 @@ const PriceDiv = styled.div`
   flex-flow: column nowrap;
   align-items: end;
   h1 {
-    font-weight: 500;
+    font-weight: 400;
     font-size: 36px;
     margin: 0;
   }
   p {
-    font-weight: 500;
+    font-weight: 400;
     font-size: 20px;
     margin: 0;
     text-decoration: line-through;
@@ -86,8 +85,8 @@ export default function CartItem({lastRemoved, product, product: { _id,images,ty
   if (!lastRemoved) {
     return (
       <ItemDiv>
-        <RemoveIcon src={plusIcon} onClick={() => onRemove(product)} />
-        <ProductImage src={images[0]} />
+        <RemoveIcon src={plusIcon} alt={"Remove Icon"} onClick={() => onRemove(product)} />
+        <ProductImage src={images[0]} alt={name} />
         <TextDiv>
           <h2>{type}</h2>
           <h1>{name}</h1>
@@ -108,7 +107,7 @@ export default function CartItem({lastRemoved, product, product: { _id,images,ty
     return (
       <ItemDiv>
         <RemoveIcon src={plusIcon} onClick={() => setLastRemovedItem(null)} />
-        <DisabledImage src={images[0]} />
+        <DisabledImage src={images[0]} alt={'Removed'} />
         <TextDiv>
           <h2>Item Removido</h2>
           <h1>Deseja desfazer?</h1>

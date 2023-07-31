@@ -1,3 +1,5 @@
+'use client'
+
 import Link from 'next/link';
 //import InstagramIcon from '@mui/icons-material/Instagram';
 //import TwitterIcon from '@mui/icons-material/Twitter';
