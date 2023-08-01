@@ -25,18 +25,10 @@ const TextDiv = styled.div`
   display: flex;
   flex-flow: column nowrap;
   flex-grow: 1;
-  h2, h3, p {
-    text-transform: capitalize;
-    font-weight: 500;
-    font-size: 1rem;
-    margin: 0;
-  }
-  h1 {
-    font-weight: 600;
-    font-size: 20px;
-    margin: 0;
-  }
   p {
+    text-transform: capitalize;
+  }
+  span {
     text-decoration: underline;
     cursor: pointer;
   }
@@ -46,16 +38,11 @@ const PriceDiv = styled.div`
   display: flex;
   flex-flow: column nowrap;
   align-items: end;
-  h1 {
-    font-weight: 400;
-    font-size: 36px;
-    margin: 0;
-  }
   p {
-    font-weight: 400;
-    font-size: 20px;
-    margin: 0;
     text-decoration: line-through;
+  }
+  h2 {
+    font-weight: 400;
   }
 `;
 
@@ -88,17 +75,17 @@ export default function CartItem({lastRemoved, product, product: { _id,images,ty
         <RemoveIcon src={plusIcon} alt={"Remove Icon"} onClick={() => onRemove(product)} />
         <ProductImage src={images[0]} alt={name} />
         <TextDiv>
-          <h2>{type}</h2>
-          <h1>{name}</h1>
-          <h3>Veste {wears}</h3>
+          <p>{type}</p>
+          <h4>{name}</h4>
+          <p>Veste {wears}</p>
         </TextDiv>
         <PriceDiv>
           {(discount > 0) ?
             <>
               <p>R${price}</p>
-              <h1>R${price - discount}</h1>
+              <h2>R${price - discount}</h2>
             </> :
-            <h1>R${price - discount}</h1>
+            <h2>R${price - discount}</h2>
           }
         </PriceDiv>
       </ItemDiv>
@@ -109,9 +96,9 @@ export default function CartItem({lastRemoved, product, product: { _id,images,ty
         <RemoveIcon src={plusIcon} onClick={() => setLastRemovedItem(null)} />
         <DisabledImage src={images[0]} alt={'Removed'} />
         <TextDiv>
-          <h2>Item Removido</h2>
-          <h1>Deseja desfazer?</h1>
-          <p onClick={onUndo}>Sim</p>
+          <p>Item Removido</p>
+          <h4>Deseja desfazer?</h4>
+          <span onClick={onUndo}>Sim</span>
         </TextDiv>
       </ItemDiv>
     )

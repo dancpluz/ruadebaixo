@@ -13,16 +13,16 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <StyledComponentsRegistry>
-      <StateContext>
-        <html lang="pt-BR">
+    <StateContext>
+      <html lang="pt-BR">
+        <StyledComponentsRegistry>
           <body className={clash.className}>
             <Header />
             {children}
             <Footer />
           </body>
-        </html>
-      </StateContext>
-    </StyledComponentsRegistry>
+        </StyledComponentsRegistry>
+      </html>
+    </StateContext>
   )
 }
