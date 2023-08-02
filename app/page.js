@@ -1,37 +1,11 @@
-'use client'
-
-import Image from 'next/image';
-import Link from 'next/link';
+import { Container, Logo, StyledLink } from './Home.styled';
 import logo from '../public/assets/logonew.svg';
-import styled from 'styled-components';
-
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 90vh;
-`;
-
-const Logo = styled(Image)`
-  width: 100%;
-  max-width: 400px;
-`;
-
-const StyledLink = styled(Link)`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  color: ${({ theme }) => theme.colors.dark};
-  padding: 0 20px;
-`;
 
 export default function Home() {
   return (
     <Container>
       <StyledLink href={'/links'}>
-      <Logo src={logo} alt="RDB Logo" />
+        <Logo priority src={logo} alt="RDB Logo" />
         <h1>Em breve...</h1>
       </StyledLink>
     </Container>
