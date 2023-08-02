@@ -1,6 +1,7 @@
 'use client'
 
 import Image from 'next/image';
+import Link from 'next/link';
 import logo from '../public/assets/logonew.svg';
 import styled from 'styled-components';
 
@@ -14,15 +15,25 @@ const Container = styled.div`
 
 const Logo = styled(Image)`
   width: 100%;
-  height: auto;
   max-width: 400px;
+`;
+
+const StyledLink = styled(Link)`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: ${({ theme }) => theme.colors.dark};
+  padding: 0 20px;
 `;
 
 export default function Home() {
   return (
     <Container>
+      <StyledLink href={'/links'}>
       <Logo src={logo} alt="RDB Logo" />
-      <h1>Em breve...</h1>
+        <h1>Em breve...</h1>
+      </StyledLink>
     </Container>
   )
 }
