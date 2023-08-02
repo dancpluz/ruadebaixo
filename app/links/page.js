@@ -31,7 +31,7 @@ export default function Links() {
         <h2>Último Vídeo</h2>
         <Video poster='/assets/play.png' preload='auto' disablePictureInPicture controls controlsList="nodownload noremoteplayback noplaybackrate">
           <source src={'/assets/RdbVideo.mp4'} type='video/mp4'/>
-          Seu navegador não suporta o elemento video.
+          Seu navegador não suporta o elemento de vídeo.
         </Video>
         </Wrapper>
     </Container>
