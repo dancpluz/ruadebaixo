@@ -22,6 +22,11 @@ export default function RootLayout({ children }) {
         <meta property="og:image:height" content="800" />
         <meta property="og:type" content="website" />
         <meta property="og:locale" content="pt_BR" />
+        <meta property="og:url" content="https://ruadebaixo.com.br" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={metadata.title} />
+        <meta name="twitter:description" content={metadata.description} />
+        <meta name="twitter:image" content={metadata.image} />
       </Head>
       <StyledJsxRegistry>
           <body className={clash.className}>
