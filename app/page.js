@@ -1,5 +1,5 @@
 import { Container, Logo, StyledLink } from './Home.styled';
-import logo from '../public/assets/logonew.svg';
+import logo from '@/public/assets/logonew.svg';
 
 export default function Home() {
   return (

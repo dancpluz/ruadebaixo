@@ -1,14 +1,13 @@
 import localFont from 'next/font/local';
-import StyledJsxRegistry from '../lib/registry';
+import StyledJsxRegistry from '@/lib/registry';
 import Head from 'next/head';
-import og from '@/public/assets/og.png';
 
 const clash = localFont({ src: '../public/assets/fonts/ClashDisplay-Variable.ttf' })
 
 export const metadata = {
   title: 'Rua de Baixo',
-  description: 'Streetwear, brechó, estilo',
-  image: og
+  description: 'Onde o estilo encontra o asfalto, a Rua de Baixo acontece',
+  image: '../public/assets/og.png'
 }
 
 export default function RootLayout({ children }) {
