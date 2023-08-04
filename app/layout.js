@@ -5,9 +5,26 @@ import Head from 'next/head';
 const clash = localFont({ src: '../public/assets/fonts/ClashDisplay-Variable.ttf' })
 
 export const metadata = {
-  title: 'Rua de Baixo',
+  title: {
+    template: '%s | RDB',
+  },
   description: 'Onde o estilo encontra o asfalto, a Rua de Baixo acontece',
-  image: '../public/assets/og.png'
+  keywords: ['roupas','streetwear','brecho','skate','moda','moda urbana','streetstyle'],
+  colorScheme: 'light',
+  metadataBase: new URL('https://www.ruadebaixo.com.br'),
+  openGraph: {
+    title: 'Rua de Baixo',
+    description: 'Onde o estilo encontra o asfalto, a Rua de Baixo aconteceTESTE',
+    siteName: 'Rua de Baixo',
+    url: 'https://www.ruadebaixo.com.br/',
+    type: 'website',
+    locale: 'pt_BR',
+    images: 'assets/og.png'
+  },
+  icons: {
+    icon: 'assets/favicon.ico',
+  },
+  themeColor: 'black',
 }
 
 export default function RootLayout({ children }) {

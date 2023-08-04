@@ -6,7 +6,7 @@ import whatsapp from '@/public/assets/whatsapp.svg';
 import tiktok from '@/public/assets/tiktok.svg';
 
 export const metadata = {
-  title: 'RDB - Links',
+  title: 'Links',
   description: 'Links para as redes sociais da Rua de Baixo',
 }
 
