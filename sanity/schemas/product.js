@@ -1,28 +1,33 @@
-export const productTypes = {
-    list: [
-        { title: 'Camiseta',value: 'camiseta' },
-        { title: 'Boné',value: 'boné' },
-        { title: 'Calça',value: 'calça' },
-        { title: 'Shorts',value: 'shorts' },
-        { title: 'Acessório',value: 'acessório' },
-    ]
-}
+export const productTypes = [
+    { title: 'Camiseta',value: 'camiseta' },
+    { title: 'Boné',value: 'boné' },
+    { title: 'Calça',value: 'calça' },
+    { title: 'Shorts',value: 'shorts' },
+    { title: 'Jaqueta',value: 'jaqueta' },
+    { title: 'Óculos', value: 'óculos'},
+    { title: 'Acessório',value: 'acessório' },
+];
 
-export const productTags = {
-    list: [
-        { title: 'Internacional',value: 'internacional' },
-        { title: 'Customizado',value: 'customizado' },
-        { title: 'Vintage',value: 'vintage' },
-    ]
-}
+export const productTags = [
+    { title: 'Internacional',value: 'internacional' },
+    { title: 'Customizado',value: 'customizado' },
+    { title: 'Vintage',value: 'vintage' },
+    { title: 'Original',value: 'original' },
+];
 
-export const productQualities = {
-    list: [
-        { title: 'Usado',value: 'usado' },
-        { title: 'Semi-novo',value: 'semi-novo' },
-        { title: 'Novo',value: 'novo' },
-    ]
-}
+export const productQualities = [
+    { title: 'Usado',value: 'usado' },
+    { title: 'Semi-novo',value: 'semi-novo' },
+    { title: 'Novo',value: 'novo' },
+];
+
+export const productDrops = [
+    { title: 'Valendo uma Coca',value: 'Valendo uma Coca' },
+    { title: 'MiniDrops',value: 'MiniDrops' },
+    { title: 'Skate',value: '' },
+    { title: 'Carro',value: '' },
+    { title: 'Lixo',value: '' },
+];
 
 const product = {
     name: 'product',
@@ -94,6 +99,17 @@ const product = {
             options: {
                 productTags
             },
+        },
+        {
+            name: 'drop',
+            title: 'Drop',
+            description: 'De qual drop é essa peça?',
+            type: 'string',
+            options: {
+                list: productDrops,
+                layout: 'radio'
+            },
+            validation: Rule => Rule.required()
         },
         {
             name: 'size',
