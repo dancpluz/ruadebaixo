@@ -25,7 +25,7 @@ export default function Links() {
         <LinkButton href={'https://www.tiktok.com/@ruadebaixoloja'} image={tiktok} >
           TikTok
         </LinkButton>
-        <LinkButton href={'https://api.whatsapp.com/send?phone=5561996492791&text=Eu%20quero%20falar%20com%20meus%20manos%20da%20Rua%20de%20Baixo%20%E2%A4%B5%EF%B8%8F'} image={whatsapp}>
+        <LinkButton href={'https://wa.me/message/GMJP6IY5DXZOM1'} image={whatsapp}>
           Whatsapp
         </LinkButton>
         <h2>Último Vídeo</h2>
