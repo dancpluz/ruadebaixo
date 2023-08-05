@@ -2,7 +2,8 @@ import localFont from 'next/font/local';
 import { StateContext } from '@/context/StateContext';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import StyledComponentsRegistry from '../lib/registry';
+import StyledComponentsRegistry from '@/lib/registry';
+import GlobalStyles from '@/components/styles/GlobalStyles.styled';
 
 const clash = localFont({ src: '../public/assets/fonts/ClashDisplay-Variable.ttf' })
 
@@ -34,11 +35,13 @@ export default function RootLayout({ children }) {
     <StateContext>
       <html lang="pt-BR">
         <StyledComponentsRegistry>
+          <GlobalStyles>
           <body className={clash.className}>
             <Header />
             {children}
             <Footer />
           </body>
+          </GlobalStyles>
         </StyledComponentsRegistry>
       </html>
     </StateContext>

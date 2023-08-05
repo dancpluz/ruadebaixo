@@ -30,7 +30,7 @@ const Collection = styled.div`
 const BigImageDiv = styled.div`
   position: fixed;
   display: ${(props) => props.showOverlay};
-  background-color: black;
+  background-color: ${({ theme }) => theme.colors.dark};
   z-index: 2;
   top: 0;
   left: 0;
@@ -109,8 +109,8 @@ export default function LookBook() {
         <hr />
         <Gallery>
           {collection.images.map((image,n) => (
-            <PhotoDiv key={n}>
-              <Photo src={image} alt={"Imagem" + n} width={extractImageDimensions(image).width} height={extractImageDimensions(image).height} onClick={() => handleClick(image)} />
+            <PhotoDiv key={collection.name + "-Imagem-" + n}>
+              <Photo src={image} alt={collection.name + "-Imagem-" + n} width={extractImageDimensions(image).width} height={extractImageDimensions(image).height} onClick={() => handleClick(image)} />
             </PhotoDiv>
           ))}
         </Gallery>
@@ -131,10 +131,7 @@ export default function LookBook() {
       <BigImageDiv onClick={() => handleClick(null)} showOverlay={bigImage ? 'block' : 'none'} />
       {bigImage &&
         <BigImage src={bigImage} alt={"Fullscreen image"} onClick={() => handleClick(null)} width={extractImageDimensions(bigImage).width} height={extractImageDimensions(bigImage).height} />}
-
-      <Gallery>
-        {collections.length > 0 ? collections.map((collection) => renderCollection(collection)) : null}
-      </Gallery>
+      {collections.length > 0 ? collections.map((collection) => renderCollection(collection)) : null}
     </Container>
   )
 }

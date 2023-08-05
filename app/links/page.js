@@ -4,6 +4,7 @@ import rdb from '@/public/assets/icons/logordb.svg';
 import instagram from '@/public/assets/icons/instagram.svg';
 import whatsapp from '@/public/assets/icons/whatsapp.svg';
 import tiktok from '@/public/assets/icons/tiktok.svg';
+import { extractNameFromUrl } from '@/lib/format';
 
 export const metadata = {
   title: 'Links',
@@ -32,7 +33,7 @@ export default function Links() {
           Whatsapp
         </LinkButton>
         <h2>Último Vídeo</h2>
-        <Video poster='/assets/play.png' preload='auto' disablePictureInPicture controls controlsList="nodownload noremoteplayback noplaybackrate">
+        <Video poster='/assets/play.png' preload='auto' alt='Último vídeo' disablePictureInPicture controls controlsList="nodownload noremoteplayback noplaybackrate">
           <source src={'/assets/RdbVideo.mp4'} type='video/mp4'/>
           Seu navegador não suporta o elemento de vídeo.
         </Video>
@@ -45,7 +46,7 @@ export default function Links() {
     return (
       <StyledLink target={sameTab ? '' : '_blank'} href={href}>
         <IconDiv>
-          <Icon src={image} alt={'Logo RDB'} />
+          <Icon src={image} alt={extractNameFromUrl(image.src)} />
         </IconDiv>
         {children}
       </StyledLink>

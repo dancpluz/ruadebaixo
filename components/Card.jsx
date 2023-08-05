@@ -8,13 +8,14 @@ import Strip from './Strip';
 import { StripDiv } from './styles/Strip.styled';
 import { useState } from 'react';
 import styled from 'styled-components';
+import { useRouter } from 'next/navigation';
 
-const StyledLink = styled(Link)`
+const StyledLink = styled.div`
   position: relative;
+  cursor: pointer;
   z-index: 1;
   height: auto;
   width: 300px;
-  text-decoration: none;
   color: ${({ theme }) => theme.colors.dark};
 `;
 
@@ -23,10 +24,6 @@ const ImageFrame = styled.div`
   background-color: ${({ theme }) => theme.colors.grey};
   width: 300px;
   height: 400px;
-
-  ${TagDiv} {
-    padding: 12px;
-  }
 `;
 
 const CardImage = styled(Image)`
@@ -91,7 +88,7 @@ const Title = styled.h2`
   white-space: nowrap;
 `;
 
-const SoldStyledLink = styled.div`
+const SoldDiv = styled.div`
   position: relative;
   z-index: 1;
   height: auto;
@@ -119,50 +116,52 @@ const SoldStyledLink = styled.div`
   }
 `;
 
-export default function Card({ product: { slug,images,name,price,type,tags,sold } }) {
+export default function Card({ product: { slug,images,name,price,type,drop,tags,sold } }) {
   const [isHovering,setIsHovering] = useState(false);
+  const router = useRouter();
 
   function onMouseEnter() {
-    setIsHovering(true);  }
+    setIsHovering(true); 
+  }
 
   function onMouseLeave() {
     setIsHovering(false);
   }
 
   if (sold) { return (
-    <SoldStyledLink>
+    <SoldDiv>
       <Strip text={"VENDIDO - "} />
       <ImageFrame>
-        <Tag tags={tags} marginTop={12} marginLeft={12} />
-        <Tag tags={[type]} marginTop={12} marginLeft={12} />
-        <CardImage alt={slug} src={images[0]} height={800} width={600} />
+        <Tag tags={[type,drop]} type={'top'} />
+        <Tag tags={tags} type={'bottom'} /> 
+        <CardImage alt={slug.current} src={images[0]} height={800} width={600} />
       </ImageFrame>
       <Caption>
         <Title>{name}</Title>
       </Caption>
-    </SoldStyledLink>
+    </SoldDiv>
   )}
 
   return (
-    <StyledLink href={`/produtos/`} >
+    <StyledLink onClick={() => router.push('/produtos')} >
       <ImageFrame>
-        <Tag tags={tags} />
-        <Tag tags={[type]} />
+        <Tag tags={[type, drop]} type={'top'} />
+        <Tag tags={tags} type={'bottom'} /> 
         <CardImage
           onMouseEnter={onMouseEnter}
           onMouseLeave={onMouseLeave}
           fade={isHovering ? 1 : 0}
-          alt={slug + " - Trás"}
           src={images[1]}
+          alt={`${type} ${name} - Trás`}
           height={800}
           width={600}
         />
         <CardImage
           onMouseEnter={onMouseEnter}
           onMouseLeave={onMouseLeave}
-          fade={isHovering ? 0: 1}
-          alt={slug + " - Frente"}
+          fade={isHovering ? 0 : 1}
           src={images[0]}
+          alt={`${type} ${name} - Frente`}
           height={800}
           width={600}
         />

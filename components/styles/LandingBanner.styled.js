@@ -18,7 +18,7 @@ export const TopImage = styled(Image)`
 
 export const Caption = styled.div`
   width: 760px;
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid ${({ theme }) => theme.colors.dark};
   margin-top: 60px;
   padding-bottom: 10px;
   h4 {
