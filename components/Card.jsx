@@ -144,7 +144,7 @@ export default function Card({ product: { slug,images,name,price,type,tags,sold 
   )}
 
   return (
-    <StyledLink href={`/produto/`} >
+    <StyledLink href={`/produtos/`} >
       <ImageFrame>
         <Tag tags={tags} />
         <Tag tags={[type]} />
