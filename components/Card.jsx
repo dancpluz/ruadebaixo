@@ -38,7 +38,7 @@ const CardImage = styled(Image)`
   width: 240px;
   object-fit: contain;
   transition: opacity 0.2s ease-in-out;
-  opacity: ${ props => props.fade ? 0 : 1};
+  opacity: ${ props => props.fade};
 `;
 
 const Caption = styled.div`
@@ -119,7 +119,7 @@ const SoldStyledLink = styled.div`
   }
 `;
 
-export default function Card({ product: { _id,slug,images,name,price,tags,sold } }) {
+export default function Card({ product: { slug,images,name,price,type,tags,sold } }) {
   const [isHovering,setIsHovering] = useState(false);
 
   function onMouseEnter() {
@@ -127,14 +127,15 @@ export default function Card({ product: { _id,slug,images,name,price,tags,sold }
 
   function onMouseLeave() {
     setIsHovering(false);
-  } 
+  }
 
-  if (sold) {return (
+  if (sold) { return (
     <SoldStyledLink>
       <Strip text={"VENDIDO - "} />
       <ImageFrame>
         <Tag tags={tags} marginTop={12} marginLeft={12} />
-        <CardImage alt={slug} src={images[0]} />
+        <Tag tags={[type]} marginTop={12} marginLeft={12} />
+        <CardImage alt={slug} src={images[0]} height={800} width={600} />
       </ImageFrame>
       <Caption>
         <Title>{name}</Title>
@@ -143,13 +144,28 @@ export default function Card({ product: { _id,slug,images,name,price,tags,sold }
   )}
 
   return (
-    <StyledLink href={`/produto/${slug}`} >
+    <StyledLink href={`/produto/`} >
       <ImageFrame>
         <Tag tags={tags} />
-        <CardImage onMouseEnter={onMouseEnter}
-          onMouseLeave={onMouseLeave} fade={!isHovering} alt={slug} src={images[1]}/>
-        <CardImage onMouseEnter={onMouseEnter}
-          onMouseLeave={onMouseLeave} fade={isHovering} alt={slug} src={images[0]} />
+        <Tag tags={[type]} />
+        <CardImage
+          onMouseEnter={onMouseEnter}
+          onMouseLeave={onMouseLeave}
+          fade={isHovering ? 1 : 0}
+          alt={slug + " - Trás"}
+          src={images[1]}
+          height={800}
+          width={600}
+        />
+        <CardImage
+          onMouseEnter={onMouseEnter}
+          onMouseLeave={onMouseLeave}
+          fade={isHovering ? 0: 1}
+          alt={slug + " - Frente"}
+          src={images[0]}
+          height={800}
+          width={600}
+        />
       </ImageFrame>
       <Caption>
         <Title>{name}</Title>

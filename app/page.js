@@ -1,7 +1,6 @@
-import Card from "@/components/Card";
 import LandingBanner from "@/components/LandingBanner";
+import LandingProducts from "@/components/LandingProducts";
 import Strip from "@/components/Strip";
-import Tag from "@/components/Tag";
 
 export const metadata = {
   title: {
@@ -9,13 +8,14 @@ export const metadata = {
   }
 }
 
-export default function Home() {
 
+
+export default function Home() {
   return (
     <div>
       <LandingBanner />
       <Strip text={"RUA DE BAIXO - "} />
-      {/* <Card product={product1} /> */}
+      <LandingProducts />
     </div>
   )
 }

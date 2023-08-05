@@ -1,24 +1,26 @@
 export const productTypes = [
-    { title: 'Camiseta',value: 'camiseta' },
-    { title: 'Boné',value: 'boné' },
-    { title: 'Calça',value: 'calça' },
-    { title: 'Shorts',value: 'shorts' },
-    { title: 'Jaqueta',value: 'jaqueta' },
-    { title: 'Óculos', value: 'óculos'},
-    { title: 'Acessório',value: 'acessório' },
+    { title: 'Camiseta',value: 'Camiseta' },
+    { title: 'Boné',value: 'Boné' },
+    { title: 'Calça',value: 'Calça' },
+    { title: 'Shorts',value: 'Shorts' },
+    { title: 'Jaqueta',value: 'Jaqueta' },
+    { title: 'Óculos', value: 'Óculos'},
+    { title: 'Acessório',value: 'Acessório' },
+    { title: 'Tênis',value: 'Tênis' },
+    { title: 'Outro',value: '' },
 ];
 
 export const productTags = [
-    { title: 'Internacional',value: 'internacional' },
-    { title: 'Customizado',value: 'customizado' },
-    { title: 'Vintage',value: 'vintage' },
-    { title: 'Original',value: 'original' },
+    { title: 'Internacional',value: 'Internacional' },
+    { title: 'Customizado',value: 'Customizado' },
+    { title: 'Vintage',value: 'Vintage' },
+    { title: 'Original',value: 'Original' },
 ];
 
 export const productQualities = [
-    { title: 'Usado',value: 'usado' },
-    { title: 'Semi-novo',value: 'semi-novo' },
-    { title: 'Novo',value: 'novo' },
+    { title: 'Usado',value: 'Usado' },
+    { title: 'Semi-novo',value: 'Semi-Novo' },
+    { title: 'Novo',value: 'Novo' },
 ];
 
 export const productDrops = [
@@ -35,7 +37,7 @@ const product = {
     type: 'document',
     fields: [
         {
-            name: 'image',
+            name: 'images',
             title: 'Imagem (Sempre 3:4)',
             description: 'Primeira Imagem: frente com transparência, Segunda Imagem: trás com transparência, Última Imagem: Artística',
             type: 'array',
@@ -53,6 +55,7 @@ const product = {
             options: { 
                 list: productTypes
             },
+            initialValue: '',
             validation: Rule => Rule.required()
         },
         {
@@ -101,17 +104,6 @@ const product = {
             options: {
                 list: productTags
             },
-        },
-        {
-            name: 'drop',
-            title: 'Drop',
-            description: 'De qual drop é essa peça?',
-            type: 'string',
-            options: {
-                list: productDrops,
-                layout: 'radio'
-            },
-            validation: Rule => Rule.required()
         },
         {
             name: 'drop',

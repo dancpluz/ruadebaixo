@@ -16,7 +16,7 @@ export const metadata = {
   metadataBase: new URL('https://www.ruadebaixo.com.br'),
   openGraph: {
     title: 'Rua de Baixo',
-    description: 'Onde o estilo encontra o asfalto, a Rua de Baixo aconteceTESTE',
+    description: 'Onde o estilo encontra o asfalto, a Rua de Baixo acontece',
     siteName: 'Rua de Baixo',
     url: 'https://www.ruadebaixo.com.br/',
     type: 'website',

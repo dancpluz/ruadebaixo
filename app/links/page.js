@@ -8,6 +8,9 @@ import tiktok from '@/public/assets/icons/tiktok.svg';
 export const metadata = {
   title: 'Links',
   description: 'Links para as redes sociais da Rua de Baixo',
+  openGraph: {
+    description: 'Fique por dentro de tudo que acontece na Rua de Baixo',
+  },
 }
 
 export default function Links() {
