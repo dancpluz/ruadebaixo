@@ -1,8 +1,8 @@
 'use client'
 
 import styled, { keyframes } from 'styled-components';
-import { useStateContext } from '../context/StateContext';
-import boxOpen from '../public/assets/boxopen.svg';
+import { useStateContext } from '@/context/StateContext';
+import boxOpen from '@/public/assets/icons/boxopen.svg';
 import CartItem from './CartItem';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';

@@ -1,14 +1,17 @@
-import { TagDiv, StyledChip } from './styles/Tag.styled';
+import { TagDiv } from './styles/Tag.styled';
+import Chip from '@mui/material/Chip';
 
-export default function Tag({ tags, isSize, type, marginTop, marginLeft }) {
+// Tipos: 'top' | 'bottom' | undefined
+
+export default function Tag({ tags, type }) {
   return (
-    <TagDiv type={type} marginTop={marginTop} marginLeft={marginLeft}>
+    <TagDiv type={type}>
       {tags?.map((tag) =>
-        <StyledChip
+        <Chip
           key={'Categoria-'+ tag}
           label={tag}
           component='a'
-          href={`/produtos?${isSize ? 'size' : 'type'}=${tag}`}
+          href={`/produtos?${type == 'size' ? 'size' : 'type'}=${tag}`}
           clickable />
       )}
     </TagDiv>

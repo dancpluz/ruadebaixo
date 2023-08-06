@@ -1,6 +1,6 @@
 import { Container, Flexbox, ButtonLink, Text, Arrow } from './styles/LandingProducts.styled';
 import Card from './Card';
-import arrowIcon from '@/public/assets/arrow.svg';
+import arrowIcon from '@/public/assets/icons/arrow.svg';
 import { fetchLandingProducts } from '@/lib/api.js';
 
 export default async function LandingProducts() {

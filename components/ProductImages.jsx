@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import styled from 'styled-components';
+import Image from 'next/image';
 
 const ImagesDiv = styled.div`
   display: flex;
@@ -33,21 +34,31 @@ const PreviewImage = styled(Image)`
 `;
 
   
-  export default function ProductImages({ images, params }) {
+export default function ProductImages({ images, name }) {
     const [imageIndex,setImageIndex] = useState(0);
 
     function selectImage(index) {
       setImageIndex(index);
     }
 
-      return (
-      <ImagesDiv>
-          <MainImage src={images[imageIndex]} alt={'MainImage'} />
-          <PreviewImagesWrapper>
-            {images.map((image, i) => <PreviewImage onClick={() => selectImage(i)} selected={imageIndex === i} alt={params.slug} key={i} src={image} />)}
-          </PreviewImagesWrapper>
-        </ImagesDiv>
-      );
+    return (
+    <ImagesDiv>
+        <MainImage src={images[imageIndex]} alt={`Imagem-Principal-${name}`} height={400} width={400} />
+        <PreviewImagesWrapper>
+          {images.map((image, n) => 
+          <PreviewImage
+            onClick={() => selectImage(n)}
+            selected={imageIndex == n}
+            alt={`Imagem-${name}-${n}`}
+            key={`Imagem-${name}-${n}`}
+            height={600}
+            width={800}
+            src={image}
+          />
+          )}
+        </PreviewImagesWrapper>
+      </ImagesDiv>
+    );
     }
   
   

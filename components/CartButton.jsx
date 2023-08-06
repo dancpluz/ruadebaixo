@@ -1,7 +1,7 @@
 'use client'
 
 import Image from 'next/image';
-import BoxIcon from '../public/assets/boxclosed.svg';
+import BoxIcon from '@/public/assets/icons/boxclosed.svg';
 import styled from 'styled-components';
 import Badge from '@mui/material/Badge';
 import { useStateContext } from '../context/StateContext';

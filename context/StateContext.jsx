@@ -1,6 +1,7 @@
 'use client'
 
 import { createContext, useState, useContext } from "react";
+import { useRouter } from 'next/navigation';
 
 const Context = createContext();
 
@@ -28,6 +29,8 @@ export const StateContext = ({ children }) => {
   const [totalPrice,setTotalPrice] = useState(0);
   const [totalDiscount,setTotalDiscount] = useState(0);
   const [lastRemovedItem,setLastRemovedItem] = useState(null);
+
+  const router = useRouter();
 
   const onAdd = (product,show) => {
     const checkProductInCart = cartItems.find((item) => item._id === product._id);
@@ -80,7 +83,8 @@ export const StateContext = ({ children }) => {
         setLastRemovedItem,
         onAdd,
         onRemove,
-        onUndo
+        onUndo,
+        router
       }}
     >
       {children}

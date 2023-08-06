@@ -1,16 +1,14 @@
 'use client'
- 
-import Link from 'next/link';
+
 import Image from 'next/image';
 import Tag from './Tag';
-import  { TagDiv } from './styles/Tag.styled'
 import Strip from './Strip';
 import { StripDiv } from './styles/Strip.styled';
 import { useState } from 'react';
 import styled from 'styled-components';
-import { useRouter } from 'next/navigation';
+import { useStateContext } from '@/context/StateContext';
 
-const StyledLink = styled.div`
+const CardDiv = styled.div`
   position: relative;
   cursor: pointer;
   z-index: 1;
@@ -118,7 +116,7 @@ const SoldDiv = styled.div`
 
 export default function Card({ product: { slug,images,name,price,type,drop,tags,sold } }) {
   const [isHovering,setIsHovering] = useState(false);
-  const router = useRouter();
+  const { router } = useStateContext();
 
   function onMouseEnter() {
     setIsHovering(true); 
@@ -132,7 +130,7 @@ export default function Card({ product: { slug,images,name,price,type,drop,tags,
     <SoldDiv>
       <Strip text={"VENDIDO - "} />
       <ImageFrame>
-        <Tag tags={[type,drop]} type={'top'} />
+        <Tag tags={[type,drop]} type={'top'} noClick/>
         <Tag tags={tags} type={'bottom'} /> 
         <CardImage alt={slug.current} src={images[0]} height={800} width={600} />
       </ImageFrame>
@@ -143,7 +141,7 @@ export default function Card({ product: { slug,images,name,price,type,drop,tags,
   )}
 
   return (
-    <StyledLink onClick={() => router.push('/produtos')} >
+    <CardDiv onClick={() => router.push(`/produtos/${slug.current}`)} >
       <ImageFrame>
         <Tag tags={[type, drop]} type={'top'} />
         <Tag tags={tags} type={'bottom'} /> 
@@ -152,7 +150,7 @@ export default function Card({ product: { slug,images,name,price,type,drop,tags,
           onMouseLeave={onMouseLeave}
           fade={isHovering ? 1 : 0}
           src={images[1]}
-          alt={`${type} ${name} - Trás`}
+          alt={`${type}-${name}-Trás`}
           height={800}
           width={600}
         />
@@ -161,7 +159,7 @@ export default function Card({ product: { slug,images,name,price,type,drop,tags,
           onMouseLeave={onMouseLeave}
           fade={isHovering ? 0 : 1}
           src={images[0]}
-          alt={`${type} ${name} - Frente`}
+          alt={`${type}-${name}-Frente`}
           height={800}
           width={600}
         />
@@ -170,6 +168,6 @@ export default function Card({ product: { slug,images,name,price,type,drop,tags,
         <Title>{name}</Title>
         <p>R${price}</p>
       </Caption>
-    </StyledLink>
+    </CardDiv>
   )
 }
