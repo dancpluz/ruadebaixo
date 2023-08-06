@@ -64,16 +64,17 @@ const DisabledImage = styled(Image)`
   box-sizing: border-box;
   align-self: right;
   filter: saturate(0);
+  opacity: 0.7;
 `;
 
-export default function CartItem({lastRemoved, product, product: { _id,images,type,name,wears,discount,price }}) {
-  const { cartItems, setCartItems, setLastRemovedItem, onRemove, onUndo } = useStateContext();
+export default function CartItem({lastRemoved, product, product: { images,type,name,wears,discount,price }}) {
+  const { setLastRemovedItem, onRemove, onUndo } = useStateContext();
 
   if (!lastRemoved) {
     return (
       <ItemDiv>
-        <RemoveIcon src={plusIcon} alt={"Remove Icon"} onClick={() => onRemove(product)} />
-        <ProductImage src={images[0]} alt={name} />
+        <RemoveIcon src={plusIcon} alt={"Ícone de Remover"} onClick={() => onRemove(product)} />
+        <ProductImage src={images[0]} alt={`Produto-${name}`} width={300} height={400}/>
         <TextDiv>
           <p>{type}</p>
           <h4>{name}</h4>
@@ -94,7 +95,7 @@ export default function CartItem({lastRemoved, product, product: { _id,images,ty
     return (
       <ItemDiv>
         <RemoveIcon src={plusIcon} onClick={() => setLastRemovedItem(null)} />
-        <DisabledImage src={images[0]} alt={'Removed'} />
+        <DisabledImage src={images[0]} alt={`Produto-Removido-${name}`} width={300} height={400} />
         <TextDiv>
           <p>Item Removido</p>
           <h4>Deseja desfazer?</h4>

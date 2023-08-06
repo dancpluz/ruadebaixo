@@ -1,37 +1,23 @@
-
-
-//import Info from '../../components/Info';
-//import { useState } from 'react';
+import { Container, ProductDiv, DetailsDiv, TitleDiv, SizeDiv, BulletDiv, BulletPoints, Point } from '@/components/styles/ProductPage.styled.js';
+import { fetchProduct, fetchMetadata } from '@/lib/api';
 import Tag from '@/components/Tag';
 import ProductBuy from '@/components/ProductBuy';
-import { Container, ProductDiv, DetailsDiv, TitleDiv, Description, SizeDiv, BulletDiv, BulletPoints, Point, BuyDiv, BuyButton, AddButton, Box } from '@/components/styles/ProductPage.styled.js';
-import { fetchProduct } from '@/lib/api';
-//import { useStateContext } from '@/context/StateContext';
 import ProductImages from '@/components/ProductImages';
-import { Link } from 'next/link';
 
-export default async function ProductPage({ params: { slug }}) {
-  // const product = {
-  //   _id: 0,
-  //   slug: 'test',
-  //   images: [camisa1,camisa2,camisa3,camisa4,camisa5],
-  //   name: '5 Panel Cairo Beige',
-  //   desc: 'Boné 5 panel com protetor de pescoço estampado removível e gráfico bordado.',
-  //   size: 'm',
-  //   wears: 'g',
-  //   price: 20,
-  //   discount: 0,
-  //   type: 'boné',
-  //   quality: 'usado',
-  //   tags: ['internacional','vintage'],
-  //   points: ['Pequeno arranhão no lado esquerdo','Gola deformada', 'Pequena mancha no canto da camiseta', 'teste', '214124' , 'poggers'],
-  //   sold: true
-  // };
+export async function generateMetadata({ params: { slug }}) {
+  const product = await fetchMetadata(slug);
+  const { name, images, type } = product;
 
+  return {
+    title: `${type} ${name}`,
+    openGraph: {
+      images: images,
+    },
+  }
+}
+
+export default async function ProductPage({ params: { slug } }) {
   
-
-  //const { onAdd } = useStateContext();
-
   // async function sendObjectToZap() {
   //   // WIP
   //   const clienteRDB = {
@@ -95,7 +81,7 @@ export default async function ProductPage({ params: { slug }}) {
             </div>
             <Tag tags={[wears]} isSize={true} />
           </SizeDiv>
-          <ProductBuy  />
+          <ProductBuy product={product} />
         </DetailsDiv>
       </ProductDiv>
       {/* <Info /> */}

@@ -1,7 +1,10 @@
 'use client'
+
 import AddIcon from '@/public/assets/icons/addcart.svg';
 import Image from 'next/image'
 import styled from 'styled-components';
+import { useStateContext } from '@/context/StateContext';
+import { sendDataToServer } from '@/lib/api';
 
 const BuyDiv = styled.div`
   display: flex;
@@ -10,14 +13,10 @@ const BuyDiv = styled.div`
 `;
 
 const BuyButton = styled.button`
-  height: 60px;
-  width: 100%;
   background-color: ${({ theme }) => theme.colors.dark};
   color: ${({ theme }) => theme.colors.light};
-  font-size: 18px;
   border: 1px solid ${({ theme }) => theme.colors.dark};
   cursor: pointer;
-  text-decoration: none;
 
   &:hover{
     color: ${({ theme }) => theme.colors.dark};
@@ -28,12 +27,11 @@ const BuyButton = styled.button`
 const AddButton = styled.button`
   aspect-ratio: 1;
   height: 60px;
-  background-color: white;
-  color: black;
-  font-size: 18px;
-  border: 1px solid black;
+  width: 60px;
+  background-color: ${({ theme }) => theme.colors.light};
+  color: ${({ theme }) => theme.colors.dark};
+  border: 1px solid ${({ theme }) => theme.colors.dark};
   cursor: pointer;
-  text-decoration: none;
   align-items: center;
   transition: all .10s;
 
@@ -41,8 +39,8 @@ const AddButton = styled.button`
     img{
       filter: invert(1);
     }
-    background-color: black;
-    color: white;
+    background-color: ${({ theme }) => theme.colors.dark};
+    color: ${({ theme }) => theme.colors.light};
   }
 `;
 
@@ -51,14 +49,16 @@ const Box = styled(Image)`
   height: 80%;
 `;
 
-export default function ProductBuy() {
+export default function ProductBuy({ product }) {
+  const { onAdd } = useStateContext();
+
   return (
     <BuyDiv>
-      <BuyButton onClick={() => ''}>Poggers</BuyButton>
-      <BuyButton onClick={() => '() => onAdd(product,true)'}>
+      <BuyButton onClick={sendDataToServer}>Poggers</BuyButton>
+      <BuyButton onClick={() => onAdd(product,true)}>
         COMPRAR
       </BuyButton>
-      <AddButton onClick={() => '() => onAdd(product,false)'}>
+      <AddButton onClick={() => onAdd(product,false)}>
         <Box alt={'Ícone Adicionar ao Carrinho'} src={AddIcon} />
       </AddButton>
     </BuyDiv>
