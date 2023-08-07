@@ -8,7 +8,7 @@ import MuiAccordionDetails from '@mui/material/AccordionDetails';
 export const Container = styled.div`
   margin: 50px 0;
 `;
-export const Accordion = styled(MuiAccordion)`
+export const StyledAccordion = styled(MuiAccordion)`
   box-shadow: none;
   margin-bottom: 30px;
   &::before {

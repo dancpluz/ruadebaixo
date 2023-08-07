@@ -4,7 +4,6 @@ import Image from 'next/image'
 import styled from 'styled-components';
 import { useStateContext } from '@/context/StateContext';
 
-
 const BuyDiv = styled.div`
   display: flex;
   gap: 10px;

@@ -63,6 +63,10 @@ const CartContainer = styled.div`
   flex-direction: column;
   animation: ${props => (props.isVisible ? slideIn : slideOut)} 300ms ease;
   color: ${({ theme }) => theme.colors.light};
+
+  @media ${({ theme }) => theme.sizes.small} {
+    width: 100%;
+  }
 `;
 
 const BoxIcon = styled(Image)`
@@ -82,6 +86,11 @@ const CartHeader = styled.div`
   padding: 0 24px;
   h3 {
     font-weight: 400;
+  }
+  @media ${({ theme }) => theme.sizes.small} {
+    h1 {
+     font-size: 2rem;
+    }
   }
 `;
 

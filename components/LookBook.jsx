@@ -17,6 +17,7 @@ const TitleDiv = styled.div`
   align-items: center;
   text-overflow: ellipsis;
   gap: 8px;
+  margin-top: 12px;
   h1, h2 {
     white-space: nowrap;
   }
@@ -59,7 +60,7 @@ const Gallery = styled.div`
   margin-top: 24px;
   display: flex;
   flex-wrap: wrap;
-  gap: 20px;
+  gap: 12px;
 `;
 
 const PhotoDiv = styled.div`

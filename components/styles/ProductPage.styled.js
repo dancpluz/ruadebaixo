@@ -23,10 +23,11 @@ export const TopDiv = styled.div`
 
 export const MiddleDiv = styled.div`
   grid-column: 2 / 3;
-  align-self: start;
   display: flex;
   flex-flow: column nowrap;
+  margin-top: -12px;
   gap: 12px;
+
   @media ${({ theme }) => theme.sizes.medium} {
     grid-column: 1;
     grid-row: 1;
@@ -63,7 +64,6 @@ export const ProductDiv = styled.div`
   
   grid-template-columns: 500px 1fr;
   grid-template-rows: 0.2fr 1fr;
-  grid-template-areas: "rightdiv1" "leftdiv" "rightdiv2";
   @media ${({ theme }) => theme.sizes.medium} {
     //grid-template-areas:"rightdiv1" "leftdiv" "rightdiv2";
     grid-template-columns: 1fr;
@@ -92,14 +92,21 @@ export const TitleDiv = styled.div`
   align-items: end;
   border-bottom: black solid 1px;
   gap: 12px;
+
+  h1:last-child {
+    font-weight: 400;
+  }
+
+  h4 {
+    text-decoration: line-through;
+    font-weight: 400;
+    text-align: right;
+  }
+
   @media ${({ theme }) => `${theme.sizes.medium},${theme.sizes.small}`} {
     h1 {
       font-size: 2rem;
     }
-  }
-
-  h1:last-child{
-    font-weight: 400; 
   }
 `;
 

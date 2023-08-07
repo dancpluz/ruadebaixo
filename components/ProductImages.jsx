@@ -66,7 +66,7 @@ export default function ProductImages({ tags,images, name }) {
     return (
     <ImagesDiv>
         <MainImage src={images[imageIndex]} alt={`Imagem-Principal-${name}`} height={400} width={400} />
-        <Tag tags={['asgas']} type={'top'} />
+        <Tag tags={tags} type={'top'} />
         <PreviewImagesWrapper>
           {images.map((image, n) => 
           <PreviewImage

@@ -14,12 +14,17 @@ export const TagDiv = styled.div`
 
   .MuiChip-root {
     font-family: 'Clash Display', sans-serif;
-    font-size: 2px;
     z-index: 2;
     background-color: ${({ theme }) => theme.colors.light};
     border: 1px solid ${({ theme }) => theme.colors.dark};
     cursor: pointer;
     transition: all .20s ease;
+    width: ${props => props.isSize ? '40px' : ''};
+    height: ${props => props.isSize ? '40px' : ''};
+    border-radius: ${props => props.isSize ? '50%' : ''};
+    span {
+      font-size: ${props => props.isSize ? '1.25rem' : ''};
+    }
     
     &:hover{
       background-color: ${({ theme }) => theme.colors.dark};

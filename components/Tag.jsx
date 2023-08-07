@@ -3,9 +3,9 @@ import Chip from '@mui/material/Chip';
 
 // Tipos: 'top' | 'bottom' | undefined
 
-export default function Tag({ tags, type }) {
+export default function Tag({ tags, type, isSize }) {
   return (
-    <TagDiv type={type}>
+    <TagDiv type={type} isSize={isSize}>
       {tags?.map((tag) =>
         <Chip
           key={'Categoria-'+ tag}

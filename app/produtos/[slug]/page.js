@@ -4,7 +4,7 @@ import Tag from '@/components/Tag';
 import ProductBuy from '@/components/ProductBuy';
 import ProductImages from '@/components/ProductImages';
 import ProductInfo from '@/components/ProductInfo';
-import useMediaQuery from '@mui/material/useMediaQuery';
+import OrderedBadge from '@/components/OrderedBadge';
 
 export async function generateMetadata({ params: { slug }}) {
   const product = await fetchMetadata(slug);
@@ -51,7 +51,7 @@ export default async function ProductPage({ params: { slug } }) {
   // }
 
   const product = await fetchProduct(slug);
-  const { name, images, type, quality, drop, tags, wears, price, size, details } = product;
+  const { name, images, type, quality, drop, tags, wears, price, size, ordered, discount, sold, details } = product;
 
   return (
     <Container>
@@ -60,16 +60,23 @@ export default async function ProductPage({ params: { slug } }) {
           <ProductImages tags={tags} images={images} name={slug} />
         </TopDiv>
         <MiddleDiv>
+          <OrderedBadge ordered={ordered} />
           <Tag tags={[quality, drop]} /> 
           <TitleDiv>
             <h1>{type} {name}</h1>
-            <h1>R${price}</h1>
+            {discount ? 
+              <div>
+                <h4>R${price}</h4>
+                <h1>R${price - discount}</h1>
+              </div>
+             : <h1>R${price}</h1>
+            }
           </TitleDiv>
         </MiddleDiv>
         <BottomDiv>
           <BulletDiv>
             <ul>
-              {[...details,'agad', 'asfas', 'asdf', '241', '532'].map((point) =>
+              {details.map((point) =>
               // set key as the first string of the point
               <Point key={point.split(" ")[0]}>{point}</Point>
               )}
@@ -81,12 +88,12 @@ export default async function ProductPage({ params: { slug } }) {
                 <h2>Tamanho</h2>
                 <span>Na etiqueta</span>
               </div>
-              <Tag tags={[size]} isSize={true} />
+              <Tag tags={[size]} isSize/>
               <div>
                 <h2>Veste</h2>
                 <span>Ver medidas</span>
               </div>
-              <Tag tags={[wears]} isSize={true} />
+              <Tag tags={[wears]} isSize/>
             </SizeDiv>
             <ProductBuy product={product} />
           </DetailsDiv>
