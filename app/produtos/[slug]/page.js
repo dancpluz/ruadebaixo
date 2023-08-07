@@ -1,4 +1,4 @@
-import { Container, ProductDiv, DetailsDiv, TitleDiv, SizeDiv, BulletDiv, BulletPoints, Point, BottomDiv, TopDiv, MiddleDiv } from '@/components/styles/ProductPage.styled.js';
+import { Container, ProductDiv, DetailsDiv, TitleDiv, SizeDiv, BulletDiv, Point, BottomDiv, TopDiv, MiddleDiv } from '@/components/styles/ProductPage.styled.js';
 import { fetchProduct, fetchMetadata } from '@/lib/api';
 import Tag from '@/components/Tag';
 import ProductBuy from '@/components/ProductBuy';
@@ -57,8 +57,7 @@ export default async function ProductPage({ params: { slug } }) {
     <Container>
       <ProductDiv>
         <TopDiv>
-          <Tag tags={['asgas']} type={'top'} />
-          <ProductImages images={images} name={slug} />
+          <ProductImages tags={tags} images={images} name={slug} />
         </TopDiv>
         <MiddleDiv>
           <Tag tags={[quality, drop]} /> 
@@ -69,26 +68,28 @@ export default async function ProductPage({ params: { slug } }) {
         </MiddleDiv>
         <BottomDiv>
           <BulletDiv>
-            <BulletPoints>
-              {[...details,'agad'].map((point) =>
+            <ul>
+              {[...details,'agad', 'asfas', 'asdf', '241', '532'].map((point) =>
               // set key as the first string of the point
               <Point key={point.split(" ")[0]}>{point}</Point>
               )}
-            </BulletPoints>
+            </ul>
           </BulletDiv>
-          <SizeDiv>
-            <div>
-              <h2>Tamanho</h2>
-              <span>Na etiqueta</span>
-            </div>
-            <Tag tags={[size]} isSize={true} />
-            <div>
-              <h2>Veste</h2>
-              <span>Ver medidas</span>
-            </div>
-            <Tag tags={[wears]} isSize={true} />
-          </SizeDiv>
-          <ProductBuy product={product} />
+          <DetailsDiv>
+            <SizeDiv>
+              <div>
+                <h2>Tamanho</h2>
+                <span>Na etiqueta</span>
+              </div>
+              <Tag tags={[size]} isSize={true} />
+              <div>
+                <h2>Veste</h2>
+                <span>Ver medidas</span>
+              </div>
+              <Tag tags={[wears]} isSize={true} />
+            </SizeDiv>
+            <ProductBuy product={product} />
+          </DetailsDiv>
         </BottomDiv>
       </ProductDiv>
       <ProductInfo />
@@ -96,8 +97,8 @@ export default async function ProductPage({ params: { slug } }) {
   )
 }
 
-function useFlexDirection() {
-  const isSmallScreen = useMediaQuery({ maxWidth: 767 }); // Adjust the value to your desired breakpoint
+// function useFlexDirection() {
+//   const isSmallScreen = useMediaQuery({ maxWidth: 767 }); // Adjust the value to your desired breakpoint
 
-  return isSmallScreen ? 'column-reverse' : 'column';
-}
+//   return isSmallScreen ? 'column-reverse' : 'column';
+// }

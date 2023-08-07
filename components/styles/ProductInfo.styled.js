@@ -16,23 +16,21 @@ export const Accordion = styled(MuiAccordion)`
   }
 `;
 export const AccordionSummary = styled(MuiAccordionSummary)`
-  border-bottom: ${({
-  theme
-}) => theme.colors.dark} solid 1px;
-  color: ${({
-  theme
-}) => theme.colors.dark};
+  border-bottom: ${({theme}) => theme.colors.dark} solid 1px;
+  color: ${({theme}) => theme.colors.dark};
   font-weight: 600;
   font-size: 1.5rem;
   padding: 0;
+  @media ${({ theme }) => theme.sizes.small} {
+    font-size: 1.25rem;
+  }
   .MuiAccordionSummary-expandIconWrapper.Mui-expanded {
     transform: rotate(45deg);
   }
+  
 `;
 export const AccordionDetails = styled(MuiAccordionDetails)`
-  background-color: ${({
-  theme
-}) => theme.colors.grey};
+  background-color: ${({theme}) => theme.colors.grey};
   padding: 20px;
   h4, ul {
     margin-bottom: 8px;

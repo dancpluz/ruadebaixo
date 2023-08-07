@@ -3,16 +3,32 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 import Image from 'next/image';
+import Tag from './Tag';
 
 const ImagesDiv = styled.div`
   display: flex;
+  position: relative;
+  min-height: 400px;
+  height: 100%;
+  justify-content: space-between;
+  @media ${({ theme }) => theme.sizes.small} {
+    flex-direction: column;
+  }
 `;
 
 const MainImage = styled(Image)`
   background-color: ${({ theme }) => theme.colors.grey};
-  width: 400px;
-  height: 400px;
   object-fit: contain;
+  @media ${({ theme }) => theme.sizes.medium} {
+    height: 100%;
+    aspect-ratio: 1;
+    max-height: 400px;
+    flex-grow: 1;
+  }
+
+  @media ${({ theme }) => theme.sizes.small} {
+    height: 100%;
+  }
 `;
 
 const PreviewImagesWrapper = styled.div`
@@ -22,6 +38,12 @@ const PreviewImagesWrapper = styled.div`
   flex-direction: column;
   gap: 11px;
   overflow: auto;
+  @media ${({ theme }) => theme.sizes.small} {
+    flex-direction: row;
+    height: 100px;
+    margin-left: 0;
+    margin-top: 10px;
+  }
 `;
 
 const PreviewImage = styled(Image)`
@@ -34,7 +56,7 @@ const PreviewImage = styled(Image)`
 `;
 
   
-export default function ProductImages({ images, name }) {
+export default function ProductImages({ tags,images, name }) {
     const [imageIndex,setImageIndex] = useState(0);
 
     function selectImage(index) {
@@ -44,6 +66,7 @@ export default function ProductImages({ images, name }) {
     return (
     <ImagesDiv>
         <MainImage src={images[imageIndex]} alt={`Imagem-Principal-${name}`} height={400} width={400} />
+        <Tag tags={['asgas']} type={'top'} />
         <PreviewImagesWrapper>
           {images.map((image, n) => 
           <PreviewImage

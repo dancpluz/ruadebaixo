@@ -9,8 +9,8 @@ const theme = {
     grey: '#F6F6F6;',
   },
   sizes: {
-    small: '(max-width: 600px)',
-    medium: '(max-width: 1300px)',
+    small: '(max-width: 700px)',
+    medium: '(max-width: 1344px)',
   }
 }
 

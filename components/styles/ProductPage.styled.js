@@ -5,16 +5,20 @@ import styled from 'styled-components';
 export const Container = styled.div`
   padding: 100px 200px;
   @media ${({ theme }) => theme.sizes.medium} {
-    padding: 100px 100px;
+    padding: 60px 100px;
   }
   @media ${({ theme }) => theme.sizes.small} {
-    padding: 100px 32px;
+    padding: 40px 32px;
   }
 `;
 
 export const TopDiv = styled.div`
   grid-column: 1 / 2;
   grid-row: 1 / 3;
+  @media ${({ theme }) => theme.sizes.medium} {
+    grid-column: 1;
+    grid-row: 2;
+  }
 `;
 
 export const MiddleDiv = styled.div`
@@ -23,6 +27,10 @@ export const MiddleDiv = styled.div`
   display: flex;
   flex-flow: column nowrap;
   gap: 12px;
+  @media ${({ theme }) => theme.sizes.medium} {
+    grid-column: 1;
+    grid-row: 1;
+  }
 `;
 
 export const BottomDiv = styled.div`
@@ -30,28 +38,38 @@ export const BottomDiv = styled.div`
   grid-row: 2 / 3;
   display: flex;
   flex-flow: column nowrap;
-  //max-height: 300px;
+  justify-content: space-between;
   align-self: stretch;
   gap: 12px;
-  height: 100%;
+  @media ${({ theme }) => theme.sizes.medium} {
+    grid-column: 1;
+    grid-row: 3;
+  }
 `;
 
 export const DetailsDiv = styled.div`
-  
+  display: flex;
+  flex-flow: column nowrap;
+  gap: 12px;
 `;
 
 export const ProductDiv = styled.div`
   position: relative;
   display: grid;
   height: 400px;
+  width: 100%;
   column-gap: 50px;
+  row-gap: 12px;
   
   grid-template-columns: 500px 1fr;
-  grid-template-rows: 1fr 1fr;
-  /* grid-template-rows: 1fr 1fr; */
-  /* @media ${({ theme }) => theme.sizes.medium} {
-    flex-direction: column;
-  } */
+  grid-template-rows: 0.2fr 1fr;
+  grid-template-areas: "rightdiv1" "leftdiv" "rightdiv2";
+  @media ${({ theme }) => theme.sizes.medium} {
+    //grid-template-areas:"rightdiv1" "leftdiv" "rightdiv2";
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    height: auto;
+  }
 `;
 
 // const StyledAlert = styled(Alert)`
@@ -74,7 +92,7 @@ export const TitleDiv = styled.div`
   align-items: end;
   border-bottom: black solid 1px;
   gap: 12px;
-  @media ${({ theme }) => theme.sizes.small} {
+  @media ${({ theme }) => `${theme.sizes.medium},${theme.sizes.small}`} {
     h1 {
       font-size: 2rem;
     }
@@ -94,7 +112,9 @@ export const SizeDiv = styled.div`
     margin-bottom: -4px;
   }
 
-  @media ${({ theme }) => theme.sizes.small} {
+  
+
+  @media ${({ theme }) => `${theme.sizes.medium},${theme.sizes.small}`} {
     h2 {
       font-size: 1.5rem;
     }
@@ -102,17 +122,12 @@ export const SizeDiv = styled.div`
 `;
 
 export const BulletDiv = styled.div`
-  //max-height: 200px;
+  max-height: 110px;
   overflow: auto;
 `;
 
-export const BulletPoints = styled.ul`
-  margin: 0;
-  padding: 0;
-`;
-
 export const Point = styled.li`
-  margin-bottom: 10px;
+  margin-bottom: 6px;
   font-size: 1.25rem;
   &:last-child{
     margin-bottom: 0;
