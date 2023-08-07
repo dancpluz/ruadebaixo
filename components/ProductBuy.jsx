@@ -1,10 +1,9 @@
 'use client'
 
-import AddIcon from '@/public/assets/icons/addcart.svg';
 import Image from 'next/image'
 import styled from 'styled-components';
 import { useStateContext } from '@/context/StateContext';
-import { sendDataToServer } from '@/lib/api';
+
 
 const BuyDiv = styled.div`
   display: flex;
@@ -29,7 +28,6 @@ const AddButton = styled.button`
   height: 60px;
   width: 60px;
   background-color: ${({ theme }) => theme.colors.light};
-  color: ${({ theme }) => theme.colors.dark};
   border: 1px solid ${({ theme }) => theme.colors.dark};
   cursor: pointer;
   align-items: center;
@@ -44,7 +42,25 @@ const AddButton = styled.button`
   }
 `;
 
-const Box = styled(Image)`
+const NegotiateButton = styled.button`
+  aspect-ratio: 1;
+  height: 60px;
+  width: 60px;
+  background-color: ${({ theme }) => theme.colors.light};
+  border: 1px solid ${({ theme }) => theme.colors.dark};
+  cursor: pointer;
+  align-items: center;
+  transition: all .10s;
+
+  &:hover{
+    img{
+      filter: invert(1);
+    }
+    background-color: ${({ theme }) => theme.colors.dark};
+  }
+`;
+
+const Icon = styled(Image)`
   width: 80%;
   height: 80%;
 `;
@@ -54,12 +70,14 @@ export default function ProductBuy({ product }) {
 
   return (
     <BuyDiv>
-      <BuyButton onClick={sendDataToServer}>Poggers</BuyButton>
       <BuyButton onClick={() => onAdd(product,true)}>
         COMPRAR
       </BuyButton>
+      <NegotiateButton onClick={() => ''}>
+        <Icon alt={'Ícone Negociar Preço'} src={'/assets/icons/moneyspeech.svg'} width={60} height={60} />
+      </NegotiateButton>
       <AddButton onClick={() => onAdd(product,false)}>
-        <Box alt={'Ícone Adicionar ao Carrinho'} src={AddIcon} />
+        <Icon alt={'Ícone Adicionar ao Carrinho'} src={'/assets/icons/addcart.svg'} width={60} height={60} />
       </AddButton>
     </BuyDiv>
   );

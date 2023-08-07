@@ -1,8 +1,10 @@
-import { Container, ProductDiv, DetailsDiv, TitleDiv, SizeDiv, BulletDiv, BulletPoints, Point } from '@/components/styles/ProductPage.styled.js';
+import { Container, ProductDiv, DetailsDiv, TitleDiv, SizeDiv, BulletDiv, BulletPoints, Point, BottomDiv, TopDiv, MiddleDiv } from '@/components/styles/ProductPage.styled.js';
 import { fetchProduct, fetchMetadata } from '@/lib/api';
 import Tag from '@/components/Tag';
 import ProductBuy from '@/components/ProductBuy';
 import ProductImages from '@/components/ProductImages';
+import ProductInfo from '@/components/ProductInfo';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 export async function generateMetadata({ params: { slug }}) {
   const product = await fetchMetadata(slug);
@@ -15,6 +17,7 @@ export async function generateMetadata({ params: { slug }}) {
     },
   }
 }
+
 
 export default async function ProductPage({ params: { slug } }) {
   
@@ -53,17 +56,21 @@ export default async function ProductPage({ params: { slug } }) {
   return (
     <Container>
       <ProductDiv>
-        <ProductImages images={images} name={slug} />
-        <DetailsDiv>
-          <Tag tags={tags} type={'top'} />
+        <TopDiv>
+          <Tag tags={['asgas']} type={'top'} />
+          <ProductImages images={images} name={slug} />
+        </TopDiv>
+        <MiddleDiv>
           <Tag tags={[quality, drop]} /> 
           <TitleDiv>
             <h1>{type} {name}</h1>
             <h1>R${price}</h1>
           </TitleDiv>
+        </MiddleDiv>
+        <BottomDiv>
           <BulletDiv>
             <BulletPoints>
-              {details.map((point) =>
+              {[...details,'agad'].map((point) =>
               // set key as the first string of the point
               <Point key={point.split(" ")[0]}>{point}</Point>
               )}
@@ -82,9 +89,15 @@ export default async function ProductPage({ params: { slug } }) {
             <Tag tags={[wears]} isSize={true} />
           </SizeDiv>
           <ProductBuy product={product} />
-        </DetailsDiv>
+        </BottomDiv>
       </ProductDiv>
-      {/* <Info /> */}
+      <ProductInfo />
     </Container>
   )
+}
+
+function useFlexDirection() {
+  const isSmallScreen = useMediaQuery({ maxWidth: 767 }); // Adjust the value to your desired breakpoint
+
+  return isSmallScreen ? 'column-reverse' : 'column';
 }

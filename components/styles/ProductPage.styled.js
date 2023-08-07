@@ -1,22 +1,57 @@
 'use client'
+
 import styled from 'styled-components';
-import Image from 'next/image';
 
 export const Container = styled.div`
-  padding: 100px 15vw;
+  padding: 100px 200px;
+  @media ${({ theme }) => theme.sizes.medium} {
+    padding: 100px 100px;
+  }
+  @media ${({ theme }) => theme.sizes.small} {
+    padding: 100px 32px;
+  }
 `;
 
-export const ProductDiv = styled.div`
+export const TopDiv = styled.div`
+  grid-column: 1 / 2;
+  grid-row: 1 / 3;
+`;
+
+export const MiddleDiv = styled.div`
+  grid-column: 2 / 3;
+  align-self: start;
   display: flex;
-  gap: 50px;
-  position: relative;
+  flex-flow: column nowrap;
+  gap: 12px;
+`;
+
+export const BottomDiv = styled.div`
+  grid-column: 2 / 3;
+  grid-row: 2 / 3;
+  display: flex;
+  flex-flow: column nowrap;
+  //max-height: 300px;
+  align-self: stretch;
+  gap: 12px;
+  height: 100%;
 `;
 
 export const DetailsDiv = styled.div`
-  display: flex;
-  flex-flow: column nowrap;
-  gap: 15px;
-  width: 100%;
+  
+`;
+
+export const ProductDiv = styled.div`
+  position: relative;
+  display: grid;
+  height: 400px;
+  column-gap: 50px;
+  
+  grid-template-columns: 500px 1fr;
+  grid-template-rows: 1fr 1fr;
+  /* grid-template-rows: 1fr 1fr; */
+  /* @media ${({ theme }) => theme.sizes.medium} {
+    flex-direction: column;
+  } */
 `;
 
 // const StyledAlert = styled(Alert)`
@@ -38,14 +73,15 @@ export const TitleDiv = styled.div`
   justify-content: space-between;
   align-items: end;
   border-bottom: black solid 1px;
+  gap: 12px;
+  @media ${({ theme }) => theme.sizes.small} {
+    h1 {
+      font-size: 2rem;
+    }
+  }
+
   h1:last-child{
     font-weight: 400; 
-  }
-`;
-
-export const Description = styled.div`
-  p {
-    font-size: 18px;
   }
 `;
 
@@ -53,22 +89,26 @@ export const SizeDiv = styled.div`
   display: flex;
   flex-flow: row nowrap;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
   h2 {
     margin-bottom: -4px;
+  }
+
+  @media ${({ theme }) => theme.sizes.small} {
+    h2 {
+      font-size: 1.5rem;
+    }
   }
 `;
 
 export const BulletDiv = styled.div`
-  max-height: 200px;
+  //max-height: 200px;
   overflow: auto;
 `;
 
 export const BulletPoints = styled.ul`
   margin: 0;
   padding: 0;
-  list-style-position: inside;
-  
 `;
 
 export const Point = styled.li`

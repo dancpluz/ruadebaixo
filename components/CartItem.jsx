@@ -73,7 +73,7 @@ export default function CartItem({lastRemoved, product, product: { images,type,n
   if (!lastRemoved) {
     return (
       <ItemDiv>
-        <RemoveIcon src={plusIcon} alt={"Ícone de Remover"} onClick={() => onRemove(product)} />
+        <RemoveIcon src={plusIcon} alt={"X"} onClick={() => onRemove(product)} />
         <ProductImage src={images[0]} alt={`Produto-${name}`} width={300} height={400}/>
         <TextDiv>
           <p>{type}</p>
@@ -94,7 +94,7 @@ export default function CartItem({lastRemoved, product, product: { images,type,n
   } else {
     return (
       <ItemDiv>
-        <RemoveIcon src={plusIcon} onClick={() => setLastRemovedItem(null)} />
+        <RemoveIcon src={plusIcon} alt={"X"} onClick={() => setLastRemovedItem(null)} />
         <DisabledImage src={images[0]} alt={`Produto-Removido-${name}`} width={300} height={400} />
         <TextDiv>
           <p>Item Removido</p>

@@ -7,8 +7,13 @@ const theme = {
     light: '#FFF',
     dark: '#000',
     grey: '#F6F6F6;',
+  },
+  sizes: {
+    small: '(max-width: 600px)',
+    medium: '(max-width: 1300px)',
   }
 }
+
 
 const GlobalStyle = createGlobalStyle`
   * {
@@ -53,6 +58,9 @@ const GlobalStyle = createGlobalStyle`
   }
   hr {
     border: 1px solid ${({ theme }) => theme.colors.dark};
+  }
+  ul {
+    list-style-position: inside;
   }
 `
 
