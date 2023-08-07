@@ -4,10 +4,9 @@ import styled from 'styled-components';
 import TextField from '@mui/material/TextField';
 import Image from 'next/image';
 import searchIcon from '@/public/assets/icons/search.svg'
-import plusIcon from '@/public/assets/icons/plus.svg'
 import { productTypes, productTags, productQualities } from '@/sanity/schemas/product';
 //import RemovableTag from './TagRemovable';
-import { Accordion, AccordionSummary, AccordionDetails } from './styles/ProductInfo.styled'; 
+import Accordion from './Accordion';
 import { useStateContext } from '@/context/StateContext';
 
 const Container = styled.div`
@@ -26,7 +25,7 @@ const SearchField = styled(TextField)`
   flex-grow: 1;
   .MuiInputBase-input {
     font-family: 'Clash Display', sans-serif;
-    color: black;
+    color: ${({ theme }) => theme.colors.dark};
   }
 `;
 
@@ -37,7 +36,7 @@ const SearchIcon = styled(Image)`
 `;
 
 const FilterText = styled.p`
-  color: black;
+  color: ${({ theme }) => theme.colors.dark};
   font-size: 18px;
   text-decoration: ${props => props.selected ? 'none' : 'underline'};
   cursor: ${props => props.selected ? 'default' : 'pointer'};;
@@ -67,47 +66,35 @@ export default function FilterBar() {
         <SearchField variant="standard" />
         <SearchIcon src={searchIcon} />
       </SearchDiv>
-      <Accordion>
-        <AccordionSummary expandIcon={<Plus alt='plus' src={plusIcon} />}>Tipo</AccordionSummary>
-        <AccordionDetails>
-          <FilterDiv>
-            {productTypes.list.map((item) => (
-              <FilterText key={item.value} selected={selectedTags.includes(item.title)} onClick={() => handleSelectFilter(item.title)}>{item.title}</FilterText>
-            ))}
-          </FilterDiv>
-        </AccordionDetails>
+      <Accordion title={'Tipo'}>
+        <FilterDiv>
+          {productTypes.map((item) => (
+            <FilterText key={item.value} selected={selectedTags.includes(item.value)} onClick={() => handleSelectFilter(item.value)}>{item.value}</FilterText>
+          ))}
+        </FilterDiv>
       </Accordion>
-      <Accordion>
-        <AccordionSummary expandIcon={<Plus alt='plus' src={plusIcon} />}>Categoria</AccordionSummary>
-        <AccordionDetails>
-          <FilterDiv>
-            {productTags.list.map((item) => (
-              <FilterText key={item.value} selected={selectedTags.includes(item.title)} onClick={() => handleSelectFilter(item.title)}>{item.title}</FilterText>
-            ))}
-          </FilterDiv>
-        </AccordionDetails>
+      <Accordion title={'Categoria'}>
+        <FilterDiv>
+          {productTags.map((item) => (
+            <FilterText key={item.value} selected={selectedTags.includes(item.value)} onClick={() => handleSelectFilter(item.value)}>{item.value}</FilterText>
+          ))}
+        </FilterDiv>
       </Accordion>
-      <Accordion>
-        <AccordionSummary expandIcon={<Plus alt='plus' src={plusIcon} />}>Qualidade</AccordionSummary>
-        <AccordionDetails>
-          <FilterDiv>
-            {productQualities.list.map((item) => (
-              <FilterText key={item.value} selected={selectedTags.includes(item.title)} onClick={() => handleSelectFilter(item.title)}>{item.title}</FilterText>
-            ))}
-          </FilterDiv>
-        </AccordionDetails>
+      <Accordion title={'Qualidade'}>
+        <FilterDiv>
+          {productQualities.map((item) => (
+            <FilterText key={item.value} selected={selectedTags.includes(item.value)} onClick={() => handleSelectFilter(item.value)}>{item.value}</FilterText>
+          ))}
+        </FilterDiv>
       </Accordion>
-      <Accordion>
-        <AccordionSummary expandIcon={<Plus alt='plus' src={plusIcon} />}>Preço</AccordionSummary>
-        <AccordionDetails>
-          <FilterDiv>
-            {
-              // Input de numero para preço
-            }
-          </FilterDiv>
-        </AccordionDetails>
+      <Accordion title={'Preço'}>
+        <FilterDiv>
+          {
+            // Input de numero para preço
+          }
+        </FilterDiv>
       </Accordion>
-      <RemovableTag tags={selectedTags} ></RemovableTag>
+      {/* <RemovableTag tags={selectedTags} ></RemovableTag> */}
     </Container>
   )
 }
