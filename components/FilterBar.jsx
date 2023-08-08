@@ -5,7 +5,7 @@ import TextField from '@mui/material/TextField';
 import Image from 'next/image';
 import searchIcon from '@/public/assets/icons/search.svg'
 import { productTypes, productTags, productQualities } from '@/sanity/schemas/product';
-//import RemovableTag from './TagRemovable';
+import TagRemovable from './TagRemovable';
 import Accordion from './Accordion';
 import { useStateContext } from '@/context/StateContext';
 
@@ -94,7 +94,7 @@ export default function FilterBar() {
           }
         </FilterDiv>
       </Accordion>
-      {/* <RemovableTag tags={selectedTags} ></RemovableTag> */}
+      <TagRemovable />
     </Container>
   )
 }
