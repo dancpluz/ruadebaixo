@@ -3,13 +3,13 @@
 import styled from 'styled-components';
 import FilterBar from '@/components/FilterBar'
 
-export const metadata = {
-  title: 'Produtos',
-  description: 'Produtos da Rua de Baixo',
-  openGraph: {
-    description: 'Encontre suas peças ideias na Rua de Baixo',
-  },
-}
+// export const metadata = {
+//   title: 'Produtos',
+//   description: 'Produtos da Rua de Baixo',
+//   openGraph: {
+//     description: 'Encontre suas peças ideias na Rua de Baixo',
+//   },
+// }
 
 const Container = styled.div`
   padding: 20px 70px;

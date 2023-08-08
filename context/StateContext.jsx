@@ -33,7 +33,7 @@ export const StateContext = ({ children }) => {
   const router = useRouter();
 
   const onAdd = (product,show) => {
-    const checkProductInCart = cartItems.find((item) => item._id === product._id);
+    const checkProductInCart = cartItems.find((item) => item.slug === product.slug);
 
     if (!checkProductInCart) {
       setTotalDiscount(totalDiscount + product.discount);

@@ -36,7 +36,7 @@ export default function TagRemovable() {
         <StyledChip
           key={tag}
           label={tag}
-          deleteIcon={<RemoveIcon src={plusIcon} />}
+          deleteIcon={<RemoveIcon alt={'X'} src={plusIcon} />}
           onDelete={() => handleDelete(tag)} />
       )}
     </TagDiv>

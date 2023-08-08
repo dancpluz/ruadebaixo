@@ -64,7 +64,7 @@ export default function FilterBar() {
     <Container>
       <SearchDiv> 
         <SearchField variant="standard" />
-        <SearchIcon src={searchIcon} />
+        <SearchIcon src={searchIcon} alt={'Procurar'} />
       </SearchDiv>
       <Accordion title={'Tipo'}>
         <FilterDiv>
@@ -87,13 +87,13 @@ export default function FilterBar() {
           ))}
         </FilterDiv>
       </Accordion>
-      <Accordion title={'Preço'}>
+      {/* <Accordion title={'Preço'}>
         <FilterDiv>
           {
             // Input de numero para preço
           }
         </FilterDiv>
-      </Accordion>
+      </Accordion> */}
       <TagRemovable />
     </Container>
   )
