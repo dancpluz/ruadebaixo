@@ -47,11 +47,11 @@ const PreviewImagesWrapper = styled.div`
 `;
 
 const PreviewImage = styled(Image)`
-  width: 92px;
-  height: 92px;
+  width: 90px;
+  height: 90px;
   object-fit: contain;
   background-color: ${({ theme }) => theme.colors.grey};
-  border: ${({ theme }) => theme.colors.dark} solid ${props => props.selected ? 1 : 0}px;
+  box-shadow: inset 0 0 0 ${props => props.selected ? '1px' : '0'} ${({ theme }) => theme.colors.dark};
   box-sizing: border-box;
 `;
 
@@ -74,8 +74,8 @@ export default function ProductImages({ tags,images, name }) {
             selected={imageIndex == n}
             alt={`Imagem-${name}-${n}`}
             key={`Imagem-${name}-${n}`}
-            height={600}
-            width={800}
+            height={92}
+            width={92}
             src={image}
           />
           )}

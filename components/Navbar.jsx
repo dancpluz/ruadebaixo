@@ -12,16 +12,24 @@ const NavLink = styled(Link)`
   }
 `;
 
-const StyledNav = styled.nav`
+export const StyledNav = styled.nav`
   display: flex;
-  gap: 4vw;
+  gap: 36px;
+  @media ${({ theme }) => theme.sizes.small} {
+    width: 100%;
+    margin: 0 32px;
+    justify-content: space-between;
+    p {
+      font-size: .85rem;
+    }
+  }
 `;
 
 export default function Navbar() {
   return (
       <StyledNav>
-        <NavLink href=''>
-          <p>Sobre</p>
+        <NavLink href={'/'}>
+          <p>Home</p>
         </NavLink>
         <NavLink href={'/produtos'}>
           <p>Produtos</p>
