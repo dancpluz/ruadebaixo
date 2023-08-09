@@ -1,4 +1,4 @@
-import { Video,Icon,IconDiv,StyledLink,Logo,Wrapper,Container } from './Links.styled';
+import { Video,Icon,IconDiv,StyledLink,Logo,Wrapper,Container } from '@/components/styles/LinksPage.styled';
 import logo from '@/public/assets/logonew.svg';
 import rdb from '@/public/assets/icons/logordb.svg';
 import instagram from '@/public/assets/icons/instagram.svg';

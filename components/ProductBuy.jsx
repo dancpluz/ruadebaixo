@@ -69,9 +69,15 @@ export default function ProductBuy({ product }) {
 
   return (
     <BuyDiv>
+      { product.sold ? 
+      <BuyButton>
+        VENDIDO
+      </BuyButton>
+       :
       <BuyButton onClick={() => onAdd(product,true)}>
         COMPRAR
       </BuyButton>
+      }
       <NegotiateButton onClick={() => ''}>
         <Icon alt={'Ícone Negociar Preço'} src={'/assets/icons/moneyspeech.svg'} width={60} height={60} />
       </NegotiateButton>

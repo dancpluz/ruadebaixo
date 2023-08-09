@@ -9,7 +9,7 @@ export const metadata = {
 }
 
 export default function LookBookPage() {
-  return (
-    <LookBook />
+  return (<>WIP</>
+    // <LookBook />
   )
 };

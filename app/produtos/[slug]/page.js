@@ -1,4 +1,4 @@
-import { Container, ProductDiv, DetailsDiv, TitleDiv, SizeDiv, BulletDiv, Point, BottomDiv, TopDiv, MiddleDiv } from '@/components/styles/ProductPage.styled.js';
+import { Container, ProductDiv, DetailsDiv, TitleDiv, SizeDiv, BulletDiv, Point, BottomDiv, TopDiv, MiddleDiv, OrderedBadgeDiv } from '@/components/styles/ProductPage.styled.js';
 import { fetchProduct, fetchMetadata } from '@/lib/api';
 import Tag from '@/components/Tag';
 import ProductBuy from '@/components/ProductBuy';
@@ -24,11 +24,10 @@ export default async function ProductPage({ params: { slug } }) {
   // async function sendObjectToZap() {
   //   // WIP
   //   const clienteRDB = {
-  //     firstName: "Caiok",
-  //     lastName: 'Poggers',
+  //     name: 'Poggers',
   //     id: "2023-03-02_1454",// biblioteca pra pegar data e hora
-  //     email: "caioquinha123@gmail.com",
   //     phone: "5561998118398",
+  //     email: "caioquinha123@gmail.com",
   //     insta: "caiok",
   //     delivery: "na mao",
   //     payment: "PIX",
@@ -60,7 +59,7 @@ export default async function ProductPage({ params: { slug } }) {
           <ProductImages tags={tags} images={images} name={slug} />
         </TopDiv>
         <MiddleDiv>
-          <OrderedBadge ordered={ordered} />
+          {ordered && <OrderedBadge />}
           <Tag tags={[quality, drop]} /> 
           <TitleDiv>
             <h1>{type} {name}</h1>

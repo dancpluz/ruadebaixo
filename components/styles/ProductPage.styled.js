@@ -25,7 +25,6 @@ export const MiddleDiv = styled.div`
   grid-column: 2 / 3;
   display: flex;
   flex-flow: column nowrap;
-  margin-top: -12px;
   gap: 12px;
 
   @media ${({ theme }) => theme.sizes.medium} {
@@ -139,4 +138,10 @@ export const Point = styled.li`
   &:last-child{
     margin-bottom: 0;
   }
+`;
+
+export const OrderedBadgeDiv = styled.div`
+  position: absolute;
+  top: 0;
+  right: 0;
 `;

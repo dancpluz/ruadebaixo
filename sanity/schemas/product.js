@@ -37,6 +37,20 @@ const product = {
     type: 'document',
     fields: [
         {
+            name: 'id',
+            title: 'ID',
+            description: 'Código do produto, de acordo com a planilha',
+            type: 'string',
+            // make a validation rule that the id needs to be only numeric characters
+            
+            validation: Rule => Rule.custom((value,context) => {
+                if (!/^\d+$/.test(value)) {
+                    return 'ID deve ter caracteres númericos';
+                }
+                return true;
+            }).required().min(3).max(3)
+        },
+        {
             name: 'images',
             title: 'Imagem (Sempre 3:4)',
             description: 'Primeira Imagem: frente com transparência, Segunda Imagem: trás com transparência, Última Imagem: Artística',
@@ -147,9 +161,9 @@ const product = {
         {
             name: 'ordered',
             title: 'Pedido',
-            description: 'Define quantos pessoas pediram',
-            type: 'number',
-            initialValue: 0
+            description: 'Define se o produto foi pedido ou não (Será marcado automaticamente)',
+            type: 'boolean',
+            initialValue: false
         },
         {
             name: 'sold',
