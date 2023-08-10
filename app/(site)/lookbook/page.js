@@ -1,4 +1,5 @@
 import LookBook from '@/components/LookBook';
+import { fetchLookBook } from '@/lib/api';
 
 export const metadata = {
   title: 'LookBook',
@@ -8,7 +9,10 @@ export const metadata = {
   },
 }
 
-export default function LookBookPage() {
+export default async function LookBookPage() {
+  const lookbookDate = '2023-08-11'
+  const photos = await fetchLookBook(lookbookDate);
+
   return (<>WIP</>
     // <LookBook />
   )

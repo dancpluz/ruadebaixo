@@ -1,29 +1,4 @@
-import Link from 'next/link';
-import styled from 'styled-components';
-
-const NavLink = styled(Link)`
-  text-decoration: none;
-  text-align: center;
-  p {
-    color: ${({ theme }) => theme.colors.light};
-    &:hover {
-      text-decoration: underline;
-    }
-  }
-`;
-
-export const StyledNav = styled.nav`
-  display: flex;
-  gap: 36px;
-  @media ${({ theme }) => theme.sizes.small} {
-    width: 100%;
-    margin: 0 32px;
-    justify-content: space-between;
-    p {
-      font-size: .85rem;
-    }
-  }
-`;
+import { StyledNav,NavLink } from './styles/Navbar.styled';
 
 export default function Navbar() {
   return (

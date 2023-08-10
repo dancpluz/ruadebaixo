@@ -1,6 +1,6 @@
 'use client'
 
-import Navbar, { StyledNav } from './Navbar';
+import Navbar from './Navbar';
 import hamburgerIcon from '@/public/assets/icons/hamburger.svg';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -30,9 +30,6 @@ const Wrapper = styled.div`
 
   @media ${({ theme }) => theme.sizes.small} {
     padding: 0 32px;
-    ${StyledNav} {
-      display: none;
-    }
   }
 `;
 
@@ -70,6 +67,12 @@ const HamburgerIcon = styled(Image)`
   cursor: pointer;
 `;
 
+const NavBarDiv = styled.div`
+  @media ${({ theme }) => theme.sizes.small} {
+    display: none;
+  }
+`;
+
 const MobileNavbar = styled.div`
   display: none;
   justify-content: center;
@@ -96,12 +99,13 @@ export default function Header() {
         <LogoContainer href='/'>
           <Logo src={logoRDB} alt='RDB Logo' />
         </LogoContainer>
-        <Navbar />
+        <NavBarDiv>
+          <Navbar />
+        </NavBarDiv>
         <ButtonContainer>
           <CartButton onClick={() => setShowCart(true)} />
           {showCart && < Cart />}
         </ButtonContainer>
-        
       </Wrapper>
       {showNavbar && 
         <MobileNavbar>

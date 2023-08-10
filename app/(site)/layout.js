@@ -22,10 +22,10 @@ export const metadata = {
     url: 'https://www.ruadebaixo.com.br/',
     type: 'website',
     locale: 'pt_BR',
-    images: 'assets/og.png'
+    images: '/assets/og.png'
   },
   icons: {
-    icon: 'assets/favicon.ico',
+    icon: '/favicon.ico',
   },
   themeColor: 'black',
 }

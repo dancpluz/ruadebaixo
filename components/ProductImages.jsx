@@ -27,7 +27,7 @@ const MainImage = styled(Image)`
   }
 
   @media ${({ theme }) => theme.sizes.small} {
-    height: 100%;
+    width: 100%
   }
 `;
 
@@ -40,7 +40,7 @@ const PreviewImagesWrapper = styled.div`
   overflow: auto;
   @media ${({ theme }) => theme.sizes.small} {
     flex-direction: row;
-    height: 100px;
+    max-height: 100px;
     margin-left: 0;
     margin-top: 10px;
   }

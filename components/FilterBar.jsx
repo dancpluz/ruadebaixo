@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import TextField from '@mui/material/TextField';
 import Image from 'next/image';
 import searchIcon from '@/public/assets/icons/search.svg'
-import { productTypes, productTags, productQualities } from '@/sanity/schemas/product';
+import { productTypes,productTags,productQualities,productDrops } from '@/sanity/schemas/product';
 import TagRemovable from './TagRemovable';
 import Accordion from './Accordion';
 import { useStateContext } from '@/context/StateContext';
@@ -83,6 +83,13 @@ export default function FilterBar() {
       <Accordion title={'Qualidade'}>
         <FilterDiv>
           {productQualities.map((item) => (
+            <FilterText key={item.value} selected={selectedTags.includes(item.value)} onClick={() => handleSelectFilter(item.value)}>{item.value}</FilterText>
+          ))}
+        </FilterDiv>
+      </Accordion>
+      <Accordion title={'Drop'}>
+        <FilterDiv>
+          {productDrops.map((item) => (
             <FilterText key={item.value} selected={selectedTags.includes(item.value)} onClick={() => handleSelectFilter(item.value)}>{item.value}</FilterText>
           ))}
         </FilterDiv>

@@ -117,6 +117,11 @@ export const SizeDiv = styled.div`
   p {
     text-decoration: underline;
   }
+  @media ${({ theme }) => theme.sizes.small} {
+    h2 {
+      font-size: 1.75rem;
+    }
+  }
 `;
 
 export const SizeWrapper = styled.div`
@@ -131,10 +136,6 @@ export const SizeWrapper = styled.div`
     }
   }
 `;
-
-  
-
-  
 
 export const BulletDiv = styled.div`
   max-height: 110px;
