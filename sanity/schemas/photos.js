@@ -1,11 +1,17 @@
-const lookbook = {
-  name: 'lookbook',
-  title: 'Lookbook',
+const photos = {
+  name: 'photos',
+  title: 'Fotos',
   type: 'document',
   fields: [
     {
+      name: 'name',
+      title: 'Nome da Coleção/Drop',
+      type: 'string',
+      validation: Rule => Rule.required()
+    },
+    {
       name: 'date',
-      title: 'Data de lançamento do Lookbook',
+      title: 'Data',
       description: 'Formato "DD/MM/YYYY"',
       type: 'date',
       options: {
@@ -26,4 +32,4 @@ const lookbook = {
   ]
 }
 
-export default lookbook;
+export default photos;

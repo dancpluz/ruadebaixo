@@ -1,7 +1,8 @@
-import banner from './schemas/banner'
-import product from './schemas/product'
-import lookbook from './schemas/lookbook'
+import banner from './schemas/banner';
+import product from './schemas/product';
+import photos from './schemas/photos';
+import lookbook from './schemas/lookbook';
 
 export const schema = {
-  types: [banner,product,lookbook],
+  types: [banner,product,photos,lookbook],
 }

@@ -1,4 +1,4 @@
-import { Container, ProductDiv, DetailsDiv, TitleDiv, SizeDiv, BulletDiv, Point, BottomDiv, TopDiv, MiddleDiv, OrderedBadgeDiv } from '@/components/styles/ProductPage.styled.js';
+import { Container, ProductDiv, DetailsDiv, TitleDiv, SizeDiv, BulletDiv, Point, BottomDiv, TopDiv, MiddleDiv, SizeWrapper, OrderedBadgeDiv } from '@/components/styles/ProductPage.styled.js';
 import { fetchProduct, fetchMetadata } from '@/lib/api';
 import Tag from '@/components/Tag';
 import ProductBuy from '@/components/ProductBuy';
@@ -19,7 +19,7 @@ export async function generateMetadata({ params: { slug }}) {
 }
 
 
-export default async function ProductPage({ params: { slug } }) {
+export default async function ProdutoPage({ params: { slug } }) {
   
   // async function sendObjectToZap() {
   //   // WIP
@@ -50,7 +50,7 @@ export default async function ProductPage({ params: { slug } }) {
   // }
 
   const product = await fetchProduct(slug);
-  const { name, images, type, quality, drop, tags, wears, price, size, ordered, discount, sold, details } = product;
+  const { name, images, type, quality, drop, tags, measures, price, size, ordered, discount, sold, details } = product;
 
   return (
     <Container>
@@ -83,16 +83,14 @@ export default async function ProductPage({ params: { slug } }) {
           </BulletDiv>
           <DetailsDiv>
             <SizeDiv>
-              <div>
-                <h2>Tamanho</h2>
-                <span>Na etiqueta</span>
-              </div>
-              <Tag tags={[size]} isSize/>
-              <div>
-                <h2>Veste</h2>
-                <span>Ver medidas</span>
-              </div>
-              <Tag tags={[wears]} isSize/>
+              <SizeWrapper>
+                <div>
+                  <h2>Tamanho</h2>
+                  <span>Na etiqueta</span>
+                </div>
+                <Tag tags={[size]} isSize/>
+              </SizeWrapper>
+              <p>Ver medidas</p>
             </SizeDiv>
             <ProductBuy product={product} />
           </DetailsDiv>

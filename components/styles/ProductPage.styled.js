@@ -112,20 +112,29 @@ export const TitleDiv = styled.div`
 export const SizeDiv = styled.div`
   display: flex;
   flex-flow: row nowrap;
+  justify-content: space-between;
   align-items: center;
-  gap: 12px;
-  h2 {
-    margin-bottom: -4px;
+  p {
+    text-decoration: underline;
   }
+`;
 
-  
-
-  @media ${({ theme }) => `${theme.sizes.medium},${theme.sizes.small}`} {
+export const SizeWrapper = styled.div`
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  div {
+    display: flex;
+    flex-flow: column nowrap;
     h2 {
-      font-size: 1.5rem;
+    margin-bottom: -4px;
     }
   }
 `;
+
+  
+
+  
 
 export const BulletDiv = styled.div`
   max-height: 110px;

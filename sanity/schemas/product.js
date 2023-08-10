@@ -138,11 +138,26 @@ const product = {
             validation: Rule => Rule.required().uppercase().error('Somente letras em maíusculo')
         },
         {
-            name: 'wears',
-            title: 'Veste',
-            description: 'Tamanho da peça de acordo com nossa tabela',
-            type: 'string',
-            validation: Rule => Rule.required().uppercase().error('Somente letras em maíusculo')
+            name: 'measures',
+            title: 'Medidas',
+            description: 'Medida da peça em centímetros',
+            type: 'object',
+            fields: [
+                {
+                    name: 'length',
+                    title: 'Largura',
+                    type: 'number',
+                    description: 'Largura da peça em centímetros',
+                    validation: Rule => Rule.required().min(0)
+                },
+                {
+                    name: 'height',
+                    title: 'Altura',
+                    type: 'number',
+                    description: 'Altura da peça em centímetros',
+                    validation: Rule => Rule.required().min(0)
+                }
+            ],
         },
         {
             name: 'price',

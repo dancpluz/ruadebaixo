@@ -5,7 +5,7 @@ import Footer from '@/components/Footer';
 import StyledComponentsRegistry from '@/lib/registry';
 import GlobalStyles from '@/components/styles/GlobalStyles.styled';
 
-const clash = localFont({ src: '../public/assets/fonts/ClashDisplay-Variable.ttf' })
+const clash = localFont({ src: '../../public/assets/fonts/ClashDisplay-Variable.ttf' })
 
 export const metadata = {
   title: {

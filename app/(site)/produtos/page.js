@@ -9,7 +9,7 @@ export const metadata = {
   },
 }
 
-export default function Produtos() {
+export default function ProdutosPage() {
   return (
     <Container>
       <h1>Catálogo</h1>

@@ -14,7 +14,7 @@ export const metadata = {
   },
 }
 
-export default function Links() {
+export default function LinksPage() {
   return (
     <Container>
       <Wrapper>
