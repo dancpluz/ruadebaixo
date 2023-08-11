@@ -9,10 +9,10 @@ export const metadata = {
   title: {
     absolute: 'Rua de Baixo | 14/08/2023',
   },
-  description: 'Lookbook lançamento Rua de Baixo | 14/08/2023',
+  description: 'Lookbook Lançamento Rua de Baixo | 14/08/2023',
   openGraph: {
     title: 'Rua de Baixo',
-    description: 'Lookbook lançamento Rua de Baixo | 14/08/2023',
+    description: 'Lançamento Lookbook Rua de Baixo | 14/08/2023',
     siteName: 'Rua de Baixo',
     url: 'https://www.ruadebaixo.com.br/',
     type: 'website',
