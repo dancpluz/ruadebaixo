@@ -14,12 +14,18 @@ const Container = styled.div`
 `;
 
 const StyledImage = styled(Image)`
+  position: ${({ show }) => show ? 'relative' : 'absolute'};
   width: 100%;
   height: auto;
   object-fit: contain;
   max-width: 800px;
   max-height: 600px;
-  transition: opacity 0.3s ease-in-out;
+  //transition: opacity 0.3s ease-in;
+  opacity: ${({ show }) => show ? 1 : 0};
+`;
+
+const ImagesDiv = styled.div`
+  position: relative;
 `;
 
 const HeaderDiv = styled.div`
@@ -78,13 +84,23 @@ export default function Lookbook({ images, date }) {
   const [imageIndex, setImageIndex] = useState(0);
   const length = images.length;
 
+  function nextIndex() {
+    return imageIndex === length - 1 ? 0 : imageIndex + 1;
+  }
+
+  function prevIndex() {
+    return imageIndex === 0 ? length - 1 : imageIndex - 1;
+  }
+
   const NextImage = () => {
-    setImageIndex(imageIndex === length - 1 ? 0 : imageIndex + 1);
+    setImageIndex(nextIndex());
   };
 
   const PrevImage = () => {
-    setImageIndex(imageIndex === 0 ? length - 1 : imageIndex - 1);
+    setImageIndex(prevIndex());
   };
+
+  
 
   return (
     <Container>
@@ -94,6 +110,31 @@ export default function Lookbook({ images, date }) {
           <p>Valendo uma Coca</p>
           <p>{formatDate(date)}</p>
         </HeaderDiv>
+        <ImagesDiv>
+          {images.map((image, i) => (
+            
+              <StyledImage
+                key={i}
+                src={image.url}
+                alt={`Lookbook-IMG-${i}`}
+                width={image.width}
+                height={image.height}
+                placeholder={'blur'}
+                blurDataURL={image.blur}
+                show={i === imageIndex}
+              />
+          ))  
+          }
+        </ImagesDiv>
+        {/* <StyledImage
+          key={imageIndex}
+          src={images[imageIndex].url}
+          alt={`Lookbook-IMG-${imageIndex}`}
+          width={images[imageIndex].width}
+          height={images[imageIndex].height}
+          placeholder={'blur'}
+          blurDataURL={images[imageIndex].blur}
+        />
         <StyledImage
           key={imageIndex}
           src={images[imageIndex].url}
@@ -102,10 +143,21 @@ export default function Lookbook({ images, date }) {
           height={images[imageIndex].height}
           placeholder={'blur'}
           blurDataURL={images[imageIndex].blur}
-           />
+         />
+        <StyledImage
+          key={imageIndex}
+          src={images[imageIndex].url}
+          alt={`Lookbook-IMG-${imageIndex}`}
+          width={images[imageIndex].width}
+          height={images[imageIndex].height}
+          placeholder={'blur'}
+          blurDataURL={images[imageIndex].blur}
+        /> */}
       </div>
+
       <span>Produtos disponíveis dia 14/08/2023</span>
       <ChevronDiv>
+        
         <ChevronLeft onClick={PrevImage} src={'/assets/chevron.svg'} alt={'Anterior'} width={42} height={42} />
         <ChevronRight onClick={NextImage} src={'/assets/chevron.svg'} alt={'Próximo'} width={42} height={42} />
       </ChevronDiv>
