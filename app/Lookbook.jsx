@@ -79,20 +79,12 @@ export default function Lookbook({ images, date }) {
   const length = images.length;
 
   const NextImage = () => {
-    setImageIndex(nextIndex());
+    setImageIndex(imageIndex === length - 1 ? 0 : imageIndex + 1);
   };
 
   const PrevImage = () => {
-    setImageIndex(prevIndex());
+    setImageIndex(imageIndex === 0 ? length - 1 : imageIndex - 1);
   };
-
-  const nextIndex = () => {
-    return imageIndex === length - 1 ? 0 : imageIndex + 1;
-  }
-
-  const prevIndex = () => {
-    return imageIndex === length - 1 ? 0 : imageIndex - 1;
-  }
 
   return (
     <Container>
@@ -110,8 +102,7 @@ export default function Lookbook({ images, date }) {
           height={images[imageIndex].height}
           placeholder={'blur'}
           blurDataURL={images[imageIndex].blur}
-          priority
-        />
+           />
       </div>
       <span>Produtos disponíveis dia 14/08/2023</span>
       <ChevronDiv>
