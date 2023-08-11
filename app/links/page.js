@@ -1,13 +1,17 @@
-import { Video,Icon,IconDiv,StyledLink,Logo,Wrapper,Container } from './Links.styled';
+import { Icon,IconDiv,StyledLink,Logo,Wrapper,Container } from './Links.styled';
 import logo from '@/public/assets/logonew.svg';
 import rdb from '@/public/assets/logordb.svg';
 import instagram from '@/public/assets/instagram.svg';
 import whatsapp from '@/public/assets/whatsapp.svg';
 import tiktok from '@/public/assets/tiktok.svg';
+import EmbedVideo from './EmbedVideo';
 
 export const metadata = {
   title: 'Links',
   description: 'Links para as redes sociais da Rua de Baixo',
+  openGraph: {
+    description: 'Fique por dentro de tudo que acontece na Rua de Baixo',
+  },
 }
 
 export default function Links() {
@@ -17,7 +21,7 @@ export default function Links() {
         <Logo priority src={logo} alt={'Logo'} />
         <h1>Ruas</h1>
         <LinkButton href={'/'} image={rdb} sameTab>
-          Site
+          LookBook
         </LinkButton>
         <LinkButton href={'https://www.instagram.com/ruadebaixoloja/'} image={instagram} >
           Instagram
@@ -29,10 +33,7 @@ export default function Links() {
           Whatsapp
         </LinkButton>
         <h2>Último Vídeo</h2>
-        <Video poster='/assets/play.png' preload='auto' disablePictureInPicture controls controlsList="nodownload noremoteplayback noplaybackrate">
-          <source src={'/assets/RdbVideo.mp4'} type='video/mp4'/>
-          Seu navegador não suporta o elemento de vídeo.
-        </Video>
+        <EmbedVideo />
         </Wrapper>
     </Container>
   )

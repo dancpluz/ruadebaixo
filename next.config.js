@@ -1,4 +1,14 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {}
+const nextConfig = {
+  compiler: {
+    styledComponents: {
+      displayName: true,
+      ssr: true,
+    },
+  },
+  images: {
+    domains: ['cdn.sanity.io'],
+  },
+}
 
 module.exports = nextConfig

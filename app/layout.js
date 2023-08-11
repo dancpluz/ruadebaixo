@@ -1,6 +1,7 @@
 import localFont from 'next/font/local';
 import StyledJsxRegistry from '@/lib/registry';
 
+
 const clash = localFont({ src: '../public/assets/fonts/ClashDisplay-Variable.ttf' })
 
 export const metadata = {

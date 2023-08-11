@@ -1,26 +1,27 @@
 'use client'
 
 import Image from 'next/image';
-import Link from 'next/link';
 import styled from 'styled-components';
 
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-  height: 90vh;
+  min-height: 100vh;
+  margin: 24px 32px;
+  gap: 12px;
 `;
-export const Logo = styled(Image)`
+
+export const HeaderDiv = styled.div`
+  display: flex;
+  justify-content: space-between;
   width: 100%;
   max-width: 400px;
+  border-bottom: 1px black solid;
 `;
-export const StyledLink = styled(Link)`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  color: ${({theme}) => theme.colors.dark};
-  padding: 0 20px;
+
+export const Logo = styled(Image)`
+  width: 100%;
+  height: auto;
+  max-width: 200px;
 `;
-  
