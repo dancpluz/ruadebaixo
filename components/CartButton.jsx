@@ -30,7 +30,7 @@ export default function CartButton({}) {
 
   return (
     <StyledBadge onClick={() => setShowCart(true)} badgeContent={cartItems.length} showZero>
-      <Box src={BoxIcon} alt={'box'} />
+      <Box src={BoxIcon} alt={'box'} priority />
     </StyledBadge>
     );
 }

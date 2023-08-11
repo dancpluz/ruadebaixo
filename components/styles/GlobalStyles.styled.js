@@ -22,7 +22,7 @@ const GlobalStyle = createGlobalStyle`
   }
   body {
     font-family: 'Clash Display', sans-serif;
-    color: ${({ theme }) => theme.colors.dark};
+    color: ${theme.dark};
   }
   button {
     font-size: 1rem;
@@ -37,11 +37,51 @@ const GlobalStyle = createGlobalStyle`
     appearance: none;
     height: 40px;
     padding: 0px 16px;
-    border: 1px solid ${({ theme }) => theme.colors.dark};
-    color: ${({ theme }) => theme.colors.dark};
+    border: 1px solid ${theme.colors.dark};
+    color: ${theme.colors.dark};
     font-family: 'Clash Display', sans-serif;
     font-size: 1rem;
+    background: ${theme.colors.light};
+
+    option {
+      background: ${theme.colors.light};
+    }
   }
+
+
+    select{
+      border-radius: 0;
+      background-image:
+        linear-gradient(45deg, transparent 50%, ${theme.colors.dark} 50%),
+        linear-gradient(135deg, ${theme.colors.dark} 50%, transparent 50%),
+        linear-gradient(to right, ${theme.colors.dark}, ${theme.colors.dark});
+      background-position:
+        calc(100% - 20px) calc(1em + 2px),
+        calc(100% - 15px) calc(1em + 2px),
+        calc(100% - 2.5em) 0.5em;
+      background-size:
+        5px 5px,
+        5px 5px,
+        1px 1.5em;
+      background-repeat: no-repeat;
+    :focus {
+        background-image:
+          linear-gradient(45deg, ${theme.colors.dark} 50%, transparent 50%),
+          linear-gradient(135deg, transparent 50%, ${theme.colors.dark} 50%),
+          linear-gradient(to right, ${theme.colors.dark}, ${theme.colors.dark});
+        background-position:
+          calc(100% - 15px) 1em,
+          calc(100% - 20px) 1em,
+          calc(100% - 2.5em) 0.5em;
+        background-size:
+          5px 5px,
+          5px 5px,
+          1px 1.5em;
+        background-repeat: no-repeat;
+        border-color: ${theme.colors.dark};
+        //outline: 0;
+      }
+    }
 
   input[type=radio] {
     border-radius: 50%;
@@ -54,6 +94,13 @@ const GlobalStyle = createGlobalStyle`
     place-content: center;
     cursor: pointer;
 
+    &:disabled{
+      opacity: .5;
+      :checked::before {
+        transform: scale(0);
+      }
+    }
+
     &:before {
       content: "";
       width: 16px;
@@ -65,9 +112,8 @@ const GlobalStyle = createGlobalStyle`
     }
     :checked::before {
     transform: scale(1);
+    }
   }
-}
-
   h1, h2, h3, h4 {
     font-weight: 600;
   }

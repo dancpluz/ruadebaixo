@@ -136,7 +136,7 @@ const ButtonDiv = styled.div`
   gap: 10px;
 `;
 
-const Button = styled.button`
+export const Button = styled.button`
   background-color: ${props => props.primary ? ({ theme }) => theme.colors.light : ({ theme }) => theme.colors.dark};
   color: ${props => props.primary ? ({ theme }) => theme.colors.dark : ({ theme }) => theme.colors.light};
   border: 1px solid ${({ theme }) => theme.colors.light};

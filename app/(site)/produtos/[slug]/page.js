@@ -20,34 +20,6 @@ export async function generateMetadata({ params: { slug }}) {
 
 
 export default async function ProdutoPage({ params: { slug } }) {
-  
-  // async function sendObjectToZap() {
-  //   // WIP
-  //   const clienteRDB = {
-  //     name: 'Poggers',
-  //     id: "2023-03-02_1454",// biblioteca pra pegar data e hora
-  //     phone: "5561998118398",
-  //     email: "caioquinha123@gmail.com",
-  //     insta: "caiok",
-  //     delivery: "na mao",
-  //     payment: "PIX",
-  //     order: {
-  //       totalPrice: '56',products: [{
-  //         name: 'Fear of God',
-  //         type: 'Camiseta',
-  //         size: 'm',
-  //         fullPrice: '40',
-  //         offerPrice: '40',
-  //       },{
-  //         name: 'Sea World',
-  //         type: 'Boné',
-  //         size: 'U',
-  //         fullPrice: '40',
-  //         offerPrice: '30',
-  //       }]
-  //     }
-  //   };
-  // }
 
   const product = await fetchProduct(slug);
   const { name, images, type, quality, drop, tags, measures, price, size, ordered, discount, sold, details } = product;

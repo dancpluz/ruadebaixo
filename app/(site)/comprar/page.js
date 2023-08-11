@@ -4,6 +4,37 @@ import styled from 'styled-components';
 import { useStateContext } from '@/context/StateContext';
 import { useForm } from 'react-hook-form';
 import InputBox from '@/components/InputBox';
+import { Button } from '@/components/Cart';
+import { useState } from 'react';
+import { deliveryLocations,pickupLocations } from '@/sanity/schemas/options';
+
+// async function sendObjectToZap() {
+//     // WIP
+//     const clienteRDB = {
+//       name: 'Poggers',
+//       id: "2023-03-02_1454",// biblioteca pra pegar data e hora
+//       phone: "5561998118398",
+//       email: "caioquinha123@gmail.com",
+//       insta: "caiok",
+//       delivery: {type: "Retirada", local: "Plano"},
+//       payment: {type: "PIX", moment: "Ao confirmar pedido"},
+//       order: {
+//         totalPrice: '56',products: [{
+//           name: 'Fear of God',
+//           type: 'Camiseta',
+//           size: 'm',
+//           fullPrice: '40',
+//           offerPrice: '40',
+//         },{
+//           name: 'Sea World',
+//           type: 'Boné',
+//           size: 'U',
+//           fullPrice: '40',
+//           offerPrice: '30',
+//         }]
+//       }
+//     };
+//   }
 
 const Container = styled.div`
   display: flex;
@@ -60,8 +91,32 @@ const TitleDiv = styled.div`
   text-align: center;
 `;
 
+const RadioDiv = styled.div`
+  display: flex;
+  align-items: center;
+  h4 {
+      font-weight: 400;
+    }
+  div {
+    
+    span {
+      text-decoration: underline;
+    }
+  }
+  
+`;
+
+const DeliveryDiv = styled.div`
+  display: flex;
+  flex-flow: row wrap;
+`;
+
+
 export default function ComprarPage() {
   const { totalPrice,totalDiscount,cartItems,setShowCart,lastRemovedItem,router } = useStateContext();
+  const [deliveryType, setDeliveryType] = useState(null);
+  const [pixPayment,setPixPayment] = useState(null);
+
   const { register, handleSubmit, watch, formState: { errors } } = useForm();
 
   const onSubmit = data => console.log(data);
@@ -79,7 +134,7 @@ export default function ComprarPage() {
           </OrderHeader>
         </OrderDiv>
         <vl />
-        <Form onSubmit={handleSubmit()}>
+        <Form onSubmit={handleSubmit(onSubmit)}>
           <TitleDiv>
             <h2>Dados Pessoais</h2>
             <p>Nãosdfas</p>
@@ -122,25 +177,121 @@ export default function ComprarPage() {
             <p>Nãosdfas</p>
           </TitleDiv>
           <InputBox title={'Forma de Recebimento*'} span={'//'}>
-            <div>
-              <input
-                type='radio'
-                {...register('delivery',{
-                  required: '(Obrigatório)'
-                })}
-              />
-              <input
-                type='radio'
-                {...register('delivery')}
-              />
-            </div>
+            <DeliveryDiv>
+              <RadioDiv>
+                <input
+                  onClick={() => setDeliveryType('entrega')}
+                  value='Entrega'
+                  type='radio'
+                  {...register('delivery.type',{
+                    required: '(Obrigatório)'
+                  })}
+                />
+                <div>
+                  <h4>Entrega</h4>
+                  <span>Sujeito a taxa</span>
+                </div>
+                <span>(2-7 dias)</span>
+              </RadioDiv>
+              <RadioDiv>
+                <input
+                  onClick={() => setDeliveryType('retirada')}
+                  value='Retirada'
+                  type='radio'
+                  {...register('delivery.type',{
+                    required: '(Obrigatório)'
+                  })}
+                />
+                <div>
+                  <h4>Retirada</h4>
+                  <span>Frete Grátis</span>
+                </div>
+                <span>(4-10 dias)</span>
+              </RadioDiv>
+            </DeliveryDiv>
           </InputBox>
-          {/* <InputBox title={'Forma de Recebimento*'} span={'//'}>
-            <select {...register('')}/>
-          </InputBox> */}
+          {renderDeliveryForms()}
+          <InputBox title={'Forma de Pagamento*'} span={'//'}>
+            <DeliveryDiv>
+              <RadioDiv>
+                <input
+                  onClick={() => setPixPayment(true)}
+                  type='radio'
+                  value='PIX'
+                  {...register('payment.type',{
+                    required: '(Obrigatório)'
+                  })}
+                />
+                <h4>PIX</h4>
+              </RadioDiv>
+              <RadioDiv>
+                <input
+                  onClick={() => setPixPayment(false)}
+                  type='radio'
+                  value='Dinheiro físico'
+                  {...register('payment.type',{
+                    required: '(Obrigatório)'
+                  })}
+                />
+                <h4>Dinheiro físico</h4>
+              </RadioDiv>
+            </DeliveryDiv>
+          </InputBox>
+          {!(pixPayment === null) && <InputBox title={'Quando Pagar?*'}>
+            <DeliveryDiv>
+              <RadioDiv>
+                <input
+                  value='Ao confirmar pedido'
+                  type='radio'
+                  {...register('payment.moment',{
+                    required: '(Obrigatório)'
+                  })}
+                  disabled={!pixPayment}
+                />
+                <h4>Ao confirmar pedido</h4>
+              </RadioDiv>
+              <RadioDiv>
+                <input
+                  value='No recebimento'
+                  type='radio'
+                  {...register('payment.moment',{
+                    required: '(Obrigatório)'
+                  })}
+                />
+                <h4>No recebimento</h4>
+              </RadioDiv>
+            </DeliveryDiv>
+          </InputBox>}
+          <Button>FINALIZAR COMPRA</Button>
         </Form>
       </Wrapper>
-
     </Container>
   )
+
+  function renderDeliveryForms() {
+    switch(deliveryType) {
+      case 'entrega':
+        return (
+          <InputBox title={'Local de Entrega*'} span={'//'}>
+            <select {...register('delivery.local')}>
+              {deliveryLocations.sort().map((location) => {
+                return <option key={location} value={location}>{location}</option>
+              })}
+            </select>
+          </InputBox>
+        )
+      case 'retirada':
+        return (
+          <InputBox title={'Local de Retirada*'} span={'//'}>
+            <select {...register('delivery.local')}>
+              {pickupLocations.sort().map((location) => {
+                return <option key={location} value={location}>{location}</option>
+              })}
+            </select>
+          </InputBox>
+        )
+      default:
+        return
+    }
+  }
 }

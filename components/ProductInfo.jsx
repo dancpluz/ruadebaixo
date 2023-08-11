@@ -1,10 +1,8 @@
 import Accordion from './Accordion';
 import { Container } from './styles/Accordion.styled';
+import { deliveryLocations, pickupLocations } from '@/sanity/schemas/options';
 
 export default function ProductInfo() {
-  const deliveryLocations = ['Plano (Asa Norte, Asa Sul, Cruzeiro, Sudoeste)','Guará I','Guará II','Taguatinga','Núcleo Bandeirante','Vicente Pires','Candangolândia','Park Way','Arniqueiras','Lago Sul (Talvez)','Paranoá','Itapoã','Lago Norte','Riacho Fundo 1']
-  const pickupLocations = ['UnB','Rodoviária','Guará II','Asa Norte','Paranoá']
-
   return (
     <Container>
       <Accordion title={'Entrega e Retirada'}>

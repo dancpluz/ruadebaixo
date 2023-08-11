@@ -97,7 +97,7 @@ export default function Header() {
           <HamburgerIcon onClick={() => setShowNavbar(!showNavbar)} src={hamburgerIcon} alt='Mostrar links' />
         </HamburgerContainer>
         <LogoContainer href='/'>
-          <Logo src={logoRDB} alt='RDB Logo' />
+          <Logo src={logoRDB} alt='RDB Logo' priority />
         </LogoContainer>
         <NavBarDiv>
           <Navbar />
