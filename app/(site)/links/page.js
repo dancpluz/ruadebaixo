@@ -23,7 +23,7 @@ export default function LinksPage() {
         <LinkButton href={'/'} image={rdb} sameTab>
           Site
         </LinkButton>
-        <LinkButton href={'https://www.instagram.com/ruadebaixoloja/'} image={instagram} >
+        <LinkButton href={'https://www.instagram.com/invites/contact/?i=1qfflkcpzs25j&utm_content=qysp11r'} image={instagram} >
           Instagram
         </LinkButton>
         <LinkButton href={'https://www.tiktok.com/@ruadebaixoloja'} image={tiktok} >

@@ -148,7 +148,7 @@ const Button = styled.button`
 
 export default function Cart() {
   const [isVisible,setIsVisible] = useState(true);
-  const { totalPrice, totalDiscount, cartItems,setShowCart,lastRemovedItem } = useStateContext();
+  const { totalPrice, totalDiscount, cartItems,setShowCart,lastRemovedItem, router } = useStateContext();
 
   useEffect(() => {
     if (!isVisible) {
@@ -190,7 +190,7 @@ export default function Cart() {
             <Button onClick={() => setIsVisible(false)}>
               CONTINUAR COMPRANDO
             </Button>
-            <Button primary>
+            <Button primary onClick={() => {setIsVisible(false); router.push('/comprar');}}>
               FINALIZAR COMPRA
             </Button>
           </ButtonDiv>

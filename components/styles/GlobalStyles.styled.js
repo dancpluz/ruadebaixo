@@ -33,6 +33,41 @@ const GlobalStyle = createGlobalStyle`
     width: 100%;
     font-family: 'Clash Display', sans-serif;
   }
+  input, select {
+    appearance: none;
+    height: 40px;
+    padding: 0px 16px;
+    border: 1px solid ${({ theme }) => theme.colors.dark};
+    color: ${({ theme }) => theme.colors.dark};
+    font-family: 'Clash Display', sans-serif;
+    font-size: 1rem;
+  }
+
+  input[type=radio] {
+    border-radius: 50%;
+    border: 1px solid ${({ theme }) => theme.colors.dark};
+    height: 32px;
+    width: 32px;
+    flex-grow: 0;
+    padding: 0;
+    display: grid;
+    place-content: center;
+    cursor: pointer;
+
+    &:before {
+      content: "";
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      transform: scale(0);
+      transition: 120ms transform ease-in-out;
+      box-shadow: inset 1rem 1rem ${({ theme }) => theme.colors.dark};
+    }
+    :checked::before {
+    transform: scale(1);
+  }
+}
+
   h1, h2, h3, h4 {
     font-weight: 600;
   }
@@ -61,6 +96,9 @@ const GlobalStyle = createGlobalStyle`
   }
   ul {
     list-style-position: inside;
+  }
+  vl {
+    border-left: 1px solid ${({ theme }) => theme.colors.dark};
   }
 `
 

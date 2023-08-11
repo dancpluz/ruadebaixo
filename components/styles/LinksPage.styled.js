@@ -50,11 +50,14 @@ export const StyledLink = styled(Link)`
   text-decoration: none;
   height: 60px;
   width: 100%;
+  ${Icon} {
+      filter: invert(1);
+    }
   &:hover {
     background-color: ${({theme}) => theme.colors.dark};
     color: ${({theme}) => theme.colors.light};
     ${Icon} {
-      filter: invert(100%);
+      filter: invert(0);
     }
   }
   &:active {

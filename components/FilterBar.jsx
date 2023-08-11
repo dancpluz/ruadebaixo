@@ -68,29 +68,29 @@ export default function FilterBar() {
       </SearchDiv>
       <Accordion title={'Tipo'}>
         <FilterDiv>
-          {productTypes.map((item) => (
-            <FilterText key={item.value} selected={selectedTags.includes(item.value)} onClick={() => handleSelectFilter(item.value)}>{item.value}</FilterText>
+          {productTypes.map((item, n) => (
+            <FilterText key={n+item.value} selected={selectedTags.includes(item.value)} onClick={() => handleSelectFilter(item.value)}>{item.value}</FilterText>
           ))}
         </FilterDiv>
       </Accordion>
       <Accordion title={'Categoria'}>
         <FilterDiv>
-          {productTags.map((item) => (
-            <FilterText key={item.value} selected={selectedTags.includes(item.value)} onClick={() => handleSelectFilter(item.value)}>{item.value}</FilterText>
+          {productTags.map((item,n) => (
+            <FilterText key={n + item.value} selected={selectedTags.includes(item.value)} onClick={() => handleSelectFilter(item.value)}>{item.value}</FilterText>
           ))}
         </FilterDiv>
       </Accordion>
       <Accordion title={'Qualidade'}>
         <FilterDiv>
-          {productQualities.map((item) => (
-            <FilterText key={item.value} selected={selectedTags.includes(item.value)} onClick={() => handleSelectFilter(item.value)}>{item.value}</FilterText>
+          {productQualities.map((item,n) => (
+            <FilterText key={n + item.value} selected={selectedTags.includes(item.value)} onClick={() => handleSelectFilter(item.value)}>{item.value}</FilterText>
           ))}
         </FilterDiv>
       </Accordion>
       <Accordion title={'Drop'}>
         <FilterDiv>
-          {productDrops.map((item) => (
-            <FilterText key={item.value} selected={selectedTags.includes(item.value)} onClick={() => handleSelectFilter(item.value)}>{item.value}</FilterText>
+          {productDrops.map((item,n) => (
+            <FilterText key={n + item.value} selected={selectedTags.includes(item.value)} onClick={() => handleSelectFilter(item.value)}>{item.value}</FilterText>
           ))}
         </FilterDiv>
       </Accordion>
