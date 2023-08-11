@@ -2,9 +2,9 @@
 
 import styled from 'styled-components';
 import Image from 'next/image';
-import { useEffect,useState } from 'react';
-import { fetchLookBookData } from '@/lib/api.js';
-import { extractImageDimensions,formatDate } from '@/lib/format.js';
+import { formatDate } from '@/lib/format.js';
+import { useState } from 'react';
+
 
 const Container = styled.div`
   margin: 60px 10vw;
@@ -82,19 +82,8 @@ const Photo = styled(Image)`
   }
 `;
 
-export default function LookBook() {
+export default function Photoshoots({ collections }) {
   const [bigImage,setBigImage] = useState(null);
-  const [isLoading,setIsLoading] = useState(true)
-  const [collections,setCollections] = useState([]);
-
-  useEffect(() => {
-    const fetchFunction = async () => {
-      setCollections(await fetchLookBookData());
-      return;
-    }
-    fetchFunction();
-    setIsLoading(false);
-  },[]);
 
   function handleClick(image) {
     setBigImage(image);
@@ -102,7 +91,7 @@ export default function LookBook() {
 
   function renderCollection(collection) {
     return (
-      <Collection>
+      <Collection key={collection.name}>
         <TitleDiv>
           <h2>{collection.name}</h2>
           <p>{formatDate(collection.date)}</p>
@@ -111,7 +100,14 @@ export default function LookBook() {
         <Gallery>
           {collection.images.map((image,n) => (
             <PhotoDiv key={collection.name + "-Imagem-" + n}>
-              <Photo src={image} alt={collection.name + "-Imagem-" + n} width={extractImageDimensions(image).width} height={extractImageDimensions(image).height} onClick={() => handleClick(image)} />
+              <Photo 
+                src={image.url} 
+                alt={collection.name + "-Imagem-" + n}
+                width={image.width}
+                height={image.height}
+                onClick={() => handleClick(image)}
+                placeholder={'blur'}
+                blurDataURL={image.blur}/>
             </PhotoDiv>
           ))}
         </Gallery>
@@ -119,19 +115,16 @@ export default function LookBook() {
     )
   }
 
-  if (isLoading) {
-    return (
-      <Container>
-        <h1>Carregando...</h1>
-      </Container>
-    )
-  }
-
   return (
     <Container>
       <BigImageDiv onClick={() => handleClick(null)} showOverlay={bigImage ? 'block' : 'none'} />
       {bigImage &&
-        <BigImage src={bigImage} alt={"Fullscreen image"} onClick={() => handleClick(null)} width={extractImageDimensions(bigImage).width} height={extractImageDimensions(bigImage).height} />}
+        <BigImage
+          src={bigImage.url}
+          alt={"Fullscreen image"}
+          onClick={() => handleClick(null)}
+          width={bigImage.width}
+          height={bigImage.height} />}
       {collections.length > 0 ? collections.map((collection) => renderCollection(collection)) : null}
     </Container>
   )
