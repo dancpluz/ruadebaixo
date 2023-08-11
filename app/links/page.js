@@ -32,7 +32,7 @@ export default function Links() {
         <LinkButton href={'https://wa.me/message/GMJP6IY5DXZOM1'} image={whatsapp}>
           Whatsapp
         </LinkButton>
-        <h2>Último Vídeo</h2>
+        <h2>Último Post</h2>
         <EmbedVideo />
         </Wrapper>
     </Container>

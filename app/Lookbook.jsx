@@ -15,17 +15,18 @@ const Container = styled.div`
 
 const StyledImage = styled(Image)`
   position: ${({ show }) => show ? 'relative' : 'absolute'};
-  width: 100%;
+  width: ${({ show }) => show ? '100%' : '0'};
   height: auto;
   object-fit: contain;
   max-width: 800px;
   max-height: 600px;
-  //transition: opacity 0.3s ease-in;
+  transition: opacity 0.3s ease-in-out;
   opacity: ${({ show }) => show ? 1 : 0};
 `;
 
 const ImagesDiv = styled.div`
   position: relative;
+  flex-grow: 1;
 `;
 
 const HeaderDiv = styled.div`
