@@ -20,7 +20,7 @@ export default async function LandingBanner() {
         blurDataURL={top_image.blur}
       />
       <Caption>
-        <h4>Confira o Primeiro Drop da Rua de Baixo "Valendo uma Coca"</h4>
+        <h4>Confira o Primeiro Drop da Rua de Baixo &quot;Valendo uma Coca&quot;</h4>
       </Caption>
       <LeftImage
         src={left_image.url}
