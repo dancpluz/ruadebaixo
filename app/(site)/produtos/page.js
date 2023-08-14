@@ -1,4 +1,4 @@
-import FilterBar from '@/components/FilterBar';
+//import FilterBar from '@/components/FilterBar';
 import Card from '@/components/Card';
 import { Container,Wrapper,ProductsDiv } from '@/components/styles/CatalogPage.styled';
 import { fetchCatalogProducts } from '@/lib/api';
@@ -12,7 +12,7 @@ export const metadata = {
 }
 
 export default async function ProdutosPage() {
-  const products = await fetchCatalogProducts(0);
+  const products = await fetchCatalogProducts(1);
 
   return (
     <Container>

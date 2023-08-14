@@ -19,3 +19,21 @@ export const Screen = styled.div`
   justify-content: center;
   height: 80vh;
 `;
+
+export const CenterScreen = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 80vh;
+  margin: 0 200px;
+  div {
+    text-align: center;
+  }
+  @media ${({ theme }) => theme.sizes.medium} {
+    margin: 0 100px;
+  }
+  @media ${({ theme }) => theme.sizes.small} {
+    margin: 0 32px;
+  }
+`;
+

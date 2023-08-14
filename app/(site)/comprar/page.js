@@ -11,35 +11,6 @@ import CartItem from '@/components/CartItem';
 import { ItemsDiv,PriceDiv }  from '@/components/Cart'
 import { sendOrderToServer } from '@/lib/api';
 
-// async function sendObjectToZap() {
-//     // WIP
-//     const clienteRDB = {
-//       name: 'Poggers',
-//       id: "2023-03-02_1454",// biblioteca pra pegar data e hora
-//       phone: "556198118398",
-//       email: "caioquinha123@gmail.com",
-//       insta: "caiok",
-//       delivery: {type: "Retirada", local: "Plano"},
-//       payment: {type: "PIX", moment: "Ao confirmar pedido"},
-//       order: {
-//         subtotal: '51',
-//         tax: '5',
-//         total: '56',
-//            products: [{
-//           name: 'Fear of God',
-//           type: 'Camiseta',
-//           fullPrice: '40',
-//           offerPrice: '40',
-//         },{
-//           name: 'Sea World',
-//           type: 'Boné',
-//           fullPrice: '40',
-//           offerPrice: '30',
-//         }]
-//       }
-//     };
-//   }
-
 const Container = styled.div`
   display: flex;
   align-items: center;
@@ -179,41 +150,49 @@ export default function ComprarPage() {
   const { totalPrice,totalDiscount,cartItems,lastRemovedItem,totalTax, setTotalTax, router } = useStateContext();
   const [deliveryType, setDeliveryType] = useState('Taxa');
   const [pixPayment,setPixPayment] = useState(null);
-  const [submitError,setSubmitError] = useState('');
+  //const [submitError,setSubmitError] = useState('');
 
   const { register, handleSubmit, formState: { errors } } = useForm();
 
-  const onSubmit = (data) => {
-    const order = {
-      subtotal: totalPrice - totalDiscount,
-      tax: totalTax,
-      total: totalPrice - totalDiscount + totalTax,
-      products: cartItems.map((item) => {
-        return {
-          name: item.name,
-          type: item.type,
-          fullPrice: item.price,
-          offerPrice: item.price - item.discount
-        }
-      })
-    }
+  const onSubmit = async (data) => {
+    try {
+      if (cartItems.length == 0) {
+        throw new Error('Cart vazio');
+      }
+      const order = {
+        subtotal: totalPrice - totalDiscount,
+        tax: totalTax,
+        total: totalPrice - totalDiscount + totalTax,
+        products: cartItems.map((item) => {
+          return {
+            name: item.name,
+            type: item.type,
+            fullPrice: item.price,
+            offerPrice: item.price - item.discount
+          }
+        })
+      }
 
-    const json = {
-      ...data,
-      phone: data.phone.length > 10 ? data.phone.replace('9', '') : data.phone,
-      order,
+      const json = {
+        ...data,
+        phone: data.phone.length > 10 ? data.phone.replace('9', '') : data.phone,
+        order,
+      }
+      await sendOrderToServer(json);
+      router.push('/comprar/sucesso');
     }
-
-    console.log(json)
-    sendOrderToServer(json);
+    catch (e) {
+      console.log(e)
+      router.push('/comprar/erro');
+    }
   }
 
   return (
     <Container>
       <TitleDiv>
         <h1>Finalizar Compra</h1>
-        <p>No momento, <u>somente</u> aceitamos pagamento por <u>PIX</u> ou <u>dinheiro</u>.</p>
-        <p>É <u>necessário</u> ter um número de celular com <u>Whatsapp</u> para concluir a compra.</p>
+        <p>No momento, <u>somente</u> aceitamos pagamento por <u>PIX</u> ou <u>dinheiro</u></p>
+        <p>É <u>necessário</u> ter um número de celular com <u>Whatsapp</u> para concluir a compra</p>
       </TitleDiv>
       <Wrapper>
         <OrderDiv>
@@ -269,9 +248,9 @@ export default function ComprarPage() {
         <Form onSubmit={handleSubmit(onSubmit)}>
           <TitleDiv>
             <h2>Dados Pessoais</h2>
-            <p>Nãosdfas</p>
+            <p>Precisamos dessas informações para nos comunicarmos</p>
           </TitleDiv>
-          <InputBox title={'Nome*'} span={'Nome que usaremos ao contatar'} errorMessage={errors.name}>
+          <InputBox title={'Nome*'} span={'Como devemos te chamar'} errorMessage={errors.name}>
             <input
               type='text'
               placeholder='ex. Rua de Baixo'
@@ -285,7 +264,9 @@ export default function ComprarPage() {
               type='phone'
               placeholder='ex. 61987654321'
               {...register('phone',{
-                required: '(Obrigatório)'
+                required: '(Obrigatório)',
+                minLength: { value: 10,message: '(Formato incorreto "61987654321")'},
+                maxLength: { value: 11,message: '(Formato incorreto "61987654321")'}
               })}
             />
           </InputBox>
@@ -296,7 +277,7 @@ export default function ComprarPage() {
               {...register('email')}
             />
           </InputBox>
-          <InputBox title={'Instagram'} span={'@'} errorMessage={errors.insta}>
+          <InputBox title={'Instagram'} span={'Pra ficar por dentro da cultura da Rua de Baixo'} errorMessage={errors.insta}>
             <input
               type='text'
               placeholder='ex. @ruadebaixoloja'
@@ -305,9 +286,9 @@ export default function ComprarPage() {
           </InputBox>
           <TitleDiv>
             <h2>Dados do Pedido</h2>
-            <p>Nãosdfas</p>
+            <p>Essas informações são importantes para agilizar a venda</p>
           </TitleDiv>
-          <InputBox title={'Forma de Recebimento*'} span={'//'} errorMessage={errors.delivery && errors.delivery.type}>
+          <InputBox title={'Forma de Recebimento*'} span={'Vamos até você ou você vem até nós, você decide!'} errorMessage={errors.delivery && errors.delivery.type}>
             <DeliveryDiv>
               <RadioDiv>
                 <input
@@ -342,7 +323,7 @@ export default function ComprarPage() {
             </DeliveryDiv>
           </InputBox>
           {renderDeliveryForms()}
-          <InputBox title={'Forma de Pagamento*'} span={'//'} errorMessage={errors.payment && errors.payment.type}>
+          <InputBox title={'Forma de Pagamento*'} span={'No momento, somente aceitamos estas formas'} errorMessage={errors.payment && errors.payment.type}>
             <DeliveryDiv>
               <RadioDiv>
                 <input
@@ -404,7 +385,7 @@ export default function ComprarPage() {
     switch(deliveryType) {
       case 'Entrega':
         return (
-          <InputBox title={'Local de Entrega*'} span={'//'} errorMessage={errors.delivery && errors.delivery.local}>
+          <InputBox title={'Local de Entrega*'} span={'Fazemos entrega nesses locais:'} errorMessage={errors.delivery && errors.delivery.local}>
             <select defaultValue='' {...register('delivery.local',{
               required: 'Selecione uma opção'
             })}>
@@ -417,7 +398,7 @@ export default function ComprarPage() {
         )
       case 'Retirada':
         return (
-          <InputBox title={'Local de Retirada*'} span={'//'} errorMessage={errors.delivery && errors.delivery.local}>
+          <InputBox title={'Local de Retirada*'} span={'Nos encontramos com frete grátis nesses locais:'} errorMessage={errors.delivery && errors.delivery.local}>
             <select defaultValue='' {...register('delivery.local',{
               required: 'Selecione uma opção'
             })}>

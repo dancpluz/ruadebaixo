@@ -12,6 +12,13 @@ export const StripDiv = styled.div`
   margin-bottom: 160px;
   transition: all 0.15s ease;
   rotate: 7deg;
+  @media ${({theme}) => theme.sizes.medium} {
+    //
+    
+  }
+  @media ${({theme}) => theme.sizes.small} {
+    margin-bottom: 80px;
+  }
 `;
 
 export const Text = styled.h2`

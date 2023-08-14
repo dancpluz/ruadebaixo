@@ -62,13 +62,13 @@ export default async function ProdutoPage({ params: { slug } }) {
                 </div>
                 <Tag tags={[size]} isSize/>
               </SizeWrapper>
-              <p>Ver medidas</p>
+              {measures && <p>Veja medidas</p>}
             </SizeDiv>
             <ProductBuy product={product} />
           </DetailsDiv>
         </BottomDiv>
       </ProductDiv>
-      <ProductInfo />
+      <ProductInfo measures={measures} />
     </Container>
   )
 }

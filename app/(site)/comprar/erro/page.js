@@ -1,10 +1,12 @@
-import { Screen } from 'components/styles/OtherStyles.styled';
+import { CenterScreen } from 'components/styles/OtherStyles.styled';
 
 export default function ErrorPage() {
   return (
-    <Screen>
-      <h1>Infelizmente ocorreu algum erro inesperado</h1>
-      <h2>Por Favor, mande mensagem para nosso whatsapp</h2>
-    </Screen>
+    <CenterScreen>
+      <div>
+        <h1>Infelizmente ocorreu algum erro inesperado</h1>
+        <p>Por Favor, mande mensagem para nosso whatsapp</p>
+      </div>
+    </CenterScreen>
   )
 }

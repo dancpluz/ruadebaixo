@@ -8,6 +8,7 @@ export default async function LandingProducts() {
 
   return (
     <Container>
+      <h1>Valendo uma Coca</h1>
         <Flexbox>
         {products.map((product) => <Card key={product.slug.current} product={product} />)}
         </Flexbox>

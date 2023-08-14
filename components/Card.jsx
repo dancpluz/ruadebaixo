@@ -102,6 +102,7 @@ const SoldDiv = styled.div`
     position: absolute;
     top: 240px;
     left: -50px;
+    
   }
 
   ${CardImage} {

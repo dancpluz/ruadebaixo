@@ -1,7 +1,6 @@
 'use client'
 
 import styled from 'styled-components';
-import RemoveIcon from '../TagRemovable';
 
 export const TagDiv = styled.div`
   position: ${props => props.type ? 'absolute' : ''};

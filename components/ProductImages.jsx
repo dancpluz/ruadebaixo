@@ -43,6 +43,8 @@ const PreviewImagesWrapper = styled.div`
     max-height: 100px;
     margin-left: 0;
     margin-top: 10px;
+    flex-grow: 1;
+    max-width: 85vw;
   }
 `;
 

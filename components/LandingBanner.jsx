@@ -30,7 +30,7 @@ export default async function LandingBanner() {
         placeholder={'blur'}
         blurDataURL={left_image.blur}
       />
-      <LeftImage
+      <RightImage
         src={right_image.url}
         alt='photoTop'
         height={right_image.height}

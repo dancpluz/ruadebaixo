@@ -5,14 +5,23 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 export const Container = styled.div`
-  margin: 0 350px;
-  margin-bottom: 100px;
+  padding: 42px 200px;
+  h1 {
+    text-align: center;
+    margin-bottom: 48px;
+  }
+  @media ${({ theme }) => theme.sizes.medium} {
+    padding: 42px 100px;
+  }
+  @media ${({ theme }) => theme.sizes.small} {
+    padding: 42px 32px;
+  }
 `;
 export const Flexbox = styled.div`
   display: flex;
   flex-flow: row wrap;
-  justify-content: space-between;
-  gap: 30px 90px;
+  justify-content: center;
+  gap: 64px;
 `;
 export const ButtonLink = styled(Link)`
   margin-left: auto;
