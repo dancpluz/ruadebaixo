@@ -9,28 +9,30 @@ import { useState } from 'react';
 import { deliveryLocations,pickupLocations } from '@/sanity/schemas/options';
 import CartItem from '@/components/CartItem';
 import { ItemsDiv,PriceDiv }  from '@/components/Cart'
+import { sendOrderToServer } from '@/lib/api';
 
 // async function sendObjectToZap() {
 //     // WIP
 //     const clienteRDB = {
 //       name: 'Poggers',
 //       id: "2023-03-02_1454",// biblioteca pra pegar data e hora
-//       phone: "5561998118398",
+//       phone: "556198118398",
 //       email: "caioquinha123@gmail.com",
 //       insta: "caiok",
 //       delivery: {type: "Retirada", local: "Plano"},
 //       payment: {type: "PIX", moment: "Ao confirmar pedido"},
 //       order: {
-//         totalPrice: '56',products: [{
+//         subtotal: '51',
+//         tax: '5',
+//         total: '56',
+//            products: [{
 //           name: 'Fear of God',
 //           type: 'Camiseta',
-//           size: 'm',
 //           fullPrice: '40',
 //           offerPrice: '40',
 //         },{
 //           name: 'Sea World',
 //           type: 'Boné',
-//           size: 'U',
 //           fullPrice: '40',
 //           offerPrice: '30',
 //         }]
@@ -61,12 +63,8 @@ const Wrapper = styled.div`
   width: 100%;
   @media ${({ theme }) => theme.sizes.medium} {
     flex-direction: column;
+    gap: 32px;
   }
-`;
-
-const Underlined = styled.span`
-  text-decoration: underline;
-  font-size: 1.125rem;
 `;
 
 const OrderDiv = styled.div`
@@ -81,6 +79,10 @@ const OrderDiv = styled.div`
     height: 100%;
     color: ${({ theme }) => theme.colors.dark};
     font-weight: 400;
+  }
+  ${ItemsDiv} {
+    flex-grow: 0;
+    min-height: 160px;
   }
   @media ${({ theme }) => theme.sizes.small} {
     ${ItemsDiv} {
@@ -145,15 +147,23 @@ const Form = styled.form`
   flex-direction: column;
   justify-content: center;
   width: 100%;
+  gap: 32px;
 `;
 
 const TitleDiv = styled.div`
   text-align: center;
 `;
 
+const DeliveryDiv = styled.div`
+  display: flex;
+  flex-flow: row wrap;
+  gap: 24px;
+`;
+
 const RadioDiv = styled.div`
   display: flex;
   align-items: center;
+  gap: 8px;
   h4 {
       font-weight: 400;
     }
@@ -162,32 +172,49 @@ const RadioDiv = styled.div`
       text-decoration: underline;
     }
   }
-  
-`;
-
-const DeliveryDiv = styled.div`
-  display: flex;
-  flex-flow: row wrap;
 `;
 
 
 export default function ComprarPage() {
-  const { totalPrice,totalDiscount,cartItems,setShowCart,lastRemovedItem,router } = useStateContext();
-  const [deliveryType, setDeliveryType] = useState(null);
+  const { totalPrice,totalDiscount,cartItems,lastRemovedItem,totalTax, setTotalTax, router } = useStateContext();
+  const [deliveryType, setDeliveryType] = useState('Taxa');
   const [pixPayment,setPixPayment] = useState(null);
   const [submitError,setSubmitError] = useState('');
 
   const { register, handleSubmit, formState: { errors } } = useForm();
 
-  const onSubmit = data => console.log(data);
+  const onSubmit = (data) => {
+    const order = {
+      subtotal: totalPrice - totalDiscount,
+      tax: totalTax,
+      total: totalPrice - totalDiscount + totalTax,
+      products: cartItems.map((item) => {
+        return {
+          name: item.name,
+          type: item.type,
+          fullPrice: item.price,
+          offerPrice: item.price - item.discount
+        }
+      })
+    }
+
+    const json = {
+      ...data,
+      phone: data.phone.length > 10 ? data.phone.replace('9', '') : data.phone,
+      order,
+    }
+
+    console.log(json)
+    sendOrderToServer(json);
+  }
 
   return (
     <Container>
-      <div>
+      <TitleDiv>
         <h1>Finalizar Compra</h1>
-        <p>No momento, <Underlined>somente</Underlined> aceitamos pagamento por <Underlined>PIX</Underlined> ou <Underlined>dinheiro</Underlined>.</p>
-        <p>É <Underlined>necessário</Underlined> ter um número de celular com <Underlined>Whatsapp</Underlined> para concluir a compra.</p>
-      </div>
+        <p>No momento, <u>somente</u> aceitamos pagamento por <u>PIX</u> ou <u>dinheiro</u>.</p>
+        <p>É <u>necessário</u> ter um número de celular com <u>Whatsapp</u> para concluir a compra.</p>
+      </TitleDiv>
       <Wrapper>
         <OrderDiv>
           <OrderHeader>
@@ -219,9 +246,9 @@ export default function ComprarPage() {
               </PriceDiv>
             </OrderBody>
             <OrderBody>
-              <h2>Entrega</h2>
+              <h2>{deliveryType}</h2>
               <PriceDiv>
-                {}
+                {totalTax === null ? <h2>-</h2> : (totalTax === 0 ? <h2>Grátis</h2> : <h2>R${totalTax}</h2>)}
               </PriceDiv>
             </OrderBody>
             <OrderBody>
@@ -229,10 +256,10 @@ export default function ComprarPage() {
               <PriceDiv>
                 {(totalDiscount > 0) ?
                   <>
-                    <h4>R${totalPrice}</h4>
-                    <h2>R${totalPrice - totalDiscount}</h2>
+                    <h4>R${totalPrice + totalTax}</h4>
+                    <h2>R${totalPrice - totalDiscount + totalTax}</h2>
                   </> :
-                  <h2>R${totalPrice - totalDiscount}</h2>
+                  <h2>R${totalPrice - totalDiscount + totalTax}</h2>
                 }
               </PriceDiv>
             </OrderBody>
@@ -276,7 +303,6 @@ export default function ComprarPage() {
               {...register('insta')}
             />
           </InputBox>
-          <hr/>
           <TitleDiv>
             <h2>Dados do Pedido</h2>
             <p>Nãosdfas</p>
@@ -285,7 +311,7 @@ export default function ComprarPage() {
             <DeliveryDiv>
               <RadioDiv>
                 <input
-                  onClick={() => setDeliveryType('entrega')}
+                  onClick={() => {setDeliveryType('Entrega'); setTotalTax(null)}}
                   value='Entrega'
                   type='radio'
                   {...register('delivery.type',{
@@ -300,7 +326,7 @@ export default function ComprarPage() {
               </RadioDiv>
               <RadioDiv>
                 <input
-                  onClick={() => setDeliveryType('retirada')}
+                  onClick={() => {setDeliveryType('Retirada'); setTotalTax(0)}}
                   value='Retirada'
                   type='radio'
                   {...register('delivery.type',{
@@ -367,6 +393,7 @@ export default function ComprarPage() {
               </RadioDiv>
             </DeliveryDiv>
           </InputBox>}
+          <p>Após fazer o pedido, você pode entrar em uma fila e não podemos garantir que conseguirá a peça, mas não se preocupe, não cobraremos nada sem completar o pedido.</p>
           <Button>FINALIZAR COMPRA</Button>
         </Form>
       </Wrapper>
@@ -375,20 +402,20 @@ export default function ComprarPage() {
 
   function renderDeliveryForms() {
     switch(deliveryType) {
-      case 'entrega':
+      case 'Entrega':
         return (
           <InputBox title={'Local de Entrega*'} span={'//'} errorMessage={errors.delivery && errors.delivery.local}>
             <select defaultValue='' {...register('delivery.local',{
               required: 'Selecione uma opção'
             })}>
               <option value="" disabled>Selecione um local</option>
-              {deliveryLocations.sort().map((location) => {
-                return <option key={location} value={location}>{location}</option>
+              {deliveryLocations.map((location) => {
+                return <option key={location.local} onClick={() =>  setTotalTax(location.tax)} value={location.local}>{`${location.local} (R$${location.tax})`}</option>
               })}
             </select>
           </InputBox>
         )
-      case 'retirada':
+      case 'Retirada':
         return (
           <InputBox title={'Local de Retirada*'} span={'//'} errorMessage={errors.delivery && errors.delivery.local}>
             <select defaultValue='' {...register('delivery.local',{

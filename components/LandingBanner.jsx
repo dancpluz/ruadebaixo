@@ -1,19 +1,43 @@
 import logoIcon from '@/public/assets/logonew.svg';
-import photo1 from '@/public/assets/photo1.png';
-import photo2 from '@/public/assets/photo2.png';
-import photo3 from '@/public/assets/photo3.png';
-import { MainContainer, Logo, TopImage, Caption, LeftImage, RightImage } from './styles/LandingBanner.styled'
+import { MainContainer, Logo, TopImage, Caption, LeftImage, RightImage } from './styles/LandingBanner.styled';
+import { fetchLandingImages } from '@/lib/api';
 
-export default function LandingBanner() {
+export default async function LandingBanner() {
+  const {top_image, right_image, left_image} = await fetchLandingImages();
+
   return (
     <MainContainer>
-      <Logo src={logoIcon} alt='logo' />
-      <TopImage src={photo1} alt='photoTop'/>
+      <Logo
+        src={logoIcon}
+        alt='Rua de Baixo Logo'
+        priority />
+      <TopImage
+        src={top_image.url}
+        alt='photoTop'
+        height={top_image.height}
+        width={top_image.width}
+        placeholder={'blur'}
+        blurDataURL={top_image.blur}
+      />
       <Caption>
-        <h4>O estilo de rua nunca sai de moda. Encontre o seu na Rua de Baixo.</h4>
+        <h4>Confira o Primeiro Drop da Rua de Baixo "Valendo uma Coca"</h4>
       </Caption>
-      <LeftImage src={photo3} alt='photoBottomLeft' />
-      <RightImage src={photo2} alt='photoBottomRight' />
+      <LeftImage
+        src={left_image.url}
+        alt='photoTop'
+        height={left_image.height}
+        width={left_image.width}
+        placeholder={'blur'}
+        blurDataURL={left_image.blur}
+      />
+      <LeftImage
+        src={right_image.url}
+        alt='photoTop'
+        height={right_image.height}
+        width={right_image.width}
+        placeholder={'blur'}
+        blurDataURL={right_image.blur}
+      />
     </MainContainer>
   )
 }

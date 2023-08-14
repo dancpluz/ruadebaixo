@@ -20,10 +20,6 @@ const Error = styled.p`
 `;
 
 export default function InputBox({ title, span, errorMessage, children }) {
-  useEffect(() => {
-    console.log(errorMessage);
-  },[errorMessage]);
-  
   return (
     <InputDiv>
       <HeaderDiv>

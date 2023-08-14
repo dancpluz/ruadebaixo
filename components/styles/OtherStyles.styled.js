@@ -12,3 +12,10 @@ export const LogoCMS = styled(Image)`
   top: 15px;
   left: 20px;
 `;
+
+export const Screen = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 80vh;
+`;

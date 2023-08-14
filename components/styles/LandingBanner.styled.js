@@ -4,36 +4,46 @@ import styled from 'styled-components';
 import Image from 'next/image'
 
 export const MainContainer = styled.div`
-  padding-bottom: 70px;
-`;
-
-export const Logo = styled(Image)`
-  vertical-align: top;
-  margin: 120px 0 0 120px;
-`;
-
-export const TopImage = styled(Image)`
-  margin-left: 20vw;
+  position: relative;
+  overflow: hidden;
+  padding: 80px 200px;
+  height: 100vh;
+  @media ${({theme}) => theme.sizes.medium} {
+    padding: 20px 100px;
+  }
+  @media ${({theme}) => theme.sizes.medium} {
+    padding: 20px 32px;
+  }
 `;
 
 export const Caption = styled.div`
-  width: 760px;
   border-bottom: 1px solid ${({ theme }) => theme.colors.dark};
-  margin-top: 60px;
-  padding-bottom: 10px;
   h4 {
     margin-left: 120px;
     text-align: right;
   }
 `;
 
+export const Logo = styled(Image)`
+  
+`;
+
+export const TopImage = styled(Image)`
+  position: absolute;
+  top: 0;
+  right: 500px;
+  height: 650px;
+  width: auto;
+`;
+
 export const LeftImage = styled(Image)`
-  vertical-align: top;
-  margin-left: 150px;
-  margin-top: 100px;
+  position: absolute;
+  height: 300px;
+  width: auto;
 `;
 
 export const RightImage = styled(Image)`
-  margin-top: -20vw;
-  margin-left: 70vw;
+  position: absolute;
+  height: 300px;
+  width: auto;
 `;

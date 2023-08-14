@@ -107,12 +107,10 @@ const SoldDiv = styled.div`
   ${CardImage} {
     filter: saturate(0);
     opacity: 0.3;
-    pointer-events: none;
   }
   
   ${Caption} {
     justify-content: center;
-    pointer-events: none;
   }
 `;
 
@@ -129,7 +127,7 @@ export default function Card({ product: { slug,images,name,price,type,drop,tags,
   }
 
   if (sold) { return (
-    <SoldDiv>
+    <SoldDiv onClick={() => router.push(`/produtos/${slug.current}`)}>
       <Strip text={"VENDIDO - "} />
       <ImageFrame>
         <Tag tags={[type,drop]} type={'top'} />

@@ -18,7 +18,7 @@ export default async function ProdutosPage() {
     <Container>
       <h1>Catálogo</h1>
       <Wrapper>
-        <FilterBar />
+        {/* <FilterBar /> */}
         <ProductsDiv>
           {products ? (
             products.map((product) => (

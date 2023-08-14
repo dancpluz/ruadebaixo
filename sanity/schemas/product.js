@@ -1,5 +1,7 @@
 export const productTypes = [
     { title: 'Camiseta',value: 'Camiseta' },
+    { title: 'Camisa',value: 'Camisa' },
+    { title: 'Polo',value: 'Polo' },
     { title: 'Boné',value: 'Boné' },
     { title: 'Calça',value: 'Calça' },
     { title: 'Shorts',value: 'Shorts' },

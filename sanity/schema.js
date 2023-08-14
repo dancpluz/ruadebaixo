@@ -1,4 +1,4 @@
-import banner from './schemas/banner';
+import banner from './schemas/bannerOLD';
 import product from './schemas/product';
 import photos from './schemas/photos';
 import lookbook from './schemas/lookbook';

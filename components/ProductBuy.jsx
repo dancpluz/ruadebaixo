@@ -78,12 +78,12 @@ export default function ProductBuy({ product }) {
         COMPRAR
       </BuyButton>
       }
-      <NegotiateButton onClick={() => ''}>
+      {/* <NegotiateButton onClick={() => ''}>
         <Icon alt={'Ícone Negociar Preço'} src={'/assets/icons/moneyspeech.svg'} width={60} height={60} />
-      </NegotiateButton>
-      <AddButton onClick={() => onAdd(product,false)}>
+      </NegotiateButton> */}
+      {!product.sold && <AddButton onClick={() => onAdd(product,false)}>
         <Icon alt={'Ícone Adicionar ao Carrinho'} src={'/assets/icons/addcart.svg'} width={60} height={60} />
-      </AddButton>
+      </AddButton>}
     </BuyDiv>
   );
 }

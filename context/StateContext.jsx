@@ -26,9 +26,11 @@ export const StateContext = ({ children }) => {
   const [selectedTags,setSelectedTags] = useState([]);
   const [showCart, setShowCart] = useState(false);
   const [cartItems,setCartItems] = useState([]);
+  const [lastRemovedItem,setLastRemovedItem] = useState(null);
   const [totalPrice,setTotalPrice] = useState(0);
   const [totalDiscount,setTotalDiscount] = useState(0);
-  const [lastRemovedItem,setLastRemovedItem] = useState(null);
+  const [totalTax,setTotalTax] = useState(null);
+  
 
   const router = useRouter();
 
@@ -84,7 +86,9 @@ export const StateContext = ({ children }) => {
         onAdd,
         onRemove,
         onUndo,
-        router
+        router,
+        totalTax,
+        setTotalTax,
       }}
     >
       {children}

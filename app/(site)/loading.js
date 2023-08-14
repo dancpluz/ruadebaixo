@@ -1,6 +1,11 @@
-import Skeleton from '@mui/material/Skeleton';
+import CircularProgress from '@mui/material/CircularProgress';
+import { Screen } from '@/components/styles/OtherStyles.styled'
 
 export default function Loading() {
-  // You can add any UI inside Loading, including a Skeleton.
-  return <Skeleton variant="rectangular" width={210} height={60} />
+
+  return (
+    <Screen>
+      <CircularProgress color="inherit" />
+    </Screen>
+  )
 }
