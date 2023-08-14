@@ -5,23 +5,6 @@ import { useRouter } from 'next/navigation';
 
 const Context = createContext();
 
-const product = {
-  _id: 0,
-  slug: 'test',
-  images: [],
-  name: '5 Panel Cairo Beige',
-  desc: 'Boné 5 panel com protetor de pescoço estampado removível e gráfico bordado.',
-  size: 'M',
-  wears: 'G',
-  discount: 5,
-  price: 20,
-  type: 'boné',
-  quality: 'usado',
-  tags: ['internacional','vintage'],
-  points: ['Pequeno arranhão no lado esquerdo','Gola deformada','Pequena mancha no canto da camiseta','teste','214124','poggers'],
-  sold: true
-};
-
 export const StateContext = ({ children }) => {
   const [selectedTags,setSelectedTags] = useState([]);
   const [showCart, setShowCart] = useState(false);
