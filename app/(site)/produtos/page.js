@@ -12,7 +12,7 @@ export const metadata = {
 }
 
 export default async function ProdutosPage() {
-  const products = await fetchCatalogProducts(1);
+  const products = await fetchCatalogProducts();
 
   return (
     <Container>
