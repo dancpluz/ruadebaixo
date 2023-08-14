@@ -8,3 +8,14 @@ export const Container = styled.div`
     text-align: center;
   }
 `;
+
+export const Wrapper = styled.div`
+  display: flex;
+  gap: 24px;
+`;
+
+export const ProductsDiv = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+`

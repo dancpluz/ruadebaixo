@@ -7,6 +7,8 @@ import InputBox from '@/components/InputBox';
 import { Button } from '@/components/Cart';
 import { useState } from 'react';
 import { deliveryLocations,pickupLocations } from '@/sanity/schemas/options';
+import CartItem from '@/components/CartItem';
+import { ItemsDiv,PriceDiv }  from '@/components/Cart'
 
 // async function sendObjectToZap() {
 //     // WIP
@@ -41,7 +43,14 @@ const Container = styled.div`
   align-items: center;
   justify-content: center;
   flex-flow: column nowrap;
-  padding: 20px 200px;
+  gap: 24px;
+  padding: 42px 200px;
+  @media ${({ theme }) => theme.sizes.medium} {
+    padding: 42px 100px;
+  }
+  @media ${({ theme }) => theme.sizes.medium} {
+    padding: 42px 32px;
+  }
 `;
 
 const Wrapper = styled.div`
@@ -50,6 +59,9 @@ const Wrapper = styled.div`
   justify-content: center;
   gap: 64px;
   width: 100%;
+  @media ${({ theme }) => theme.sizes.medium} {
+    flex-direction: column;
+  }
 `;
 
 const Underlined = styled.span`
@@ -59,9 +71,31 @@ const Underlined = styled.span`
 
 const OrderDiv = styled.div`
   display: flex;
-  flex-grow: 1;
-  align-self: stretch;
-  justify-content: space-between;
+  flex-direction: column;
+  width: 100%;
+  //min-height: 800px;
+  //justify-content: space-between;
+  h5 {
+    font-size: 2rem;
+    text-align: center;
+    height: 100%;
+    color: ${({ theme }) => theme.colors.dark};
+    font-weight: 400;
+  }
+  @media ${({ theme }) => theme.sizes.small} {
+    ${ItemsDiv} {
+      p {
+        display: none;
+      }
+      div{
+        flex-direction: column;
+        width: 100%;
+        align-items: center;
+        gap: 10px;
+      }
+      padding: 12px;
+    }
+  }
 `;
 
 const OrderHeader = styled.div`
@@ -69,9 +103,8 @@ const OrderHeader = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 12px 24px;
+  padding: 24px;
   height: 40px;
-  width: 100%;
   h2,h3 {
     color: ${({ theme }) => theme.colors.light};
   }
@@ -80,11 +113,38 @@ const OrderHeader = styled.div`
   }
 `;
 
+const OrderBody = styled.div`
+  padding: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  h2, h4 {
+    font-weight: 400;
+  }
+  h4 {
+    text-decoration: line-through;
+  }
+
+  &:last-child {
+    h1 {
+      font-weight: 600;
+      font-size: 2rem;
+    }
+    background: ${({ theme }) => theme.colors.dark};
+    color: ${({ theme }) => theme.colors.light};
+  }
+`;
+
+const OrderFooter = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
 const Form = styled.form`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  flex-grow: 1;
+  width: 100%;
 `;
 
 const TitleDiv = styled.div`
@@ -98,7 +158,6 @@ const RadioDiv = styled.div`
       font-weight: 400;
     }
   div {
-    
     span {
       text-decoration: underline;
     }
@@ -116,22 +175,68 @@ export default function ComprarPage() {
   const { totalPrice,totalDiscount,cartItems,setShowCart,lastRemovedItem,router } = useStateContext();
   const [deliveryType, setDeliveryType] = useState(null);
   const [pixPayment,setPixPayment] = useState(null);
+  const [submitError,setSubmitError] = useState('');
 
-  const { register, handleSubmit, watch, formState: { errors } } = useForm();
+  const { register, handleSubmit, formState: { errors } } = useForm();
 
   const onSubmit = data => console.log(data);
 
   return (
     <Container>
-      <h1>Finalizar Compra</h1>
-      <p>No momento, <Underlined>somente</Underlined> aceitamos pagamento por <Underlined>PIX</Underlined> ou <Underlined>dinheiro</Underlined>.</p>
-      <p>É <Underlined>necessário</Underlined> ter um número de celular com <Underlined>Whatsapp</Underlined> para concluir a compra.</p>
+      <div>
+        <h1>Finalizar Compra</h1>
+        <p>No momento, <Underlined>somente</Underlined> aceitamos pagamento por <Underlined>PIX</Underlined> ou <Underlined>dinheiro</Underlined>.</p>
+        <p>É <Underlined>necessário</Underlined> ter um número de celular com <Underlined>Whatsapp</Underlined> para concluir a compra.</p>
+      </div>
       <Wrapper>
         <OrderDiv>
           <OrderHeader>
             <h2>Seu Pedido</h2>
             <h3>({cartItems.length} {cartItems.length == 1 ? "item" : "itens"})</h3>
           </OrderHeader>
+          <ItemsDiv>
+            {(cartItems.length != 0) || lastRemovedItem ?
+            (<>
+              {cartItems.map((item) => {
+                return <CartItem key={item.name} product={item} />
+              })}
+              {lastRemovedItem && <CartItem lastRemoved={true} product={lastRemovedItem} />}
+            </>) :
+            <h5>Sua caixa está vazia</h5>}
+          </ItemsDiv>
+          <hr />
+          <OrderFooter>
+            <OrderBody>
+              <h2>Subtotal</h2>
+              <PriceDiv>
+                {(totalDiscount > 0) ?
+                  <>
+                    <h4>R${totalPrice}</h4>
+                    <h2>R${totalPrice - totalDiscount}</h2>
+                  </> :
+                  <h2>R${totalPrice - totalDiscount}</h2>
+                }
+              </PriceDiv>
+            </OrderBody>
+            <OrderBody>
+              <h2>Entrega</h2>
+              <PriceDiv>
+                {}
+              </PriceDiv>
+            </OrderBody>
+            <OrderBody>
+              <h1>Total</h1>
+              <PriceDiv>
+                {(totalDiscount > 0) ?
+                  <>
+                    <h4>R${totalPrice}</h4>
+                    <h2>R${totalPrice - totalDiscount}</h2>
+                  </> :
+                  <h2>R${totalPrice - totalDiscount}</h2>
+                }
+              </PriceDiv>
+            </OrderBody>
+          </OrderFooter>
         </OrderDiv>
         <vl />
         <Form onSubmit={handleSubmit(onSubmit)}>
@@ -139,7 +244,7 @@ export default function ComprarPage() {
             <h2>Dados Pessoais</h2>
             <p>Nãosdfas</p>
           </TitleDiv>
-          <InputBox title={'Nome*'} span={'Nome que usaremos ao contatar'}>
+          <InputBox title={'Nome*'} span={'Nome que usaremos ao contatar'} errorMessage={errors.name}>
             <input
               type='text'
               placeholder='ex. Rua de Baixo'
@@ -148,7 +253,7 @@ export default function ComprarPage() {
               })}
             />
           </InputBox>
-          <InputBox title={'Número de Celular*'} span={'O pedido será concluído pelo Whatsapp'}>
+          <InputBox title={'Número de Celular*'} span={'O pedido será concluído pelo Whatsapp'} errorMessage={errors.phone}>
             <input
               type='phone'
               placeholder='ex. 61987654321'
@@ -157,14 +262,14 @@ export default function ComprarPage() {
               })}
             />
           </InputBox>
-          <InputBox title={'Email'} span={'Email para receber notícias e informações do pedido '}>
+          <InputBox title={'Email'} span={'Email para receber notícias e informações do pedido '} errorMessage={errors.email}>
             <input
               type='email'
               placeholder='ex. ruadebaixoloja@gmail.com'
               {...register('email')}
             />
           </InputBox>
-          <InputBox title={'Instagram'} span={'@'}>
+          <InputBox title={'Instagram'} span={'@'} errorMessage={errors.insta}>
             <input
               type='text'
               placeholder='ex. @ruadebaixoloja'
@@ -176,7 +281,7 @@ export default function ComprarPage() {
             <h2>Dados do Pedido</h2>
             <p>Nãosdfas</p>
           </TitleDiv>
-          <InputBox title={'Forma de Recebimento*'} span={'//'}>
+          <InputBox title={'Forma de Recebimento*'} span={'//'} errorMessage={errors.delivery && errors.delivery.type}>
             <DeliveryDiv>
               <RadioDiv>
                 <input
@@ -211,7 +316,7 @@ export default function ComprarPage() {
             </DeliveryDiv>
           </InputBox>
           {renderDeliveryForms()}
-          <InputBox title={'Forma de Pagamento*'} span={'//'}>
+          <InputBox title={'Forma de Pagamento*'} span={'//'} errorMessage={errors.payment && errors.payment.type}>
             <DeliveryDiv>
               <RadioDiv>
                 <input
@@ -237,7 +342,7 @@ export default function ComprarPage() {
               </RadioDiv>
             </DeliveryDiv>
           </InputBox>
-          {!(pixPayment === null) && <InputBox title={'Quando Pagar?*'}>
+          {!(pixPayment === null) && <InputBox title={'Quando Pagar?*'} errorMessage={errors.payment && errors.payment.moment}>
             <DeliveryDiv>
               <RadioDiv>
                 <input
@@ -272,8 +377,11 @@ export default function ComprarPage() {
     switch(deliveryType) {
       case 'entrega':
         return (
-          <InputBox title={'Local de Entrega*'} span={'//'}>
-            <select {...register('delivery.local')}>
+          <InputBox title={'Local de Entrega*'} span={'//'} errorMessage={errors.delivery && errors.delivery.local}>
+            <select defaultValue='' {...register('delivery.local',{
+              required: 'Selecione uma opção'
+            })}>
+              <option value="" disabled>Selecione um local</option>
               {deliveryLocations.sort().map((location) => {
                 return <option key={location} value={location}>{location}</option>
               })}
@@ -282,8 +390,11 @@ export default function ComprarPage() {
         )
       case 'retirada':
         return (
-          <InputBox title={'Local de Retirada*'} span={'//'}>
-            <select {...register('delivery.local')}>
+          <InputBox title={'Local de Retirada*'} span={'//'} errorMessage={errors.delivery && errors.delivery.local}>
+            <select defaultValue='' {...register('delivery.local',{
+              required: 'Selecione uma opção'
+            })}>
+              <option value='' disabled>Selecione um local</option>
               {pickupLocations.sort().map((location) => {
                 return <option key={location} value={location}>{location}</option>
               })}

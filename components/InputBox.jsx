@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import styled from 'styled-components';
 
 const InputDiv = styled.div`
@@ -14,7 +15,15 @@ const HeaderDiv = styled.div`
   align-items: center;
 `;
 
+const Error = styled.p`
+  text-decoration: underline;
+`;
+
 export default function InputBox({ title, span, errorMessage, children }) {
+  useEffect(() => {
+    console.log(errorMessage);
+  },[errorMessage]);
+  
   return (
     <InputDiv>
       <HeaderDiv>
@@ -22,7 +31,7 @@ export default function InputBox({ title, span, errorMessage, children }) {
           <h3>{title}</h3>
           <span>{span}</span>
         </div>
-        {errorMessage && <p>{errorMessage.message}</p>}
+        {errorMessage && <Error>{errorMessage.message}</Error>}
       </HeaderDiv>
       {children}
     </InputDiv>

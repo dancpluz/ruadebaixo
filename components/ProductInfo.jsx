@@ -2,7 +2,7 @@ import Accordion from './Accordion';
 import { Container } from './styles/Accordion.styled';
 import { deliveryLocations, pickupLocations } from '@/sanity/schemas/options';
 
-export default function ProductInfo() {
+export default function ProductInfo({ measures }) {
   return (
     <Container>
       <Accordion title={'Entrega e Retirada'}>
@@ -22,7 +22,7 @@ export default function ProductInfo() {
           </ul>
       </Accordion>
       <Accordion title={'Medidas'}>
-        WIP
+        {measures ? 'tem' : 'não tem'}
       </Accordion>
       <Accordion title={'Dúvidas'}>
         WIP

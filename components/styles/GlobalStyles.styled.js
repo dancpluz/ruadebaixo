@@ -79,7 +79,7 @@ const GlobalStyle = createGlobalStyle`
           1px 1.5em;
         background-repeat: no-repeat;
         border-color: ${theme.colors.dark};
-        //outline: 0;
+        outline: 0;
       }
     }
 
@@ -95,7 +95,7 @@ const GlobalStyle = createGlobalStyle`
     cursor: pointer;
 
     &:disabled{
-      opacity: .5;
+      opacity: .3;
       :checked::before {
         transform: scale(0);
       }

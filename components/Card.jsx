@@ -39,8 +39,8 @@ const CardImage = styled(Image)`
 `;
 
 const Caption = styled.div`
-  margin: 8px 0;
-  padding-bottom: 10px;
+  padding: 4px 0;
+  height: 35px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -76,7 +76,7 @@ const Caption = styled.div`
   }
 
   &:hover:after{
-    height: calc(100% + 8px);
+    height: 100%;
   }
 `;
 
@@ -134,7 +134,13 @@ export default function Card({ product: { slug,images,name,price,type,drop,tags,
       <ImageFrame>
         <Tag tags={[type,drop]} type={'top'} />
         <Tag tags={tags} type={'bottom'} /> 
-        <CardImage alt={slug.current} src={images[0]} height={800} width={600} />
+        <CardImage 
+          alt={`${type}-${name}-Vendido`}
+          src={images[0].url}
+          height={800}
+          width={600}
+          placeholder={'blur'}
+          blurDataURL={images[0].blur} />
       </ImageFrame>
       <Caption>
         <Title>{name}</Title>
@@ -152,19 +158,23 @@ export default function Card({ product: { slug,images,name,price,type,drop,tags,
           onMouseEnter={onMouseEnter}
           onMouseLeave={onMouseLeave}
           fade={isHovering ? 1 : 0}
-          src={images[1]}
+          src={images[1].url}
           alt={`${type}-${name}-Trás`}
           height={800}
           width={600}
+          placeholder={'blur'}
+          blurDataURL={images[1].blur}
         />
         <CardImage
           onMouseEnter={onMouseEnter}
           onMouseLeave={onMouseLeave}
           fade={isHovering ? 0 : 1}
-          src={images[0]}
+          src={images[0].url}
           alt={`${type}-${name}-Frente`}
           height={800}
           width={600}
+          placeholder={'blur'}
+          blurDataURL={images[0].blur}
         />
       </ImageFrame>
       <Caption>

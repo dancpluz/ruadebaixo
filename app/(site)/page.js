@@ -13,7 +13,7 @@ export default function Home() {
     <div>
       <LandingBanner />
       <Strip text={"RUA DE BAIXO - "} />
-      {/* <LandingProducts /> */}
+      <LandingProducts />
     </div>
   )
 }

@@ -64,6 +64,14 @@ const CartContainer = styled.div`
   animation: ${props => (props.isVisible ? slideIn : slideOut)} 300ms ease;
   color: ${({ theme }) => theme.colors.light};
 
+  h5 {
+    font-size: 2rem;
+    text-align: center;
+    height: 100%;
+    color: ${({ theme }) => theme.colors.dark};
+    font-weight: 400;
+  }
+
   @media ${({ theme }) => theme.sizes.small} {
     width: 100%;
   }
@@ -94,7 +102,7 @@ const CartHeader = styled.div`
   }
 `;
 
-const ItemsDiv = styled.div`
+export const ItemsDiv = styled.div`
   flex-grow: 1;
   overflow-y: auto;
   overflow-x: hidden;
@@ -104,7 +112,7 @@ const ItemsDiv = styled.div`
   padding: 24px 24px;
 `;
 
-const CartFooter = styled.div`
+export const CartFooter = styled.div`
   display: flex;
   flex-flow: column nowrap;
   gap: 10px;
@@ -125,7 +133,7 @@ const SubtotalDiv = styled.div`
   }
 `;
 
-const PriceDiv = styled.div`
+export const PriceDiv = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-end;
@@ -168,10 +176,14 @@ export default function Cart() {
           <h3>({cartItems.length} {cartItems.length == 1 ? "item" : "itens"})</h3>
         </CartHeader>
         <ItemsDiv>
-          {cartItems.map((item) => {
-            return <CartItem key={item.name} product={item} />
-          })}
-          {lastRemovedItem && <CartItem lastRemoved={true} product={lastRemovedItem} />}
+          {(cartItems.length != 0) || lastRemovedItem ?
+          (<>
+            {cartItems.map((item) => {
+              return <CartItem key={item.name} product={item} />
+            })}
+            {lastRemovedItem && <CartItem lastRemoved={true} product={lastRemovedItem} />}
+          </>) :
+        <h5>Sua caixa está vazia</h5>}
         </ItemsDiv>
         <CartFooter>
           <SubtotalDiv>

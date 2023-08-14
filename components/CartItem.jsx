@@ -67,18 +67,24 @@ const DisabledImage = styled(Image)`
   opacity: 0.7;
 `;
 
-export default function CartItem({lastRemoved, product, product: { images,type,name,wears,discount,price }}) {
+export default function CartItem({lastRemoved, product, product: { images,type,name,size,discount,price }}) {
   const { setLastRemovedItem, onRemove, onUndo } = useStateContext();
 
   if (!lastRemoved) {
     return (
       <ItemDiv>
         <RemoveIcon src={plusIcon} alt={"X"} onClick={() => onRemove(product)} />
-        <ProductImage src={images[0]} alt={`Produto-${name}`} width={300} height={400}/>
+        <ProductImage 
+          src={images[0].url}
+          alt={`Produto-${name}`}
+          width={300}
+          height={400}
+          placeholder={'blur'}
+          blurDataURL={images[0].blur}/>
         <TextDiv>
           <p>{type}</p>
           <h4>{name}</h4>
-          <p>Veste {wears}</p>
+          <p>Tamanho {size}</p>
         </TextDiv>
         <PriceDiv>
           {(discount > 0) ?
@@ -95,7 +101,13 @@ export default function CartItem({lastRemoved, product, product: { images,type,n
     return (
       <ItemDiv>
         <RemoveIcon src={plusIcon} alt={"X"} onClick={() => setLastRemovedItem(null)} />
-        <DisabledImage src={images[0]} alt={`Produto-Removido-${name}`} width={300} height={400} />
+        <DisabledImage
+          src={images[0].url}
+          alt={`Produto-Removido-${name}`}
+          width={300}
+          height={400}
+          placeholder={'blur'}
+          blurDataURL={images[0].blur}/>
         <TextDiv>
           <p>Item Removido</p>
           <h4>Deseja desfazer?</h4>

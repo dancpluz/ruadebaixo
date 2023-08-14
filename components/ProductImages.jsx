@@ -56,7 +56,7 @@ const PreviewImage = styled(Image)`
 `;
 
   
-export default function ProductImages({ tags,images, name }) {
+export default function ProductImages({ tags,images,name }) {
     const [imageIndex,setImageIndex] = useState(0);
 
     function selectImage(index) {
@@ -65,7 +65,13 @@ export default function ProductImages({ tags,images, name }) {
 
     return (
     <ImagesDiv>
-        <MainImage src={images[imageIndex]} alt={`Imagem-Principal-${name}`} height={400} width={400} />
+        <MainImage
+          src={images[imageIndex].url}
+          alt={`Imagem-Principal-${name}`}
+          height={400}
+          width={400}
+          placeholder={'blur'}
+          blurDataURL={images[imageIndex].blur} />
         <Tag tags={tags} type={'top'} />
         <PreviewImagesWrapper>
           {images.map((image, n) => 
@@ -76,7 +82,9 @@ export default function ProductImages({ tags,images, name }) {
             key={`Imagem-${name}-${n}`}
             height={92}
             width={92}
-            src={image}
+            src={image.url}
+            placeholder={'blur'}
+            blurDataURL={image.blur}
           />
           )}
         </PreviewImagesWrapper>

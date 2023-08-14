@@ -1,5 +1,7 @@
-import FilterBar from '@/components/FilterBar'
-import { Container } from '@/components/styles/CatalogPage.styled';
+import FilterBar from '@/components/FilterBar';
+import Card from '@/components/Card';
+import { Container,Wrapper,ProductsDiv } from '@/components/styles/CatalogPage.styled';
+import { fetchCatalogProducts } from '@/lib/api';
 
 export const metadata = {
   title: 'Produtos',
@@ -9,11 +11,22 @@ export const metadata = {
   },
 }
 
-export default function ProdutosPage() {
+export default async function ProdutosPage() {
+  const products = await fetchCatalogProducts(0);
+
   return (
     <Container>
       <h1>Catálogo</h1>
-      <FilterBar />
+      <Wrapper>
+        <FilterBar />
+        <ProductsDiv>
+          {products ? (
+            products.map((product) => (
+              <Card key={product.slug.current} product={product} />
+            ))
+          ) : "POGGERS"}
+        </ProductsDiv>
+      </Wrapper>
     </Container>
   )
 }
