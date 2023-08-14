@@ -145,9 +145,8 @@ const RadioDiv = styled.div`
   }
 `;
 
-
 export default function ComprarPage() {
-  const { totalPrice,totalDiscount,cartItems,lastRemovedItem,totalTax, setTotalTax, router } = useStateContext();
+  const { totalPrice,totalDiscount,cartItems,lastRemovedItem,totalTax, setTotalTax, router} = useStateContext();
   const [deliveryType, setDeliveryType] = useState('Taxa');
   const [pixPayment,setPixPayment] = useState(null);
   //const [submitError,setSubmitError] = useState('');
