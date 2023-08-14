@@ -24,7 +24,7 @@ export default async function ProdutosPage() {
             products.map((product) => (
               <Card key={product.slug.current} product={product} />
             ))
-          ) : "POGGERS"}
+          ) : <p>Sem Produtos</p>}
         </ProductsDiv>
       </Wrapper>
     </Container>
