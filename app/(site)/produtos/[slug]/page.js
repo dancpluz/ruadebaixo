@@ -22,13 +22,13 @@ export async function generateMetadata({ params: { slug }}) {
 export default async function ProdutoPage({ params: { slug } }) {
 
   const product = await fetchProduct(slug);
-  const { name, images, type, quality, drop, tags, measures, price, size, ordered, discount, sold, details } = product;
+  const { name, images, type, quality, drop, tag, measures, price, size, ordered, discount, sold, details } = product;
 
   return (
     <Container>
       <ProductDiv>
         <TopDiv>
-          <ProductImages tags={tags} images={images} name={slug} />
+          <ProductImages tags={tag} images={images} name={slug} />
         </TopDiv>
         <MiddleDiv>
           {ordered && <OrderedBadge />}

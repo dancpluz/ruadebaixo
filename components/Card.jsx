@@ -115,7 +115,7 @@ const SoldDiv = styled.div`
   }
 `;
 
-export default function Card({ product: { slug,images,name,price,type,drop,tags,ordered,sold } }) {
+export default function Card({ product: { slug,images,name,price,type,drop,tag,ordered,sold } }) {
   const [isHovering,setIsHovering] = useState(false);
   const { router } = useStateContext();
 
@@ -132,7 +132,7 @@ export default function Card({ product: { slug,images,name,price,type,drop,tags,
       <Strip text={"VENDIDO - "} />
       <ImageFrame>
         <Tag tags={[type,drop]} type={'top'} />
-        <Tag tags={tags} type={'bottom'} /> 
+        <Tag tags={tag} type={'bottom'} /> 
         <CardImage 
           alt={`${type}-${name}-Vendido`}
           src={images[0].url}
@@ -151,7 +151,7 @@ export default function Card({ product: { slug,images,name,price,type,drop,tags,
     <CardDiv onClick={() => router.push(`/produtos/${slug.current}`)} >
       <ImageFrame>
         <Tag tags={[type, drop]} type={'top'} />
-        <Tag tags={tags} type={'bottom'} />
+        <Tag tags={tag} type={'bottom'} />
         {ordered && <OrderedBadge />}
         <CardImage
           onMouseEnter={onMouseEnter}
