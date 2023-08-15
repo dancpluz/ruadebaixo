@@ -6,6 +6,7 @@ import boxOpen from '@/public/assets/icons/boxopen.svg';
 import CartItem from './CartItem';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
+import ClickAwayListener from '@mui/material/ClickAwayListener';
 
 const fadeIn = keyframes`
   from {
@@ -158,6 +159,10 @@ export default function Cart() {
   const [isVisible,setIsVisible] = useState(true);
   const { totalPrice, totalDiscount, cartItems,setShowCart,lastRemovedItem, router } = useStateContext();
 
+  const handleClose = () => {
+    setIsVisible(false);
+  };
+
   useEffect(() => {
     if (!isVisible) {
       setTimeout(() => {
@@ -169,45 +174,47 @@ export default function Cart() {
 
   return (
     <Background isVisible={isVisible}>
-      <CartContainer isVisible={isVisible}>
-        <CartHeader>
-          <BoxIcon alt={'openbox'} src={boxOpen} onClick={() => setIsVisible(false)}/>
-          <h1>Sua Caixa</h1>
-          <h3>({cartItems.length} {cartItems.length == 1 ? "item" : "itens"})</h3>
-        </CartHeader>
-        <ItemsDiv>
-          {(cartItems.length != 0) || lastRemovedItem ?
-          (<>
-            {cartItems.map((item) => {
-              return <CartItem key={item.name} product={item} />
-            })}
-            {lastRemovedItem && <CartItem lastRemoved={true} product={lastRemovedItem} />}
-          </>) :
-        <h5>Sua caixa está vazia</h5>}
-        </ItemsDiv>
-        <CartFooter>
-          <SubtotalDiv>
-            <h2>Subtotal</h2>
-            <PriceDiv>
-              {(totalDiscount > 0) ?
-                <>
-                  <h4>R${totalPrice}</h4>
+      <ClickAwayListener onClickAway={handleClose}>
+        <CartContainer isVisible={isVisible}>
+          <CartHeader>
+            <BoxIcon alt={'openbox'} src={boxOpen} onClick={handleClose}/>
+            <h1>Sua Caixa</h1>
+            <h3>({cartItems.length} {cartItems.length == 1 ? "item" : "itens"})</h3>
+          </CartHeader>
+          <ItemsDiv>
+            {(cartItems.length != 0) || lastRemovedItem ?
+            (<>
+              {cartItems.map((item) => {
+                return <CartItem key={item.name} product={item} />
+              })}
+              {lastRemovedItem && <CartItem lastRemoved={true} product={lastRemovedItem} />}
+            </>) :
+          <h5>Sua caixa está vazia</h5>}
+          </ItemsDiv>
+          <CartFooter>
+            <SubtotalDiv>
+              <h2>Subtotal</h2>
+              <PriceDiv>
+                {(totalDiscount > 0) ?
+                  <>
+                    <h4>R${totalPrice}</h4>
+                    <h2>R${totalPrice - totalDiscount}</h2>
+                  </> :
                   <h2>R${totalPrice - totalDiscount}</h2>
-                </> :
-                <h2>R${totalPrice - totalDiscount}</h2>
-              }
-            </PriceDiv>
-          </SubtotalDiv>
-          <ButtonDiv>
-            <Button onClick={() => setIsVisible(false)}>
-              CONTINUAR COMPRANDO
-            </Button>
-            <Button primary onClick={() => {setIsVisible(false); router.push('/comprar');}}>
-              FINALIZAR COMPRA
-            </Button>
-          </ButtonDiv>
-        </CartFooter>
-      </CartContainer>
+                }
+              </PriceDiv>
+            </SubtotalDiv>
+            <ButtonDiv>
+              <Button onClick={handleClose}>
+                CONTINUAR COMPRANDO
+              </Button>
+              <Button primary onClick={() => {setIsVisible(false); router.push('/comprar');}}>
+                FINALIZAR COMPRA
+              </Button>
+            </ButtonDiv>
+          </CartFooter>
+        </CartContainer>
+      </ClickAwayListener>
     </Background>
   )
 }

@@ -5,7 +5,6 @@ import Tag from './Tag';
 import Strip from './Strip';
 import { StripDiv } from './styles/Strip.styled';
 import OrderedBadge from '@/components/OrderedBadge';
-import { EyeIcon } from './styles/OrderedBadge.styled';
 import { useState } from 'react';
 import styled from 'styled-components';
 import { useStateContext } from '@/context/StateContext';

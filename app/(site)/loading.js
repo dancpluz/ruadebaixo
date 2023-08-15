@@ -1,5 +1,3 @@
-'use client'
-
 import CircularProgress from '@mui/material/CircularProgress';
 import { Screen } from '@/components/styles/OtherStyles.styled'
 

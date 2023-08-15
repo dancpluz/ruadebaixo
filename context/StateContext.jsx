@@ -12,8 +12,6 @@ export const StateContext = ({ children }) => {
   const [lastRemovedItem,setLastRemovedItem] = useState(null);
   const [totalPrice,setTotalPrice] = useState(0);
   const [totalDiscount,setTotalDiscount] = useState(0);
-  const [totalTax,setTotalTax] = useState(null);
-  
 
   const router = useRouter();
 
@@ -70,8 +68,6 @@ export const StateContext = ({ children }) => {
         onRemove,
         onUndo,
         router,
-        totalTax,
-        setTotalTax,
       }}
     >
       {children}

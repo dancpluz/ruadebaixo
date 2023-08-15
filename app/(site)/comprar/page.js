@@ -10,6 +10,7 @@ import { deliveryLocations,pickupLocations } from '@/sanity/schemas/options';
 import CartItem from '@/components/CartItem';
 import { ItemsDiv,PriceDiv }  from '@/components/Cart'
 import { sendOrderToServer } from '@/lib/api';
+import { formatFloat } from '@/lib/format'
 
 const Container = styled.div`
   display: flex;
@@ -146,8 +147,9 @@ const RadioDiv = styled.div`
 `;
 
 export default function ComprarPage() {
-  const { totalPrice,totalDiscount,cartItems,lastRemovedItem,totalTax, setTotalTax, router} = useStateContext();
+  const { totalPrice,totalDiscount,cartItems,lastRemovedItem,router} = useStateContext();
   const [deliveryType, setDeliveryType] = useState('Taxa');
+  const [tax,setTax] = useState(null);
   const [pixPayment,setPixPayment] = useState(null);
   //const [submitError,setSubmitError] = useState('');
 
@@ -160,8 +162,8 @@ export default function ComprarPage() {
       }
       const order = {
         subtotal: totalPrice - totalDiscount,
-        tax: totalTax,
-        total: totalPrice - totalDiscount + totalTax,
+        tax: formatFloat(tax),
+        total: formatFloat(totalPrice - totalDiscount + tax),
         products: cartItems.map((item) => {
           return {
             name: item.name,
@@ -226,7 +228,7 @@ export default function ComprarPage() {
             <OrderBody>
               <h2>{deliveryType}</h2>
               <PriceDiv>
-                {totalTax === null ? <h2>-</h2> : (totalTax === 0 ? <h2>Grátis</h2> : <h2>R${totalTax}</h2>)}
+                {tax === null ? <h2>-</h2> : (tax === 0 ? <h2>Grátis</h2> : <h2>R${formatFloat(tax)}</h2>)}
               </PriceDiv>
             </OrderBody>
             <OrderBody>
@@ -234,10 +236,10 @@ export default function ComprarPage() {
               <PriceDiv>
                 {(totalDiscount > 0) ?
                   <>
-                    <h4>R${totalPrice + totalTax}</h4>
-                    <h2>R${totalPrice - totalDiscount + totalTax}</h2>
+                    <h4>R${totalPrice + tax}</h4>
+                    <h2>R${formatFloat(totalPrice - totalDiscount + tax)}</h2>
                   </> :
-                  <h2>R${totalPrice - totalDiscount + totalTax}</h2>
+                  <h2>R${formatFloat(totalPrice - totalDiscount + tax)}</h2>
                 }
               </PriceDiv>
             </OrderBody>
@@ -291,7 +293,7 @@ export default function ComprarPage() {
             <DeliveryDiv>
               <RadioDiv>
                 <input
-                  onClick={() => {setDeliveryType('Entrega'); setTotalTax(null)}}
+                  onClick={() => {setDeliveryType('Entrega'); setTax(null)}}
                   value='Entrega'
                   type='radio'
                   {...register('delivery.type',{
@@ -306,7 +308,7 @@ export default function ComprarPage() {
               </RadioDiv>
               <RadioDiv>
                 <input
-                  onClick={() => {setDeliveryType('Retirada'); setTotalTax(0)}}
+                  onClick={() => {setDeliveryType('Retirada'); setTax(0)}}
                   value='Retirada'
                   type='radio'
                   {...register('delivery.type',{
@@ -390,7 +392,7 @@ export default function ComprarPage() {
             })}>
               <option value="" disabled>Selecione um local</option>
               {deliveryLocations.map((location) => {
-                return <option key={location.local} onClick={() =>  setTotalTax(location.tax)} value={location.local}>{`${location.local} (R$${location.tax})`}</option>
+                return <option key={location.local} onClick={() => setTax(location.tax)} value={location.local}>{`${location.local} (R$${location.tax.toFixed(2).toString().replace(".",",") })`}</option>
               })}
             </select>
           </InputBox>

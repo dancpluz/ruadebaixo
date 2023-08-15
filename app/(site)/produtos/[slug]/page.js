@@ -20,9 +20,8 @@ export async function generateMetadata({ params: { slug }}) {
 
 
 export default async function ProdutoPage({ params: { slug } }) {
-
   const product = await fetchProduct(slug);
-  const { name, images, type, quality, drop, tag, measures, price, size, ordered, discount, sold, details } = product;
+  const { name, images, type, quality, drop, tag, measures, price, size, ordered, discount, details } = product;
 
   return (
     <Container>
