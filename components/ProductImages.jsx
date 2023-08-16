@@ -37,7 +37,8 @@ const PreviewImagesWrapper = styled.div`
   height: 400px;
   flex-direction: column;
   gap: 11px;
-  overflow: auto;
+  overflow-y: auto;
+  overflow-x: hidden;
   @media ${({ theme }) => theme.sizes.small} {
     flex-direction: row;
     max-height: 100px;
@@ -45,6 +46,8 @@ const PreviewImagesWrapper = styled.div`
     margin-top: 10px;
     flex-grow: 1;
     max-width: 85vw;
+    overflow-y: hidden;
+    overflow-x: auto;
   }
 `;
 

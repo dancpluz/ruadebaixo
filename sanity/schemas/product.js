@@ -21,15 +21,12 @@ export const productTags = [
 
 export const productQualities = [
     { title: 'Usado',value: 'Usado' },
-    { title: 'Semi-novo',value: 'Semi-Novo' },
     { title: 'Novo',value: 'Novo' },
 ];
 
 export const productDrops = [
     { title: 'Valendo uma Coca',value: 'Valendo uma Coca' },
     { title: 'MiniDrops',value: 'MiniDrops' },
-    { title: 'Skate',value: '' },
-    { title: 'Carro',value: '' },
     { title: 'Lixo',value: '' },
 ];
 
@@ -130,7 +127,7 @@ const product = {
                 list: productDrops,
                 layout: 'radio'
             },
-            validation: Rule => Rule.required()
+            initialValue: '',
         },
         {
             name: 'size',

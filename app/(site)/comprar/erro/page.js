@@ -1,5 +1,12 @@
 import { CenterScreen } from 'components/styles/OtherStyles.styled';
 
+export const metadata = {
+  title: 'Erro',
+  description: 'Infelizmente ocorreu algum erro inesperado',
+}
+
+
+
 export default function ErrorPage() {
   return (
     <CenterScreen>

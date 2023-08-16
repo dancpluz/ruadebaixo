@@ -1,5 +1,9 @@
 import { CenterScreen } from 'components/styles/OtherStyles.styled';
 
+export const metadata = {
+  title: 'Sucesso',
+  description: 'Seu pedido foi feito com sucesso!',
+}
 
 
 export default function SuccessPage() {

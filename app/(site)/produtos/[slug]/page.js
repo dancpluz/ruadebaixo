@@ -1,5 +1,5 @@
 import { Container, ProductDiv, DetailsDiv, TitleDiv, SizeDiv, BulletDiv, Point, BottomDiv, TopDiv, MiddleDiv, SizeWrapper } from '@/components/styles/ProductPage.styled.js';
-import { fetchProduct, fetchMetadata } from '@/lib/api';
+import { fetchProduct,fetchMetadata,fetchStaticParams } from '@/lib/api';
 import Tag from '@/components/Tag';
 import ProductBuy from '@/components/ProductBuy';
 import ProductImages from '@/components/ProductImages';
@@ -12,23 +12,33 @@ export async function generateMetadata({ params: { slug }}) {
 
   return {
     title: `${type} ${name}`,
+    description: `Compre ${type} ${name} aqui na Rua de Baixo. Confira!`,
     openGraph: {
+      title: `${type} ${name}`,
+      description: `Compre ${type} ${name} aqui na Rua de Baixo. Confira!`,
       images: images,
     },
   }
 }
 
+export async function generateStaticParams() {
+  const slugs = await fetchStaticParams();
+
+  return slugs.map((slug) => ({ slug }))
+}
+
+export const revalidate = 30;
+
 
 export default async function ProdutoPage({ params: { slug } }) {
-
   const product = await fetchProduct(slug);
-  const { name, images, type, quality, drop, tags, measures, price, size, ordered, discount, sold, details } = product;
+  const { name, images, type, quality, drop, tag, measures, price, size, ordered, discount, details } = product;
 
   return (
     <Container>
       <ProductDiv>
         <TopDiv>
-          <ProductImages tags={tags} images={images} name={slug} />
+          <ProductImages tags={tag} images={images} name={slug} />
         </TopDiv>
         <MiddleDiv>
           {ordered && <OrderedBadge />}
