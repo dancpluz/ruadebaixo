@@ -14,17 +14,25 @@ export default function Footer() {
         <SocialsDiv>
           <h4>Contato</h4>
           <IconDiv>
-            <Link href='https://www.instagram.com/invites/contact/?i=1qfflkcpzs25j&utm_content=qysp11r'>
-              <Image src={'assets/icons/instagram.svg'} alt={'@ruadebaixoloja'} width={28} height={28}/>
+            <Link target={'_blank'} href='https://www.instagram.com/invites/contact/?i=1qfflkcpzs25j&utm_content=qysp11r'>
+              <div>
+                <Image src={'assets/icons/instagram.svg'} alt={'@ruadebaixoloja'} width={28} height={28} priority/>
+              </div>
             </Link>
-            <Link href='https://wa.me/message/GMJP6IY5DXZOM1'>
-              <Image src={'assets/icons/whatsapp.svg'} alt={'+5561996492791'} width={28} height={28} />
+            <Link target={'_blank'} href='https://wa.me/message/GMJP6IY5DXZOM1'>
+              <div>
+                <Image src={'assets/icons/whatsapp.svg'} alt={'+5561996492791'} width={28} height={28} priority />
+              </div>
             </Link>
-            <Link href='https://www.tiktok.com/@ruadebaixoloja'>
-              <Image src={'assets/icons/tiktok.svg'} alt={'@ruadebaixoloja'} width={28} height={28} />
+            <Link target={'_blank'} href='https://www.tiktok.com/@ruadebaixoloja'>
+              <div>
+                <Image src={'assets/icons/tiktok.svg'} alt={'@ruadebaixoloja'} width={28} height={28} priority/>
+              </div>
             </Link>
-            <Link href='mailto:contato@ruadebaixo.com.br'>
-              <Image src={'assets/icons/mail.svg'} alt={'contato@ruadebaixo.com.br'} width={28} height={28} />
+            <Link target={'_blank'} href='mailto:contato@ruadebaixo.com.br'>
+              <div>
+                <Image src={'assets/icons/mail.svg'} alt={'contato@ruadebaixo.com.br'} width={28} height={28} priority/>
+              </div>
             </Link>
           </IconDiv>
         </SocialsDiv>

@@ -24,7 +24,7 @@ export default async function ProdutosPage() {
         <ProductsDiv>
           {products ? (
             products.map((product) => (
-              <Card key={product.slug.current} product={product} />
+              <Card key={`${product.slug.current}`} product={product} />
             ))
           ) : <p>Sem Produtos</p>}
         </ProductsDiv>

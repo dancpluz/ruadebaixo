@@ -1,6 +1,7 @@
 import Accordion from './Accordion';
 import { Container } from './styles/Accordion.styled';
 import { deliveryLocations,pickupLocations,questions } from '@/sanity/schemas/options';
+import { formatFloat,sortLocations } from '@/lib/format';
 
 export default function ProductInfo({ measures }) {
   return (
@@ -9,10 +10,10 @@ export default function ProductInfo({ measures }) {
         {measures ?
           <>
             <h4>Largura</h4>
-            <p>{measures.length} cm</p>
+            <p>{formatFloat(measures.length)} cm</p>
             <br/>
             <h4>Altura</h4>
-            <p>{measures.height} cm</p>
+            <p>{formatFloat(measures.height)} cm</p>
           </> :
           <p>Infelizmente não há medidas para essa peça...</p>}
       </Accordion>
@@ -21,8 +22,8 @@ export default function ProductInfo({ measures }) {
         <br/>
         <h4>Regiões de Entrega:</h4>
         <ul>
-          {deliveryLocations.map((location) => {
-            return <li key={location.local}>{`${location.local} (R$${location.tax})`}</li>
+          {sortLocations(deliveryLocations).map((location) => {
+            return <li key={location.local}>{`${location.local} (R$ ${formatFloat(location.tax)})`}</li>
           })}
         </ul>
         <h4>Regiões de Retirada:</h4>

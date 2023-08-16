@@ -4,8 +4,8 @@ import Image from 'next/image';
 import Tag from './Tag';
 import Strip from './Strip';
 import { StripDiv } from './styles/Strip.styled';
-import OrderedBadge from '@/components/OrderedBadge';
 import { EyeIcon } from './styles/OrderedBadge.styled';
+import OrderedBadge from '@/components/OrderedBadge';
 import { useState } from 'react';
 import styled from 'styled-components';
 import { useStateContext } from '@/context/StateContext';
@@ -24,6 +24,11 @@ const ImageFrame = styled.div`
   background-color: ${({ theme }) => theme.colors.grey};
   width: 300px;
   height: 400px;
+
+  ${EyeIcon} {
+    top: 50px;
+    right: 20px;
+  }
 `;
 
 const CardImage = styled(Image)`
@@ -115,7 +120,7 @@ const SoldDiv = styled.div`
   }
 `;
 
-export default function Card({ product: { slug,images,name,price,type,drop,tags,ordered,sold } }) {
+export default function Card({ product: { slug,images,name,price,type,drop,tag,ordered,sold } }) {
   const [isHovering,setIsHovering] = useState(false);
   const { router } = useStateContext();
 
@@ -132,7 +137,7 @@ export default function Card({ product: { slug,images,name,price,type,drop,tags,
       <Strip text={"VENDIDO - "} />
       <ImageFrame>
         <Tag tags={[type,drop]} type={'top'} />
-        <Tag tags={tags} type={'bottom'} /> 
+        <Tag tags={tag} type={'bottom'} /> 
         <CardImage 
           alt={`${type}-${name}-Vendido`}
           src={images[0].url}
@@ -151,7 +156,7 @@ export default function Card({ product: { slug,images,name,price,type,drop,tags,
     <CardDiv onClick={() => router.push(`/produtos/${slug.current}`)} >
       <ImageFrame>
         <Tag tags={[type, drop]} type={'top'} />
-        <Tag tags={tags} type={'bottom'} />
+        <Tag tags={tag} type={'bottom'} />
         {ordered && <OrderedBadge />}
         <CardImage
           onMouseEnter={onMouseEnter}

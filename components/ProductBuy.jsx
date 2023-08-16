@@ -71,7 +71,7 @@ export default function ProductBuy({ product }) {
     <BuyDiv>
       { product.sold ? 
       <BuyButton>
-        VENDIDA
+        VENDIDO
       </BuyButton>
        :
       <BuyButton onClick={() => onAdd(product,true)}>

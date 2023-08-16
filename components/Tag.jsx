@@ -7,12 +7,15 @@ export default function Tag({ tags, type, isSize }) {
   return (
     <TagDiv type={type} isSize={isSize}>
       {tags?.map((tag) =>
+        ( tag &&
         <Chip
           key={'Categoria-'+ tag}
           label={tag}
           // component='a'
           // href={`/produtos?${type == 'size' ? 'size' : 'type'}=${tag}`}
-          clickable />
+          //clickable
+        />
+        )
       )}
     </TagDiv>
   )
