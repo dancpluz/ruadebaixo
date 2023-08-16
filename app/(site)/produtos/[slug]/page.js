@@ -1,5 +1,5 @@
 import { Container, ProductDiv, DetailsDiv, TitleDiv, SizeDiv, BulletDiv, Point, BottomDiv, TopDiv, MiddleDiv, SizeWrapper } from '@/components/styles/ProductPage.styled.js';
-import { fetchProduct, fetchMetadata } from '@/lib/api';
+import { fetchProduct,fetchMetadata,fetchStaticParams } from '@/lib/api';
 import Tag from '@/components/Tag';
 import ProductBuy from '@/components/ProductBuy';
 import ProductImages from '@/components/ProductImages';
@@ -20,6 +20,14 @@ export async function generateMetadata({ params: { slug }}) {
     },
   }
 }
+
+export async function generateStaticParams() {
+  const slugs = await fetchStaticParams();
+
+  return slugs.map((slug) => ({ slug }))
+}
+
+export const revalidate = 30;
 
 
 export default async function ProdutoPage({ params: { slug } }) {

@@ -11,6 +11,8 @@ export const metadata = {
   },
 }
 
+export const revalidate = 30;
+
 export default async function ProdutosPage() {
   const products = await fetchCatalogProducts();
 
@@ -22,7 +24,7 @@ export default async function ProdutosPage() {
         <ProductsDiv>
           {products ? (
             products.map((product) => (
-              <Card key={product.slug.current} product={product} />
+              <Card key={`${product.slug.current}`} product={product} />
             ))
           ) : <p>Sem Produtos</p>}
         </ProductsDiv>
