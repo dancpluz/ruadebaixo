@@ -1,0 +1,23 @@
+'use client'
+
+import { CenterScreen } from '@/components/styles/OtherStyles.styled';
+
+export const metadata = {
+  title: 'Erro',
+  description: 'Infelizmente ocorreu algum erro inesperado',
+}
+
+export default function Error({ error, reset }) {
+  useEffect(() => {
+    console.error(error);
+  }, [error]);
+
+  return (
+    <CenterScreen>
+      <div>
+        <h1>Infelizmente ocorreu algum erro inesperado</h1>
+        <u onClick={() => reset()}>Tentar novamente</u>
+      </div>
+    </CenterScreen>
+  )
+}
