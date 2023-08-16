@@ -21,6 +21,14 @@ export async function generateMetadata({ params: { slug }}) {
   }
 }
 
+export async function generateStaticParams() {
+  const slugs = await fetchStaticParams();
+
+  return slugs.map((slug) => ({ slug }))
+}
+
+export const revalidate = 60;
+
 
 export default async function ProdutoPage({ params: { slug } }) {
   const product = await fetchProduct(slug);
