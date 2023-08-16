@@ -12,7 +12,10 @@ export async function generateMetadata({ params: { slug }}) {
 
   return {
     title: `${type} ${name}`,
+    description: `Compre ${type} ${name} aqui na Rua de Baixo. Confira!`,
     openGraph: {
+      title: `${type} ${name}`,
+      description: `Compre ${type} ${name} aqui na Rua de Baixo. Confira!`,
       images: images,
     },
   }

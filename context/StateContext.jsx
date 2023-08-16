@@ -16,7 +16,7 @@ export const StateContext = ({ children }) => {
   const router = useRouter();
 
   const onAdd = (product,show) => {
-    const checkProductInCart = cartItems.find((item) => item.slug === product.slug);
+    const checkProductInCart = cartItems.find((item) => item.id === product.id);
 
     if (!checkProductInCart) {
       setTotalDiscount(totalDiscount + product.discount);
@@ -41,7 +41,13 @@ export const StateContext = ({ children }) => {
     } else {
       setLastRemovedItem(null);
     }
-    
+  }
+
+  const onBuy = () => {
+    setTotalDiscount(0)
+    setTotalPrice(0)
+    setLastRemovedItem(null)
+    setCartItems([]);
   }
 
   const onUndo = () => {
@@ -68,6 +74,7 @@ export const StateContext = ({ children }) => {
         onRemove,
         onUndo,
         router,
+        onBuy
       }}
     >
       {children}

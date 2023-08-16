@@ -16,17 +16,17 @@ export default function Footer() {
           <IconDiv>
             <Link target={'_blank'} href='https://www.instagram.com/invites/contact/?i=1qfflkcpzs25j&utm_content=qysp11r'>
               <div>
-                <Image src={'assets/icons/instagram.svg'} alt={'@ruadebaixoloja'} width={28} height={28}/>
+                <Image src={'assets/icons/instagram.svg'} alt={'@ruadebaixoloja'} width={28} height={28} priority/>
               </div>
             </Link>
             <Link target={'_blank'} href='https://wa.me/message/GMJP6IY5DXZOM1'>
               <div>
-                <Image src={'assets/icons/whatsapp.svg'} alt={'+5561996492791'} width={28} height={28} />
+                <Image src={'assets/icons/whatsapp.svg'} alt={'+5561996492791'} width={28} height={28} priority />
               </div>
             </Link>
             <Link target={'_blank'} href='https://www.tiktok.com/@ruadebaixoloja'>
               <div>
-                <Image src={'assets/icons/tiktok.svg'} alt={'@ruadebaixoloja'} width={28} height={28} />
+                <Image src={'assets/icons/tiktok.svg'} alt={'@ruadebaixoloja'} width={28} height={28} priority/>
               </div>
             </Link>
             <Link target={'_blank'} href='mailto:contato@ruadebaixo.com.br'>

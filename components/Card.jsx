@@ -4,6 +4,7 @@ import Image from 'next/image';
 import Tag from './Tag';
 import Strip from './Strip';
 import { StripDiv } from './styles/Strip.styled';
+import { EyeIcon } from './styles/OrderedBadge.styled';
 import OrderedBadge from '@/components/OrderedBadge';
 import { useState } from 'react';
 import styled from 'styled-components';
@@ -23,6 +24,11 @@ const ImageFrame = styled.div`
   background-color: ${({ theme }) => theme.colors.grey};
   width: 300px;
   height: 400px;
+
+  ${EyeIcon} {
+    top: 50px;
+    right: 20px;
+  }
 `;
 
 const CardImage = styled(Image)`

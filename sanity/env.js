@@ -1,4 +1,5 @@
-export const apiVersion = '2023-07-26';
-export const dataset = 'production';
-export const projectId = '4k9edjgg';
+export const apiVersion = process.env.NEXT_PUBLIC_SANITY_API_VERSION;
+export const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET;
+export const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID;
 export const useCdn = true;
+export const token = process.env.NEXT_PUBLIC_SANITY_SECRET_TOKEN;

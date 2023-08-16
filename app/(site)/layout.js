@@ -11,13 +11,13 @@ export const metadata = {
   title: {
     template: '%s | RDB',
   },
-  description: 'Onde o estilo encontra o asfalto, a Rua de Baixo acontece',
-  keywords: ['roupas','streetwear','brecho','skate','moda','moda urbana','streetstyle'],
+  description: 'Conheça o primeiro drop "Valendo uma Coca"!',
+  keywords: ['roupas','streetwear','drop','vendas','brechó','skate','moda','moda urbana','streetstyle'],
   colorScheme: 'light',
   metadataBase: new URL('https://www.ruadebaixo.com.br'),
   openGraph: {
     title: 'Rua de Baixo',
-    description: 'Onde o estilo encontra o asfalto, a Rua de Baixo acontece',
+    description: 'Conheça o primeiro drop "Valendo uma Coca"!',
     siteName: 'Rua de Baixo',
     url: 'https://www.ruadebaixo.com.br/',
     type: 'website',
