@@ -10,6 +10,8 @@ export const metadata = {
   },
 }
 
+export const revalidate = 60;
+
 export default async function LookBookPage() {
   const lookbookDate = '2023-08-11'
   const lookbook = await fetchLookBook(lookbookDate);

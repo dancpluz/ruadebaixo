@@ -21,7 +21,7 @@ export default function Links() {
         <Logo priority src={logo} alt={'Logo'} />
         <h1>Ruas</h1>
         <LinkButton href={'/'} image={rdb} sameTab>
-          LookBook
+          Site
         </LinkButton>
         <LinkButton href={'https://www.instagram.com/ruadebaixoloja/'} image={instagram} >
           Instagram

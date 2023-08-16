@@ -13,10 +13,20 @@ export async function generateMetadata({ params: { slug }}) {
   return {
     title: `${type} ${name}`,
     openGraph: {
-      images: images,
+      title: `${type} ${name}`,
+      description: `Compre ${type} ${name} aqui na Rua de Baixo. Confira!`,
+      images: images.reverse(),
     },
   }
 }
+
+export async function generateStaticParams() {
+  const slugs = await fetchStaticParams();
+
+  return slugs.map((slug) => ({ slug }))
+}
+
+export const revalidate = 60;
 
 
 export default async function ProdutoPage({ params: { slug } }) {

@@ -1,7 +1,6 @@
 import { CenterScreen } from 'components/styles/OtherStyles.styled';
 
 
-
 export default function SuccessPage() {
   return (
     <CenterScreen>
