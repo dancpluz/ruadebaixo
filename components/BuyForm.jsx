@@ -258,13 +258,14 @@ export default function BuyForm() {
             <h2>Dados Pessoais</h2>
             <p>Precisamos dessas informações para nos comunicarmos</p>
           </TitleDiv>
-          <InputBox title={'Nome*'} span={'Como devemos te chamar'} errorMessage={errors.name}>
+          <InputBox title={'Nome*'} span={'Como devemos te chamar?'} errorMessage={errors.name}>
             <input
               value={getFormData('name')}
               type='text'
               placeholder='ex. Rua de Baixo'
               {...register('name',{
-                required: '(Obrigatório)'
+                required: '(Obrigatório)',
+                maxLength: { value: 40,message: '(Limite de caracteres excedido)' }
               })}
             />
           </InputBox>
@@ -285,7 +286,9 @@ export default function BuyForm() {
               value={getFormData('email')}
               type='email'
               placeholder='ex. ruadebaixoloja@gmail.com'
-              {...register('email')}
+              {...register('email', {
+                maxLength: { value: 30,message: '(Limite de caracteres excedido)' }
+              })}
             />
           </InputBox>
           <InputBox title={'Instagram'} span={'Pra ficar por dentro da cultura da Rua de Baixo'} errorMessage={errors.insta}>
@@ -293,7 +296,9 @@ export default function BuyForm() {
               value={getFormData('insta')}
               type='text'
               placeholder='ex. @ruadebaixoloja'
-              {...register('insta')}
+              {...register('insta',{
+                maxLength: { value: 20,message: '(Limite de caracteres excedido)' }
+              })}
             />
           </InputBox>
           <TitleDiv>
