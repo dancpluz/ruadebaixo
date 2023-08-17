@@ -10,6 +10,8 @@ import { deliveryLocations,pickupLocations } from '@/sanity/schemas/options';
 import CartItem from '@/components/CartItem';
 import { ItemsDiv,PriceDiv } from '@/components/Cart'
 import { sendOrderToServer,updateOrderedProduct } from '@/lib/api';
+import { storeFormData,getFormData } from '@/lib/localStorage';
+
 import { formatFloat } from '@/lib/format'
 
 const Container = styled.div`
@@ -160,6 +162,9 @@ export default function BuyForm() {
       if (cartItems.length == 0) {
         throw new Error('Cart vazio');
       }
+      
+      storeFormData(data)
+      
       const order = {
         subtotal: totalPrice - totalDiscount,
         tax: formatFloat(tax),
@@ -255,6 +260,7 @@ export default function BuyForm() {
           </TitleDiv>
           <InputBox title={'Nome*'} span={'Como devemos te chamar'} errorMessage={errors.name}>
             <input
+              value={getFormData('name')}
               type='text'
               placeholder='ex. Rua de Baixo'
               {...register('name',{
@@ -264,6 +270,7 @@ export default function BuyForm() {
           </InputBox>
           <InputBox title={'Número de Celular*'} span={'O pedido será concluído pelo Whatsapp'} errorMessage={errors.phone}>
             <input
+              value={getFormData('phone')}
               type='phone'
               placeholder='ex. 61987654321'
               {...register('phone',{
@@ -275,6 +282,7 @@ export default function BuyForm() {
           </InputBox>
           <InputBox title={'Email'} span={'Email para receber notícias e informações do pedido '} errorMessage={errors.email}>
             <input
+              value={getFormData('email')}
               type='email'
               placeholder='ex. ruadebaixoloja@gmail.com'
               {...register('email')}
@@ -282,6 +290,7 @@ export default function BuyForm() {
           </InputBox>
           <InputBox title={'Instagram'} span={'Pra ficar por dentro da cultura da Rua de Baixo'} errorMessage={errors.insta}>
             <input
+              value={getFormData('insta')}
               type='text'
               placeholder='ex. @ruadebaixoloja'
               {...register('insta')}
