@@ -6,7 +6,7 @@ import { storeCartData,getCartData,getNumberData } from '@/lib/localStorage'
 
 const Context = createContext();
 
-const storedCart = [] && getCartData();
+const storedCart = getCartData();
 const storedPrice = getNumberData('price');
 const storedDiscount = getNumberData('discount');
 
@@ -66,7 +66,7 @@ export const StateContext = ({ children }) => {
     setLastRemovedItem(null);
     setCartItems([]);
 
-    storeCartData('',0,0);
+    storeCartData([],0,0);
   }
 
   const onUndo = () => {

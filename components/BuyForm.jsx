@@ -184,8 +184,8 @@ export default function BuyForm() {
         phone: data.phone.length > 10 ? data.phone.replace('9','') : data.phone,
         order,
       }
-      await sendOrderToServer(json);
-      await cartItems.map((item) => updateOrderedProduct(item._id))
+      //await sendOrderToServer(json);
+      //await cartItems.map((item) => updateOrderedProduct(item._id))
       onBuy();
       router.push('/comprar/sucesso');
     }
