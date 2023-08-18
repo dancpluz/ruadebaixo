@@ -5,13 +5,12 @@ import { useStateContext } from '@/context/StateContext';
 import { useForm } from 'react-hook-form';
 import InputBox from '@/components/InputBox';
 import { Button } from '@/components/Cart';
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 import { deliveryLocations,pickupLocations } from '@/sanity/schemas/options';
 import CartItem from '@/components/CartItem';
 import { ItemsDiv,PriceDiv } from '@/components/Cart'
 import { sendOrderToServer,updateOrderedProduct } from '@/lib/api';
 import { storeFormData,getFormData } from '@/lib/localStorage';
-
 import { formatFloat } from '@/lib/format'
 
 const Container = styled.div`
@@ -153,9 +152,22 @@ export default function BuyForm() {
   const [deliveryType,setDeliveryType] = useState('Taxa');
   const [tax,setTax] = useState(null);
   const [pixPayment,setPixPayment] = useState(null);
+  const  [storedData,setStoredData] = useState({name: '', phone: '', email: '', insta: ''});
   //const [submitError,setSubmitError] = useState('');
 
   const { register,handleSubmit,formState: { errors } } = useForm();
+
+  useEffect(() => {
+    const formData = {
+      name: getFormData('name'),
+      phone: getFormData('phone'),
+      email: getFormData('email'),
+      insta: getFormData('insta'),
+    };
+
+    setStoredData(formData);
+
+  },[]);
 
   const onSubmit = async (data) => {
     try {
@@ -260,7 +272,7 @@ export default function BuyForm() {
           </TitleDiv>
           <InputBox title={'Nome*'} span={'Como devemos te chamar?'} errorMessage={errors.name}>
             <input
-              value={getFormData('name')}
+              defaultValue={storedData.name}
               type='text'
               placeholder='ex. Rua de Baixo'
               {...register('name',{
@@ -271,7 +283,7 @@ export default function BuyForm() {
           </InputBox>
           <InputBox title={'Número de Celular*'} span={'O pedido será concluído pelo Whatsapp'} errorMessage={errors.phone}>
             <input
-              value={getFormData('phone')}
+              defaultValue={storedData.phone}
               type='phone'
               placeholder='ex. 61987654321'
               {...register('phone',{
@@ -283,7 +295,7 @@ export default function BuyForm() {
           </InputBox>
           <InputBox title={'Email'} span={'Email para receber notícias e informações do pedido '} errorMessage={errors.email}>
             <input
-              value={getFormData('email')}
+              defaultValue={storedData.email}
               type='email'
               placeholder='ex. ruadebaixoloja@gmail.com'
               {...register('email', {
@@ -293,7 +305,7 @@ export default function BuyForm() {
           </InputBox>
           <InputBox title={'Instagram'} span={'Pra ficar por dentro da cultura da Rua de Baixo'} errorMessage={errors.insta}>
             <input
-              value={getFormData('insta')}
+              defaultValue={storedData.insta}
               type='text'
               placeholder='ex. @ruadebaixoloja'
               {...register('insta',{

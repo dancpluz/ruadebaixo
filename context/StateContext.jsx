@@ -1,22 +1,31 @@
 'use client'
 
-import { createContext, useState, useContext } from "react";
+import { createContext, useState, useContext, useEffect } from "react";
 import { useRouter } from 'next/navigation';
 import { storeCartData,getCartData,getNumberData } from '@/lib/localStorage'
 
 const Context = createContext();
 
-const storedCart = getCartData();
-const storedPrice = getNumberData('price');
-const storedDiscount = getNumberData('discount');
-
 export const StateContext = ({ children }) => {
   const [selectedTags,setSelectedTags] = useState([]);
   const [showCart, setShowCart] = useState(false);
-  const [cartItems,setCartItems] = useState(storedCart);
+  const [cartItems,setCartItems] = useState([]);
   const [lastRemovedItem,setLastRemovedItem] = useState(null);
-  const [totalPrice,setTotalPrice] = useState(storedPrice);
-  const [totalDiscount,setTotalDiscount] = useState(storedDiscount);
+  const [totalPrice,setTotalPrice] = useState(0);
+  const [totalDiscount,setTotalDiscount] = useState(0);
+
+  useEffect(() => {
+    const storedCart = getCartData();
+    const storedPrice = getNumberData('price');
+    const storedDiscount = getNumberData('discount');
+
+    setCartItems(storedCart);
+    setTotalPrice(storedPrice);
+    setTotalDiscount(storedDiscount);
+
+  }, [])
+  
+
 
   const router = useRouter();
 

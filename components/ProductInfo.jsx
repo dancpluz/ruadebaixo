@@ -33,11 +33,11 @@ export default function ProductInfo({ measures }) {
       </Accordion>
       <Accordion title={'Dúvidas'}>
         {questions.map((question) => (
-          <>
+          <div key={question.title}>
             <h4>{question.title}</h4>
             <p>{question.text}</p>
             <br/>
-          </>
+          </div>
           )
         )}
       </Accordion>
