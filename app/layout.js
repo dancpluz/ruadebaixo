@@ -30,8 +30,6 @@ export const metadata = {
   themeColor: 'black',
 }
 
-export const revalidate = 120;
-
 export default function RootLayout({ children }) {
   return (
     <StateContext>

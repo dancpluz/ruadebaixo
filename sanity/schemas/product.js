@@ -40,8 +40,6 @@ const product = {
             title: 'ID',
             description: 'Código do produto, de acordo com a planilha',
             type: 'string',
-            // make a validation rule that the id needs to be only numeric characters
-            
             validation: Rule => Rule.custom((value,context) => {
                 if (!/^\d+$/.test(value)) {
                     return 'ID deve ter caracteres númericos';
