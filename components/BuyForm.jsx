@@ -5,11 +5,12 @@ import { useStateContext } from '@/context/StateContext';
 import { useForm } from 'react-hook-form';
 import InputBox from '@/components/InputBox';
 import { Button } from '@/components/Cart';
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 import { deliveryLocations,pickupLocations } from '@/sanity/schemas/options';
 import CartItem from '@/components/CartItem';
 import { ItemsDiv,PriceDiv } from '@/components/Cart'
 import { sendOrderToServer,updateOrderedProduct } from '@/lib/api';
+import { storeFormData,getFormData } from '@/lib/localStorage';
 import { formatFloat } from '@/lib/format'
 
 const Container = styled.div`
@@ -151,15 +152,31 @@ export default function BuyForm() {
   const [deliveryType,setDeliveryType] = useState('Taxa');
   const [tax,setTax] = useState(null);
   const [pixPayment,setPixPayment] = useState(null);
+  const  [storedData,setStoredData] = useState({name: '', phone: '', email: '', insta: ''});
   //const [submitError,setSubmitError] = useState('');
 
   const { register,handleSubmit,formState: { errors } } = useForm();
+
+  useEffect(() => {
+    const formData = {
+      name: getFormData('name'),
+      phone: getFormData('phone'),
+      email: getFormData('email'),
+      insta: getFormData('insta'),
+    };
+
+    setStoredData(formData);
+
+  },[]);
 
   const onSubmit = async (data) => {
     try {
       if (cartItems.length == 0) {
         throw new Error('Cart vazio');
       }
+      
+      storeFormData(data)
+      
       const order = {
         subtotal: totalPrice - totalDiscount,
         tax: formatFloat(tax),
@@ -230,7 +247,7 @@ export default function BuyForm() {
             <OrderBody>
               <h2>{deliveryType}</h2>
               <PriceDiv>
-                {tax === null ? <h2>-</h2> : (tax === 0 ? <h2>Grátis</h2> : <h2>R${formatFloat(tax)}</h2>)}
+                {(tax === null) ? <h2>-</h2> : (tax === 0 ? <h2>Grátis</h2> : <h2>R${formatFloat(tax)}</h2>)}
               </PriceDiv>
             </OrderBody>
             <OrderBody>
@@ -238,7 +255,7 @@ export default function BuyForm() {
               <PriceDiv>
                 {(totalDiscount > 0) ?
                   <>
-                    <h4>R${totalPrice + tax}</h4>
+                    <h4>R${formatFloat(totalPrice + tax)}</h4>
                     <h2>R${formatFloat(totalPrice - totalDiscount + tax)}</h2>
                   </> :
                   <h2>R${formatFloat(totalPrice - totalDiscount + tax)}</h2>
@@ -253,17 +270,20 @@ export default function BuyForm() {
             <h2>Dados Pessoais</h2>
             <p>Precisamos dessas informações para nos comunicarmos</p>
           </TitleDiv>
-          <InputBox title={'Nome*'} span={'Como devemos te chamar'} errorMessage={errors.name}>
+          <InputBox title={'Nome*'} span={'Como devemos te chamar?'} errorMessage={errors.name}>
             <input
+              defaultValue={storedData.name}
               type='text'
               placeholder='ex. Rua de Baixo'
               {...register('name',{
-                required: '(Obrigatório)'
+                required: '(Obrigatório)',
+                maxLength: { value: 40,message: '(Limite de caracteres excedido)' }
               })}
             />
           </InputBox>
           <InputBox title={'Número de Celular*'} span={'O pedido será concluído pelo Whatsapp'} errorMessage={errors.phone}>
             <input
+              defaultValue={storedData.phone}
               type='phone'
               placeholder='ex. 61987654321'
               {...register('phone',{
@@ -275,16 +295,22 @@ export default function BuyForm() {
           </InputBox>
           <InputBox title={'Email'} span={'Email para receber notícias e informações do pedido '} errorMessage={errors.email}>
             <input
+              defaultValue={storedData.email}
               type='email'
               placeholder='ex. ruadebaixoloja@gmail.com'
-              {...register('email')}
+              {...register('email', {
+                maxLength: { value: 30,message: '(Limite de caracteres excedido)' }
+              })}
             />
           </InputBox>
           <InputBox title={'Instagram'} span={'Pra ficar por dentro da cultura da Rua de Baixo'} errorMessage={errors.insta}>
             <input
+              defaultValue={storedData.insta}
               type='text'
               placeholder='ex. @ruadebaixoloja'
-              {...register('insta')}
+              {...register('insta',{
+                maxLength: { value: 20,message: '(Limite de caracteres excedido)' }
+              })}
             />
           </InputBox>
           <TitleDiv>
@@ -394,7 +420,7 @@ export default function BuyForm() {
             })}>
               <option value="" disabled>Selecione um local</option>
               {deliveryLocations.map((location) => {
-                return <option key={location.local} onClick={() => setTax(location.tax)} value={location.local}>{`${location.local} (R$${location.tax.toFixed(2).toString().replace(".",",")})`}</option>
+                return <option key={location.local} onClick={() => setTax(location.tax)} value={location.local}>{`${location.local} (R$${formatFloat(location.tax)})`}</option>
               })}
             </select>
           </InputBox>

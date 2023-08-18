@@ -6,17 +6,15 @@ import { formatFloat,sortLocations } from '@/lib/format';
 export default function ProductInfo({ measures }) {
   return (
     <Container>
-      <Accordion title={'Medidas'}>
-        {measures ?
-          <>
-            <h4>Largura</h4>
-            <p>{formatFloat(measures.length)} cm</p>
-            <br/>
-            <h4>Altura</h4>
-            <p>{formatFloat(measures.height)} cm</p>
-          </> :
-          <p>Infelizmente não há medidas para essa peça...</p>}
-      </Accordion>
+      { measures &&
+        <Accordion title={'Medidas'}>
+          <h4>Largura</h4>
+          <p>{formatFloat(measures.length)} cm</p>
+          <br/>
+          <h4>Altura</h4>
+          <p>{formatFloat(measures.height)} cm</p>
+        </Accordion>
+      }
       <Accordion title={'Entrega e Retirada'}>
         <p>Fazemos entregas em várias regiões do DF, mas se liga que o valor do frete muda dependendo da distância! Se não tiver a fim de pagar o frete, é só marcar de pegar o pedido em um dos pontos de retirada. O agendamento e outros detalhes são acertados no final da compra, mas relaxa que você vai ser redirecionado pra falar com a gente logo depois de fazer o pedido, tudo pelo zap!</p>
         <br/>
@@ -35,11 +33,11 @@ export default function ProductInfo({ measures }) {
       </Accordion>
       <Accordion title={'Dúvidas'}>
         {questions.map((question) => (
-          <>
+          <div key={question.title}>
             <h4>{question.title}</h4>
             <p>{question.text}</p>
             <br/>
-          </>
+          </div>
           )
         )}
       </Accordion>

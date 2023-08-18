@@ -34,7 +34,7 @@ export default function OrderedBadge() {
           disableFocusListener
           disableHoverListener
           disableTouchListener
-          title="Foi feito um pedido para este produto"
+          title="Alguém está de olho neste produto!"
           arrow
         >
           <EyeIcon onClick={open ? handleClose : handleOpen} src={'/assets/icons/eye.svg'} alt={'Pessoas olhando'} width={24} height={24} />
