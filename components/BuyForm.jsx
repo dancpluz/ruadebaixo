@@ -247,7 +247,7 @@ export default function BuyForm() {
             <OrderBody>
               <h2>{deliveryType}</h2>
               <PriceDiv>
-                {tax === null ? <h2>-</h2> : (tax === 0 ? <h2>Grátis</h2> : <h2>R${formatFloat(tax)}</h2>)}
+                {(tax === null) ? <h2>-</h2> : (tax === 0 ? <h2>Grátis</h2> : <h2>R${formatFloat(tax)}</h2>)}
               </PriceDiv>
             </OrderBody>
             <OrderBody>
@@ -255,7 +255,7 @@ export default function BuyForm() {
               <PriceDiv>
                 {(totalDiscount > 0) ?
                   <>
-                    <h4>R${totalPrice + tax}</h4>
+                    <h4>R${formatFloat(totalPrice + tax)}</h4>
                     <h2>R${formatFloat(totalPrice - totalDiscount + tax)}</h2>
                   </> :
                   <h2>R${formatFloat(totalPrice - totalDiscount + tax)}</h2>
@@ -420,7 +420,7 @@ export default function BuyForm() {
             })}>
               <option value="" disabled>Selecione um local</option>
               {deliveryLocations.map((location) => {
-                return <option key={location.local} onClick={() => setTax(location.tax)} value={location.local}>{`${location.local} (R$${location.tax.toFixed(2).toString().replace(".",",")})`}</option>
+                return <option key={location.local} onClick={() => setTax(location.tax)} value={location.local}>{`${location.local} (R$${formatFloat(location.tax)})`}</option>
               })}
             </select>
           </InputBox>

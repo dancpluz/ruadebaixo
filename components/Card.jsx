@@ -52,6 +52,9 @@ const Caption = styled.div`
   border-bottom: 1px solid ${({ theme }) => theme.colors.dark};
   transition: all .10s ease;
   position: relative;
+  h4 {
+    font-weight: 400;
+  }
 
   h2, p{
     position: relative;
@@ -73,7 +76,7 @@ const Caption = styled.div`
   &:hover{
     color: ${({ theme }) => theme.colors.light};
     justify-content: center;
-    p {
+    h4,div {
       opacity: 0;
       width: 0;
       margin: 0;
@@ -93,6 +96,19 @@ const Title = styled.h2`
   white-space: nowrap;
 `;
 
+const PriceDiv = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: end;
+  span {
+    font-size: .95rem;
+    text-decoration: line-through;
+  }
+  h4 {
+
+  }
+`;
+
 const SoldDiv = styled.div`
   position: relative;
   z-index: 1;
@@ -101,6 +117,7 @@ const SoldDiv = styled.div`
   text-decoration: none;
   color: ${({ theme }) => theme.colors.dark};
   overflow: hidden;
+  cursor: pointer;
 
   ${StripDiv} {
     z-index: 2;
@@ -120,7 +137,7 @@ const SoldDiv = styled.div`
   }
 `;
 
-export default function Card({ product: { slug,images,name,price,type,drop,tag,ordered,sold } }) {
+export default function Card({ product: { slug,images,name,price,discount,type,drop,tag,ordered,sold } }) {
   const [isHovering,setIsHovering] = useState(false);
   const { router } = useStateContext();
 
@@ -183,7 +200,12 @@ export default function Card({ product: { slug,images,name,price,type,drop,tag,o
       </ImageFrame>
       <Caption>
         <Title>{name}</Title>
-        <p>R${price}</p>
+        {discount == 0 ? 
+          <h4>R${price}</h4> :
+          <PriceDiv>
+            <span>R${price}</span>
+            <h4>R${price-discount}</h4>  
+          </PriceDiv>}
       </Caption>
     </CardDiv>
   )
