@@ -38,7 +38,7 @@ const PriceDiv = styled.div`
   display: flex;
   flex-flow: column nowrap;
   align-items: end;
-  p {
+  span {
     text-decoration: line-through;
   }
   h2 {
@@ -89,7 +89,7 @@ export default function CartItem({lastRemoved, product, product: { images,type,n
         <PriceDiv>
           {(discount > 0) ?
             <>
-              <p>R${price}</p>
+              <span>R${price}</span>
               <h2>R${price - discount}</h2>
             </> :
             <h2>R${price - discount}</h2>

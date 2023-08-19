@@ -59,16 +59,16 @@ const OrderDiv = styled.div`
   }
   @media ${({ theme }) => theme.sizes.small} {
     ${ItemsDiv} {
+      padding: 12px;
       p {
         display: none;
       }
-      div{
+      div {
         flex-direction: column;
         width: 100%;
         align-items: center;
         gap: 10px;
       }
-      padding: 12px;
     }
   }
 `;
@@ -152,21 +152,15 @@ export default function BuyForm() {
   const [deliveryType,setDeliveryType] = useState('Taxa');
   const [tax,setTax] = useState(null);
   const [pixPayment,setPixPayment] = useState(null);
-  const  [storedData,setStoredData] = useState({name: '', phone: '', email: '', insta: ''});
   //const [submitError,setSubmitError] = useState('');
 
-  const { register,handleSubmit,formState: { errors } } = useForm();
+  const { register,handleSubmit,setValue,formState: { errors } } = useForm();
 
   useEffect(() => {
-    const formData = {
-      name: getFormData('name'),
-      phone: getFormData('phone'),
-      email: getFormData('email'),
-      insta: getFormData('insta'),
-    };
-
-    setStoredData(formData);
-
+    setValue('name', getFormData('name'))
+    setValue('phone', getFormData('phone'))
+    setValue('email', getFormData('email'))
+    setValue('insta', getFormData('insta'))
   },[]);
 
   const onSubmit = async (data) => {
@@ -193,9 +187,11 @@ export default function BuyForm() {
 
       const json = {
         ...data,
+        delivery: {local: JSON.parse(data.delivery.local).local, type: data.delivery.type},
         phone: data.phone.length > 10 ? data.phone.replace('9','') : data.phone,
         order,
       }
+      console.log(json);
       await sendOrderToServer(json);
       await cartItems.map((item) => updateOrderedProduct(item._id))
       onBuy();
@@ -247,7 +243,7 @@ export default function BuyForm() {
             <OrderBody>
               <h2>{deliveryType}</h2>
               <PriceDiv>
-                {(tax === null) ? <h2>-</h2> : (tax === 0 ? <h2>Grátis</h2> : <h2>R${formatFloat(tax)}</h2>)}
+                {tax === null ? <h2>-</h2> : (tax === 0 ? <h2>Grátis</h2> : <h2>R${formatFloat(tax)}</h2>)}
               </PriceDiv>
             </OrderBody>
             <OrderBody>
@@ -272,7 +268,6 @@ export default function BuyForm() {
           </TitleDiv>
           <InputBox title={'Nome*'} span={'Como devemos te chamar?'} errorMessage={errors.name}>
             <input
-              defaultValue={storedData.name}
               type='text'
               placeholder='ex. Rua de Baixo'
               {...register('name',{
@@ -283,7 +278,6 @@ export default function BuyForm() {
           </InputBox>
           <InputBox title={'Número de Celular*'} span={'O pedido será concluído pelo Whatsapp'} errorMessage={errors.phone}>
             <input
-              defaultValue={storedData.phone}
               type='phone'
               placeholder='ex. 61987654321'
               {...register('phone',{
@@ -295,7 +289,6 @@ export default function BuyForm() {
           </InputBox>
           <InputBox title={'Email'} span={'Email para receber notícias e informações do pedido '} errorMessage={errors.email}>
             <input
-              defaultValue={storedData.email}
               type='email'
               placeholder='ex. ruadebaixoloja@gmail.com'
               {...register('email', {
@@ -305,7 +298,6 @@ export default function BuyForm() {
           </InputBox>
           <InputBox title={'Instagram'} span={'Pra ficar por dentro da cultura da Rua de Baixo'} errorMessage={errors.insta}>
             <input
-              defaultValue={storedData.insta}
               type='text'
               placeholder='ex. @ruadebaixoloja'
               {...register('insta',{
@@ -416,11 +408,12 @@ export default function BuyForm() {
         return (
           <InputBox title={'Local de Entrega*'} span={'Fazemos entrega nesses locais:'} errorMessage={errors.delivery && errors.delivery.local}>
             <select defaultValue='' {...register('delivery.local',{
-              required: 'Selecione uma opção'
+              required: 'Selecione uma opção',
+              onChange: (e) => setTax(JSON.parse(e.target.value).tax)
             })}>
               <option value="" disabled>Selecione um local</option>
               {deliveryLocations.map((location) => {
-                return <option key={location.local} onClick={() => setTax(location.tax)} value={location.local}>{`${location.local} (R$${formatFloat(location.tax)})`}</option>
+                return <option key={location.local} value={JSON.stringify(location)}>{`${location.local} (R$ ${formatFloat(location.tax)})`}</option>
               })}
             </select>
           </InputBox>
