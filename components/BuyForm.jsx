@@ -161,7 +161,7 @@ export default function BuyForm() {
     setValue('phone', getFormData('phone'))
     setValue('email', getFormData('email'))
     setValue('insta', getFormData('insta'))
-  },[]);
+  },[setValue]);
 
   const onSubmit = async (data) => {
     try {
