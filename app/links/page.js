@@ -4,6 +4,7 @@ import rdb from '@/public/assets/logoreduzida.svg';
 import instagram from '@/public/assets/icons/instagram.svg';
 import whatsapp from '@/public/assets/icons/whatsapp.svg';
 import tiktok from '@/public/assets/icons/tiktok.svg';
+import youtube from '@/public/assets/icons/youtube.svg';
 import EmbedInsta from '@/components/EmbedInsta';
 
 export const metadata = {
@@ -31,6 +32,9 @@ export default function Links() {
         </LinkButton>
         <LinkButton href={'https://wa.me/message/GMJP6IY5DXZOM1'} image={whatsapp}>
           Whatsapp
+        </LinkButton>
+        <LinkButton href={'https://www.youtube.com/channel/UCwWDhzN4M-vi-CVd8oaak_A'} image={youtube}>
+          Youtube
         </LinkButton>
         <h2>Último Post</h2>
         <EmbedInsta />
