@@ -5,6 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 
 export const Container = styled.div`
+  padding-top: 65px;
   display: flex;
   width: 100%;
   justify-content: center;

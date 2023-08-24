@@ -6,13 +6,13 @@ import Image from 'next/image'
 export const MainContainer = styled.div`
   position: relative;
   overflow: hidden;
-  padding: 80px 200px;
+  padding: 100px 200px;
   height: 100vh;
   @media ${({theme}) => theme.sizes.medium} {
-    padding: 20px 100px;
+    padding: 100px 100px;
   }
   @media ${({theme}) => theme.sizes.small} {
-    padding: 20px 32px;
+    padding: 100px 32px;
     height: 160vh;
   }
 `;
@@ -54,7 +54,7 @@ export const TopImage = styled(Image)`
     height: 450px;
   }
   @media ${({theme}) => theme.sizes.small} {
-    top: 300px;
+    top: 380px;
     height: 400px;
   }
 `;
@@ -71,7 +71,7 @@ export const LeftImage = styled(Image)`
     bottom: 120px;
   }
   @media ${({theme}) => theme.sizes.small} {
-    bottom: 380px;
+    bottom: 580px;
     left: 100;
     height: 250px;
   }
@@ -89,6 +89,6 @@ export const RightImage = styled(Image)`
     height: 350px;
   }
   @media ${({theme}) => theme.sizes.small} {
-    bottom: 50px;
+    bottom: 120px;
   }
 `;

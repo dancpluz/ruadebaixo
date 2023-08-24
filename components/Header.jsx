@@ -12,6 +12,9 @@ import { useStateContext } from '../context/StateContext';
 import { useState } from 'react';
 
 const Container = styled.div`
+  z-index: 6;
+  position: fixed;
+  width: 100vw;
   display: flex;
   flex-direction: column;
   background-color: ${({ theme }) => theme.colors.dark};

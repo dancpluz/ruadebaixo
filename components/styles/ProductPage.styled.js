@@ -3,12 +3,12 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
-  padding: 100px 200px;
+  padding: 165px 200px;
   @media ${({ theme }) => theme.sizes.medium} {
-    padding: 60px 100px;
+    padding: 100px 100px;
   }
   @media ${({ theme }) => theme.sizes.small} {
-    padding: 40px 32px;
+    padding: 100px 32px;
   }
 `;
 

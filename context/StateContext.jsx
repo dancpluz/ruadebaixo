@@ -15,6 +15,13 @@ export const StateContext = ({ children }) => {
   const [totalDiscount,setTotalDiscount] = useState(0);
 
   useEffect(() => {
+    const version = getNumberData('version');
+    // Sempre atualizar a versão ao mudar valores
+    if (version != 2) {
+      localStorage.clear();
+      localStorage.setItem('version',1);
+    }
+
     const storedCart = getCartData();
     const storedPrice = getNumberData('price');
     const storedDiscount = getNumberData('discount');
