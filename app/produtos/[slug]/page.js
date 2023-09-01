@@ -1,5 +1,5 @@
 import { Container, ProductDiv, DetailsDiv, TitleDiv, SizeDiv, BulletDiv, Point, BottomDiv, TopDiv, MiddleDiv, SizeWrapper } from '@/components/styles/ProductPage.styled.js';
-import { fetchProduct,fetchMetadata,fetchStaticParams } from '@/lib/api';
+import { fetchProduct, fetchMetadata, fetchStaticParams } from '@/lib/api';
 import Tag from '@/components/Tag';
 import ProductBuy from '@/components/ProductBuy';
 import ProductImages from '@/components/ProductImages';

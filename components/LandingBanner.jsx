@@ -1,5 +1,5 @@
 import logoIcon from '@/public/assets/logonew.svg';
-import { MainContainer, Logo, TopImage, Caption, LeftImage, RightImage } from './styles/LandingBanner.styled';
+import { MainContainer, LogoDiv, Logo, TopImage, Caption, LeftImage, RightImage, HeroBanner } from './styles/LandingBanner.styled';
 import { fetchLandingImages } from '@/lib/api';
 
 export default async function LandingBanner() {
@@ -7,22 +7,26 @@ export default async function LandingBanner() {
 
   return (
     <MainContainer>
-      <Logo
-        src={logoIcon}
-        alt='Rua de Baixo Logo'
-        priority />
-      <TopImage
-        src={top_image.url}
-        alt='photoTop'
-        height={top_image.height}
-        width={top_image.width}
-        placeholder={'blur'}
-        blurDataURL={top_image.blur}
-      />
-      <Caption>
-        <h4>Confira o Primeiro Drop da Rua de Baixo &quot;Valendo uma Coca&quot;</h4>
-      </Caption>
-      <LeftImage
+      <HeroBanner>
+        <TopImage
+          src={left_image.url}
+          alt='photoTop'
+          height={left_image.height}
+          width={left_image.width}
+          placeholder={'blur'}
+          blurDataURL={left_image.blur}
+        />
+        <LogoDiv>
+          <Logo
+          src={logoIcon}
+          alt='Rua de Baixo Logo'
+          priority />
+          <Caption>
+            <h4>MiniDrop &quot;Galo&quot; </h4>
+          </Caption>
+        </LogoDiv>
+      </HeroBanner>
+      {/* <LeftImage
         src={left_image.url}
         alt='photoTop'
         height={left_image.height}
@@ -37,7 +41,7 @@ export default async function LandingBanner() {
         width={right_image.width}
         placeholder={'blur'}
         blurDataURL={right_image.blur}
-      />
+      /> */}
     </MainContainer>
   )
 }
