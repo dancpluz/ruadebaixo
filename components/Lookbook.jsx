@@ -105,8 +105,6 @@ export default function Lookbook({ images, date }) {
     setImageIndex(prevIndex());
   };
 
-  
-
   return (
     <Container>
       <div>
@@ -117,7 +115,6 @@ export default function Lookbook({ images, date }) {
         </HeaderDiv>
         <ImagesDiv>
           {images.map((image, i) => (
-            
               <StyledImage
                 key={i}
                 src={image.url}

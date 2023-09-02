@@ -1,6 +1,7 @@
 //import Photoshoots from '@/components/Photoshoots';
 import Lookbook from '@/components/Lookbook';
 import { fetchLookBook } from '@/lib/api';
+import { lookbookDate } from '@/lib/config';
 
 export const metadata = {
   title: 'LookBook',
@@ -13,7 +14,6 @@ export const metadata = {
 export const revalidate = 60;
 
 export default async function LookBookPage() {
-  const lookbookDate = '2023-08-11'
   const lookbook = await fetchLookBook(lookbookDate);
   // const collections = await fetchPhotos();
 

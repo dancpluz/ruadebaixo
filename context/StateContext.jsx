@@ -2,7 +2,8 @@
 
 import { createContext, useState, useContext, useEffect } from "react";
 import { useRouter } from 'next/navigation';
-import { storeCartData,getCartData,getNumberData } from '@/lib/localStorage'
+import { storeCartData,getCartData,getNumberData, getFormData } from '@/lib/localStorage'
+import { localStorageVersion } from '@/lib/config'
 
 const Context = createContext();
 
@@ -15,11 +16,11 @@ export const StateContext = ({ children }) => {
   const [totalDiscount,setTotalDiscount] = useState(0);
 
   useEffect(() => {
-    const version = getNumberData('version');
+    const version = getFormData('version');
     // Sempre atualizar a versão ao mudar valores
-    if (version != 2) {
+    if (version != localStorageVersion) {
       localStorage.clear();
-      localStorage.setItem('version',1);
+      localStorage.setItem('version',localStorageVersion);
     }
 
     const storedCart = getCartData();

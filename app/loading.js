@@ -1,10 +1,10 @@
 import CircularProgress from '@mui/material/CircularProgress';
-import { Screen } from '@/components/styles/OtherStyles.styled'
+import { CenterScreen } from '@/components/styles/OtherStyles.styled'
 
 export default function Loading() {
   return (
-    <Screen>
+    <CenterScreen>
       <CircularProgress color="inherit" />
-    </Screen>
+    </CenterScreen>
   )
 }
