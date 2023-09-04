@@ -1,6 +1,7 @@
 import { StyledNav,NavLink } from './styles/Navbar.styled';
 
 export default function Navbar() {
+
   return (
       <StyledNav>
         <NavLink href={'/'}>

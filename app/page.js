@@ -1,6 +1,8 @@
 import LandingBanner from "@/components/LandingBanner";
 import LandingProducts from "@/components/LandingProducts";
 import Strip from "@/components/Strip";
+import Maintenance from "@/components/Maintenance";
+import { maintenanceMode } from '@/lib/config';
 
 export const metadata = {
   title: {
@@ -11,6 +13,11 @@ export const metadata = {
 export const revalidate = 60;
 
 export default function Home() {
+
+  if (maintenanceMode) {
+    return (<Maintenance />)
+  }
+
   return (
     <div>
       <LandingBanner />

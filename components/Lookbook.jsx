@@ -6,13 +6,15 @@ import { formatDate } from '@/lib/format';
 import { useState } from 'react';
 
 const Container = styled.div`
-  padding: 30px 0;
+  padding-top: 95px;
+  padding-bottom: 40px;
   display: flex;
   align-items: center;
   flex-direction: column;
   gap: 20px;
   flex-grow: 1;
-  min-height: 76vh;
+  min-height: 80vh;
+  margin: 0 32px;
 `;
 
 const StyledImage = styled(Image)`
@@ -103,8 +105,6 @@ export default function Lookbook({ images, date }) {
     setImageIndex(prevIndex());
   };
 
-  
-
   return (
     <Container>
       <div>
@@ -115,7 +115,6 @@ export default function Lookbook({ images, date }) {
         </HeaderDiv>
         <ImagesDiv>
           {images.map((image, i) => (
-            
               <StyledImage
                 key={i}
                 src={image.url}

@@ -4,6 +4,7 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import StyledComponentsRegistry from '@/lib/registry';
 import GlobalStyles from '@/components/styles/GlobalStyles.styled';
+import FacebookPixel from '@/components/FacebookPixel';
 
 const clash = localFont({ src: '../public/assets/fonts/ClashDisplay-Variable.ttf' })
 
@@ -11,13 +12,14 @@ export const metadata = {
   title: {
     template: '%s | RDB',
   },
-  description: 'Conheça o primeiro drop "Valendo uma Coca"!',
-  keywords: ['roupas','streetwear','drop','vendas','brechó','skate','moda','moda urbana','streetstyle'],
+  description: 'Confira o MiniDrop "Galo"!',
+  keywords: ['roupas','rua','baixo','rua de baixo','rdb','streetwear','drop','desconto','vendas','ecommerce','galo','minidrop','vendas','brechó','skate','moda','moda urbana','streetstyle'],
   colorScheme: 'light',
   metadataBase: new URL('https://www.ruadebaixo.com.br'),
+  canonical: 'https://www.ruadebaixo.com.br/',
   openGraph: {
     title: 'Rua de Baixo',
-    description: 'Conheça o primeiro drop "Valendo uma Coca"!',
+    description: 'Confira o MiniDrop "Galo"!',
     siteName: 'Rua de Baixo',
     url: 'https://www.ruadebaixo.com.br/',
     type: 'website',
@@ -37,6 +39,7 @@ export default function RootLayout({ children }) {
         <StyledComponentsRegistry>
           <GlobalStyles>
           <body className={clash.className}>
+            <FacebookPixel />
             <Header />
             {children}
             <Footer />

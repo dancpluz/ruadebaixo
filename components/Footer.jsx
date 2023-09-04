@@ -29,6 +29,11 @@ export default function Footer() {
                 <Image src={'assets/icons/tiktok.svg'} alt={'@ruadebaixoloja'} width={28} height={28} priority/>
               </div>
             </Link>
+            <Link target={'_blank'} href='https://www.youtube.com/channel/UCwWDhzN4M-vi-CVd8oaak_A'>
+              <div>
+                <Image src={'assets/icons/youtube.svg'} alt={'@ruadebaixoloja'} width={28} height={28} priority />
+              </div>
+            </Link>
             <Link target={'_blank'} href='mailto:contato@ruadebaixo.com.br'>
               <div>
                 <Image src={'assets/icons/mail.svg'} alt={'contato@ruadebaixo.com.br'} width={28} height={28} priority/>

@@ -13,21 +13,18 @@ export const LogoCMS = styled(Image)`
   left: 20px;
 `;
 
-export const Screen = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 80vh;
-`;
-
 export const CenterScreen = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 80vh;
+  height: calc(100vh - 124px);
   margin: 0 200px;
   div {
     text-align: center;
+  }
+  a {
+    color: ${({ theme }) => theme.colors.dark};
+    text-decoration: none;
   }
   @media ${({ theme }) => theme.sizes.medium} {
     margin: 0 100px;

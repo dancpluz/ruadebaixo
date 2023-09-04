@@ -12,6 +12,7 @@ import { ItemsDiv,PriceDiv } from '@/components/Cart'
 import { sendOrderToServer,updateOrderedProduct } from '@/lib/api';
 import { storeFormData,getFormData } from '@/lib/localStorage';
 import { formatFloat } from '@/lib/format'
+import { purchase, buyer } from '@/lib/fpixel';
 
 const Container = styled.div`
   display: flex;
@@ -161,7 +162,7 @@ export default function BuyForm() {
     setValue('phone', getFormData('phone'))
     setValue('email', getFormData('email'))
     setValue('insta', getFormData('insta'))
-  },[]);
+  },[setValue]);
 
   const onSubmit = async (data) => {
     try {
@@ -187,14 +188,15 @@ export default function BuyForm() {
 
       const json = {
         ...data,
-        delivery: {local: JSON.parse(data.delivery.local).local, type: data.delivery.type},
+        delivery: {local: data.delivery.local, type: data.delivery.type},
         phone: data.phone.length > 10 ? data.phone.replace('9','') : data.phone,
         order,
       }
-      console.log(json);
       await sendOrderToServer(json);
       await cartItems.map((item) => updateOrderedProduct(item._id))
       onBuy();
+      buyer(json.name,json.email,json.phone) // Facebook Pixel Buyer Event for SEO
+      purchase(json.total, cartItems, json.delivery.type); // Facebook Pixel Purchase Event for SEO
       router.push('/comprar/sucesso');
     }
     catch (e) {
@@ -422,7 +424,8 @@ export default function BuyForm() {
         return (
           <InputBox title={'Local de Retirada*'} span={'Nos encontramos com frete grátis nesses locais:'} errorMessage={errors.delivery && errors.delivery.local}>
             <select defaultValue='' {...register('delivery.local',{
-              required: 'Selecione uma opção'
+              required: 'Selecione uma opção',
+              onChange: () => setTax(0)
             })}>
               <option value='' disabled>Selecione um local</option>
               {pickupLocations.sort().map((location) => {

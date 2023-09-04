@@ -1,10 +1,12 @@
 import { Container, ProductDiv, DetailsDiv, TitleDiv, SizeDiv, BulletDiv, Point, BottomDiv, TopDiv, MiddleDiv, SizeWrapper } from '@/components/styles/ProductPage.styled.js';
-import { fetchProduct,fetchMetadata,fetchStaticParams } from '@/lib/api';
+import { fetchProduct, fetchMetadata, fetchStaticParams } from '@/lib/api';
 import Tag from '@/components/Tag';
 import ProductBuy from '@/components/ProductBuy';
 import ProductImages from '@/components/ProductImages';
 import ProductInfo from '@/components/ProductInfo';
 import OrderedBadge from '@/components/OrderedBadge';
+import Maintenance from '@/components/Maintenance';
+import { maintenanceMode } from '@/lib/config';
 
 export async function generateMetadata({ params: { slug }}) {
   const product = await fetchMetadata(slug);
@@ -33,6 +35,10 @@ export const revalidate = 60;
 export default async function ProdutoPage({ params: { slug } }) {
   const product = await fetchProduct(slug);
   const { name, images, type, quality, drop, tag, measures, price, size, ordered, discount, details } = product;
+
+  if (maintenanceMode) {
+    return (<Maintenance/>)
+  }
 
   return (
     <Container>

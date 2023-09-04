@@ -5,6 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 
 export const Container = styled.div`
+  padding-top: 65px;
   display: flex;
   width: 100%;
   justify-content: center;
@@ -50,8 +51,10 @@ export const StyledLink = styled(Link)`
   text-decoration: none;
   height: 60px;
   width: 100%;
+  transition: all 0.2s ease-in-out;
   ${Icon} {
     filter: invert(1);
+    transition: all 0.2s ease-in-out;
   }
   &:hover {
     background-color: ${({ theme }) => theme.colors.dark};

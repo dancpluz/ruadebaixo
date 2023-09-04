@@ -20,9 +20,13 @@ const GlobalStyle = createGlobalStyle`
     margin: 0;
     padding: 0;
   }
+  ::selection {
+    background: ${theme.colors.dark};
+    color: ${theme.colors.light}
+  }
   body {
     font-family: 'Clash Display', sans-serif;
-    color: ${theme.dark};
+    color: ${theme.colors.dark};
   }
   button {
     font-size: 1rem;

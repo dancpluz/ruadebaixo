@@ -3,6 +3,7 @@
 import Image from 'next/image'
 import styled from 'styled-components';
 import { useStateContext } from '@/context/StateContext';
+import { addcart } from '@/lib/fpixel';
 
 const BuyDiv = styled.div`
   display: flex;
@@ -67,6 +68,23 @@ const Icon = styled(Image)`
 export default function ProductBuy({ product }) {
   const { onAdd } = useStateContext();
 
+  function handleButton(product,type) {
+    switch (type) {
+      case 'buy':
+        onAdd(product,true);
+        addcart(product);
+        break;
+      case 'add':
+        onAdd(product,false);
+        addcart(product);
+        break;
+      case 'negotiate':
+        // WIP
+      default:
+        return null;
+    }
+  }
+
   return (
     <BuyDiv>
       { product.sold ? 
@@ -74,14 +92,14 @@ export default function ProductBuy({ product }) {
         VENDIDO
       </BuyButton>
        :
-      <BuyButton onClick={() => onAdd(product,true)}>
+      <BuyButton onClick={() => handleButton(product,'buy')}>
         COMPRAR
       </BuyButton>
       }
       {/* <NegotiateButton onClick={() => ''}>
         <Icon alt={'Ícone Negociar Preço'} src={'/assets/icons/moneyspeech.svg'} width={60} height={60} />
       </NegotiateButton> */}
-      {!product.sold && <AddButton onClick={() => onAdd(product,false)}>
+      {!product.sold && <AddButton onClick={() => handleButton(product,'add')}>
         <Icon alt={'Ícone Adicionar ao Carrinho'} src={'/assets/icons/addcart.svg'} width={60} height={60} />
       </AddButton>}
     </BuyDiv>

@@ -12,6 +12,9 @@ import { useStateContext } from '../context/StateContext';
 import { useState } from 'react';
 
 const Container = styled.div`
+  z-index: 6;
+  position: fixed;
+  width: 100vw;
   display: flex;
   flex-direction: column;
   background-color: ${({ theme }) => theme.colors.dark};
@@ -94,7 +97,7 @@ export default function Header() {
     <Container>
       <Wrapper>
         <HamburgerContainer>
-          <HamburgerIcon onClick={() => setShowNavbar(!showNavbar)} src={hamburgerIcon} alt='Mostrar links' />
+          <HamburgerIcon onClick={() => setShowNavbar((current) => !current)} src={hamburgerIcon} alt='Mostrar links' />
         </HamburgerContainer>
         <LogoContainer href='/'>
           <Logo src={logoRDB} alt='RDB Logo' priority />
@@ -109,7 +112,7 @@ export default function Header() {
       </Wrapper>
       {showNavbar && 
         <MobileNavbar>
-        <Navbar />
+          <Navbar />
       </MobileNavbar>}
     </Container>
   )
