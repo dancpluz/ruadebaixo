@@ -12,14 +12,14 @@ export const metadata = {
   title: {
     template: '%s | RDB',
   },
-  description: 'Conheça o primeiro drop "Valendo uma Coca"!',
-  keywords: ['roupas','rua','baixo','rua de baixo','rdb','streetwear','drop','vendas','brechó','skate','moda','moda urbana','streetstyle'],
+  description: 'Confira o MiniDrop "Galo"!',
+  keywords: ['roupas','rua','baixo','rua de baixo','rdb','streetwear','drop','desconto','vendas','ecommerce','galo','minidrop','vendas','brechó','skate','moda','moda urbana','streetstyle'],
   colorScheme: 'light',
   metadataBase: new URL('https://www.ruadebaixo.com.br'),
   canonical: 'https://www.ruadebaixo.com.br/',
   openGraph: {
     title: 'Rua de Baixo',
-    description: 'Conheça o primeiro drop "Valendo uma Coca"!',
+    description: 'Confira o MiniDrop "Galo"!',
     siteName: 'Rua de Baixo',
     url: 'https://www.ruadebaixo.com.br/',
     type: 'website',

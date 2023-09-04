@@ -19,7 +19,7 @@ export default async function LandingBanner() {
         </LogoDiv>
         <TopImage
           src={images[0].url}
-          alt='photoTop'
+          alt='Homem Caindo - Novas camisetas do Galo'
           height={images[0].height}
           width={images[0].width}
           placeholder={'blur'}
@@ -27,7 +27,7 @@ export default async function LandingBanner() {
         />
         <LeftImage
           src={images[2].url}
-          alt='photoTop'
+          alt='Homem Caindo - Novas camisetas do Galo'
           height={images[2].height}
           width={images[2].width}
           placeholder={'blur'}
@@ -35,7 +35,7 @@ export default async function LandingBanner() {
         />
         <RightImage
           src={images[1].url}
-          alt='photoTop'
+          alt='Homem Caindo - Novas camisetas do Galo'
           height={images[1].height}
           width={images[1].width}
           placeholder={'blur'}
