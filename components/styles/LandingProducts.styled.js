@@ -5,18 +5,19 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 export const Container = styled.div`
-  padding: 42px 200px;
+  padding: 0 200px 50px 200px;
   h1 {
     text-align: center;
     margin-bottom: 48px;
   }
   @media ${({ theme }) => theme.sizes.medium} {
-    padding: 42px 100px;
+    padding: 0 100px 50px 100px;
   }
   @media ${({ theme }) => theme.sizes.small} {
-    padding: 42px 32px;
+    padding: 0 32px 50px 32px;
   }
 `;
+
 export const Flexbox = styled.div`
   display: flex;
   flex-flow: row wrap;

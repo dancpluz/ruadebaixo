@@ -4,26 +4,22 @@ const landing = {
     type: 'document',
     fields: [
       {
-          name: 'top_image',
-          title: 'Imagem Superior',
-          desc: 'Imagem do Canto Superior Direito',
-          type: 'image',
-        validation: Rule => Rule.required(),
+        name: 'text',
+        title: 'Texto',
+        desc: 'Legenda para a página inicial',
+        type: 'string',
       },
       {
-        name: 'right_image',
-        title: 'Imagem Direita',
-        desc: 'Imagem do Canto Direito',
-        type: 'image',
-        validation: Rule => Rule.required(),
-      },
-      {
-        name: 'left_image',
-        title: 'Imagem Esquerda',
-        desc: 'Imagem do Canto Esquerdo',
-        type: 'image',
-        validation: Rule => Rule.required(),
-      },
+        name: 'images',
+        title: 'Imagens',
+        desc: 'Imagens para ser utilizadas na página inicial',
+        type: 'array',
+        of: [{ type: 'image' }],
+        option: {
+          hotspot: true,
+        },
+        validation: Rule => Rule.required()
+      }
     ]
 }
 

@@ -6,6 +6,7 @@ import whatsapp from '@/public/assets/icons/whatsapp.svg';
 import tiktok from '@/public/assets/icons/tiktok.svg';
 import youtube from '@/public/assets/icons/youtube.svg';
 import EmbedInsta from '@/components/EmbedInsta';
+import { fetchLinks } from '@/lib/api'
 
 export const metadata = {
   title: 'Links',
@@ -15,7 +16,9 @@ export const metadata = {
   },
 }
 
-export default function Links() {
+export default async function Links() {
+  const links = await fetchLinks()
+
   return (
     <Container>
       <Wrapper>
@@ -24,20 +27,24 @@ export default function Links() {
         <LinkButton href={'/'} image={rdb} sameTab>
           Site
         </LinkButton>
-        <LinkButton href={'https://www.instagram.com/ruadebaixoloja/'} image={instagram} >
+        <LinkButton href={links.instagram} image={instagram} >
           Instagram
         </LinkButton>
-        <LinkButton href={'https://www.tiktok.com/@ruadebaixoloja'} image={tiktok} >
+        <LinkButton href={links.tiktok} image={tiktok} >
           TikTok
         </LinkButton>
-        <LinkButton href={'https://wa.me/message/GMJP6IY5DXZOM1'} image={whatsapp}>
+        <LinkButton href={links.whatsapp} image={whatsapp}>
           Whatsapp
         </LinkButton>
-        <LinkButton href={'https://www.youtube.com/channel/UCwWDhzN4M-vi-CVd8oaak_A'} image={youtube}>
+        <LinkButton href={links.youtube} image={youtube}>
           Youtube
         </LinkButton>
-        <h2>Último Post</h2>
-        <EmbedInsta />
+        { links.last_post &&
+          <>
+            <h2>Último Post</h2>
+            <EmbedInsta link={links.last_post} />
+          </>
+        }
       </Wrapper>
     </Container>
   )

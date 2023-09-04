@@ -3,45 +3,45 @@ import { MainContainer, LogoDiv, Logo, TopImage, Caption, LeftImage, RightImage,
 import { fetchLandingImages } from '@/lib/api';
 
 export default async function LandingBanner() {
-  const {top_image, right_image, left_image} = await fetchLandingImages();
+  const {text, images} = await fetchLandingImages();
 
   return (
     <MainContainer>
       <HeroBanner>
-        <TopImage
-          src={left_image.url}
-          alt='photoTop'
-          height={left_image.height}
-          width={left_image.width}
-          placeholder={'blur'}
-          blurDataURL={left_image.blur}
-        />
         <LogoDiv>
           <Logo
           src={logoIcon}
           alt='Rua de Baixo Logo'
           priority />
           <Caption>
-            <h4>MiniDrop &quot;Galo&quot; </h4>
+            <h4>{text}</h4>
           </Caption>
         </LogoDiv>
+        <TopImage
+          src={images[0].url}
+          alt='photoTop'
+          height={images[0].height}
+          width={images[0].width}
+          placeholder={'blur'}
+          blurDataURL={images[0].blur}
+        />
+        <LeftImage
+          src={images[2].url}
+          alt='photoTop'
+          height={images[2].height}
+          width={images[2].width}
+          placeholder={'blur'}
+          blurDataURL={images[2].blur}
+        />
+        <RightImage
+          src={images[1].url}
+          alt='photoTop'
+          height={images[1].height}
+          width={images[1].width}
+          placeholder={'blur'}
+          blurDataURL={images[1].blur}
+        />
       </HeroBanner>
-      {/* <LeftImage
-        src={left_image.url}
-        alt='photoTop'
-        height={left_image.height}
-        width={left_image.width}
-        placeholder={'blur'}
-        blurDataURL={left_image.blur}
-      />
-      <RightImage
-        src={right_image.url}
-        alt='photoTop'
-        height={right_image.height}
-        width={right_image.width}
-        placeholder={'blur'}
-        blurDataURL={right_image.blur}
-      /> */}
     </MainContainer>
   )
 }

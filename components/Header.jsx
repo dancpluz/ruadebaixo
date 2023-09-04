@@ -97,7 +97,7 @@ export default function Header() {
     <Container>
       <Wrapper>
         <HamburgerContainer>
-          <HamburgerIcon onClick={() => setShowNavbar(!showNavbar)} src={hamburgerIcon} alt='Mostrar links' />
+          <HamburgerIcon onClick={() => setShowNavbar((current) => !current)} src={hamburgerIcon} alt='Mostrar links' />
         </HamburgerContainer>
         <LogoContainer href='/'>
           <Logo src={logoRDB} alt='RDB Logo' priority />
@@ -112,7 +112,7 @@ export default function Header() {
       </Wrapper>
       {showNavbar && 
         <MobileNavbar>
-        <Navbar />
+          <Navbar />
       </MobileNavbar>}
     </Container>
   )

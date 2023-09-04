@@ -1,10 +1,9 @@
 'use client';
 
 import { InstagramEmbed } from 'react-social-media-embed';
-import { instagramUrl } from '@/lib/config'
 
-export default function EmbedInsta() {
+export default function EmbedInsta({ link }) {
   return (
-    <InstagramEmbed url={instagramUrl} width={'100%'} />
+    <InstagramEmbed url={link} width={'100%'} />
   )
 }

@@ -1,6 +1,10 @@
+'use client'
+
 import { StyledNav,NavLink } from './styles/Navbar.styled';
+import { useStateContext } from '@/context/StateContext';
 
 export default function Navbar() {
+
   return (
       <StyledNav>
         <NavLink href={'/'}>
