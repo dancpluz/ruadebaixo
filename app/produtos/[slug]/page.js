@@ -31,6 +31,8 @@ export async function generateStaticParams() {
 
 export const revalidate = 60;
 
+export const dynamic = 'force-dynamic';
+
 
 export default async function ProdutoPage({ params: { slug } }) {
   const product = await fetchProduct(slug);
