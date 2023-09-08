@@ -116,6 +116,7 @@ export const SizeDiv = styled.div`
   align-items: center;
   p {
     text-decoration: underline;
+    cursor: pointer;
   }
   @media ${({ theme }) => theme.sizes.small} {
     h2 {

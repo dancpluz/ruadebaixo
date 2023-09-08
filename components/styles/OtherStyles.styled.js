@@ -17,7 +17,8 @@ export const CenterScreen = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  height: calc(100vh - 124px);
+  height: calc(100vh - 189px);
+  padding-top: 65px;
   margin: 0 200px;
   div {
     text-align: center;

@@ -3,7 +3,7 @@
 import { createContext, useState, useContext, useEffect } from "react";
 import { useRouter } from 'next/navigation';
 import { storeCartData,getCartData,getNumberData,getFormData,clearStorage } from '@/lib/localStorage'
-import { localStorageVersion } from '@/lib/config'
+import { checkLocalStorageVersion } from '@/lib/config';
 
 const Context = createContext();
 
@@ -14,15 +14,21 @@ export const StateContext = ({ children }) => {
   const [lastRemovedItem,setLastRemovedItem] = useState(null);
   const [totalPrice,setTotalPrice] = useState(0);
   const [totalDiscount,setTotalDiscount] = useState(0);
+  const [expandMeasures, setExpandMeasures] = useState(false);
 
   useEffect(() => {
     const version = getFormData('version');
-    // Sempre atualizar a versão ao mudar valores
-    if (version != localStorageVersion) {
-      localStorage.clear();
-      clearStorage('version',localStorageVersion);
-    }
 
+    const checkVersion = async () => {
+      const localStorageVersion = await checkLocalStorageVersion();
+
+      if (version != localStorageVersion) {
+        clearStorage('version',localStorageVersion);
+        localStorage.setItem("version", localStorageVersion);
+      }
+    }
+    checkVersion()
+    
     const storedCart = getCartData();
     const storedPrice = getNumberData('price');
     const storedDiscount = getNumberData('discount');
@@ -30,7 +36,6 @@ export const StateContext = ({ children }) => {
     setCartItems(storedCart);
     setTotalPrice(storedPrice);
     setTotalDiscount(storedDiscount);
-
   }, [])
 
   const router = useRouter();
@@ -114,7 +119,9 @@ export const StateContext = ({ children }) => {
         onRemove,
         onUndo,
         router,
-        onBuy
+        onBuy,
+        expandMeasures,
+        setExpandMeasures
       }}
     >
       {children}

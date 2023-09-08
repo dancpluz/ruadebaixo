@@ -20,12 +20,12 @@ const Container = styled.div`
   justify-content: center;
   flex-flow: column nowrap;
   gap: 24px;
-  padding: 42px 200px;
+  padding: 100px 200px 60px 200px;
   @media ${({ theme }) => theme.sizes.medium} {
-    padding: 42px 100px;
+    padding: 100px 100px 60px 100px;
   }
-  @media ${({ theme }) => theme.sizes.medium} {
-    padding: 42px 32px;
+  @media ${({ theme }) => theme.sizes.small} {
+    padding: 100px 32px 60px 32px;
   }
 `;
 

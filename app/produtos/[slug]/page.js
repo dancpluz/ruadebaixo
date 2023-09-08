@@ -1,15 +1,19 @@
 import { Container, ProductDiv, DetailsDiv, TitleDiv, SizeDiv, BulletDiv, Point, BottomDiv, TopDiv, MiddleDiv, SizeWrapper } from '@/components/styles/ProductPage.styled.js';
 import { fetchProduct, fetchMetadata, fetchStaticParams } from '@/lib/api';
+import { checkMaintenanceMode } from '@/lib/config';
 import Tag from '@/components/Tag';
 import ProductBuy from '@/components/ProductBuy';
 import ProductImages from '@/components/ProductImages';
-import ProductInfo from '@/components/ProductInfo';
+import ProductInfo, { MeasureLink } from '@/components/ProductInfo';
 import OrderedBadge from '@/components/OrderedBadge';
 import Maintenance from '@/components/Maintenance';
-import { maintenanceMode } from '@/lib/config';
+import { notFound } from 'next/navigation';
 
 export async function generateMetadata({ params: { slug }}) {
   const product = await fetchMetadata(slug);
+  if (!product) {
+    notFound();
+  }
   const { name, images, type } = product;
 
   return {
@@ -33,14 +37,13 @@ export const revalidate = 60;
 
 export const dynamic = 'force-dynamic';
 
-
 export default async function ProdutoPage({ params: { slug } }) {
+  if (await checkMaintenanceMode()) {
+    return (<Maintenance />)
+  }
+
   const product = await fetchProduct(slug);
   const { name, images, type, quality, drop, tag, measures, price, size, ordered, discount, details } = product;
-
-  if (maintenanceMode) {
-    return (<Maintenance/>)
-  }
 
   return (
     <Container>
@@ -80,7 +83,7 @@ export default async function ProdutoPage({ params: { slug } }) {
                 </div>
                 <Tag tags={[size]} isSize/>
               </SizeWrapper>
-              {measures && <p>Veja medidas</p>}
+              {measures && <MeasureLink />}
             </SizeDiv>
             <ProductBuy product={product} />
           </DetailsDiv>
@@ -90,9 +93,3 @@ export default async function ProdutoPage({ params: { slug } }) {
     </Container>
   )
 }
-
-// function useFlexDirection() {
-//   const isSmallScreen = useMediaQuery({ maxWidth: 767 }); // Adjust the value to your desired breakpoint
-
-//   return isSmallScreen ? 'column-reverse' : 'column';
-// }

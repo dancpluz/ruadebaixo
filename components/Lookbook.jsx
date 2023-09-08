@@ -18,14 +18,14 @@ const Container = styled.div`
 `;
 
 const StyledImage = styled(Image)`
-  position: ${({ show }) => show ? 'relative' : 'absolute'};
-  width: ${({ show }) => show ? '100%' : '0'};
+  position: ${({ show }) => show == 'true' ? 'relative' : 'absolute'};
+  width: ${({ show }) => show == 'true' ? '100%' : '0'};
   height: auto;
   object-fit: contain;
   max-width: 800px;
   max-height: 600px;
   transition: opacity 0.3s ease-in-out;
-  opacity: ${({ show }) => show ? 1 : 0};
+  opacity: ${({ show }) => show == 'true' ? 1 : 0};
 `;
 
 const ImagesDiv = styled.div`
@@ -123,7 +123,7 @@ export default function Lookbook({ images, date }) {
                 height={image.height}
                 placeholder={'blur'}
                 blurDataURL={image.blur}
-                show={i === imageIndex}
+                show={i === imageIndex ? 'true' : 'false'}
               />
           ))  
           }

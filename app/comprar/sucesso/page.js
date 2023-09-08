@@ -1,4 +1,4 @@
-import { CenterScreen } from 'components/styles/OtherStyles.styled';
+import { CenterScreen } from '@/components/styles/OtherStyles.styled';
 
 export const metadata = {
   title: 'Sucesso',

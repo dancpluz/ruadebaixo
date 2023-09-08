@@ -1,14 +1,19 @@
+'use client'
+
 import Accordion from './Accordion';
 import { Container } from './styles/Accordion.styled';
 import { deliveryLocations,pickupLocations,questions } from '@/sanity/schemas/options';
 import { formatFloat,sortLocations } from '@/lib/format';
+import { useStateContext } from '@/context/StateContext';
 
 export default function ProductInfo({ measures }) {
+  const { setExpandMeasures, expandMeasures } = useStateContext();
+  
   return (
     <Container>
       { measures &&
-        <Accordion title={'Medidas'}>
-          <h4>Largura</h4>
+        <Accordion measure expandMeasures={expandMeasures} setExpandMeasures={setExpandMeasures} title={'Medidas'}>
+          <h4 >Largura</h4>
           <p>{formatFloat(measures.length)} cm</p>
           <br/>
           <h4>Altura</h4>
@@ -42,5 +47,21 @@ export default function ProductInfo({ measures }) {
         )}
       </Accordion>
     </Container>
+  )
+}
+
+export function MeasureLink() {
+  const { setExpandMeasures } = useStateContext();
+  
+  const handleClickScroll = () => {
+    setExpandMeasures(true);
+    const element = document.getElementById('medidas');
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth',inline: "start" });
+    }
+  };
+
+  return (
+    <p onClick={handleClickScroll}>Veja medidas</p>
   )
 }

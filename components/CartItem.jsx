@@ -10,15 +10,25 @@ const ItemDiv = styled.div`
   align-items: center;
   gap: 32px;
   color: ${({ theme }) => theme.colors.dark};
+  @media ${({theme}) => theme.sizes.small} {
+    gap: 16px;
+    height: 100px;
+    aspect-ratio: 1;
+  }
 `;
 
 const ProductImage = styled(Image)`
   width: 150px;
   height: 150px;
+  aspect-ratio: 1;
   object-fit: contain;
   background-color: ${({ theme }) => theme.colors.grey};
   box-sizing: border-box;
   align-self: right;
+  @media ${({theme}) => theme.sizes.small} {
+    width: 100px;
+    height: 100px;
+  }
 `;
 
 const TextDiv = styled.div`
@@ -65,6 +75,10 @@ const DisabledImage = styled(Image)`
   align-self: right;
   filter: saturate(0);
   opacity: 0.7;
+  @media ${({ theme }) => theme.sizes.small} {
+    width: 100px;
+    height: 100px;
+  }
 `;
 
 export default function CartItem({lastRemoved, product, product: { images,type,name,size,discount,price }}) {

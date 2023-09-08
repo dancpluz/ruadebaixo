@@ -3,7 +3,8 @@ import Card from '@/components/Card';
 import { Container,Wrapper,ProductsDiv } from '@/components/styles/CatalogPage.styled';
 import { fetchCatalogProducts } from '@/lib/api';
 import Maintenance from '@/components/Maintenance';
-import { maintenanceMode } from '@/lib/config';
+import { checkMaintenanceMode } from '@/lib/config';
+
 
 export const metadata = {
   title: 'Produtos',
@@ -18,11 +19,11 @@ export const revalidate = 60;
 export const dynamic = 'force-dynamic';
 
 export default async function ProdutosPage() {
-  const products = await fetchCatalogProducts();
-
-  if (maintenanceMode) {
+  if (await checkMaintenanceMode()) {
     return (<Maintenance />)
   }
+
+  const products = await fetchCatalogProducts();
 
   return (
     <Container>

@@ -36,7 +36,7 @@ const PreviewImagesWrapper = styled.div`
   display: flex;
   height: 400px;
   flex-direction: column;
-  gap: 11px;
+  gap: 13px;
   overflow-y: auto;
   overflow-x: hidden;
   @media ${({ theme }) => theme.sizes.small} {
@@ -54,6 +54,8 @@ const PreviewImagesWrapper = styled.div`
 const PreviewImage = styled(Image)`
   width: 90px;
   height: 90px;
+  min-width: 90px;
+  min-height: 90px;
   object-fit: contain;
   background-color: ${({ theme }) => theme.colors.grey};
   box-shadow: inset 0 0 0 ${props => props.selected ? '1px' : '0'} ${({ theme }) => theme.colors.dark};
