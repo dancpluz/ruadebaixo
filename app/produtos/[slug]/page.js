@@ -7,9 +7,13 @@ import ProductInfo from '@/components/ProductInfo';
 import OrderedBadge from '@/components/OrderedBadge';
 import Maintenance from '@/components/Maintenance';
 import { maintenanceMode } from '@/lib/config';
+import { notFound } from 'next/navigation';
 
 export async function generateMetadata({ params: { slug }}) {
   const product = await fetchMetadata(slug);
+  if (!product) {
+    notFound();
+  }
   const { name, images, type } = product;
 
   return {
@@ -33,9 +37,13 @@ export const revalidate = 60;
 
 export const dynamic = 'force-dynamic';
 
-
 export default async function ProdutoPage({ params: { slug } }) {
   const product = await fetchProduct(slug);
+  
+  if (!product) {
+    notFound();
+  }
+
   const { name, images, type, quality, drop, tag, measures, price, size, ordered, discount, details } = product;
 
   if (maintenanceMode) {

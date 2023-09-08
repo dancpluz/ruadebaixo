@@ -92,7 +92,7 @@ const CartHeader = styled.div`
   justify-content: space-between;
   align-items: center;
   flex-shrink: 0;
-  padding: 0 24px;
+  padding: 0 16px;
   h3 {
     font-weight: 400;
   }
@@ -110,14 +110,14 @@ export const ItemsDiv = styled.div`
   display: flex;
   flex-flow: column nowrap;
   gap: 32px;
-  padding: 24px 24px;
+  padding: 16px 16px;
 `;
 
 export const CartFooter = styled.div`
   display: flex;
   flex-flow: column nowrap;
   gap: 10px;
-  padding: 24px 24px;
+  padding: 16px 16px;
   background: ${({ theme }) => theme.colors.dark};
   color: ${({ theme }) => theme.colors.light};
 `;

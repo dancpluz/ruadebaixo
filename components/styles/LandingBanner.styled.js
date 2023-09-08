@@ -42,13 +42,13 @@ export const MainContainer = styled.div`
 
 export const HeroBanner = styled.div`
   position: relative;
-  height: 70vh;
+  height: 700px;
   @media ${({ theme }) => theme.sizes.medium} {
-    height: 60vh;
+    height: 600px;
   }
 
   @media ${({theme}) => theme.sizes.small} {
-    height: 120vh;
+    height: 1000px;
   }
 `;
 
@@ -115,7 +115,7 @@ export const TopImage = styled(Image)`
 export const LeftImage = styled(Image)`
   position: absolute;
   left: 10vw;
-  top: 400px;
+  top: 450px;
   width: 400px;
   height: auto;
   animation: 4.5s ease-in-out infinite ${floating};
@@ -131,8 +131,8 @@ export const LeftImage = styled(Image)`
 
 export const RightImage = styled(Image)`
   position: absolute;
-  right: 15vw;
-  top: 350px;
+  right: 18vw;
+  top: 500px;
   width: 450px;
   height: auto;
   animation: 4.2s ease-in-out infinite ${floating};
