@@ -1,28 +1,37 @@
 'use client'
 
+import { useCallback } from 'react';
 import styled from 'styled-components';
 import TextField from '@mui/material/TextField';
 import Image from 'next/image';
+import Link from 'next/link';
 import searchIcon from '@/public/assets/icons/search.svg'
 import { productTypes,productTags,productQualities,productDrops } from '@/sanity/schemas/product';
 import TagRemovable from './TagRemovable';
 import Accordion from './Accordion';
 import { useStateContext } from '@/context/StateContext';
+import { useSearchParams } from 'next/navigation';
+
 
 const Container = styled.div`
-  width: 360px;
+  position: sticky;
+  top: 120px;
+  min-width: 360px;
+  max-height: 80vh;
+  overflow-x: hidden;
+  overflow-y: scroll;
 `;
 
 const SearchDiv = styled.div`
   display: flex;
   align-items: end;
   width: 100%;
-  height: 40px;
+  height: 30px;
   margin-bottom: 40px;
 `;
 
 const SearchField = styled(TextField)`
-  flex-grow: 1;
+  width: 100%;
   .MuiInputBase-input {
     font-family: 'Clash Display', sans-serif;
     color: ${({ theme }) => theme.colors.dark};
@@ -32,14 +41,18 @@ const SearchField = styled(TextField)`
 const SearchIcon = styled(Image)`
   height: 24px;
   width: 24px;
-  margin-right: -3px;
+  margin-right: 8px;
+  cursor: pointer;
+`;
+
+const StyledLink = styled(Link)`
+  text-decoration: ${props => props.selected ? 'none' : 'underline'};
+  cursor: ${props => props.selected ? 'default' : 'pointer'};
+  color: ${({ theme }) => theme.colors.dark};
 `;
 
 const FilterText = styled.p`
-  color: ${({ theme }) => theme.colors.dark};
   font-size: 18px;
-  text-decoration: ${props => props.selected ? 'none' : 'underline'};
-  cursor: ${props => props.selected ? 'default' : 'pointer'};;
 `;
 
 const FilterDiv = styled.div`
@@ -50,15 +63,28 @@ const FilterDiv = styled.div`
 `;
 
 export default function FilterBar() {
-  const { selectedTags, setSelectedTags } = useStateContext();
-
-  function handleSelectFilter(item) {
-    if (!selectedTags.includes(item)) {
-      setSelectedTags((oldArray) => [...oldArray,item]);
-    }
-    
-    // Adicionar lógica de filtragem na busca
+  const searchParams = useSearchParams();
+  const selectedTags = {
+    tipo: searchParams.get('tipo')?.split(','),
+    categoria: searchParams.get('categoria')?.split(','),
+    qualidade: searchParams.get('qualidade')?.split(','),
+    drop: searchParams.get('drop')?.split(',')
   }
+  //console.log(selectedTags.tipo ? selectedTags.tipo.includes('Camiseta') : false);
+  //const { selectedTags, setSelectedTags } = useStateContext();
+
+  const createQueryString = 
+    (name,value) => {
+      const params = new URLSearchParams(searchParams)
+      if (params.has(name)) {
+        if (params.get(name).split(',').includes(value)) return params.toString();
+        params.set(name,[params.get(name),value])
+      } else {
+        params.set(name, value)
+      }
+
+      return params.toString()
+    }
   
   return (
     <Container>
@@ -69,28 +95,44 @@ export default function FilterBar() {
       <Accordion title={'Tipo'}>
         <FilterDiv>
           {productTypes.map((item, n) => (
-            <FilterText key={n+item.value} selected={selectedTags.includes(item.value)} onClick={() => handleSelectFilter(item.value)}>{item.value}</FilterText>
+            <StyledLink key={n + item.value} selected={selectedTags.tipo?.includes(item.value)} href={`?${createQueryString('tipo', item.value)}`}>
+              <FilterText>
+                {item.value}
+              </FilterText>
+            </StyledLink>
           ))}
         </FilterDiv>
       </Accordion>
       <Accordion title={'Categoria'}>
         <FilterDiv>
           {productTags.map((item,n) => (
-            <FilterText key={n + item.value} selected={selectedTags.includes(item.value)} onClick={() => handleSelectFilter(item.value)}>{item.value}</FilterText>
+            <StyledLink key={n + item.value} selected={selectedTags.categoria?.includes(item.value)} href={`?${createQueryString('categoria', item.value)}`}>
+              <FilterText>
+                {item.value}
+              </FilterText>
+            </StyledLink>
           ))}
         </FilterDiv>
       </Accordion>
       <Accordion title={'Qualidade'}>
         <FilterDiv>
           {productQualities.map((item,n) => (
-            <FilterText key={n + item.value} selected={selectedTags.includes(item.value)} onClick={() => handleSelectFilter(item.value)}>{item.value}</FilterText>
+            <StyledLink key={n + item.value} selected={selectedTags.qualidade?.includes(item.value)} href={`?${createQueryString('qualidade', item.value)}`}>
+              <FilterText>
+                {item.value}
+              </FilterText>
+            </StyledLink>
           ))}
         </FilterDiv>
       </Accordion>
       <Accordion title={'Drop'}>
         <FilterDiv>
           {productDrops.map((item,n) => (
-            <FilterText key={n + item.value} selected={selectedTags.includes(item.value)} onClick={() => handleSelectFilter(item.value)}>{item.value}</FilterText>
+            <StyledLink key={n + item.value} selected={selectedTags.drop?.includes(item.value)} href={`?${createQueryString('drop', item.value)}`}>
+              <FilterText>
+                {item.value}
+              </FilterText>
+            </StyledLink>
           ))}
         </FilterDiv>
       </Accordion>
@@ -101,7 +143,7 @@ export default function FilterBar() {
           }
         </FilterDiv>
       </Accordion> */}
-      <TagRemovable />
+      <TagRemovable searchParams={searchParams} selectedTags={selectedTags} />
     </Container>
   )
 }

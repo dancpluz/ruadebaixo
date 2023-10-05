@@ -1,6 +1,9 @@
 'use client'
 
+import { useSearchParams } from 'next/navigation';
 import styled from 'styled-components';
+import FilterBar from '@/components/FilterBar';
+import Card from '@/components/Card';
 
 export const Container = styled.div`
   display: flex;
@@ -31,3 +34,22 @@ export const ProductsDiv = styled.div`
   justify-content: center;
   flex-grow: 1;
 `
+
+
+export default function Catalog() {
+  const params = useSearchParams();
+
+  return (
+    <Wrapper>
+      <FilterBar />
+      <ProductsDiv>
+        {params}
+        {/* {products ? (
+          products.map((product) => (
+            <Card key={`${product.slug.current}`} product={product} />
+          ))
+        ) : <p>Sem Produtos</p>} */}
+      </ProductsDiv>
+    </Wrapper>
+  )
+}

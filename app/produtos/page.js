@@ -1,8 +1,7 @@
-//import FilterBar from '@/components/FilterBar';
-import Card from '@/components/Card';
 import { Container,Wrapper,ProductsDiv } from '@/components/styles/CatalogPage.styled';
 import { fetchCatalogProducts } from '@/lib/api';
 import Maintenance from '@/components/Maintenance';
+import Catalog from '@/components/Catalog';
 import { checkMaintenanceMode } from '@/lib/config';
 
 
@@ -23,21 +22,12 @@ export default async function ProdutosPage() {
     return (<Maintenance />)
   }
 
-  const products = await fetchCatalogProducts();
+  //const products = await fetchCatalogProducts();
 
   return (
     <Container>
       <h1>Catálogo</h1>
-      <Wrapper>
-        {/* <FilterBar /> */}
-        <ProductsDiv>
-          {products ? (
-            products.map((product) => (
-              <Card key={`${product.slug.current}`} product={product} />
-            ))
-          ) : <p>Sem Produtos</p>}
-        </ProductsDiv>
-      </Wrapper>
+      <Catalog />
     </Container>
   )
 }

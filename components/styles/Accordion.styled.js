@@ -8,6 +8,7 @@ import MuiAccordionDetails from '@mui/material/AccordionDetails';
 export const Container = styled.div`
   margin: 50px 0;
 `;
+
 export const StyledAccordion = styled(MuiAccordion)`
   box-shadow: none;
   margin-bottom: 30px;
@@ -20,7 +21,7 @@ export const AccordionSummary = styled(MuiAccordionSummary)`
   color: ${({theme}) => theme.colors.dark};
   font-weight: 600;
   font-size: 1.5rem;
-  padding: 0;
+  padding: 0 8px;
   @media ${({ theme }) => theme.sizes.small} {
     font-size: 1.25rem;
   }
