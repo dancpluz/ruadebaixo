@@ -25,6 +25,37 @@ const StyledChip = styled(Chip)`
 `;
 
 export default function TagRemovable({ searchParams,selectedTags }) {
+
+  const removeQueryString = (name) => {
+    const params = new URLSearchParams(searchParams)
+
+    for (const [key, value] of params.entries()) {
+      const array = value.split(','); 
+      for (const x of array) {
+        if (x === name) {
+          array.splice(array.indexOf(x),1);
+          console.log(array);
+          if (array.length == 0) {
+            params.delete(key);
+            return params.toString();
+          } else {
+            params.set(key,array);
+            return params.toString();
+          }
+        }
+      } 
+    }
+
+    // params.forEach((value, key) => {
+    //   const array = value.split(',');
+    //   array.map(v => {
+    //     if (v === name) {
+    //       params.delete(key,v);
+    //       return params.toString()
+    //     }
+    //   })
+    // })
+  }
   
   function handleDelete(tag) {
     // remove tag from selectedTags
@@ -35,7 +66,7 @@ export default function TagRemovable({ searchParams,selectedTags }) {
   return (
     <TagDiv>
       {tags?.map((tag) =>
-        <Link key={tag} href={`?`}>
+        <Link key={tag} href={`?${removeQueryString(tag)}`}>
           <StyledChip
             label={tag}
             deleteIcon={<RemoveIcon alt={'X'} src={plusIcon} />}

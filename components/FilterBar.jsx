@@ -48,6 +48,7 @@ const SearchIcon = styled(Image)`
 const StyledLink = styled(Link)`
   text-decoration: ${props => props.selected ? 'none' : 'underline'};
   cursor: ${props => props.selected ? 'default' : 'pointer'};
+  pointer-events: ${props => props.selected ? 'none' : ''};
   color: ${({ theme }) => theme.colors.dark};
 `;
 
@@ -73,8 +74,7 @@ export default function FilterBar() {
   //console.log(selectedTags.tipo ? selectedTags.tipo.includes('Camiseta') : false);
   //const { selectedTags, setSelectedTags } = useStateContext();
 
-  const createQueryString = 
-    (name,value) => {
+  const createQueryString = (name,value) => {
       const params = new URLSearchParams(searchParams)
       if (params.has(name)) {
         if (params.get(name).split(',').includes(value)) return params.toString();
