@@ -16,7 +16,7 @@ import { useSearchParams } from 'next/navigation';
 const Container = styled.div`
   position: sticky;
   top: 120px;
-  min-width: 360px;
+  max-width: 500px;
   max-height: 80vh;
   overflow-x: hidden;
   overflow-y: scroll;
@@ -71,8 +71,6 @@ export default function FilterBar() {
     qualidade: searchParams.get('qualidade')?.split(','),
     drop: searchParams.get('drop')?.split(',')
   }
-  //console.log(selectedTags.tipo ? selectedTags.tipo.includes('Camiseta') : false);
-  //const { selectedTags, setSelectedTags } = useStateContext();
 
   const createQueryString = (name,value) => {
       const params = new URLSearchParams(searchParams)

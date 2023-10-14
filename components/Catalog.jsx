@@ -3,6 +3,7 @@
 import { useSearchParams } from 'next/navigation';
 import styled from 'styled-components';
 import FilterBar from '@/components/FilterBar';
+import { fetchCatalogProducts } from '@/lib/api';
 import Card from '@/components/Card';
 
 export const Container = styled.div`
@@ -23,7 +24,6 @@ export const Container = styled.div`
 
 export const Wrapper = styled.div`
   display: flex;
-  
   gap: 32px;
 `;
 
@@ -36,19 +36,17 @@ export const ProductsDiv = styled.div`
 `
 
 
-export default function Catalog() {
-  const params = useSearchParams();
+export default function Catalog({ products }) {
 
   return (
     <Wrapper>
       <FilterBar />
       <ProductsDiv>
-        {params}
-        {/* {products ? (
+        {products ? (
           products.map((product) => (
-            <Card key={`${product.slug.current}`} product={product} />
+            <p key={`${product.slug.current}`}>{product.name}</p>
           ))
-        ) : <p>Sem Produtos</p>} */}
+        ) : <p>Sem Produtos</p>}
       </ProductsDiv>
     </Wrapper>
   )

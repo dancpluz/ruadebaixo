@@ -34,7 +34,6 @@ export default function TagRemovable({ searchParams,selectedTags }) {
       for (const x of array) {
         if (x === name) {
           array.splice(array.indexOf(x),1);
-          console.log(array);
           if (array.length == 0) {
             params.delete(key);
             return params.toString();
@@ -45,20 +44,6 @@ export default function TagRemovable({ searchParams,selectedTags }) {
         }
       } 
     }
-
-    // params.forEach((value, key) => {
-    //   const array = value.split(',');
-    //   array.map(v => {
-    //     if (v === name) {
-    //       params.delete(key,v);
-    //       return params.toString()
-    //     }
-    //   })
-    // })
-  }
-  
-  function handleDelete(tag) {
-    // remove tag from selectedTags
   }
 
   const tags = Object.values(selectedTags).flat().filter(item => item !== undefined);

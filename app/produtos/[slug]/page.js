@@ -52,7 +52,7 @@ export default async function ProdutoPage({ params: { slug } }) {
           <ProductImages tags={tag} images={images} name={slug} />
         </TopDiv>
         <MiddleDiv>
-          {ordered && <OrderedBadge />}
+          {/* {ordered && <OrderedBadge />} */}
           <Tag tags={[quality, drop]} /> 
           <TitleDiv>
             <h1>{type} {name}</h1>

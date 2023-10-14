@@ -2,12 +2,13 @@ export const productTypes = [
     { title: 'Camiseta',value: 'Camiseta' },
     { title: 'Camisa',value: 'Camisa' },
     { title: 'Casaco',value: 'Casaco' },
-    { title: 'Suéter',value: 'Suéter' },
     { title: 'Polo',value: 'Polo' },
+    { title: 'Suéter',value: 'Suéter' },
+    { title: 'Jaqueta',value: 'Jaqueta' },
     { title: 'Boné',value: 'Boné' },
     { title: 'Calça',value: 'Calça' },
+    { title: 'Bermuda',value: 'Bermuda' },
     { title: 'Shorts',value: 'Shorts' },
-    { title: 'Jaqueta',value: 'Jaqueta' },
     { title: 'Óculos',value: 'Óculos' },
     { title: 'Acessório',value: 'Acessório' },
     { title: 'Tênis',value: 'Tênis' },
@@ -27,9 +28,11 @@ export const productQualities = [
 ];
 
 export const productDrops = [
+    { title: 'Skate',value: '' },
+    { title: 'NegoJapa',value: 'NegoJapa' },
     { title: 'Valendo uma Coca',value: 'Valendo uma Coca' },
     { title: 'MiniDrops',value: 'MiniDrops' },
-    { title: 'Lixo',value: '' },
+    { title: 'Outros',value: 'Outros' },
 ];
 
 const product = {

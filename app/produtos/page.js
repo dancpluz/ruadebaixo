@@ -17,17 +17,17 @@ export const revalidate = 60;
 
 export const dynamic = 'force-dynamic';
 
-export default async function ProdutosPage() {
+export default async function ProdutosPage({ searchParams }) {
   if (await checkMaintenanceMode()) {
     return (<Maintenance />)
   }
 
-  //const products = await fetchCatalogProducts();
+  const products = await fetchCatalogProducts(searchParams);
 
   return (
     <Container>
       <h1>Catálogo</h1>
-      <Catalog />
+      <Catalog products={products} />
     </Container>
   )
 }
