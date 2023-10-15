@@ -7,12 +7,18 @@ import InputBox from '@/components/InputBox';
 import { Button } from '@/components/Cart';
 import { useState,useEffect } from 'react';
 import { deliveryLocations,pickupLocations } from '@/sanity/schemas/options';
-import CartItem from '@/components/CartItem';
-import { ItemsDiv,PriceDiv } from '@/components/Cart'
+import OrderPreview from '@/components/OrderPreview';
 import { sendOrderToServer,updateOrderedProduct } from '@/lib/api';
 import { storeFormData,getFormData } from '@/lib/localStorage';
 import { formatFloat } from '@/lib/format'
 import { purchase, buyer } from '@/lib/fpixel';
+import Stepper from '@mui/material/Stepper';
+import Step from '@mui/material/Step';
+import StepLabel from '@mui/material/StepLabel';
+import StepContent from '@mui/material/StepContent';
+import Image from 'next/image';
+import Alert from '@mui/material/Alert';
+
 
 const Container = styled.div`
   display: flex;
@@ -41,87 +47,10 @@ const Wrapper = styled.div`
   }
 `;
 
-const OrderDiv = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  //min-height: 800px;
-  //justify-content: space-between;
-  h5 {
-    font-size: 2rem;
-    text-align: center;
-    height: 100%;
-    color: ${({ theme }) => theme.colors.dark};
-    font-weight: 400;
-  }
-  ${ItemsDiv} {
-    flex-grow: 0;
-    min-height: 160px;
-  }
-  @media ${({ theme }) => theme.sizes.small} {
-    ${ItemsDiv} {
-      padding: 12px;
-      p {
-        display: none;
-      }
-      div {
-        flex-direction: column;
-        width: 100%;
-        align-items: center;
-        gap: 10px;
-      }
-    }
-  }
-`;
-
-const OrderHeader = styled.div`
-  background: ${({ theme }) => theme.colors.dark};
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 24px;
-  height: 40px;
-  h2,h3 {
-    color: ${({ theme }) => theme.colors.light};
-  }
-  h3 {
-    font-weight: 400;
-  }
-`;
-
-const OrderBody = styled.div`
-  padding: 24px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  h2, h4 {
-    font-weight: 400;
-  }
-  h4 {
-    text-decoration: line-through;
-  }
-
-  &:last-child {
-    h1 {
-      font-weight: 600;
-      font-size: 2rem;
-    }
-    background: ${({ theme }) => theme.colors.dark};
-    color: ${({ theme }) => theme.colors.light};
-  }
-`;
-
-const OrderFooter = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-
 const Form = styled.form`
   display: flex;
   flex-direction: column;
-  justify-content: center;
   width: 100%;
-  gap: 32px;
 `;
 
 const TitleDiv = styled.div`
@@ -148,21 +77,103 @@ const RadioDiv = styled.div`
   }
 `;
 
+const StyledStepper = styled(Stepper)`
+  display: flex;
+  width: 100%;
+  p {
+    margin-left: 18px;
+  }
+
+  .MuiCollapse-wrapperInner {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+  .MuiStepConnector-root, .MuiStepContent-root {
+    margin-left: 18px;
+  }
+  .MuiStepLabel-label, .MuiStepIcon-text {
+    cursor: pointer;
+    font-family: 'Clash Display', sans-serif;
+    font-weight: 600;
+    font-size: 2.25rem;
+    line-height: 1.2;
+  }
+  .MuiStepIcon-root.Mui-active, .MuiStepIcon-root.Mui-completed {
+    color: black;
+  }
+  .MuiStepIcon-text {
+    font-size: 1rem;
+  }
+  .MuiStepIcon-root {
+    font-size: 2.5rem;
+  }
+  .MuiStepLabel-iconContainer {
+    padding-right: 16px;
+  }
+`;
+
+const StepTitle = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+
+const Arrow = styled(Image)`
+  display: ${props => props.disabled && 'none'};
+`;
+
+const StyledAlert = styled(Alert)`
+  color: ${({ theme }) => theme.colors.light};
+  background: ${({ theme }) => theme.colors.dark};
+  font-family: 'Clash Display', sans-serif;
+  border-radius: 0;
+  font-size: 1.2rem;
+  .MuiAlert-icon {
+    font-size: 1.7rem;
+    align-items: center;
+  }
+`;
+
+const stepsNum = 3;
+
 export default function BuyForm() {
-  const { totalPrice,totalDiscount,onBuy,cartItems,lastRemovedItem,router } = useStateContext();
+  const { totalPrice,totalDiscount, setTotalDiscount, onBuy,cartItems,lastRemovedItem,router } = useStateContext();
   const [deliveryType,setDeliveryType] = useState('Taxa');
   const [tax,setTax] = useState(null);
-  const [pixPayment,setPixPayment] = useState(null);
+  const [paymentType,setPaymentType] = useState(null);
+  const [activeStep,setActiveStep] = useState(0);
   //const [submitError,setSubmitError] = useState('');
 
-  const { register,handleSubmit,setValue,formState: { errors } } = useForm();
+  const handleNext = async () => {
+    if (activeStep == 0) {
+      if (await trigger(['name','phone'],{ shouldFocus: true })) {
+        setActiveStep((prevActiveStep) => prevActiveStep + 1);
+      }
+    }
+    else if (activeStep == 1) {
+      if (await trigger(['delivery','payment'],{ shouldFocus: true })) {
+        setActiveStep((prevActiveStep) => prevActiveStep + 1);
+      }
+    } 
+  };
+
+  const handleBack = () => {
+    setActiveStep((prevActiveStep) => prevActiveStep - 1);
+  };
+
+  const { register,handleSubmit,trigger,formState: { errors } } = useForm();
 
   useEffect(() => {
-    setValue('name', getFormData('name'))
-    setValue('phone', getFormData('phone'))
-    setValue('email', getFormData('email'))
-    setValue('insta', getFormData('insta'))
-  },[setValue]);
+    document.getElementById('name').focus();
+    document.getElementById('name').value = getFormData('name');
+    document.getElementById('phone').focus();
+    document.getElementById('phone').value = getFormData('phone');
+    document.getElementById('email').focus();
+    document.getElementById('email').value = getFormData('email');
+    document.getElementById('insta').focus();
+    document.getElementById('insta').value = getFormData('insta');
+    document.activeElement.blur();
+  },[]);
 
   const onSubmit = async (data) => {
     try {
@@ -192,11 +203,11 @@ export default function BuyForm() {
         phone: data.phone.length > 10 ? data.phone.replace('9','') : data.phone,
         order,
       }
-      await sendOrderToServer(json);
-      await cartItems.map((item) => updateOrderedProduct(item._id))
-      onBuy();
-      buyer(json.name,json.email,json.phone) // Facebook Pixel Buyer Event for SEO
-      purchase(json.total, cartItems, json.delivery.type); // Facebook Pixel Purchase Event for SEO
+      //await sendOrderToServer(json);
+      //await cartItems.map((item) => updateOrderedProduct(item._id))
+      //onBuy();
+      //buyer(json.name,json.email,json.phone) // Facebook Pixel Buyer Event for SEO
+      //purchase(json.total, cartItems, json.delivery.type); // Facebook Pixel Purchase Event for SEO
       router.push('/comprar/sucesso');
     }
     catch (e) {
@@ -209,201 +220,165 @@ export default function BuyForm() {
     <Container>
       <TitleDiv>
         <h1>Finalizar Compra</h1>
-        <p>No momento, <u>somente</u> aceitamos pagamento por <u>PIX</u> ou <u>dinheiro</u></p>
-        <p>É <u>necessário</u> ter um número de celular com <u>Whatsapp</u> para concluir a compra</p>
+        <p>É <u>necessário</u> ter um número de celular com <u>Whatsapp</u> para concluir a compra por <u>PIX</u></p>
       </TitleDiv>
       <Wrapper>
-        <OrderDiv>
-          <OrderHeader>
-            <h2>Seu Pedido</h2>
-            <h3>({cartItems.length} {cartItems.length == 1 ? "item" : "itens"})</h3>
-          </OrderHeader>
-          <ItemsDiv>
-            {(cartItems.length != 0) || lastRemovedItem ?
-              (<>
-                {cartItems.map((item) => {
-                  return <CartItem key={item.name} product={item} />
-                })}
-                {lastRemovedItem && <CartItem lastRemoved={true} product={lastRemovedItem} />}
-              </>) :
-              <h5>Sua caixa está vazia</h5>}
-          </ItemsDiv>
-          <hr />
-          <OrderFooter>
-            <OrderBody>
-              <h2>Subtotal</h2>
-              <PriceDiv>
-                {(totalDiscount > 0) ?
-                  <>
-                    <h4>R${totalPrice}</h4>
-                    <h2>R${totalPrice - totalDiscount}</h2>
-                  </> :
-                  <h2>R${totalPrice - totalDiscount}</h2>
-                }
-              </PriceDiv>
-            </OrderBody>
-            <OrderBody>
-              <h2>{deliveryType}</h2>
-              <PriceDiv>
-                {tax === null ? <h2>-</h2> : (tax === 0 ? <h2>Grátis</h2> : <h2>R${formatFloat(tax)}</h2>)}
-              </PriceDiv>
-            </OrderBody>
-            <OrderBody>
-              <h1>Total</h1>
-              <PriceDiv>
-                {(totalDiscount > 0) ?
-                  <>
-                    <h4>R${formatFloat(totalPrice + tax)}</h4>
-                    <h2>R${formatFloat(totalPrice - totalDiscount + tax)}</h2>
-                  </> :
-                  <h2>R${formatFloat(totalPrice - totalDiscount + tax)}</h2>
-                }
-              </PriceDiv>
-            </OrderBody>
-          </OrderFooter>
-        </OrderDiv>
+        <OrderPreview cartItems={cartItems} lastRemovedItem={lastRemovedItem} totalDiscount={totalDiscount} totalPrice={totalPrice} tax={tax} deliveryType={deliveryType} paymentType={paymentType} />
         <vl />
         <Form onSubmit={handleSubmit(onSubmit)}>
-          <TitleDiv>
-            <h2>Dados Pessoais</h2>
-            <p>Precisamos dessas informações para nos comunicarmos</p>
-          </TitleDiv>
-          <InputBox title={'Nome*'} span={'Como devemos te chamar?'} errorMessage={errors.name}>
-            <input
-              type='text'
-              placeholder='ex. Rua de Baixo'
-              {...register('name',{
-                required: '(Obrigatório)',
-                maxLength: { value: 40,message: '(Limite de caracteres excedido)' }
-              })}
-            />
-          </InputBox>
-          <InputBox title={'Número de Celular*'} span={'O pedido será concluído pelo Whatsapp'} errorMessage={errors.phone}>
-            <input
-              type='phone'
-              placeholder='ex. 61987654321'
-              {...register('phone',{
-                required: '(Obrigatório)',
-                minLength: { value: 10,message: '(Formato incorreto "61987654321")' },
-                maxLength: { value: 11,message: '(Formato incorreto "61987654321")' }
-              })}
-            />
-          </InputBox>
-          <InputBox title={'Email'} span={'Email para receber notícias e informações do pedido '} errorMessage={errors.email}>
-            <input
-              type='email'
-              placeholder='ex. ruadebaixoloja@gmail.com'
-              {...register('email', {
-                maxLength: { value: 30,message: '(Limite de caracteres excedido)' }
-              })}
-            />
-          </InputBox>
-          <InputBox title={'Instagram'} span={'Pra ficar por dentro da cultura da Rua de Baixo'} errorMessage={errors.insta}>
-            <input
-              type='text'
-              placeholder='ex. @ruadebaixoloja'
-              {...register('insta',{
-                maxLength: { value: 20,message: '(Limite de caracteres excedido)' }
-              })}
-            />
-          </InputBox>
-          <TitleDiv>
-            <h2>Dados do Pedido</h2>
-            <p>Essas informações são importantes para agilizar a venda</p>
-          </TitleDiv>
-          <InputBox title={'Forma de Recebimento*'} span={'Vamos até você ou você vem até nós, você decide!'} errorMessage={errors.delivery && errors.delivery.type}>
-            <DeliveryDiv>
-              <RadioDiv>
-                <input
-                  onClick={() => { setDeliveryType('Entrega'); setTax(null) }}
-                  value='Entrega'
-                  type='radio'
-                  {...register('delivery.type',{
-                    required: '(Obrigatório)'
-                  })}
-                />
-                <div>
-                  <h4>Entrega</h4>
-                  <span>Sujeito a taxa</span>
-                </div>
-                <span>(2-7 dias)</span>
-              </RadioDiv>
-              <RadioDiv>
-                <input
-                  onClick={() => { setDeliveryType('Retirada'); setTax(0) }}
-                  value='Retirada'
-                  type='radio'
-                  {...register('delivery.type',{
-                    required: '(Obrigatório)'
-                  })}
-                />
-                <div>
-                  <h4>Retirada</h4>
-                  <span>Frete Grátis</span>
-                </div>
-                <span>(4-10 dias)</span>
-              </RadioDiv>
-            </DeliveryDiv>
-          </InputBox>
-          {renderDeliveryForms()}
-          <InputBox title={'Forma de Pagamento*'} span={'No momento, somente aceitamos estas formas'} errorMessage={errors.payment && errors.payment.type}>
-            <DeliveryDiv>
-              <RadioDiv>
-                <input
-                  onClick={() => setPixPayment(true)}
-                  type='radio'
-                  value='PIX'
-                  {...register('payment.type',{
-                    required: '(Obrigatório)'
-                  })}
-                />
-                <h4>PIX</h4>
-              </RadioDiv>
-              <RadioDiv>
-                <input
-                  onClick={() => setPixPayment(false)}
-                  type='radio'
-                  value='Dinheiro físico'
-                  {...register('payment.type',{
-                    required: '(Obrigatório)'
-                  })}
-                />
-                <h4>Dinheiro físico</h4>
-              </RadioDiv>
-            </DeliveryDiv>
-          </InputBox>
-          {!(pixPayment === null) && <InputBox title={'Quando Pagar?*'} errorMessage={errors.payment && errors.payment.moment}>
-            <DeliveryDiv>
-              <RadioDiv>
-                <input
-                  value='Ao confirmar pedido'
-                  type='radio'
-                  {...register('payment.moment',{
-                    required: '(Obrigatório)'
-                  })}
-                  disabled={!pixPayment}
-                />
-                <h4>Ao confirmar pedido</h4>
-              </RadioDiv>
-              <RadioDiv>
-                <input
-                  value='No recebimento'
-                  type='radio'
-                  {...register('payment.moment',{
-                    required: '(Obrigatório)'
-                  })}
-                />
-                <h4>No recebimento</h4>
-              </RadioDiv>
-            </DeliveryDiv>
-          </InputBox>}
-          <p>Após fazer o pedido, você pode entrar em uma fila e não podemos garantir que conseguirá a peça, mas não se preocupe, não cobraremos nada sem completar o pedido.</p>
-          <Button>FINALIZAR COMPRA</Button>
+          <StyledStepper activeStep={activeStep} orientation="vertical">
+              <Step>
+                <StepLabel onClick={activeStep === 1 ? handleBack : undefined}>
+                  <h2>Dados Pessoais</h2>
+                </StepLabel>
+                <StepContent>
+                  <p>Precisamos dessas informações para nos comunicarmos</p>
+                  <InputBox title={'Nome*'} span={'Como devemos te chamar?'} errorMessage={errors.name}>
+                    <input
+                      id='name'
+                      type='text'
+                      placeholder='ex. Rua de Baixo'
+                      {...register('name',{
+                        required: '(Obrigatório)',
+                        maxLength: { value: 40,message: '(Limite de caracteres excedido)' }
+                      })}
+                    />
+                  </InputBox>
+                  <InputBox title={'Número de Celular*'} span={'O pedido será concluído pelo Whatsapp'} errorMessage={errors.phone}>
+                    <input
+                      id='phone'
+                      type='tel'
+                      placeholder='ex. 61987654321'
+                      {...register('phone',{
+                        required: '(Obrigatório)',
+                        minLength: { value: 10,message: '(Formato incorreto: "61987654321")' },
+                        maxLength: { value: 11, message: '(Formato incorreto: "61987654321")' },
+                      })}
+                    />
+                  </InputBox>
+                  <InputBox title={'Email'} span={'Email para receber notícias e informações do pedido '} errorMessage={errors.email}>
+                    <input
+                      id='email'
+                      type='email'
+                      placeholder='ex. ruadebaixoloja@gmail.com'
+                      {...register('email', {
+                        maxLength: { value: 30,message: '(Limite de caracteres excedido)' }
+                      })}
+                    />
+                  </InputBox>
+                  <InputBox title={'Instagram'} span={'Pra ficar por dentro da cultura da Rua de Baixo'} errorMessage={errors.insta}>
+                    <input
+                      id='insta'
+                      type='text'
+                      placeholder='ex. @ruadebaixoloja'
+                      {...register('insta',{
+                        maxLength: { value: 20,message: '(Limite de caracteres excedido)' }
+                      })}
+                    />
+                  </InputBox>
+                </StepContent>
+              </Step>
+              <Step>
+                <StepLabel onClick={activeStep === 0 ? handleNext : activeStep === 2 ? handleBack : undefined}>
+                  <StepTitle>
+                    <h2>Dados do Pedido</h2>
+                    <Arrow src={'assets/icons/arrow-up.svg'} width={36} height={36} alt={'Voltar'} disabled={activeStep !== 1} onClick={handleBack}/>
+                  </StepTitle>
+                </StepLabel>
+                <StepContent>
+                  <p>Essas informações são importantes para agilizar a venda</p>
+                  <InputBox title={'Forma de Recebimento*'} span={'Vamos até você ou você vem até nós, você decide!'} errorMessage={errors.delivery && errors.delivery.type}>
+                    <DeliveryDiv>
+                      <RadioDiv>
+                        <input
+                          onClick={() => { setDeliveryType('Entrega'); setTax(null) }}
+                          value='Entrega'
+                          type='radio'
+                          {...register('delivery.type',{
+                            required: '(Obrigatório)'
+                          })}
+                        />
+                        <div>
+                          <h4>Entrega</h4>
+                          <span>Sujeito a taxa</span>
+                        </div>
+                        <span>(2-7 dias)</span>
+                      </RadioDiv>
+                      <RadioDiv>
+                        <input
+                          onClick={() => { setDeliveryType('Retirada'); setTax(0) }}
+                          value='Retirada'
+                          type='radio'
+                          {...register('delivery.type',{
+                            required: '(Obrigatório)'
+                          })}
+                        />
+                        <div>
+                          <h4>Retirada</h4>
+                          <span>Frete Grátis</span>
+                        </div>
+                        <span>(4-10 dias)</span>
+                      </RadioDiv>
+                    </DeliveryDiv>
+                  </InputBox>
+                  {renderDeliveryForms()}
+                  <InputBox title={'Forma de Pagamento*'} span={'Escolha como deseja pagar'} errorMessage={errors.payment && errors.payment}>
+                    <DeliveryDiv>
+                      <RadioDiv>
+                        <input
+                          onClick={() => setPaymentType('card')}
+                          type='radio'
+                          value='Cartão de Crédito'
+                          {...register('payment',{
+                            required: '(Obrigatório)'
+                          })}
+                        />
+                        <h4>Cartão de Crédito</h4>
+                      </RadioDiv>
+                      <RadioDiv>
+                        <input
+                          onClick={() => setPaymentType('pix')}
+                          type='radio'
+                          value='PIX'
+                          {...register('payment',{
+                            required: '(Obrigatório)'
+                          })}
+                        />
+                        <h4>PIX (-R$5)</h4>
+                      </RadioDiv>
+                      <RadioDiv>
+                        <input
+                          onClick={() => setPaymentType('money')}
+                          type='radio'
+                          value='Dinheiro físico'
+                          {...register('payment',{
+                            required: '(Obrigatório)'
+                          })}
+                        />
+                        <h4>Dinheiro físico</h4>
+                      </RadioDiv>
+                      {renderPaymentAlert()}
+                    </DeliveryDiv>
+                  </InputBox>
+                </StepContent>
+              </Step>
+            <Step>
+              <StepLabel onClick={activeStep === 1 ? handleNext : undefined}>
+                <StepTitle>
+                  <h2>Pagamento</h2>
+                  <Arrow src={'assets/icons/arrow-up.svg'} width={36} height={36} alt={'Voltar'} disabled={activeStep !== 2} onClick={handleBack}/>
+                </StepTitle>
+              </StepLabel>
+              <StepContent>
+                {renderPayment()}
+              </StepContent>
+            </Step>
+          </StyledStepper>
         </Form>
       </Wrapper>
     </Container>
   )
-
+  
   function renderDeliveryForms() {
     switch (deliveryType) {
       case 'Entrega':
@@ -434,6 +409,46 @@ export default function BuyForm() {
             </select>
           </InputBox>
         )
+      default:
+        return
+    }
+  }
+
+  function renderPaymentAlert() {
+    switch (paymentType) {
+      case 'pix':
+        return (
+          <StyledAlert variant="filled">
+            -R$5 de Desconto Ativado
+          </StyledAlert>
+        )
+      case 'card':
+        return (
+          <StyledAlert variant="filled" severity="info">
+            No momento não aceitamos parcelamento
+          </StyledAlert>
+        )
+      case 'money':
+        return (
+          <StyledAlert variant="filled" severity="info">
+            Pagamento no momento da entrega/retirada
+          </StyledAlert>
+        )
+      default:
+        return
+    }
+  }
+
+  function renderPayment() {
+    switch (paymentType) {
+      case 'pix':
+        return (
+          <h2>Pix</h2>
+        )
+      case 'card':
+        return
+      case 'money':
+        return
       default:
         return
     }

@@ -14,7 +14,7 @@ export default async function LandingProducts() {
       </Flexbox>
       <ButtonLink href={'/produtos'}>
         <Text>VEJA MAIS</Text>
-        <Arrow src={arrowIcon} alt={'>'}/>
+        <Arrow src={arrowIcon} alt={'Ver Mais>'}/>
       </ButtonLink>
     </Container>
   )

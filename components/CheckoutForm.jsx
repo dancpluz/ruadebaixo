@@ -5,6 +5,11 @@ import {
   useStripe,
   useElements
 } from "@stripe/react-stripe-js";
+import styled from 'styled-components';
+import CircularProgress from '@mui/material/CircularProgress';
+import { CenterScreen } from '@/components/styles/OtherStyles.styled'
+import { Button } from '@/components/Cart';
+
 
 export default function CheckoutForm() {
   const stripe = useStripe();
@@ -82,20 +87,27 @@ export default function CheckoutForm() {
     layout: "tabs",
   };
 
+  if (isLoading || !stripe || !elements) {
+    return (
+      <CenterScreen>
+        <CircularProgress color="inherit" />
+      </CenterScreen>
+    )
+  }
+
   return (
-    <form id="payment-form" onSubmit={handleSubmit}>
-      <LinkAuthenticationElement
-        id="link-authentication-element"
-        onChange={(e) => setEmail(e.target.value)}
-      />
-      <PaymentElement id="payment-element" options={paymentElementOptions} />
-      <button disabled={isLoading || !stripe || !elements} id="submit">
-        <span id="button-text">
-          {isLoading ? <div className="spinner" id="spinner"></div> : "Pay now"}
-        </span>
-      </button>
-      {/* Show any error or success messages */}
-      {message && <div id="payment-message">{message}</div>}
-    </form>
+    <div>
+      <h1>Finalize seu Pagamento</h1>
+      <form id="payment-form" onSubmit={handleSubmit}>
+        <PaymentElement id="payment-element" options={paymentElementOptions} />
+        <Button id="submit">
+          <span id="button-text">
+            {isLoading ? <CircularProgress color="inherit" /> : "Pagar Agora"}
+          </span>
+        </Button>
+        {/* Show any error or success messages */}
+        {message && <div id="payment-message">{message}</div>}
+      </form>
+    </div>
   );
 }
