@@ -15,7 +15,7 @@ const Container = styled.div`
   top: 120px;
   max-width: 350px;
   min-width: 350px;
-  max-height: 80vh;
+  max-height: 60vh;
   overflow-x: hidden;
   overflow-y: scroll;
 `;
@@ -36,12 +36,12 @@ const Container = styled.div`
 //   }
 // `;
 
-const SearchIcon = styled(Image)`
-  height: 24px;
-  width: 24px;
-  margin-right: 8px;
-  cursor: pointer;
-`;
+// const SearchIcon = styled(Image)`
+//   height: 24px;
+//   width: 24px;
+//   margin-right: 8px;
+//   cursor: pointer;
+// `;
 
 const StyledLink = styled(Link)`
   text-decoration: ${props => props.selected ? 'none' : 'underline'};

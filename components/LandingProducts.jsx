@@ -1,6 +1,5 @@
 import { Container, Flexbox, ButtonLink, Text, Arrow } from './styles/LandingProducts.styled';
 import Card from './Card';
-import arrowIcon from '@/public/assets/icons/arrow.svg';
 import { fetchLandingProducts } from '@/lib/api.js';
 
 export default async function LandingProducts() {
@@ -14,7 +13,7 @@ export default async function LandingProducts() {
       </Flexbox>
       <ButtonLink href={'/produtos'}>
         <Text>VEJA MAIS</Text>
-        <Arrow src={arrowIcon} alt={'Ver Mais>'}/>
+        <Arrow src={'/assets/icons/arrow.svg'} width={36} height={36} alt={'Ver Mais>'}/>
       </ButtonLink>
     </Container>
   )

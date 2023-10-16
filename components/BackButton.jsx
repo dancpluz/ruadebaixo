@@ -1,26 +1,29 @@
 'use client';
 
 import styled from 'styled-components';
-import Image from 'next/image';
 import { useStateContext } from '@/context/StateContext';
 
-const Arrow = styled(Image)`
-  transform: rotate(180deg);
-  margin: 16px 0;
+const Back = styled.u`
+  cursor: pointer;
+  font-size: 1.25rem;
 `;
 
 export default function BackButton() {
   const { router } = useStateContext();
 
+  const handleGoBack = () => {
+    const hasPreviousPage = window.history.length > 2;
+
+    if (hasPreviousPage) {
+      router.back();
+    } else {
+      router.push("/produtos/");
+    }
+  }
+
   return (
-    <div>
-      <Arrow
-        src='/assets/icons/arrow-right.svg'
-        alt='Voltar'
-        width={52}
-        height={52}
-        onClick={() => router.back()}
-      />
-    </div>
+    <Back onClick={handleGoBack}>
+      {"< Voltar"}
+    </Back>
   )
 }

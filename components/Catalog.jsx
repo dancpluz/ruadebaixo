@@ -30,7 +30,6 @@ const ProductsDiv = styled.div`
   flex-wrap: wrap;
   //justify-content: ${props => props.qty > 4 ?  'space-between' : 'center'};
   gap: 32px;
-  flex-grow: 1;
 `;
 
 const TopDiv = styled.div`

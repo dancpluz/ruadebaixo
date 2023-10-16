@@ -10,9 +10,9 @@ export default function Navbar() {
         <NavLink href={'/produtos'}>
           <p>Produtos</p>
         </NavLink>
-        <NavLink href={'/lookbook'}>
+        {/* <NavLink href={'/lookbook'}>
           <p>LookBook</p>
-        </NavLink>
+        </NavLink> */}
         <NavLink href={'/links'}>
           <p>Links</p>
         </NavLink>

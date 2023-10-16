@@ -6,7 +6,7 @@ import { useForm } from 'react-hook-form';
 import InputBox from '@/components/InputBox';
 import { Button } from '@/components/Cart';
 import { useState,useEffect } from 'react';
-import { deliveryLocations,pickupLocations } from '@/sanity/schemas/options';
+import { deliveryLocations,pickupLocations } from '@/sanity/options';
 import OrderPreview from '@/components/OrderPreview';
 import { sendOrderToServer,updateOrderedProduct } from '@/lib/api';
 import { storeFormData,getFormData } from '@/lib/localStorage';
@@ -294,7 +294,7 @@ export default function BuyForm() {
                 <StepLabel onClick={activeStep === 0 ? handleNext : activeStep === 2 ? handleBack : undefined}>
                   <StepTitle>
                     <h2>Dados do Pedido</h2>
-                    <Arrow src={'assets/icons/arrow-up.svg'} width={36} height={36} alt={'Voltar'} disabled={activeStep !== 1} onClick={handleBack}/>
+                    <Arrow src={'assets/icons/arrow.svg'} width={36} height={36} alt={'Voltar'} disabled={activeStep !== 1} onClick={handleBack}/>
                   </StepTitle>
                 </StepLabel>
                 <StepContent>
@@ -378,7 +378,7 @@ export default function BuyForm() {
               <StepLabel onClick={activeStep === 1 ? handleNext : undefined}>
                 <StepTitle>
                   <h2>Pagamento</h2>
-                  <Arrow src={'assets/icons/arrow-up.svg'} width={36} height={36} alt={'Voltar'} disabled={activeStep !== 2} onClick={handleBack}/>
+                  <Arrow src={'assets/icons/arrow.svg'} width={36} height={36} alt={'Voltar'} disabled={activeStep !== 2} onClick={handleBack}/>
                 </StepTitle>
               </StepLabel>
               <StepContent>
