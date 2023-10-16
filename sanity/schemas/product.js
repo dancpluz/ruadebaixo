@@ -28,7 +28,7 @@ export const productQualities = [
 ];
 
 export const productDrops = [
-    { title: 'Skate',value: '' },
+    //{ title: 'Skate',value: '' },
     { title: 'NegoJapa',value: 'NegoJapa' },
     { title: 'Valendo uma Coca',value: 'Valendo uma Coca' },
     { title: 'MiniDrops',value: 'MiniDrops' },

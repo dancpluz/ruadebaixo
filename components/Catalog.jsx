@@ -1,9 +1,7 @@
 'use client'
 
-import { useSearchParams } from 'next/navigation';
 import styled from 'styled-components';
 import FilterBar from '@/components/FilterBar';
-import { fetchCatalogProducts } from '@/lib/api';
 import Card from '@/components/Card';
 
 export const Container = styled.div`
@@ -22,31 +20,42 @@ export const Container = styled.div`
   }
 `;
 
-export const Wrapper = styled.div`
+const Wrapper = styled.div`
   display: flex;
   gap: 32px;
 `;
 
-export const ProductsDiv = styled.div`
+const ProductsDiv = styled.div`
   display: flex;
   flex-wrap: wrap;
+  //justify-content: ${props => props.qty > 4 ?  'space-between' : 'center'};
   gap: 32px;
-  justify-content: center;
   flex-grow: 1;
-`
+`;
 
+const TopDiv = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: -32px;
+`;
 
-export default function Catalog({ products }) {
+export default function Catalog({ products, options }) {
+  const qty = products.length;
 
   return (
     <Wrapper>
-      <FilterBar />
-      <ProductsDiv>
-        {products ? (
-          products.map((product) => (
-            <p key={`${product.slug.current}`}>{product.name}</p>
+      <FilterBar options={options} />
+      <ProductsDiv qty={qty}>
+        <TopDiv>
+          <span>{`${qty !== 0 ? qty : 'Nenhum'} ${qty > 1 ? 'encontrados' : 'encontrado'}`}</span>
+          {/* Select Order */}
+        </TopDiv>
+        {products.map((product) => (
+            <Card key={`${product.slug.current}`} product={product} />
           ))
-        ) : <p>Sem Produtos</p>}
+        }
       </ProductsDiv>
     </Wrapper>
   )

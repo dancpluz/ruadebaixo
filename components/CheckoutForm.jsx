@@ -15,7 +15,7 @@ export default function CheckoutForm() {
   const stripe = useStripe();
   const elements = useElements();
 
-  const [email,setEmail] = useState('');
+  //const [email,setEmail] = useState('');
   const [message,setMessage] = useState(null);
   const [isLoading,setIsLoading] = useState(false);
 
@@ -96,18 +96,15 @@ export default function CheckoutForm() {
   }
 
   return (
-    <div>
-      <h1>Finalize seu Pagamento</h1>
-      <form id="payment-form" onSubmit={handleSubmit}>
-        <PaymentElement id="payment-element" options={paymentElementOptions} />
-        <Button id="submit">
-          <span id="button-text">
-            {isLoading ? <CircularProgress color="inherit" /> : "Pagar Agora"}
-          </span>
-        </Button>
-        {/* Show any error or success messages */}
-        {message && <div id="payment-message">{message}</div>}
-      </form>
-    </div>
+    <form id="payment-form" onSubmit={handleSubmit}>
+      <PaymentElement id="payment-element" options={paymentElementOptions} />
+      <Button id="submit">
+        <span id="button-text">
+          {isLoading ? <CircularProgress color="inherit" /> : "CONCLUIR COMPRA"}
+        </span>
+      </Button>
+      {/* Show any error or success messages */}
+      {message && <div id="payment-message">{message}</div>}
+    </form>
   );
 }

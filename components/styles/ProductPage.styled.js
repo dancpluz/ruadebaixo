@@ -3,7 +3,7 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
-  padding: 165px 200px;
+  padding: 100px 200px;
   @media ${({ theme }) => theme.sizes.medium} {
     padding: 100px 100px;
   }

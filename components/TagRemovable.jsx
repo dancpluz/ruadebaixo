@@ -5,7 +5,6 @@ import Chip from '@mui/material/Chip';
 import Image from 'next/image';
 import styled from 'styled-components';
 import Link from 'next/link';
-import { useStateContext } from '@/context/StateContext';
 import plusIcon from '@/public/assets/icons/plus.svg';
 
 const RemoveIcon = styled(Image)`

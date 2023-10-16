@@ -18,6 +18,7 @@ import StepLabel from '@mui/material/StepLabel';
 import StepContent from '@mui/material/StepContent';
 import Image from 'next/image';
 import Alert from '@mui/material/Alert';
+import CardPayment from '@/components/CardPayment';
 
 
 const Container = styled.div`
@@ -134,13 +135,21 @@ const StyledAlert = styled(Alert)`
   }
 `;
 
-const stepsNum = 3;
+const Whatsapp = styled(Image)`
+  color: black;
+`;
+
+const RowDiv = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+`;
 
 export default function BuyForm() {
   const { totalPrice,totalDiscount, setTotalDiscount, onBuy,cartItems,lastRemovedItem,router } = useStateContext();
   const [deliveryType,setDeliveryType] = useState('Taxa');
   const [tax,setTax] = useState(null);
-  const [paymentType,setPaymentType] = useState(null);
+  const [paymentType,setPaymentType] = useState('card');
   const [activeStep,setActiveStep] = useState(0);
   //const [submitError,setSubmitError] = useState('');
 
@@ -181,7 +190,7 @@ export default function BuyForm() {
         throw new Error('Cart vazio');
       }
       
-      storeFormData(data)
+      //storeFormData(data)
       
       const order = {
         subtotal: totalPrice - totalDiscount,
@@ -203,12 +212,13 @@ export default function BuyForm() {
         phone: data.phone.length > 10 ? data.phone.replace('9','') : data.phone,
         order,
       }
+      console.log(data)
       //await sendOrderToServer(json);
       //await cartItems.map((item) => updateOrderedProduct(item._id))
       //onBuy();
       //buyer(json.name,json.email,json.phone) // Facebook Pixel Buyer Event for SEO
       //purchase(json.total, cartItems, json.delivery.type); // Facebook Pixel Purchase Event for SEO
-      router.push('/comprar/sucesso');
+      //router.push('/comprar/sucesso');
     }
     catch (e) {
       console.log(e)
@@ -227,11 +237,13 @@ export default function BuyForm() {
         <vl />
         <Form onSubmit={handleSubmit(onSubmit)}>
           <StyledStepper activeStep={activeStep} orientation="vertical">
+            
               <Step>
                 <StepLabel onClick={activeStep === 1 ? handleBack : undefined}>
                   <h2>Dados Pessoais</h2>
                 </StepLabel>
                 <StepContent>
+                  {renderPayment()}
                   <p>Precisamos dessas informações para nos comunicarmos</p>
                   <InputBox title={'Nome*'} span={'Como devemos te chamar?'} errorMessage={errors.name}>
                     <input
@@ -443,12 +455,37 @@ export default function BuyForm() {
     switch (paymentType) {
       case 'pix':
         return (
-          <h2>Pix</h2>
-        )
+          <div>
+            <h3>Pagamento por PIX</h3>
+            <RowDiv>
+              <Whatsapp src={'assets/icons/whatsapp-fill.svg'} alt={'Whatsapp Logo'} width={80} height={80} />
+              <p>O pagamento será feito pelo Whatsapp, mandaremos uma mensagem confirmando o seu pedido! Decidiremos a entrega por lá também.</p>
+            </RowDiv>
+            <Button type="submit">
+              CONCLUIR COMPRA
+            </Button>
+          </div>
+        );
       case 'card':
-        return
+        return (
+          <div>
+            <h3>Pagamento por Cartão Crédito</h3>
+            <CardPayment />
+          </div>
+        );
       case 'money':
-        return
+        return (
+          <div>
+            <h3>Pagamento por Dinheiro Físico</h3>
+            <RowDiv>
+              <Whatsapp src={'assets/icons/whatsapp-fill.svg'} alt={'Whatsapp Logo'} width={80} height={80} />
+              <p>O pagamento será feito no momento da entrega/retirada, mandaremos uma mensagem confirmando o seu pedido! Decidiremos a entrega por lá também.</p>
+            </RowDiv>
+            <Button type="submit">
+              CONCLUIR COMPRA
+            </Button>
+          </div>
+        );
       default:
         return
     }

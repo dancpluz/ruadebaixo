@@ -1,42 +1,40 @@
 'use client'
 
-import { useCallback } from 'react';
 import styled from 'styled-components';
 import TextField from '@mui/material/TextField';
 import Image from 'next/image';
 import Link from 'next/link';
-import searchIcon from '@/public/assets/icons/search.svg'
-import { productTypes,productTags,productQualities,productDrops } from '@/sanity/schemas/product';
+//import searchIcon from '@/public/assets/icons/search.svg'
+//import { productTypes,productTags,productQualities,productDrops } from '@/sanity/schemas/product';
 import TagRemovable from './TagRemovable';
 import Accordion from './Accordion';
-import { useStateContext } from '@/context/StateContext';
 import { useSearchParams } from 'next/navigation';
-
 
 const Container = styled.div`
   position: sticky;
   top: 120px;
-  max-width: 500px;
+  max-width: 350px;
+  min-width: 350px;
   max-height: 80vh;
   overflow-x: hidden;
   overflow-y: scroll;
 `;
 
-const SearchDiv = styled.div`
-  display: flex;
-  align-items: end;
-  width: 100%;
-  height: 30px;
-  margin-bottom: 40px;
-`;
+// const SearchDiv = styled.div`
+//   display: flex;
+//   align-items: end;
+//   width: 100%;
+//   height: 30px;
+//   margin-bottom: 40px;
+// `;
 
-const SearchField = styled(TextField)`
-  width: 100%;
-  .MuiInputBase-input {
-    font-family: 'Clash Display', sans-serif;
-    color: ${({ theme }) => theme.colors.dark};
-  }
-`;
+// const SearchField = styled(TextField)`
+//   width: 100%;
+//   .MuiInputBase-input {
+//     font-family: 'Clash Display', sans-serif;
+//     color: ${({ theme }) => theme.colors.dark};
+//   }
+// `;
 
 const SearchIcon = styled(Image)`
   height: 24px;
@@ -63,10 +61,11 @@ const FilterDiv = styled.div`
   row-gap: 10px;
 `;
 
-export default function FilterBar() {
+export default function FilterBar({ options: { productTypes,productSizes, productCategory, productQualities, productDrops } }) {
   const searchParams = useSearchParams();
   const selectedTags = {
     tipo: searchParams.get('tipo')?.split(','),
+    tamanho: searchParams.get('tamanho')?.split(','),
     categoria: searchParams.get('categoria')?.split(','),
     qualidade: searchParams.get('qualidade')?.split(','),
     drop: searchParams.get('drop')?.split(',')
@@ -86,16 +85,27 @@ export default function FilterBar() {
   
   return (
     <Container>
-      <SearchDiv> 
+      {/* <SearchDiv> 
         <SearchField variant="standard" />
         <SearchIcon src={searchIcon} alt={'Procurar'} />
-      </SearchDiv>
+      </SearchDiv> */}
       <Accordion title={'Tipo'}>
         <FilterDiv>
           {productTypes.map((item, n) => (
-            <StyledLink key={n + item.value} selected={selectedTags.tipo?.includes(item.value)} href={`?${createQueryString('tipo', item.value)}`}>
+            <StyledLink key={n + item} selected={selectedTags.tipo?.includes(item)} href={`?${createQueryString('tipo', item)}`}>
               <FilterText>
-                {item.value}
+                {item}
+              </FilterText>
+            </StyledLink>
+          ))}
+        </FilterDiv>
+      </Accordion>
+      <Accordion title={'Tamanho'}>
+        <FilterDiv>
+          {productSizes.map((item,n) => (
+            <StyledLink key={n + item} selected={selectedTags.tamanho?.includes(item)} href={`?${createQueryString('tamanho',item)}`}>
+              <FilterText>
+                {item}
               </FilterText>
             </StyledLink>
           ))}
@@ -103,10 +113,10 @@ export default function FilterBar() {
       </Accordion>
       <Accordion title={'Categoria'}>
         <FilterDiv>
-          {productTags.map((item,n) => (
-            <StyledLink key={n + item.value} selected={selectedTags.categoria?.includes(item.value)} href={`?${createQueryString('categoria', item.value)}`}>
+          {productCategory.map((item,n) => (
+            <StyledLink key={n + item} selected={selectedTags.categoria?.includes(item)} href={`?${createQueryString('categoria', item)}`}>
               <FilterText>
-                {item.value}
+                {item}
               </FilterText>
             </StyledLink>
           ))}
@@ -115,9 +125,9 @@ export default function FilterBar() {
       <Accordion title={'Qualidade'}>
         <FilterDiv>
           {productQualities.map((item,n) => (
-            <StyledLink key={n + item.value} selected={selectedTags.qualidade?.includes(item.value)} href={`?${createQueryString('qualidade', item.value)}`}>
+            <StyledLink key={n + item} selected={selectedTags.qualidade?.includes(item)} href={`?${createQueryString('qualidade', item)}`}>
               <FilterText>
-                {item.value}
+                {item}
               </FilterText>
             </StyledLink>
           ))}
@@ -126,9 +136,9 @@ export default function FilterBar() {
       <Accordion title={'Drop'}>
         <FilterDiv>
           {productDrops.map((item,n) => (
-            <StyledLink key={n + item.value} selected={selectedTags.drop?.includes(item.value)} href={`?${createQueryString('drop', item.value)}`}>
+            <StyledLink key={n + item} selected={selectedTags.drop?.includes(item)} href={`?${createQueryString('drop', item)}`}>
               <FilterText>
-                {item.value}
+                {item}
               </FilterText>
             </StyledLink>
           ))}
