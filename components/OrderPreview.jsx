@@ -29,10 +29,10 @@ const OrderDiv = styled.div`
         display: none;
       }
       div {
-        flex-direction: column;
+        /* flex-direction: column;
         width: 100%;
         align-items: center;
-        gap: 10px;
+        gap: 10px; */
       }
     }
   }
