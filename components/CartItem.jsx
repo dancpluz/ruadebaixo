@@ -108,7 +108,7 @@ export default function CartItem({lastRemoved, product, product: { images,type,n
             </> :
             (price - discount) > 0 ? 
             <h2>R${price - discount}</h2> :
-            <h2>Grátis</h2>
+            <h2>R$0$</h2>
           }
         </PriceDiv>
       </ItemDiv>

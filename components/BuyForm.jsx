@@ -247,10 +247,10 @@ export default function BuyForm() {
 
       console.log(json)
       await sendOrderToServer(json);
-      //await cartItems.map((item) => updateOrderedProduct(item._id))
-      //onBuy();
-      //buyer(json.name,json.email,json.phone) // Facebook Pixel Buyer Event for SEO
-      //purchase(json.total, cartItems, json.delivery.type); // Facebook Pixel Purchase Event for SEO
+      await cartItems.map((item) => updateOrderedProduct(item._id))
+      onBuy();
+      buyer(json.name,json.email,json.phone) // Facebook Pixel Buyer Event for SEO
+      purchase(json.total, cartItems, json.delivery.type); // Facebook Pixel Purchase Event for SEO
       router.push('/comprar/sucesso');
     }
     catch (e) {

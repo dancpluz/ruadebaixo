@@ -27,6 +27,7 @@ const ProductsDiv = styled.div`
   flex-wrap: wrap;
   justify-content: center;
   gap: 32px;
+  min-height: calc(100vh - 440px);
 `;
 
 const TopDiv = styled.div`
@@ -38,10 +39,14 @@ const TopDiv = styled.div`
 `;
 
 const HamburgerContainer = styled.div`
-  position: absolute;
-  top: 130px;
-  width: 48px;
-  height: 48px;
+  display: none;
+  @media ${({ theme }) => theme.sizes.small} {
+    display: block;
+    position: absolute;
+    top: 106px;
+    width: 36px;
+    height: 36px;
+  }
 `;
 
 export default function Catalog({ products, options }) {
@@ -51,7 +56,7 @@ export default function Catalog({ products, options }) {
   return (
     <Wrapper>
       <HamburgerContainer>
-        <HamburgerIcon onClick={() => setShowFilterBar((current) => !current)} src={'assets/icons/filter.svg'} width={48} height={48} alt='Mostrar filtros' />
+        <HamburgerIcon onClick={() => setShowFilterBar((current) => !current)} src={'assets/icons/filter.svg'} width={36} height={36} alt='Mostrar filtros' />
       </HamburgerContainer>
       <FilterBar show={showFilterBar} options={options} />
       <ProductsDiv show={showFilterBar} qty={qty}>
