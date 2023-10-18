@@ -4,6 +4,7 @@ import styled from 'styled-components';
 
 export const Container = styled.div`
   display: flex;
+  position: relative;
   flex-direction: column;
   padding: 130px 200px;
   h1 {
@@ -17,16 +18,3 @@ export const Container = styled.div`
     padding: 100px 32px;
   }
 `;
-
-export const Wrapper = styled.div`
-  display: flex;
-  gap: 32px;
-`;
-
-export const ProductsDiv = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  gap: 32px;
-  justify-content: center;
-  flex-grow: 1;
-`

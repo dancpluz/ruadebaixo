@@ -1,6 +1,5 @@
 import { Container, Flexbox, ButtonLink, Text, Arrow } from './styles/LandingProducts.styled';
 import Card from './Card';
-import arrowIcon from '@/public/assets/icons/arrow.svg';
 import { fetchLandingProducts } from '@/lib/api.js';
 
 export default async function LandingProducts() {
@@ -8,13 +7,13 @@ export default async function LandingProducts() {
 
   return (
     <Container>
-      <h1>MiniDrop Galo</h1>
+      <h1>+90</h1>
       <Flexbox>
       {products.map((product) => <Card key={`${product.slug.current}`} product={product} />)}
       </Flexbox>
       <ButtonLink href={'/produtos'}>
         <Text>VEJA MAIS</Text>
-        <Arrow src={arrowIcon} alt={'>'}/>
+        <Arrow src={'/assets/icons/arrow.svg'} width={36} height={36} alt={'Ver Mais>'}/>
       </ButtonLink>
     </Container>
   )

@@ -54,7 +54,7 @@ const ButtonContainer = styled.div`
   margin-right: 8px;
 `;
 
-const HamburgerContainer = styled.div`
+export const HamburgerContainer = styled.div`
   display: none;
   @media ${({ theme }) => theme.sizes.small} {
     display: flex;
@@ -65,8 +65,7 @@ const HamburgerContainer = styled.div`
   }
 `;
 
-const HamburgerIcon = styled(Image)`
-
+export const HamburgerIcon = styled(Image)`
   cursor: pointer;
 `;
 

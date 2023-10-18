@@ -5,9 +5,10 @@ import Tag from '@/components/Tag';
 import ProductBuy from '@/components/ProductBuy';
 import ProductImages from '@/components/ProductImages';
 import ProductInfo, { MeasureLink } from '@/components/ProductInfo';
-import OrderedBadge from '@/components/OrderedBadge';
+//import OrderedBadge from '@/components/OrderedBadge';
 import Maintenance from '@/components/Maintenance';
 import { notFound } from 'next/navigation';
+import BackButton from '@/components/BackButton';
 
 export async function generateMetadata({ params: { slug }}) {
   const product = await fetchMetadata(slug);
@@ -43,16 +44,17 @@ export default async function ProdutoPage({ params: { slug } }) {
   }
 
   const product = await fetchProduct(slug);
-  const { name, images, type, quality, drop, tag, measures, price, size, ordered, discount, details } = product;
+  const { name, images, type, quality, drop, tag, measures, price, size, discount, details } = product;
 
   return (
     <Container>
+      <BackButton />
       <ProductDiv>
         <TopDiv>
           <ProductImages tags={tag} images={images} name={slug} />
         </TopDiv>
         <MiddleDiv>
-          {ordered && <OrderedBadge />}
+          {/* {ordered && <OrderedBadge />} */}
           <Tag tags={[quality, drop]} /> 
           <TitleDiv>
             <h1>{type} {name}</h1>

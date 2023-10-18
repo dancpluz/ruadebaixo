@@ -3,7 +3,7 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
-  padding: 165px 200px;
+  padding: 100px 200px;
   @media ${({ theme }) => theme.sizes.medium} {
     padding: 100px 100px;
   }
@@ -54,6 +54,7 @@ export const DetailsDiv = styled.div`
 `;
 
 export const ProductDiv = styled.div`
+  margin-top: 24px;
   position: relative;
   display: grid;
   height: 400px;
@@ -70,17 +71,6 @@ export const ProductDiv = styled.div`
     height: auto;
   }
 `;
-
-// const StyledAlert = styled(Alert)`
-//   color: black;
-//   background-color: white;
-//   border: black solid 1px;
-//   font-family: 'Clash Display', sans-serif;
-//   font-weight: 500;
-//   font-size: 14px;
-//   margin-bottom: 20px;
-//   text-transform: uppercase;
-// `;
 
 export const TitleDiv = styled.div`
   width: 100%;

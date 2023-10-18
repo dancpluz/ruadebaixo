@@ -2,7 +2,7 @@
 
 import Accordion from './Accordion';
 import { Container } from './styles/Accordion.styled';
-import { deliveryLocations,pickupLocations,questions } from '@/sanity/schemas/options';
+import { deliveryLocations,pickupLocations,questions } from '@/sanity/options';
 import { formatFloat,sortLocations } from '@/lib/format';
 import { useStateContext } from '@/context/StateContext';
 

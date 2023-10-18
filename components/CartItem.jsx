@@ -87,7 +87,7 @@ export default function CartItem({lastRemoved, product, product: { images,type,n
   if (!lastRemoved) {
     return (
       <ItemDiv>
-        <RemoveIcon src={plusIcon} alt={"X"} onClick={() => onRemove(product)} />
+        {type != 'Adesivo' && <RemoveIcon src={plusIcon} alt={"X"} onClick={() => onRemove(product)} />}
         <ProductImage 
           src={images[0].url}
           alt={`Produto-${name}`}
@@ -106,7 +106,9 @@ export default function CartItem({lastRemoved, product, product: { images,type,n
               <span>R${price}</span>
               <h2>R${price - discount}</h2>
             </> :
-            <h2>R${price - discount}</h2>
+            (price - discount) > 0 ? 
+            <h2>R${price - discount}</h2> :
+            <h2>Grátis</h2>
           }
         </PriceDiv>
       </ItemDiv>

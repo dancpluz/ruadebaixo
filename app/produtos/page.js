@@ -1,8 +1,7 @@
-//import FilterBar from '@/components/FilterBar';
-import Card from '@/components/Card';
-import { Container,Wrapper,ProductsDiv } from '@/components/styles/CatalogPage.styled';
-import { fetchCatalogProducts } from '@/lib/api';
+import { Container } from '@/components/styles/CatalogPage.styled';
+import { fetchCatalogProducts, fetchFilterOptions } from '@/lib/api';
 import Maintenance from '@/components/Maintenance';
+import Catalog from '@/components/Catalog';
 import { checkMaintenanceMode } from '@/lib/config';
 
 
@@ -18,26 +17,24 @@ export const revalidate = 60;
 
 export const dynamic = 'force-dynamic';
 
-export default async function ProdutosPage() {
+export default async function ProdutosPage({ searchParams }) {
   if (await checkMaintenanceMode()) {
     return (<Maintenance />)
   }
 
-  const products = await fetchCatalogProducts();
+  const products = await fetchCatalogProducts(searchParams);
+  const options = {
+    productTypes: await fetchFilterOptions('type'),
+    productSizes: await fetchFilterOptions('size'),
+    productCategory: await fetchFilterOptions('tag'),
+    productQualities: ['Usado','Novo'],
+    productDrops: await fetchFilterOptions('drop')
+  }
 
   return (
     <Container>
       <h1>Catálogo</h1>
-      <Wrapper>
-        {/* <FilterBar /> */}
-        <ProductsDiv>
-          {products ? (
-            products.map((product) => (
-              <Card key={`${product.slug.current}`} product={product} />
-            ))
-          ) : <p>Sem Produtos</p>}
-        </ProductsDiv>
-      </Wrapper>
+      <Catalog products={products} options={options} />
     </Container>
   )
 }

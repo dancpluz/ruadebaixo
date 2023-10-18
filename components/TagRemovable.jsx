@@ -4,7 +4,7 @@ import { TagDiv } from './styles/Tag.styled';
 import Chip from '@mui/material/Chip';
 import Image from 'next/image';
 import styled from 'styled-components';
-import { useStateContext } from '@/context/StateContext';
+import Link from 'next/link';
 import plusIcon from '@/public/assets/icons/plus.svg';
 
 const RemoveIcon = styled(Image)`
@@ -23,21 +23,39 @@ const StyledChip = styled(Chip)`
   }
 `;
 
-export default function TagRemovable() {
-  const { selectedTags,setSelectedTags } = useStateContext();
+export default function TagRemovable({ searchParams,selectedTags }) {
 
-  function handleDelete(tag) {
-    setSelectedTags(selectedTags.filter((e) => { return e !== tag }))
+  const removeQueryString = (name) => {
+    const params = new URLSearchParams(searchParams)
+
+    for (const [key, value] of params.entries()) {
+      const array = value.split(','); 
+      for (const x of array) {
+        if (x === name) {
+          array.splice(array.indexOf(x),1);
+          if (array.length == 0) {
+            params.delete(key);
+            return params.toString();
+          } else {
+            params.set(key,array);
+            return params.toString();
+          }
+        }
+      } 
+    }
   }
+
+  const tags = Object.values(selectedTags).flat().filter(item => item !== undefined);
 
   return (
     <TagDiv>
-      {selectedTags?.map((tag) =>
-        <StyledChip
-          key={tag}
-          label={tag}
-          deleteIcon={<RemoveIcon alt={'X'} src={plusIcon} />}
-          onDelete={() => handleDelete(tag)} />
+      {tags?.map((tag) =>
+        <Link key={tag} href={`?${removeQueryString(tag)}`}>
+          <StyledChip
+            label={tag}
+            deleteIcon={<RemoveIcon alt={'X'} src={plusIcon} />}
+            onDelete={() => console.log(tag)} />
+        </Link>
       )}
     </TagDiv>
   )

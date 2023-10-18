@@ -75,6 +75,6 @@ export const Text = styled.p`
   font-size: 20px;
 `;
 export const Arrow = styled(Image)`
-  
+  transform: rotate(90deg);
 `;
   

@@ -11,9 +11,9 @@ export default function Tag({ tags, type, isSize }) {
         <Chip
           key={'Categoria-'+ tag}
           label={tag}
-          // component='a'
-          // href={`/produtos?${type == 'size' ? 'size' : 'type'}=${tag}`}
-          //clickable
+          component='a'
+          href={`/produtos?${type == 'size' ? 'size' : 'type'}`}
+          clickable
         />
         )
       )}
