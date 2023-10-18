@@ -7,15 +7,15 @@ import {
 import styled from 'styled-components';
 import { Button } from '@/components/Cart';
 import CircularProgress from '@mui/material/CircularProgress';
+import { ErrorText } from '@/components/BuyForm';
 
 
 const Form = styled.form`
   margin: 16px 0;
   button {
-    margin: 16px 0;
+    margin-top: 24px;
     font-weight: 600;
   }
-
 `;
 
 export default function CheckoutForm({ onSubmitInfo }) {
@@ -65,33 +65,32 @@ export default function CheckoutForm({ onSubmitInfo }) {
       return;
     }
 
-    await onSubmitInfo();
-
     setIsLoading(true);
 
     const url = window.location.toString();
 
-    const { error } = await stripe.confirmPayment({
+    await stripe.confirmPayment({
       elements,
       redirect: 'if_required'
       // confirmParams: {
       //   // Make sure to change this to your payment completion page
       //   return_url: `${url}/sucesso`,
       // },
-    })
+    }).then((result) => {
+      const { error } = result;
 
-    // This point will only be reached if there is an immediate error when
-    // confirming the payment. Otherwise, your customer will be redirected to
-    // your `return_url`. For some payment methods like iDEAL, your customer will
-    // be redirected to an intermediate site first to authorize the payment, then
-    // redirected to the `return_url`.
-    // if (error.type === "card_error" || error.type === "validation_error") {
-    //   setMessage(error.message);
-    // } else {
-    //   setMessage("Um erro inesperado aconteceu, tente reiniciar a página.");
-    // }
+      if (error) {
+        if (error.type === "card_error" || error.type === "validation_error") {
+          setMessage(error.message);
+        } else {
+          setMessage("Um erro inesperado aconteceu, tente reiniciar a página.");
+        }
+      } else {
+        onSubmitInfo()
+      }
 
-    setIsLoading(false);
+      setIsLoading(false);
+      });   
   };
 
   const paymentElementOptions = {
@@ -108,7 +107,7 @@ export default function CheckoutForm({ onSubmitInfo }) {
       <Button disabled={isLoading || !stripe || !elements} id="submit">
         {isLoading ? <CircularProgress color='inherit' /> : "PAGAR AGORA"}
       </Button>
-      {message && <div >{message}</div>}
+      {message && <ErrorText>{message}</ErrorText>}
     </Form>
   );
 }

@@ -1,7 +1,7 @@
 'use client'
 
 import styled, { keyframes } from 'styled-components';
-import Image from 'next/image'
+import Image from 'next/image';
 
 const floating = keyframes`
 	0% {
@@ -26,9 +26,15 @@ const floating = keyframes`
 
 export const MainContainer = styled.div`
   position: relative;
-  overflow: hidden;
   padding-top: 65px;
-  padding-bottom: 200px;
+  padding-bottom: 150px;
+
+  h2 {
+    background: ${({ theme }) => theme.colors.dark};
+    color: ${({ theme }) => theme.colors.light};
+    text-align: center;
+    padding: 48px 0;
+  }
   
   //height: 100vh;
   /* @media ${({theme}) => theme.sizes.medium} {
@@ -40,39 +46,37 @@ export const MainContainer = styled.div`
   } */
 `;
 
-export const HeroBanner = styled.div`
-  position: relative;
-  height: 700px;
-  @media ${({ theme }) => theme.sizes.medium} {
-    height: 600px;
-  }
-
-  @media ${({theme}) => theme.sizes.small} {
-    height: 1000px;
+export const TopDiv = styled.div`
+  display: flex;
+  align-items: center;
+  width: 100%;
+  @media ${({ theme }) => theme.sizes.small} {
+    flex-direction: column;
   }
 `;
 
 export const LogoDiv = styled.div`
-  position: absolute;
-  top: 80px;
-  z-index: 1;
+  margin-right: 120px;
+  width: 50vw;
   @media ${({ theme }) => theme.sizes.small} {
-    top: 40px;
+    width: 100%;
+    margin: auto;
   }
 `;
 
 export const Logo = styled(Image)`
   margin-left: 200px;
-  height: 300px;
+  height: 350px;
   width: auto;
   @media ${({ theme }) => theme.sizes.medium} {
-    height: 200px;
+    height: 160px;
     margin-left: 100px;
   }
 
   @media ${({theme}) => theme.sizes.small} {
-    height: 200px;
-    margin-left: 32px;
+    margin: 16px auto;
+    height: 100px;
+    display: block;
   }
 `;
 
@@ -97,52 +101,49 @@ export const Caption = styled.div`
 `;
 
 
-export const TopImage = styled(Image)`
-  position: absolute;
-  right: 10vw;
-  top: 50px;
-  width: 400px;
+export const TopImage = styled.div`
+  position: relative;
+  width: 50vw;
   height: auto;
-  animation: 4s ease-in-out infinite ${floating};
-  @media ${({ theme }) => theme.sizes.medium} {
-    width: 300px;
-  }
+  aspect-ratio: 3/2;
+
   @media ${({ theme }) => theme.sizes.small} {
-    top: 350px;
+    width: 100%;
   }
+
+  /* @media ${({ theme }) => theme.sizes.small} {
+  } */
 `;
 
-export const LeftImage = styled(Image)`
-  position: absolute;
-  left: 10vw;
-  top: 450px;
-  width: 400px;
-  height: auto;
-  animation: 4.5s ease-in-out infinite ${floating};
-
-  @media ${({ theme }) => theme.sizes.medium} {
-    width: 300px;
-  }
-
-  @media ${({ theme }) => theme.sizes.small} {
-    top: 600px;
-  }
+export const HeroBanner = styled.div`
+  display: flex;
+  //flex-flow: row-wrap;
+  //margin-top: 64px;
+  width: 100%;
 `;
 
-export const RightImage = styled(Image)`
-  position: absolute;
-  right: 18vw;
-  top: 500px;
-  width: 450px;
-  height: auto;
-  animation: 4.2s ease-in-out infinite ${floating};
 
-  @media ${({ theme }) => theme.sizes.medium} {
-    width: 350px;
-  }
+export const LeftImage = styled.div`
+  position: relative;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 2/3;
+`;
+
+export const MiddleImage = styled.div`
+  position: relative;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 2/3;
+`;
+
+export const RightImage = styled.div`
+  position: relative;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 2/3;
 
   @media ${({ theme }) => theme.sizes.small} {
-    top: 900px;
-    right: 10vw;
+    display: none;
   }
 `;

@@ -44,7 +44,7 @@ export default async function ProdutoPage({ params: { slug } }) {
   }
 
   const product = await fetchProduct(slug);
-  const { name, images, type, quality, drop, tag, measures, price, size, ordered, discount, details } = product;
+  const { name, images, type, quality, drop, tag, measures, price, size, discount, details } = product;
 
   return (
     <Container>

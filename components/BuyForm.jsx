@@ -147,7 +147,7 @@ const RowDiv = styled.div`
   align-items: center;
 `;
 
-const ErrorText = styled.h4`
+export const ErrorText = styled.h4`
   //font-size: 1.25rem;
   color: #df1b41;
   text-align: center;
@@ -160,7 +160,7 @@ export default function BuyForm() {
   const [tax,setTax] = useState(null);
   const [paymentType,setPaymentType] = useState(null);
   const [activeStep,setActiveStep] = useState(0);
-  const [submitError,setSubmitError] = useState('');
+  const [formError,setFormError] = useState('');
 
   const handleNext = async () => {
     if (activeStep == 0) {
@@ -195,13 +195,12 @@ export default function BuyForm() {
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      setSubmitError('');
+      setFormError('');
     }, 800);
     return () => clearTimeout(timer);
-    }, [submitError]);
+    }, [formError]);
 
   const onSubmitInfo = async (data) => {
-
     try {
       if (cartItems.length == 0) {
         throw new Error('Sua caixa está vazia!');
@@ -218,11 +217,12 @@ export default function BuyForm() {
       }
       
       //storeFormData(data)
+      const total = paymentType === 'pix' ? formatFloat(totalPrice - totalDiscount + tax - 5) : formatFloat(totalPrice - totalDiscount + tax)
       
       const order = {
         subtotal: totalPrice - totalDiscount,
         tax: formatFloat(tax),
-        total: formatFloat(totalPrice - totalDiscount + tax),
+        total,
         products: cartItems.map((item) => {
           return {
             name: item.name,
@@ -233,22 +233,29 @@ export default function BuyForm() {
         })
       }
 
+      // Consertar string para objeto
+      if (deliveryType === 'Entrega') {
+        data.delivery.local = JSON.parse(data.delivery.local).local;
+      }
+
       const json = {
         ...data,
-        delivery: {local: data.delivery.local, type: data.delivery.type},
+        delivery: { local: data.delivery.local, type: data.delivery.type},
         phone: data.phone.length > 10 ? data.phone.replace('9','') : data.phone,
         order,
       }
+
+      console.log(json)
       await sendOrderToServer(json);
       //await cartItems.map((item) => updateOrderedProduct(item._id))
       //onBuy();
       //buyer(json.name,json.email,json.phone) // Facebook Pixel Buyer Event for SEO
       //purchase(json.total, cartItems, json.delivery.type); // Facebook Pixel Purchase Event for SEO
-      //router.push('/comprar/sucesso');
+      router.push('/comprar/sucesso');
     }
     catch (e) {
       console.log(e)
-      setSubmitError(e.message)
+      setFormError(e.message)
     }
   }
 
@@ -406,7 +413,7 @@ export default function BuyForm() {
             </StepLabel>
             <StepContent>
               {renderPayment()}
-              <ErrorText>{submitError}</ErrorText>
+              <ErrorText>{formError}</ErrorText>
             </StepContent>
           </Step>
         </StyledStepper>
@@ -512,14 +519,12 @@ export default function BuyForm() {
         }
         return (
           <div>
-            {totalPrice ? 
+            {cardOrder ? 
             <>
               <h3>Cartão de Crédito</h3>
                 <CardPayment order={cardOrder} onSubmitInfo={handleSubmit(onSubmitInfo)} />
             </> : <CircularProgress color='inherit' /> }
             {/* pix */}
-            
-            
           </div>
         );
       case 'money':

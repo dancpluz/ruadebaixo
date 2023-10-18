@@ -1,8 +1,8 @@
 'use client'
 
 import styled from 'styled-components';
-import TextField from '@mui/material/TextField';
-import Image from 'next/image';
+// import TextField from '@mui/material/TextField';
+// import Image from 'next/image';
 import Link from 'next/link';
 //import searchIcon from '@/public/assets/icons/search.svg'
 //import { productTypes,productTags,productQualities,productDrops } from '@/sanity/schemas/product';
@@ -18,6 +18,13 @@ const Container = styled.div`
   max-height: 60vh;
   overflow-x: hidden;
   overflow-y: scroll;
+
+  @media ${ ({ theme }) => theme.sizes.small } {
+    display: ${props => props.show ? 'none' : ''};
+    width: 100%;
+    max-width: none;
+    min-width: none;
+  }
 `;
 
 // const SearchDiv = styled.div`
@@ -61,7 +68,7 @@ const FilterDiv = styled.div`
   row-gap: 10px;
 `;
 
-export default function FilterBar({ options: { productTypes,productSizes, productCategory, productQualities, productDrops } }) {
+export default function FilterBar({ show, options: { productTypes,productSizes, productCategory, productQualities, productDrops } }) {
   const searchParams = useSearchParams();
   const selectedTags = {
     tipo: searchParams.get('tipo')?.split(','),
@@ -84,7 +91,7 @@ export default function FilterBar({ options: { productTypes,productSizes, produc
     }
   
   return (
-    <Container>
+    <Container show={show}>
       {/* <SearchDiv> 
         <SearchField variant="standard" />
         <SearchIcon src={searchIcon} alt={'Procurar'} />

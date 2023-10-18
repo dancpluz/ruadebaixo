@@ -21,7 +21,7 @@ export default function CardPayment({ order, onSubmitInfo }) {
     })
       .then((res) => res.json())
       .then((data) => setClientSecret(data));
-  },[]);
+  }, []);
 
   const appearance = {
     theme: 'stripe',
@@ -37,7 +37,6 @@ export default function CardPayment({ order, onSubmitInfo }) {
       fontWeightBold: '600',
       fontWeightNormal: '500',
       fontWeightLight: '400',
-      acItemBorderColor: 'black',
     }
   };
   
@@ -49,7 +48,7 @@ export default function CardPayment({ order, onSubmitInfo }) {
   return (
     <div>
       {clientSecret && 
-          <Elements options={options} stripe={stripePromise}>
+        <Elements key={clientSecret} options={options} stripe={stripePromise}>
             <CheckoutForm onSubmitInfo={onSubmitInfo} />
           </Elements>
       }

@@ -132,7 +132,7 @@ const SoldDiv = styled.div`
   }
 `;
 
-export default function Card({ product: { slug,images,name,price,discount,type,size,drop,tag,ordered,sold } }) {
+export default function Card({ product: { slug,images,name,price,discount,type,size,drop,tag,sold } }) {
   const [isHovering,setIsHovering] = useState(false);
   const { router } = useStateContext();
 
