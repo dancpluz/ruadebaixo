@@ -13,8 +13,8 @@ import { useSearchParams } from 'next/navigation';
 const Container = styled.div`
   position: sticky;
   top: 120px;
-  max-width: 350px;
-  min-width: 350px;
+  max-width: 320px;
+  min-width: 320px;
   max-height: 60vh;
   overflow-x: hidden;
   overflow-y: scroll;

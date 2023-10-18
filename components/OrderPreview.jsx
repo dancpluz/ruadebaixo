@@ -4,7 +4,6 @@ import styled from 'styled-components';
 import CartItem from '@/components/CartItem';
 import { ItemsDiv,PriceDiv } from '@/components/Cart';
 import { formatFloat } from '@/lib/format';
-import { useState } from 'react';
 
 const OrderDiv = styled.div`
   display: flex;

@@ -8,7 +8,7 @@ import { Button } from '@/components/Cart';
 import { useState,useEffect } from 'react';
 import { deliveryLocations,pickupLocations } from '@/sanity/options';
 import OrderPreview from '@/components/OrderPreview';
-import { sendOrderToServer,updateOrderedProduct } from '@/lib/api';
+import { sendOrderToServer,updateOrderedProduct, checkSoldProduct } from '@/lib/api';
 import { storeFormData,getFormData } from '@/lib/localStorage';
 import { formatFloat } from '@/lib/format'
 import { purchase, buyer } from '@/lib/fpixel';
@@ -19,7 +19,7 @@ import StepContent from '@mui/material/StepContent';
 import Image from 'next/image';
 import Alert from '@mui/material/Alert';
 import CardPayment from '@/components/CardPayment';
-
+import CircularProgress from '@mui/material/CircularProgress';
 
 const Container = styled.div`
   display: flex;
@@ -92,6 +92,7 @@ const StyledStepper = styled(Stepper)`
   }
   .MuiStepConnector-root, .MuiStepContent-root {
     margin-left: 18px;
+    flex: 0;
   }
   .MuiStepLabel-label, .MuiStepIcon-text {
     cursor: pointer;
@@ -140,18 +141,26 @@ const Whatsapp = styled(Image)`
 `;
 
 const RowDiv = styled.div`
+  margin: 16px 0;
   display: flex;
   flex-direction: row;
   align-items: center;
 `;
 
+const ErrorText = styled.h4`
+  //font-size: 1.25rem;
+  color: #df1b41;
+  text-align: center;
+  width: 100%;
+`;
+
 export default function BuyForm() {
-  const { totalPrice,totalDiscount, setTotalDiscount, onBuy,cartItems,lastRemovedItem,router } = useStateContext();
+  const { totalPrice,totalDiscount, onBuy,cartItems,lastRemovedItem,router } = useStateContext();
   const [deliveryType,setDeliveryType] = useState('Taxa');
   const [tax,setTax] = useState(null);
-  const [paymentType,setPaymentType] = useState('card');
+  const [paymentType,setPaymentType] = useState(null);
   const [activeStep,setActiveStep] = useState(0);
-  //const [submitError,setSubmitError] = useState('');
+  const [submitError,setSubmitError] = useState('');
 
   const handleNext = async () => {
     if (activeStep == 0) {
@@ -170,7 +179,7 @@ export default function BuyForm() {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
-  const { register,handleSubmit,trigger,formState: { errors } } = useForm();
+  const { register,handleSubmit,getValues,trigger,formState: { errors } } = useForm();
 
   useEffect(() => {
     document.getElementById('name').focus();
@@ -184,10 +193,28 @@ export default function BuyForm() {
     document.activeElement.blur();
   },[]);
 
-  const onSubmit = async (data) => {
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setSubmitError('');
+    }, 800);
+    return () => clearTimeout(timer);
+    }, [submitError]);
+
+  const onSubmitInfo = async (data) => {
+
     try {
       if (cartItems.length == 0) {
-        throw new Error('Cart vazio');
+        throw new Error('Sua caixa está vazia!');
+      }
+
+      cartItems.forEach(async (product) => {
+        if (await checkSoldProduct(product._id)) {
+          throw new Error(`Este produto já foi vendido (${product.name})`);
+        }
+      })
+
+      if (totalPrice - totalDiscount - 5 < 0) {
+        throw new Error('Não é possível concluir essa compra');
       }
       
       //storeFormData(data)
@@ -212,8 +239,7 @@ export default function BuyForm() {
         phone: data.phone.length > 10 ? data.phone.replace('9','') : data.phone,
         order,
       }
-      console.log(data)
-      //await sendOrderToServer(json);
+      await sendOrderToServer(json);
       //await cartItems.map((item) => updateOrderedProduct(item._id))
       //onBuy();
       //buyer(json.name,json.email,json.phone) // Facebook Pixel Buyer Event for SEO
@@ -222,7 +248,7 @@ export default function BuyForm() {
     }
     catch (e) {
       console.log(e)
-      router.push('/comprar/erro');
+      setSubmitError(e.message)
     }
   }
 
@@ -234,16 +260,12 @@ export default function BuyForm() {
       </TitleDiv>
       <Wrapper>
         <OrderPreview cartItems={cartItems} lastRemovedItem={lastRemovedItem} totalDiscount={totalDiscount} totalPrice={totalPrice} tax={tax} deliveryType={deliveryType} paymentType={paymentType} />
-        <vl />
-        <Form onSubmit={handleSubmit(onSubmit)}>
-          <StyledStepper activeStep={activeStep} orientation="vertical">
-            
-              <Step>
-                <StepLabel onClick={activeStep === 1 ? handleBack : undefined}>
-                  <h2>Dados Pessoais</h2>
-                </StepLabel>
-                <StepContent>
-                  {renderPayment()}
+        <StyledStepper activeStep={activeStep} orientation="vertical">
+            <Step>
+              <StepLabel onClick={activeStep === 1 ? handleBack : undefined}>
+                <h2>Dados Pessoais</h2>
+              </StepLabel>
+              <StepContent>
                   <p>Precisamos dessas informações para nos comunicarmos</p>
                   <InputBox title={'Nome*'} span={'Como devemos te chamar?'} errorMessage={errors.name}>
                     <input
@@ -288,105 +310,106 @@ export default function BuyForm() {
                       })}
                     />
                   </InputBox>
-                </StepContent>
-              </Step>
-              <Step>
-                <StepLabel onClick={activeStep === 0 ? handleNext : activeStep === 2 ? handleBack : undefined}>
-                  <StepTitle>
-                    <h2>Dados do Pedido</h2>
-                    <Arrow src={'assets/icons/arrow.svg'} width={36} height={36} alt={'Voltar'} disabled={activeStep !== 1} onClick={handleBack}/>
-                  </StepTitle>
-                </StepLabel>
-                <StepContent>
-                  <p>Essas informações são importantes para agilizar a venda</p>
-                  <InputBox title={'Forma de Recebimento*'} span={'Vamos até você ou você vem até nós, você decide!'} errorMessage={errors.delivery && errors.delivery.type}>
-                    <DeliveryDiv>
-                      <RadioDiv>
-                        <input
-                          onClick={() => { setDeliveryType('Entrega'); setTax(null) }}
-                          value='Entrega'
-                          type='radio'
-                          {...register('delivery.type',{
-                            required: '(Obrigatório)'
-                          })}
-                        />
-                        <div>
-                          <h4>Entrega</h4>
-                          <span>Sujeito a taxa</span>
-                        </div>
-                        <span>(2-7 dias)</span>
-                      </RadioDiv>
-                      <RadioDiv>
-                        <input
-                          onClick={() => { setDeliveryType('Retirada'); setTax(0) }}
-                          value='Retirada'
-                          type='radio'
-                          {...register('delivery.type',{
-                            required: '(Obrigatório)'
-                          })}
-                        />
-                        <div>
-                          <h4>Retirada</h4>
-                          <span>Frete Grátis</span>
-                        </div>
-                        <span>(4-10 dias)</span>
-                      </RadioDiv>
-                    </DeliveryDiv>
-                  </InputBox>
-                  {renderDeliveryForms()}
-                  <InputBox title={'Forma de Pagamento*'} span={'Escolha como deseja pagar'} errorMessage={errors.payment && errors.payment}>
-                    <DeliveryDiv>
-                      <RadioDiv>
-                        <input
-                          onClick={() => setPaymentType('card')}
-                          type='radio'
-                          value='Cartão de Crédito'
-                          {...register('payment',{
-                            required: '(Obrigatório)'
-                          })}
-                        />
-                        <h4>Cartão de Crédito</h4>
-                      </RadioDiv>
-                      <RadioDiv>
-                        <input
-                          onClick={() => setPaymentType('pix')}
-                          type='radio'
-                          value='PIX'
-                          {...register('payment',{
-                            required: '(Obrigatório)'
-                          })}
-                        />
-                        <h4>PIX (-R$5)</h4>
-                      </RadioDiv>
-                      <RadioDiv>
-                        <input
-                          onClick={() => setPaymentType('money')}
-                          type='radio'
-                          value='Dinheiro físico'
-                          {...register('payment',{
-                            required: '(Obrigatório)'
-                          })}
-                        />
-                        <h4>Dinheiro físico</h4>
-                      </RadioDiv>
-                      {renderPaymentAlert()}
-                    </DeliveryDiv>
-                  </InputBox>
-                </StepContent>
-              </Step>
+                {/* </ Form> */}
+              </StepContent>
+            </Step>
             <Step>
-              <StepLabel onClick={activeStep === 1 ? handleNext : undefined}>
+              <StepLabel onClick={activeStep === 0 ? handleNext : activeStep === 2 ? handleBack : undefined}>
                 <StepTitle>
-                  <h2>Pagamento</h2>
-                  <Arrow src={'assets/icons/arrow.svg'} width={36} height={36} alt={'Voltar'} disabled={activeStep !== 2} onClick={handleBack}/>
+                  <h2>Dados do Pedido</h2>
+                  <Arrow src={'assets/icons/arrow.svg'} width={36} height={36} alt={'Voltar'} disabled={activeStep !== 1} onClick={handleBack}/>
                 </StepTitle>
               </StepLabel>
               <StepContent>
-                {renderPayment()}
+                <p>Essas informações são importantes para agilizar a venda</p>
+                <InputBox title={'Forma de Recebimento*'} span={'Vamos até você ou você vem até nós, você decide!'} errorMessage={errors.delivery && errors.delivery.type}>
+                  <DeliveryDiv>
+                    <RadioDiv>
+                      <input
+                        onClick={() => { setDeliveryType('Entrega'); setTax(null) }}
+                        value='Entrega'
+                        type='radio'
+                        {...register('delivery.type',{
+                          required: '(Obrigatório)'
+                        })}
+                      />
+                      <div>
+                        <h4>Entrega</h4>
+                        <span>Sujeito a taxa</span>
+                      </div>
+                      <span>(2-7 dias)</span>
+                    </RadioDiv>
+                    <RadioDiv>
+                      <input
+                        onClick={() => { setDeliveryType('Retirada'); setTax(0) }}
+                        value='Retirada'
+                        type='radio'
+                        {...register('delivery.type',{
+                          required: '(Obrigatório)'
+                        })}
+                      />
+                      <div>
+                        <h4>Retirada</h4>
+                        <span>Frete Grátis</span>
+                      </div>
+                      <span>(4-10 dias)</span>
+                    </RadioDiv>
+                  </DeliveryDiv>
+                </InputBox>
+                {renderDeliveryForms()}
+                <InputBox title={'Forma de Pagamento*'} span={'Escolha como deseja pagar'} errorMessage={errors.payment && errors.payment}>
+                  <DeliveryDiv>
+                    <RadioDiv>
+                      <input
+                        onClick={() => setPaymentType('card')}
+                        type='radio'
+                        value='Cartão de Crédito'
+                        {...register('payment',{
+                          required: '(Obrigatório)'
+                        })}
+                      />
+                      <h4>Cartão de Crédito</h4>
+                    </RadioDiv>
+                    <RadioDiv>
+                      <input
+                        onClick={() => setPaymentType('pix')}
+                        type='radio'
+                        value='PIX'
+                        {...register('payment',{
+                          required: '(Obrigatório)'
+                        })}
+                      />
+                      <h4>PIX (-R$5)</h4>
+                    </RadioDiv>
+                    <RadioDiv>
+                      <input
+                        onClick={() => setPaymentType('money')}
+                        type='radio'
+                        value='Dinheiro físico'
+                        {...register('payment',{
+                          required: '(Obrigatório)'
+                        })}
+                      />
+                      <h4>Dinheiro físico</h4>
+                    </RadioDiv>
+                    {renderPaymentAlert()}
+                  </DeliveryDiv>
+                </InputBox>
               </StepContent>
             </Step>
-          </StyledStepper>
-        </Form>
+          <Step>
+            <StepLabel onClick={activeStep === 1 ? handleNext : undefined}>
+              <StepTitle>
+                <h2>Pagamento</h2>
+                <Arrow src={'assets/icons/arrow.svg'} width={36} height={36} alt={'Voltar'} disabled={activeStep !== 2} onClick={handleBack}/>
+              </StepTitle>
+            </StepLabel>
+            <StepContent>
+              {renderPayment()}
+              <ErrorText>{submitError}</ErrorText>
+            </StepContent>
+          </Step>
+        </StyledStepper>
       </Wrapper>
     </Container>
   )
@@ -436,7 +459,7 @@ export default function BuyForm() {
         )
       case 'card':
         return (
-          <StyledAlert variant="filled" severity="info">
+          <StyledAlert variant="filled" severity="warning">
             No momento não aceitamos parcelamento
           </StyledAlert>
         )
@@ -455,36 +478,62 @@ export default function BuyForm() {
     switch (paymentType) {
       case 'pix':
         return (
-          <div>
-            <h3>Pagamento por PIX</h3>
+          <Form onSubmit={handleSubmit(onSubmitInfo)}>
+            <h3>PIX</h3>
             <RowDiv>
               <Whatsapp src={'assets/icons/whatsapp-fill.svg'} alt={'Whatsapp Logo'} width={80} height={80} />
-              <p>O pagamento será feito pelo Whatsapp, mandaremos uma mensagem confirmando o seu pedido! Decidiremos a entrega por lá também.</p>
+              <p>O pagamento será feito pelo Whatsapp, mandaremos uma mensagem confirmando o seu pedido! Decidiremos a entrega por lá também. Muito obrigado!</p>
             </RowDiv>
             <Button type="submit">
               CONCLUIR COMPRA
             </Button>
-          </div>
+          </Form>
         );
       case 'card':
+        const cardOrder = {
+          amount: (totalPrice - totalDiscount + tax) * 100,
+          description: cartItems.map((product) => {
+            return `R$${product.price - product.discount} - ${product.type} ${product.name}`;
+          }).join(', '),
+          shipping: {
+            name: getValues('name'),
+            phone: getValues('phone'),
+            address: {
+              country: 'BR',
+              city: tax && JSON.parse(getValues('delivery').local).local,
+            }
+          },
+          receipt_email: getValues('email') ? getValues('email') : undefined,
+          statement_descriptor: `${cartItems.length} ${cartItems.length > 1 ? 'ITENS' : 'ITEM'}`,
+          metadata: { order: JSON.stringify(cartItems.map((product) => {
+            return {id: product.id, type: product.type, name: product.name, size: product.size, price: product.price, discount: product.discount}
+          }))
+         }
+        }
         return (
           <div>
-            <h3>Pagamento por Cartão Crédito</h3>
-            <CardPayment />
+            {totalPrice ? 
+            <>
+              <h3>Cartão de Crédito</h3>
+                <CardPayment order={cardOrder} onSubmitInfo={handleSubmit(onSubmitInfo)} />
+            </> : <CircularProgress color='inherit' /> }
+            {/* pix */}
+            
+            
           </div>
         );
       case 'money':
         return (
-          <div>
-            <h3>Pagamento por Dinheiro Físico</h3>
+          <Form onSubmit={handleSubmit(onSubmitInfo)}>
+            <h3>Dinheiro Físico</h3>
             <RowDiv>
               <Whatsapp src={'assets/icons/whatsapp-fill.svg'} alt={'Whatsapp Logo'} width={80} height={80} />
-              <p>O pagamento será feito no momento da entrega/retirada, mandaremos uma mensagem confirmando o seu pedido! Decidiremos a entrega por lá também.</p>
+              <p>O pagamento será feito no momento da entrega/retirada, mandaremos uma mensagem confirmando o seu pedido! Decidiremos a entrega por lá também. Muito obrigado!</p>
             </RowDiv>
             <Button type="submit">
               CONCLUIR COMPRA
             </Button>
-          </div>
+          </Form>
         );
       default:
         return

@@ -1,4 +1,4 @@
-import BuyForm from "@/components/BuyForm"
+import BuyForm from "@/components/BuyForm";
 
 export const metadata = {
   title: 'Finalizar Compra',
@@ -7,8 +7,6 @@ export const metadata = {
 
 export default function Home() {
   return (
-    <>
       <BuyForm />
-    </>
   )
 }

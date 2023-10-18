@@ -1,21 +1,27 @@
-import { useEffect,useState } from "react";
+import { useEffect, useState } from "react";
 import {
   PaymentElement,
-  LinkAuthenticationElement,
   useStripe,
   useElements
 } from "@stripe/react-stripe-js";
 import styled from 'styled-components';
-import CircularProgress from '@mui/material/CircularProgress';
-import { CenterScreen } from '@/components/styles/OtherStyles.styled'
 import { Button } from '@/components/Cart';
+import CircularProgress from '@mui/material/CircularProgress';
 
 
-export default function CheckoutForm() {
+const Form = styled.form`
+  margin: 16px 0;
+  button {
+    margin: 16px 0;
+    font-weight: 600;
+  }
+
+`;
+
+export default function CheckoutForm({ onSubmitInfo }) {
   const stripe = useStripe();
   const elements = useElements();
 
-  //const [email,setEmail] = useState('');
   const [message,setMessage] = useState(null);
   const [isLoading,setIsLoading] = useState(false);
 
@@ -35,16 +41,16 @@ export default function CheckoutForm() {
     stripe.retrievePaymentIntent(clientSecret).then(({ paymentIntent }) => {
       switch (paymentIntent.status) {
         case "succeeded":
-          setMessage("Payment succeeded!");
+          setMessage("Pago com sucesso!");
           break;
         case "processing":
-          setMessage("Your payment is processing.");
+          setMessage("Seu pagamento está sendo processado");
           break;
         case "requires_payment_method":
-          setMessage("Your payment was not successful, please try again.");
+          setMessage("Seu pagamento não foi completado, por favor tente novamente.");
           break;
         default:
-          setMessage("Something went wrong.");
+          setMessage("Algum erro inesperado ocorreu.");
           break;
       }
     });
@@ -59,26 +65,31 @@ export default function CheckoutForm() {
       return;
     }
 
+    await onSubmitInfo();
+
     setIsLoading(true);
+
+    const url = window.location.toString();
 
     const { error } = await stripe.confirmPayment({
       elements,
-      confirmParams: {
-        // Make sure to change this to your payment completion page
-        return_url: "http://localhost:3000",
-      },
-    });
+      redirect: 'if_required'
+      // confirmParams: {
+      //   // Make sure to change this to your payment completion page
+      //   return_url: `${url}/sucesso`,
+      // },
+    })
 
     // This point will only be reached if there is an immediate error when
     // confirming the payment. Otherwise, your customer will be redirected to
     // your `return_url`. For some payment methods like iDEAL, your customer will
     // be redirected to an intermediate site first to authorize the payment, then
     // redirected to the `return_url`.
-    if (error.type === "card_error" || error.type === "validation_error") {
-      setMessage(error.message);
-    } else {
-      setMessage("An unexpected error occurred.");
-    }
+    // if (error.type === "card_error" || error.type === "validation_error") {
+    //   setMessage(error.message);
+    // } else {
+    //   setMessage("Um erro inesperado aconteceu, tente reiniciar a página.");
+    // }
 
     setIsLoading(false);
   };
@@ -87,24 +98,17 @@ export default function CheckoutForm() {
     layout: "tabs",
   };
 
-  if (isLoading || !stripe || !elements) {
-    return (
-      <CenterScreen>
-        <CircularProgress color="inherit" />
-      </CenterScreen>
-    )
-  }
-
   return (
-    <form id="payment-form" onSubmit={handleSubmit}>
-      <PaymentElement id="payment-element" options={paymentElementOptions} />
-      <Button id="submit">
-        <span id="button-text">
-          {isLoading ? <CircularProgress color="inherit" /> : "CONCLUIR COMPRA"}
-        </span>
+    <Form onSubmit={handleSubmit}>
+      {/* <LinkAuthenticationElement
+        id="link-authentication-element"
+        onChange={(e) => setEmail(e.target.value)}
+      /> */}
+      <PaymentElement options={paymentElementOptions} />
+      <Button disabled={isLoading || !stripe || !elements} id="submit">
+        {isLoading ? <CircularProgress color='inherit' /> : "PAGAR AGORA"}
       </Button>
-      {/* Show any error or success messages */}
-      {message && <div id="payment-message">{message}</div>}
-    </form>
+      {message && <div >{message}</div>}
+    </Form>
   );
 }

@@ -9,7 +9,7 @@ import CheckoutForm from "@/components/CheckoutForm";
 // This is your test publishable API key.
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY);
 
-export default function CardPayment() {
+export default function CardPayment({ order, onSubmitInfo }) {
   const [clientSecret,setClientSecret] = useState("");
 
   useEffect(() => {
@@ -17,7 +17,7 @@ export default function CardPayment() {
     fetch("/api/payment",{
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ items: [{ id: "xl-tshirt" }] }),
+      body: JSON.stringify(order),
     })
       .then((res) => res.json())
       .then((data) => setClientSecret(data));
@@ -27,33 +27,30 @@ export default function CardPayment() {
     theme: 'stripe',
     variables: {
       fontFamily: 'Clash Display, sans-serif',
-      fontWeightLight: '400',
-      fontWeightNormal: '500',
-      fontWeightMedium: '600',
       colorPrimary: 'black',
       colorBackground: 'white',
       colorText: 'black',
       colorDanger: '#df1b41',
-      spacingUnit: '5px',
+      spacingUnit: '3px',
       borderRadius: '0px',
+      fontSizeBase: '1.25rem',
+      fontWeightBold: '600',
+      fontWeightNormal: '500',
+      fontWeightLight: '400',
+      acItemBorderColor: 'black',
     }
   };
   
   const options = {
     clientSecret,
     appearance,
-    fonts: [
-      {
-        cssSrc: 'https://api.fontshare.com/v2/css?f[]=clash-display@600&display=swap)',
-      }
-    ],
   };
 
   return (
     <div>
       {clientSecret && 
           <Elements options={options} stripe={stripePromise}>
-            <CheckoutForm />
+            <CheckoutForm onSubmitInfo={onSubmitInfo} />
           </Elements>
       }
     </div>

@@ -47,11 +47,15 @@ const GlobalStyle = createGlobalStyle`
     font-size: 1rem;
     background: ${theme.colors.light};
 
+    &:focus {
+      outline: none !important;
+      box-shadow: 3px 3px 0 ${theme.colors.dark};
+    }
+
     option {
       background: ${theme.colors.light};
     }
   }
-
 
     select{
       border-radius: 0;
