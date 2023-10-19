@@ -19,6 +19,8 @@ import { HamburgerIcon} from '@/components/Header';
 
 const Wrapper = styled.div`
   display: flex;
+  //flex-wrap: wrap;
+  align-items: flex-start;
   gap: 32px;
 `;
 
