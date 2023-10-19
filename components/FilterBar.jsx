@@ -13,11 +13,17 @@ import { useSearchParams } from 'next/navigation';
 const Container = styled.div`
   position: sticky;
   top: 120px;
-  max-width: 320px;
   min-width: 320px;
-  max-height: 60vh;
+  max-width: 320px;
+  //max-height: 90vh;
+  //height: 100%;
   overflow-x: hidden;
   overflow-y: scroll;
+  .MuiAccordion-root{
+    //border: solid 2px red;
+    width: 100%;
+
+  }
 
   @media ${ ({ theme }) => theme.sizes.small } {
     display: ${props => props.show ? 'none' : ''};
@@ -66,6 +72,7 @@ const FilterDiv = styled.div`
   flex-flow: row wrap;
   column-gap: 20px;
   row-gap: 10px;
+  
 `;
 
 export default function FilterBar({ show, options: { productTypes,productSizes, productCategory, productQualities, productDrops } }) {

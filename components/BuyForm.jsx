@@ -216,8 +216,8 @@ export default function BuyForm() {
         throw new Error('Não é possível concluir essa compra');
       }
       
-      //storeFormData(data)
-      const total = paymentType === 'pix' ? formatFloat(totalPrice - totalDiscount + tax - 5) : formatFloat(totalPrice - totalDiscount + tax)
+      storeFormData(data);
+      const total = paymentType === 'pix' ? formatFloat(totalPrice - totalDiscount + tax - 5) : formatFloat(totalPrice - totalDiscount + tax);
       
       const order = {
         subtotal: totalPrice - totalDiscount,
