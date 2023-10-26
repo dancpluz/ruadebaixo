@@ -22,7 +22,7 @@ export default async function LandingBanner() {
         <TopImage>
           <Image
           src={images[0].url}
-          alt='Homem Caindo - Novas camisetas do Galo'
+          alt='três homens vestindo roupas estilosas e coloridas'
           fill
           placeholder={'blur'}
           blurDataURL={images[0].blur}

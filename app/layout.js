@@ -12,14 +12,14 @@ export const metadata = {
   title: {
     template: '%s | RDB',
   },
-  description: 'Confira o MiniDrop "Galo"!',
+  description: 'GAY o MiniDrop "Galo"!',
   keywords: ['roupas','rua','baixo','rua de baixo','rdb','streetwear','drop','desconto','vendas','minidrop','vendas','brechó','skate','moda','moda urbana','streetstyle'],
   colorScheme: 'light',
   metadataBase: new URL('https://www.ruadebaixo.com.br'),
   canonical: 'https://www.ruadebaixo.com.br/',
   openGraph: {
     title: 'Rua de Baixo',
-    description: 'Confira o novo drop com + de 90 peças exclusivas!',
+    description: 'Confira o novo drop com + de 90 peças exclusivas!', //melhorar
     siteName: 'Rua de Baixo',
     url: 'https://www.ruadebaixo.com.br/',
     type: 'website',
@@ -30,6 +30,7 @@ export const metadata = {
     icon: '/favicon.ico',
   },
   themeColor: 'black',
+  // robots
 }
 
 export default function RootLayout({ children }) {

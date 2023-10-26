@@ -12,6 +12,7 @@ import BackButton from '@/components/BackButton';
 
 export async function generateMetadata({ params: { slug }}) {
   const product = await fetchMetadata(slug);
+  // Se o produto não for achado, erro 404
   if (!product) {
     notFound();
   }
@@ -19,8 +20,9 @@ export async function generateMetadata({ params: { slug }}) {
 
   return {
     title: `${type} ${name}`,
-    description: `Compre ${type} ${name} aqui na Rua de Baixo. Confira!`,
-    openGraph: {
+    description: `Compre ${type} ${name} aqui na Rua de Baixo. Confira!`, // melhorar
+    keywords: '',   // melhorar
+    openGraph: { // melhorar
       title: `${type} ${name}`,
       description: `Compre ${type} ${name} aqui na Rua de Baixo. Confira!`,
       images: images.reverse(),
