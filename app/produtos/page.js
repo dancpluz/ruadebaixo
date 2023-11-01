@@ -9,7 +9,7 @@ export const metadata = {
   title: 'Produtos',
   description: 'Produtos da Rua de Baixo',
   openGraph: {
-    description: 'Veja o nosso catálogo de peças exclusivas',
+    description: 'Se liga nas peças mais F**** do Brasil',
   },
 }
 

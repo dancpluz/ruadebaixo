@@ -20,6 +20,8 @@ export async function generateMetadata({ params: { slug }}) {
   return {
     title: `${type} ${name}`,
     description: `Compre ${type} ${name} aqui na Rua de Baixo. Confira!`,
+    keywords: [`${type}`, `${name}`,`${type} ${name} barata`,`${type} ${name} em promoção`,`${type} ${name} com desconto`,`${type} ${name} usada`,`${type} ${name} nova`], 
+    canonical: [`https://www.ruadebaixo.com.br/${type}${name}/`],
     openGraph: {
       title: `${type} ${name}`,
       description: `Compre ${type} ${name} aqui na Rua de Baixo. Confira!`,

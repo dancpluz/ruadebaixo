@@ -22,7 +22,7 @@ export default async function LandingBanner() {
         <TopImage>
           <Image
           src={images[0].url}
-          alt='Homem Caindo - Novas camisetas do Galo'
+          alt='três homens estilosos vestindo roupas e acessorios da moda streetwear. O homen do meio esta apoiado num corrimao olhando para seu relogio'
           fill
           placeholder={'blur'}
           blurDataURL={images[0].blur}
@@ -34,7 +34,7 @@ export default async function LandingBanner() {
         <LeftImage>
           <Image
             src={images[1].url}
-            alt='Homem Caindo - Novas camisetas do Galo'
+            alt='homen negro estiloso vestindo camisa polo rosa e um colar prata. O homen segura um celular numa mao e mostra a corrente com a outra. Ele esta encostado num corrimão' 
             fill
             placeholder={'blur'}
             blurDataURL={images[1].blur}
@@ -43,7 +43,7 @@ export default async function LandingBanner() {
         <MiddleImage>
           <Image
             src={images[2].url}
-            alt='Homem Caindo - Novas camisetas do Galo'
+            alt='Homem se pendura numa estrutura semelhante a um poste de luz. Ele veste uma camisa azul e um short preto e está de costas para a camera. ' /// aaaaaaaaaaaaaaa -- caio pendurado
             fill
             placeholder={'blur'}
             blurDataURL={images[2].blur}
