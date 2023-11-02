@@ -3,7 +3,6 @@ import { MainContainer, LogoDiv, Logo, TopImage, TopDiv, Caption, LeftImage, Rig
 import { fetchLandingImages } from '@/lib/api';
 import Image from 'next/image'
 
-
 export default async function LandingBanner() {
   const {text, images} = await fetchLandingImages();
 
@@ -21,11 +20,12 @@ export default async function LandingBanner() {
         </LogoDiv>
         <TopImage>
           <Image
-          src={images[0].url}
-          alt='três homens vestindo roupas estilosas e coloridas'
-          fill
-          placeholder={'blur'}
-          blurDataURL={images[0].blur}
+            src={images[0].url}
+            alt='três homens vestindo roupas estilosas e coloridas'
+            fill
+            sizes={'900px'}
+            placeholder={'blur'}
+            blurDataURL={images[0].blur}
           />
         </TopImage>
       </TopDiv>
@@ -36,6 +36,7 @@ export default async function LandingBanner() {
             src={images[1].url}
             alt='Homem Caindo - Novas camisetas do Galo'
             fill
+            sizes={'640px'}
             placeholder={'blur'}
             blurDataURL={images[1].blur}
           />
@@ -45,18 +46,20 @@ export default async function LandingBanner() {
             src={images[2].url}
             alt='Homem Caindo - Novas camisetas do Galo'
             fill
+            sizes={'640px'}
             placeholder={'blur'}
             blurDataURL={images[2].blur}
-          />
+          /> 
         </MiddleImage>
         <RightImage>
           <Image
             src={images[3].url}
             alt='Homem Caindo - Novas camisetas do Galo'
             fill
+            sizes={'640px'}
             placeholder={'blur'}
             blurDataURL={images[3].blur}
-          />
+            /> 
         </RightImage>
       </HeroBanner>
     </MainContainer>

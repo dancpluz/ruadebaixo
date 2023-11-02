@@ -7,15 +7,18 @@ import ProductImages from '@/components/ProductImages';
 import ProductInfo, { MeasureLink } from '@/components/ProductInfo';
 //import OrderedBadge from '@/components/OrderedBadge';
 import Maintenance from '@/components/Maintenance';
-import { notFound } from 'next/navigation';
+//import { notFound } from 'next/navigation';
 import BackButton from '@/components/BackButton';
+import { redirect } from 'next/navigation';
+
 
 export async function generateMetadata({ params: { slug }}) {
   const product = await fetchMetadata(slug);
   // Se o produto não for achado, erro 404
   if (!product) {
-    notFound();
+    redirect('/404')
   }
+
   const { name, images, type } = product;
 
   return {

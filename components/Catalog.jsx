@@ -5,6 +5,7 @@ import FilterBar from '@/components/FilterBar';
 import Card from '@/components/Card';
 import { useState } from 'react';
 import { HamburgerIcon} from '@/components/Header';
+import { SkeletonStyled } from '@/components/styles/OtherStyles.styled';
 
 // export const Container = styled.div`
 //   position: relative;
@@ -66,9 +67,10 @@ export default function Catalog({ products, options }) {
           <span>{`${qty !== 0 ? qty : 'Nenhum'} ${qty > 1 ? 'encontrados' : 'encontrado'}`}</span>
           {/* Select Order */}
         </TopDiv>
-        {products.map((product) => (
+        {products ? products.map((product) => (
             <Card key={`${product.slug.current}`} product={product} />
           ))
+          : <SkeletonStyled variant="rectangular" fill />
         }
       </ProductsDiv>
     </Wrapper>
