@@ -12,6 +12,7 @@ import BackButton from '@/components/BackButton';
 
 export async function generateMetadata({ params: { slug }}) {
   const product = await fetchMetadata(slug);
+  // Se o produto não for achado, erro 404
   if (!product) {
     notFound();
   }
@@ -19,10 +20,16 @@ export async function generateMetadata({ params: { slug }}) {
 
   return {
     title: `${type} ${name}`,
+<<<<<<< HEAD
     description: `Compre ${type} ${name} aqui na Rua de Baixo. Confira!`,
     keywords: [`${type}`, `${name}`,`${type} ${name} barata`,`${type} ${name} em promoção`,`${type} ${name} com desconto`,`${type} ${name} usada`,`${type} ${name} nova`], 
     canonical: [`https://www.ruadebaixo.com.br/${type}${name}/`],
     openGraph: {
+=======
+    description: `Compre ${type} ${name} aqui na Rua de Baixo. Confira!`, // melhorar
+    keywords: '',   // melhorar
+    openGraph: { // melhorar
+>>>>>>> 37e9175de55c56032fadcffb56c29e1ba7bda7ba
       title: `${type} ${name}`,
       description: `Compre ${type} ${name} aqui na Rua de Baixo. Confira!`,
       images: images.reverse(),

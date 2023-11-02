@@ -22,7 +22,11 @@ export default async function LandingBanner() {
         <TopImage>
           <Image
           src={images[0].url}
+<<<<<<< HEAD
           alt='três homens estilosos vestindo roupas e acessorios da moda streetwear. O homen do meio esta apoiado num corrimao olhando para seu relogio'
+=======
+          alt='três homens vestindo roupas estilosas e coloridas'
+>>>>>>> 37e9175de55c56032fadcffb56c29e1ba7bda7ba
           fill
           placeholder={'blur'}
           blurDataURL={images[0].blur}
