@@ -2,6 +2,7 @@
 
 import styled from 'styled-components';
 import Image from 'next/image';
+import Skeleton from '@mui/material/Skeleton';
 
 export const LogoCMS = styled(Image)`
   height: auto;
@@ -33,5 +34,10 @@ export const CenterScreen = styled.div`
   @media ${({ theme }) => theme.sizes.small} {
     margin: 0 32px;
   }
+`;
+
+export const SkeletonStyled = styled(Skeleton)`
+  width: 100%;
+  height: 100%;
 `;
 

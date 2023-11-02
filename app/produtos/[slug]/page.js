@@ -7,29 +7,29 @@ import ProductImages from '@/components/ProductImages';
 import ProductInfo, { MeasureLink } from '@/components/ProductInfo';
 //import OrderedBadge from '@/components/OrderedBadge';
 import Maintenance from '@/components/Maintenance';
-import { notFound } from 'next/navigation';
+//import { notFound } from 'next/navigation';
 import BackButton from '@/components/BackButton';
+import { redirect } from 'next/navigation';
+
 
 export async function generateMetadata({ params: { slug }}) {
   const product = await fetchMetadata(slug);
   // Se o produto não for achado, erro 404
   if (!product) {
-    notFound();
+    redirect('/404')
   }
+
   const { name, images, type } = product;
 
   return {
     title: `${type} ${name}`,
-<<<<<<< HEAD
     description: `Compre ${type} ${name} aqui na Rua de Baixo. Confira!`,
     keywords: [`${type}`, `${name}`,`${type} ${name} barata`,`${type} ${name} em promoção`,`${type} ${name} com desconto`,`${type} ${name} usada`,`${type} ${name} nova`], 
     canonical: [`https://www.ruadebaixo.com.br/${type}${name}/`],
     openGraph: {
-=======
     description: `Compre ${type} ${name} aqui na Rua de Baixo. Confira!`, // melhorar
     keywords: '',   // melhorar
     openGraph: { // melhorar
->>>>>>> 37e9175de55c56032fadcffb56c29e1ba7bda7ba
       title: `${type} ${name}`,
       description: `Compre ${type} ${name} aqui na Rua de Baixo. Confira!`,
       images: images.reverse(),

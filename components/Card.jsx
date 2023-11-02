@@ -155,8 +155,7 @@ export default function Card({ product: { slug,images,name,price,discount,type,s
           src={images[0].url}
           height={800}
           width={600}
-          placeholder={'blur'}
-          blurDataURL={images[0].blur} />
+        />
       </ImageFrame>
       <Caption>
         <Title>{name}</Title>
@@ -178,8 +177,6 @@ export default function Card({ product: { slug,images,name,price,discount,type,s
           alt={`${type}-${name}-Trás`}
           height={800}
           width={600}
-          placeholder={'blur'}
-          blurDataURL={images[1].blur}
         />
         <CardImage
           onMouseEnter={onMouseEnter}
@@ -189,8 +186,6 @@ export default function Card({ product: { slug,images,name,price,discount,type,s
           alt={`${type}-${name}-Frente`}
           height={800}
           width={600}
-          placeholder={'blur'}
-          blurDataURL={images[0].blur}
         />
       </ImageFrame>
       <Caption>
