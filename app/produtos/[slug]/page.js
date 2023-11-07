@@ -24,18 +24,18 @@ export async function generateMetadata({ params: { slug }}) {
   return {
     title: `${type} ${name}`,
     description: `Compre ${type} ${name} aqui na Rua de Baixo. Confira!`,
-    keywords: [`${type}`, `${name}`,`${type} ${name} barata`,`${type} ${name} em promoção`,`${type} ${name} com desconto`,`${type} ${name} usada`,`${type} ${name} nova`], 
-    canonical: [`https://www.ruadebaixo.com.br/${type}${name}/`],
+    keywords: [`${type}`, `${name}`,`${type} ${name} barata`,`${type} ${name} em promoção`,`${type} ${name} com desconto`,`${type} ${name} usada`,`${type} ${name} nova`],
     openGraph: {
-    description: `Compre ${type} ${name} aqui na Rua de Baixo. Confira!`, // melhorar
-    keywords: '',   // melhorar
-    openGraph: { // melhorar
       title: `${type} ${name}`,
       description: `Compre ${type} ${name} aqui na Rua de Baixo. Confira!`,
       images: images.reverse(),
     },
+    alternates: {
+      canonical: `/produtos/${slug}`,
+    },
   }
 }
+
 
 export async function generateStaticParams() {
   const slugs = await fetchStaticParams();

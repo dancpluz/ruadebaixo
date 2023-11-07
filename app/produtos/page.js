@@ -11,6 +11,9 @@ export const metadata = {
   openGraph: {
     description: 'Se liga nas peças mais F**** do Brasil',
   },
+  alternates: {
+    canonical: '/produtos',
+  }
 }
 
 export const revalidate = 60;

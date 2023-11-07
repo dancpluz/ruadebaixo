@@ -16,7 +16,6 @@ export const metadata = {
   keywords: ['roupas','rua','baixo','rua de baixo','rdb','streetwear','drop','desconto','vendas','minidrop','achei','brechó','skate','moda','moda urbana','streetstyle','BMX','descolado','rap','graffitti','parkour','batalha de rima','cultural','daora','podpah','moda sustentavel','pixo','arte','Roupas streetwear baratas', 'Streetwear acessível', 'Moda urbana econômica', 'Streetwear de qualidade a preços baixos', 'Estilo de rua acessível', 'Tendências de moda de rua baratas', 'Roupas urbanas econômicas', 'Vestuário streetwear com desconto', 'Compras de rua em conta', 'Moda urbana em promoção', 'Streetwear econômico online', 'Cultura das ruas acessível', 'Descontos em streetwear', 'Roupa de rua com preços baixos', 'Estilo de rua acessível', 'Streetwear acessível para todos', 'Roupas de rua econômicas e estilosas', 'Promoções de moda urbana', 'Loja de rua com descontos', 'Ofertas de roupas de rua', 'Streetwear econômico de alta qualidade', 'Tendências de moda urbana baratas', 'Loja online de streetwear acessível', 'Descontos em roupas urbanas', 'Vestuário de rua em promoção'],
   colorScheme: 'light',
   metadataBase: new URL('https://www.ruadebaixo.com.br'),
-  canonical: 'https://www.ruadebaixo.com.br/',
   openGraph: {
     title: 'Rua de Baixo',
     description: 'Confira nosso último drop "+90" com as peças mais esclusivas do mercado dos brechós!',
@@ -29,7 +28,7 @@ export const metadata = {
   icons: {
     icon: '/favicon.ico',
   },
-  themeColor: 'black',
+  themeColor: 'white',
   // robots
 }
 
