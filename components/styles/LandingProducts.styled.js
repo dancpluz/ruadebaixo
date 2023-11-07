@@ -28,7 +28,7 @@ export const ButtonLink = styled(Link)`
   margin-left: auto;
   margin-top: 50px;
   height: 60px;
-  width: 250px;
+  width: 300px;
   display: flex;
   background-color: ${({theme}) => theme.colors.light};
   color: ${({theme}) => theme.colors.dark};

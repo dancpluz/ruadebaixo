@@ -7,6 +7,9 @@ import { checkMaintenanceMode } from '@/lib/config';
 export const metadata = {
   title: {
     absolute: 'Rua de Baixo',
+  },
+  alternates: {
+    canonical: '/',
   }
 }
 

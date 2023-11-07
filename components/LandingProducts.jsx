@@ -12,8 +12,8 @@ export default async function LandingProducts() {
       {products.map((product) => <Card key={`${product.slug.current}`} product={product} />)}
       </Flexbox>
       <ButtonLink href={'/produtos'}>
-        <Text>VEJA MAIS</Text>
-        <Arrow src={'/assets/icons/arrow.svg'} width={36} height={36} alt={'Ver Mais>'}/>
+        <Text>MAIS PRODUTOS</Text>
+        <Arrow src={'/assets/icons/arrow.svg'} width={36} height={36} alt={'Ícone de Seta para direita'}/>
       </ButtonLink>
     </Container>
   )

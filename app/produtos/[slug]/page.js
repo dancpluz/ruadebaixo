@@ -7,26 +7,35 @@ import ProductImages from '@/components/ProductImages';
 import ProductInfo, { MeasureLink } from '@/components/ProductInfo';
 //import OrderedBadge from '@/components/OrderedBadge';
 import Maintenance from '@/components/Maintenance';
-import { notFound } from 'next/navigation';
+//import { notFound } from 'next/navigation';
 import BackButton from '@/components/BackButton';
+import { redirect } from 'next/navigation';
+
 
 export async function generateMetadata({ params: { slug }}) {
   const product = await fetchMetadata(slug);
+  // Se o produto não for achado, erro 404
   if (!product) {
-    notFound();
+    redirect('/404')
   }
+
   const { name, images, type } = product;
 
   return {
     title: `${type} ${name}`,
     description: `Compre ${type} ${name} aqui na Rua de Baixo. Confira!`,
+    keywords: [`${type}`, `${name}`,`${type} ${name} barata`,`${type} ${name} em promoção`,`${type} ${name} com desconto`,`${type} ${name} usada`,`${type} ${name} nova`],
     openGraph: {
       title: `${type} ${name}`,
       description: `Compre ${type} ${name} aqui na Rua de Baixo. Confira!`,
       images: images.reverse(),
     },
+    alternates: {
+      canonical: `/produtos/${slug}`,
+    },
   }
 }
+
 
 export async function generateStaticParams() {
   const slugs = await fetchStaticParams();

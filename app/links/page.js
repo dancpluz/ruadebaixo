@@ -14,6 +14,9 @@ export const metadata = {
   openGraph: {
     description: 'Fique por dentro de tudo que acontece na Rua de Baixo',
   },
+  alternates: {
+      canonical: '/links',
+  },
 }
 
 export const revalidate = 60;
