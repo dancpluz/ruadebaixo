@@ -6,26 +6,17 @@ import Card from '@/components/Card';
 import { useState } from 'react';
 import { HamburgerIcon} from '@/components/Header';
 import { SkeletonStyled } from '@/components/styles/OtherStyles.styled';
-
-// export const Container = styled.div`
-//   position: relative;
-//   display: flex;
-//   flex-direction: column;
-//   padding: 130px 200px;
-//   h1 {
-//     text-align: center;
-//   }
-//   gap: 32px;
-// `;
+import LoadMore from '@/components/LoadMore';
 
 const Wrapper = styled.div`
+  position: relative;
   display: flex;
   //flex-wrap: wrap;
   align-items: flex-start;
   gap: 32px;
 `;
 
-const ProductsDiv = styled.div`
+export const ProductsDiv = styled.div`
   display: ${props => props.show ? 'flex' : 'none'};
   flex-wrap: wrap;
   justify-content: center;
@@ -52,27 +43,29 @@ const HamburgerContainer = styled.div`
   }
 `;
 
-export default function Catalog({ products, options }) {
-  const qty = products.length;
+export default function Catalog({ products,count,options,searchParams }) {
   const [showFilterBar,setShowFilterBar] = useState(true);
 
   return (
-    <Wrapper>
+    <>
       <HamburgerContainer>
-        <HamburgerIcon onClick={() => setShowFilterBar((current) => !current)} src={'assets/icons/filter.svg'} width={36} height={36} alt='Mostrar filtros' />
-      </HamburgerContainer>
-      <FilterBar show={showFilterBar} options={options} />
-      <ProductsDiv show={showFilterBar} qty={qty}>
-        <TopDiv>
-          <span>{`${qty !== 0 ? qty : 'Nenhum'} ${qty > 1 ? 'encontrados' : 'encontrado'}`}</span>
-          {/* Select Order */}
-        </TopDiv>
-        {products ? products.map((product) => (
-            <Card key={`${product.slug.current}`} product={product} />
-          ))
-          : <SkeletonStyled variant="rectangular" fill />
-        }
-      </ProductsDiv>
-    </Wrapper>
+          <HamburgerIcon onClick={() => setShowFilterBar((current) => !current)} src={'assets/icons/filter.svg'} width={36} height={36} alt='Mostrar filtros' />
+        </HamburgerContainer>
+      <Wrapper>
+        <FilterBar show={showFilterBar} options={options} />
+        <ProductsDiv show={showFilterBar}>
+          <TopDiv>
+            <span>{`${count !== 0 ? count : 'Nenhum'} ${count > 1 ? 'encontrados' : 'encontrado'}`}</span>
+            {/* Select Order */}
+          </TopDiv>
+          {products ? products.map((product) => (
+              <Card key={`${product.slug.current}`} product={product} />
+            ))
+            : <SkeletonStyled variant="rectangular" fill />
+          }
+          <LoadMore searchParams={searchParams} count={count} />
+        </ProductsDiv>
+      </Wrapper>
+    </>
   )
 }

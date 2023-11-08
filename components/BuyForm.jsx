@@ -122,14 +122,17 @@ const StepTitle = styled.div`
 
 const Arrow = styled(Image)`
   display: ${props => props.disabled && 'none'};
+  transform: ${props => props.reverse && 'rotate(180deg)'};
 `;
 
 const StyledAlert = styled(Alert)`
-  color: ${({ theme }) => theme.colors.light};
-  background: ${({ theme }) => theme.colors.dark};
+  color: ${({ theme }) => theme.colors.dark};
+  background: ${({ theme }) => theme.colors.light};
   font-family: 'Clash Display', sans-serif;
+  border: solid 1px ${({ theme }) => theme.colors.dark};
   border-radius: 0;
   font-size: 1.2rem;
+  font-weight: 400;
   .MuiAlert-icon {
     font-size: 1.7rem;
     align-items: center;
@@ -325,6 +328,7 @@ export default function BuyForm() {
                 <StepTitle>
                   <h2>Dados do Pedido</h2>
                   <Arrow src={'assets/icons/arrow.svg'} width={36} height={36} alt={'Voltar'} disabled={activeStep !== 1} onClick={handleBack}/>
+                  <Arrow src={'assets/icons/arrow.svg'} width={36} height={36} alt={'Próxima'} disabled={activeStep !== 0} reverse/>
                 </StepTitle>
               </StepLabel>
               <StepContent>
@@ -409,6 +413,7 @@ export default function BuyForm() {
               <StepTitle>
                 <h2>Pagamento</h2>
                 <Arrow src={'assets/icons/arrow.svg'} width={36} height={36} alt={'Voltar'} disabled={activeStep !== 2} onClick={handleBack}/>
+                <Arrow src={'assets/icons/arrow.svg'} width={36} height={36} alt={'Próxima'} disabled={activeStep !== 1} reverse/>
               </StepTitle>
             </StepLabel>
             <StepContent>

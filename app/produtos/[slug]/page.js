@@ -45,7 +45,7 @@ export async function generateStaticParams() {
 
 export const revalidate = 60;
 
-export const dynamic = 'force-dynamic';
+//export const dynamic = 'force-dynamic';
 
 export default async function ProdutoPage({ params: { slug } }) {
   if (await checkMaintenanceMode()) {
@@ -60,11 +60,11 @@ export default async function ProdutoPage({ params: { slug } }) {
       <BackButton />
       <ProductDiv>
         <TopDiv>
-          <ProductImages tags={tag} images={images} name={slug} />
+          <ProductImages tag={tag} type={type} images={images} name={slug} />
         </TopDiv>
         <MiddleDiv>
           {/* {ordered && <OrderedBadge />} */}
-          <Tag tags={[quality, drop]} /> 
+          <Tag tags={[{value: quality, type: 'qualidade'}, drop ? {value: drop, type: 'drop'} : '']} />
           <TitleDiv>
             <h1>{type} {name}</h1>
             {discount ? 
@@ -92,7 +92,7 @@ export default async function ProdutoPage({ params: { slug } }) {
                   <h2>Tamanho</h2>
                   <span>Na etiqueta</span>
                 </div>
-                <Tag tags={[size]} isSize/>
+                <Tag tags={[{ value: size,type: 'tamanho' }]} isSize />
               </SizeWrapper>
               {measures && <MeasureLink />}
             </SizeDiv>

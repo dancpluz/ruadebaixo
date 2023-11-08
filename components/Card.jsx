@@ -9,6 +9,7 @@ import { StripDiv } from './styles/Strip.styled';
 import { useState } from 'react';
 import styled from 'styled-components';
 import { useStateContext } from '@/context/StateContext';
+import { useRouter } from 'next/navigation';
 
 const CardDiv = styled.div`
   position: relative;
@@ -134,7 +135,7 @@ const SoldDiv = styled.div`
 
 export default function Card({ product: { slug,images,name,price,discount,type,size,drop,tag,sold } }) {
   const [isHovering,setIsHovering] = useState(false);
-  const { router } = useStateContext();
+  const router = useRouter();
 
   function onMouseEnter() {
     setIsHovering(true);
@@ -145,11 +146,11 @@ export default function Card({ product: { slug,images,name,price,discount,type,s
   }
 
   if (sold) { return (
-    <SoldDiv onClick={() => router.push(`/produtos/${slug.current}`)}>
+    <SoldDiv>
       <Strip text={"VENDIDO - "} />
       <ImageFrame>
-        <Tag tags={[type,drop]} type={'top'} />
-        <Tag tags={tag} type={'bottom'} /> 
+        <Tag tags={[{ value: type,type: 'tipo' },drop ? { value: drop,type: 'drop' } : '']} position={'top'} />
+        <Tag tags={tag ? [{ value: size,type: 'tamanho' },...tag.map((t) => ({ value: t,type: 'categoria' }))] : [{ value: size,type: 'tamanho' }]} position={'bottom'} />
         <CardImage 
           alt={`${type}-${name}-Vendido`}
           src={images[0].url}
@@ -157,19 +158,20 @@ export default function Card({ product: { slug,images,name,price,discount,type,s
           width={600}
         />
       </ImageFrame>
-      <Caption>
+      <Caption onClick={() => router.push(`/produtos/${slug.current}`)}>
         <Title>{name}</Title>
       </Caption>
     </SoldDiv>
   )}
 
   return (
-    <CardDiv onClick={() => router.push(`/produtos/${slug.current}`)} >
+    <CardDiv>
       <ImageFrame>
-        <Tag tags={[type, drop]} type={'top'} />
-        <Tag tags={tag ? [size, ...tag] : [size]} type={'bottom'} />
+        <Tag tags={[{ value: type,type: 'tipo' }, drop ? { value: drop,type: 'drop' } : '']} position={'top'} />
+        <Tag tags={tag ? [{value: size, type: 'tamanho'}, ...tag.map((t) => ({value: t, type: 'categoria'}))] : [{value: size, type: 'tamanho'}]} position={'bottom'} />
         {/* {ordered && <OrderedBadge />} */}
-        <CardImage
+        <CardImage 
+          onClick={() => router.push(`/produtos/${slug.current}`)}
           onMouseEnter={onMouseEnter}
           onMouseLeave={onMouseLeave}
           fade={isHovering ? 1 : 0}
@@ -179,6 +181,7 @@ export default function Card({ product: { slug,images,name,price,discount,type,s
           width={600}
         />
         <CardImage
+          onClick={() => router.push(`/produtos/${slug.current}`)}
           onMouseEnter={onMouseEnter}
           onMouseLeave={onMouseLeave}
           fade={isHovering ? 0 : 1}
@@ -188,7 +191,7 @@ export default function Card({ product: { slug,images,name,price,discount,type,s
           width={600}
         />
       </ImageFrame>
-      <Caption>
+      <Caption onClick={() => router.push(`/produtos/${slug.current}`)}>
         <Title>{name}</Title>
         {discount == 0 ? 
           <h4>R${price}</h4> :

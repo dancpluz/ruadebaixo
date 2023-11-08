@@ -3,17 +3,17 @@ import Chip from '@mui/material/Chip';
 
 // Tipos: 'top' | 'bottom' | undefined
 
-export default function Tag({ tags, type, isSize }) {
+export default function Tag({ tags, position, isSize }) {
   return (
-    <TagDiv type={type} isSize={isSize}>
+    <TagDiv position={position} isSize={isSize}>
       {tags?.map((tag) =>
         ( tag &&
         <Chip
-          key={'Categoria-'+ tag}
-          label={tag}
-          // component='a'
-          // href={`/produtos?${type == 'size' ? 'size' : 'type'}`}
-          // clickable
+          key={'Categoria-'+ tag.value}
+          label={tag.value}
+          component='a'
+          href={`/produtos?${new URLSearchParams({[tag.type]: tag.value}).toString()}`}
+          clickable
         />
         )
       )}
