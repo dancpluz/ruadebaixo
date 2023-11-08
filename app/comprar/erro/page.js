@@ -3,6 +3,10 @@ import { CenterScreen } from '@/components/styles/OtherStyles.styled';
 export const metadata = {
   title: 'Erro',
   description: 'Infelizmente ocorreu algum erro inesperado',
+  robots: {
+    index: false,
+    follow: false,
+  },
 }
 
 export default function ErroPage() {

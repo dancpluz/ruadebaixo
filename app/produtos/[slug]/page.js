@@ -11,7 +11,6 @@ import Maintenance from '@/components/Maintenance';
 import BackButton from '@/components/BackButton';
 import { redirect } from 'next/navigation';
 
-
 export async function generateMetadata({ params: { slug }}) {
   const product = await fetchMetadata(slug);
   // Se o produto não for achado, erro 404
@@ -23,15 +22,25 @@ export async function generateMetadata({ params: { slug }}) {
 
   return {
     title: `${type} ${name}`,
-    description: `Compre ${type} ${name} aqui na Rua de Baixo. Confira!`,
+    description: `Bem-vindo à sua porta de entrada para o estilo na Rua de Baixo! Explore esta ${type} única, cuidadosamente selecionada, que redefine o conceito de moda urbana. Cada detalhe da ${name} conta uma história, desde o design inovador até a autenticidade da peça.`,
     keywords: [`${type}`, `${name}`,`${type} ${name} barata`,`${type} ${name} em promoção`,`${type} ${name} com desconto`,`${type} ${name} usada`,`${type} ${name} nova`],
     openGraph: {
       title: `${type} ${name}`,
-      description: `Compre ${type} ${name} aqui na Rua de Baixo. Confira!`,
+      description: `Faça sua compra de ${type} ${name} aqui na Rua de Baixo. Confira!`,
       images: images.reverse(),
     },
     alternates: {
       canonical: `/produtos/${slug}`,
+    },
+    robots: {
+      index: true,
+      follow: false,
+      nocache: true,
+      googleBot: {
+        index: true,
+        follow: false,
+        noimageindex: false,
+        },
     },
   }
 }

@@ -6,6 +6,10 @@ export const metadata = {
   alternates: {
     canonical: '/comprar',
   },
+  robots: {
+    index: false,
+    follow: false,
+  },
 }
 
 export default function Home() {

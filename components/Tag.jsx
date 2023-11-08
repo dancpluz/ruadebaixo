@@ -1,7 +1,7 @@
 import { TagDiv } from './styles/Tag.styled';
 import Chip from '@mui/material/Chip';
 
-// Tipos: 'top' | 'bottom' | undefined
+// poition: 'top' | 'bottom' | undefined
 
 export default function Tag({ tags, position, isSize }) {
   return (
