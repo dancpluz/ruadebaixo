@@ -5,7 +5,7 @@ import Maintenance from "@/components/Maintenance";
 import { checkMaintenanceMode } from '@/lib/config';
 
 export const metadata = {
-  title: 'Rua de Baixo: Brechó Streetwear com Estética Autêntica',
+  title: 'Rua de Baixo - Brechó Streetwear com Estética Autêntica',
   alternates: {
     canonical: '/',
   },

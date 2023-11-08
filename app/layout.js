@@ -28,7 +28,6 @@ export const metadata = {
     icon: '/favicon.ico',
   },
   themeColor: 'white',
-  // robots
 }
 
 export default function RootLayout({ children }) {
@@ -36,7 +35,6 @@ export default function RootLayout({ children }) {
     <StateContext>
       <html lang="pt-BR">
         <StyledComponentsRegistry>
-
           <body className={clash.className}>
             <FacebookPixel />
             <Header />
