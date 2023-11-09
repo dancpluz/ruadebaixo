@@ -1,6 +1,7 @@
 'use client'
 
 import { ThemeProvider,createGlobalStyle } from 'styled-components';
+import { StyledEngineProvider } from '@mui/material/styles';
 
 const theme = {
   colors: {
@@ -158,9 +159,11 @@ const GlobalStyle = createGlobalStyle`
 
 export default function GlobalStyles({ children }) {
   return (
-    <ThemeProvider theme={theme}>
-      <GlobalStyle />
-      {children}
-    </ThemeProvider>
+    <StyledEngineProvider injectFirst>
+      <ThemeProvider theme={theme}>
+        <GlobalStyle />
+        {children}
+      </ThemeProvider>
+    </StyledEngineProvider>
   )
 }

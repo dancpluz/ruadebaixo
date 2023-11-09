@@ -5,17 +5,23 @@ import Maintenance from "@/components/Maintenance";
 import { checkMaintenanceMode } from '@/lib/config';
 
 export const metadata = {
-  title: {
-    absolute: 'Rua de Baixo',
-  },
+  title: 'Rua de Baixo - Brechó Streetwear com Estética Autêntica',
   alternates: {
     canonical: '/',
-  }
+  },
+  robots: {
+    index: true,
+    follow: true,
+    nocache: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      noimageindex: false,
+    },
+  },
 }
 
 export const revalidate = 60;
-
-export const dynamic = 'force-dynamic';
 
 export default async function Home() {
   

@@ -1,4 +1,4 @@
-export const deliveryLocations = [{ local: 'Plano (Asa Norte, Asa Sul, Cruzeiro, Sudoeste)',tax: 4.50 },{ local: 'Guará I',tax: 4.50 },{ local: 'Guará II',tax: 4.50 },{ local: 'Taguatinga',tax: 5.50 },{ local: 'Núcleo Bandeirante',tax: 5.50 },{ local: 'Vicente Pires',tax: 7.50 },{ local: 'Candangolândia',tax: 7.50 },{ local: 'Park Way',tax: 10 },{ local: 'Arniqueiras',tax: 7.50 },{ local: 'Lago Sul',tax: 7.50 },{ local: 'Paranoá',tax: 4.50 },{ local: 'Itapoã',tax: 4.50 },{ local: 'Lago Norte',tax: 5.50},{ local: 'Riacho Fundo 1',tax: 4.50}]
+export const deliveryLocations = [{ local: 'Plano (Asa Norte, Asa Sul, Cruzeiro, Sudoeste)',tax: 4 },{ local: 'Guará I',tax: 4 },{ local: 'Guará II',tax: 4 },{ local: 'Taguatinga',tax: 6 },{ local: 'Núcleo Bandeirante',tax: 5 },{ local: 'Vicente Pires',tax: 6 },{ local: 'Candangolândia',tax: 5.50 },{ local: 'Park Way',tax: 7 },{ local: 'Arniqueiras',tax: 7 },{ local: 'Lago Sul',tax: 8 },{ local: 'Paranoá',tax: 4 },{ local: 'Itapoã',tax: 4.50 },{ local: 'Lago Norte',tax: 6},{ local: 'Riacho Fundo 1',tax: 6}]
 
 export const pickupLocations = ['UnB','Rodoviária','Guará II','Asa Norte','Paranoá']
 

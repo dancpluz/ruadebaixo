@@ -11,7 +11,6 @@ import Maintenance from '@/components/Maintenance';
 import BackButton from '@/components/BackButton';
 import { redirect } from 'next/navigation';
 
-
 export async function generateMetadata({ params: { slug }}) {
   const product = await fetchMetadata(slug);
   // Se o produto não for achado, erro 404
@@ -23,15 +22,25 @@ export async function generateMetadata({ params: { slug }}) {
 
   return {
     title: `${type} ${name}`,
-    description: `Compre ${type} ${name} aqui na Rua de Baixo. Confira!`,
+    description: `Bem-vindo à sua porta de entrada para o estilo na Rua de Baixo! Explore esta ${type} única, cuidadosamente selecionada, que redefine o conceito de moda urbana. Cada detalhe da ${name} conta uma história, desde o design inovador até a autenticidade da peça.`,
     keywords: [`${type}`, `${name}`,`${type} ${name} barata`,`${type} ${name} em promoção`,`${type} ${name} com desconto`,`${type} ${name} usada`,`${type} ${name} nova`],
     openGraph: {
       title: `${type} ${name}`,
-      description: `Compre ${type} ${name} aqui na Rua de Baixo. Confira!`,
+      description: `Faça sua compra de ${type} ${name} aqui na Rua de Baixo. Confira!`,
       images: images.reverse(),
     },
     alternates: {
       canonical: `/produtos/${slug}`,
+    },
+    robots: {
+      index: true,
+      follow: false,
+      nocache: true,
+      googleBot: {
+        index: true,
+        follow: false,
+        noimageindex: false,
+        },
     },
   }
 }
@@ -45,7 +54,7 @@ export async function generateStaticParams() {
 
 export const revalidate = 60;
 
-export const dynamic = 'force-dynamic';
+//export const dynamic = 'force-dynamic';
 
 export default async function ProdutoPage({ params: { slug } }) {
   if (await checkMaintenanceMode()) {
@@ -60,11 +69,11 @@ export default async function ProdutoPage({ params: { slug } }) {
       <BackButton />
       <ProductDiv>
         <TopDiv>
-          <ProductImages tags={tag} images={images} name={slug} />
+          <ProductImages tag={tag} type={type} images={images} name={slug} />
         </TopDiv>
         <MiddleDiv>
           {/* {ordered && <OrderedBadge />} */}
-          <Tag tags={[quality, drop]} /> 
+          <Tag tags={[{value: quality, type: 'qualidade'}, drop ? {value: drop, type: 'drop'} : '']} />
           <TitleDiv>
             <h1>{type} {name}</h1>
             {discount ? 
@@ -92,7 +101,7 @@ export default async function ProdutoPage({ params: { slug } }) {
                   <h2>Tamanho</h2>
                   <span>Na etiqueta</span>
                 </div>
-                <Tag tags={[size]} isSize/>
+                <Tag tags={[{ value: size,type: 'tamanho' }]} isSize />
               </SizeWrapper>
               {measures && <MeasureLink />}
             </SizeDiv>

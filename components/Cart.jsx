@@ -163,6 +163,13 @@ export default function Cart() {
     setIsVisible(false);
   };
 
+  const handleBuy = () => {
+    setIsVisible(false);
+    if (cartItems.length > 0) {
+      router.push('/comprar');
+    }
+  };
+
   useEffect(() => {
     if (!isVisible) {
       setTimeout(() => {
@@ -208,7 +215,7 @@ export default function Cart() {
               <Button onClick={handleClose}>
                 CONTINUAR COMPRANDO
               </Button>
-              <Button primary onClick={() => {setIsVisible(false); router.push('/comprar');}}>
+              <Button primary onClick={handleBuy}>
                 FINALIZAR COMPRA
               </Button>
             </ButtonDiv>

@@ -10,18 +10,20 @@ import { fetchLinks } from '@/lib/api'
 
 export const metadata = {
   title: 'Links',
-  description: 'Links para as redes sociais da Rua de Baixo',
+  description: 'Conecte-se conosco além das fronteiras da Rua de Baixo! Aqui, você encontrará todos os nossos pontos de contato online. Siga-nos nas redes sociais para ficar por dentro das últimas tendências de moda urbana, atualizações de produtos exclusivos e inspiração de estilo de rua. Junte-se à nossa comunidade e faça parte do movimento autêntico da moda. Além das redes sociais, explore nossos parceiros, blogs de moda e projetos colaborativos. A jornada na Rua de Baixo vai além das peças de roupa - é um estilo de vida.',
   openGraph: {
     description: 'Fique por dentro de tudo que acontece na Rua de Baixo',
   },
   alternates: {
       canonical: '/links',
   },
+  robots: {
+    index: false,
+    follow: false,
+  },
 }
 
 export const revalidate = 60;
-
-export const dynamic = 'force-dynamic';
 
 export default async function Links() {
   const links = await fetchLinks()

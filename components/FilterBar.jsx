@@ -9,6 +9,7 @@ import Link from 'next/link';
 import TagRemovable from './TagRemovable';
 import Accordion from './Accordion';
 import { useSearchParams } from 'next/navigation';
+import { StyledAlert } from '@/components/BuyForm'
 
 const Container = styled.div`
   position: sticky;
@@ -18,7 +19,7 @@ const Container = styled.div`
   //max-height: 90vh;
   //height: 100%;
   overflow-x: hidden;
-  overflow-y: scroll;
+  overflow-y: auto;
   .MuiAccordion-root{
     //border: solid 2px red;
     width: 100%;
@@ -165,6 +166,9 @@ export default function FilterBar({ show, options: { productTypes,productSizes, 
           }
         </FilterDiv>
       </Accordion> */}
+      <StyledAlert variant="filled" severity="info">
+        R$5 de Desconto no PIX
+      </StyledAlert>
       <TagRemovable searchParams={searchParams} selectedTags={selectedTags} />
     </Container>
   )
