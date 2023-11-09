@@ -4,6 +4,7 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import StyledComponentsRegistry from '@/lib/registry';
 import FacebookPixel from '@/components/FacebookPixel';
+import GlobalStyles from '@/components/styles/GlobalStyles.styled';
 
 const clash = localFont({ src: '../public/assets/fonts/ClashDisplay-Variable.ttf' })
 
@@ -35,12 +36,14 @@ export default function RootLayout({ children }) {
     <StateContext>
       <html lang="pt-BR">
         <StyledComponentsRegistry>
-          <body className={clash.className}>
-            <FacebookPixel />
-            <Header />
-            {children}
-            <Footer />
-          </body>
+          <GlobalStyles>
+            <body className={clash.className}>
+              <FacebookPixel />
+              <Header />
+              {children}
+              <Footer />
+            </body>
+          </GlobalStyles>
         </StyledComponentsRegistry>
       </html>
     </StateContext>

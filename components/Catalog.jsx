@@ -52,6 +52,7 @@ export default function Catalog({ products,count,options,searchParams }) {
           <HamburgerIcon onClick={() => setShowFilterBar((current) => !current)} src={'assets/icons/filter.svg'} width={36} height={36} alt='Mostrar filtros' />
         </HamburgerContainer>
       <Wrapper>
+        
         <FilterBar show={showFilterBar} options={options} />
         <ProductsDiv show={showFilterBar}>
           <TopDiv>

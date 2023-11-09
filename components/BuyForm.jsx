@@ -125,7 +125,7 @@ const Arrow = styled(Image)`
   transform: ${props => props.reverse && 'rotate(180deg)'};
 `;
 
-const StyledAlert = styled(Alert)`
+export const StyledAlert = styled(Alert)`
   color: ${({ theme }) => theme.colors.dark};
   background: ${({ theme }) => theme.colors.light};
   font-family: 'Clash Display', sans-serif;
@@ -248,7 +248,6 @@ export default function BuyForm() {
         order,
       }
 
-      console.log(json)
       await sendOrderToServer(json);
       await cartItems.map((item) => updateOrderedProduct(item._id))
       onBuy();
