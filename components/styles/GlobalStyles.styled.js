@@ -119,8 +119,8 @@ const GlobalStyle = createGlobalStyle`
       transition: 120ms transform ease-in-out;
       box-shadow: inset 1rem 1rem ${({ theme }) => theme.colors.dark};
     }
-    :checked::before {
-    transform: scale(1);
+    &:checked:before {
+      transform: scale(1) !important;
     }
   }
   h1, h2, h3, h4 {
@@ -162,7 +162,7 @@ export default function GlobalStyles({ children }) {
     <StyledEngineProvider injectFirst>
       <ThemeProvider theme={theme}>
         <GlobalStyle />
-        {children}
+          {children}
       </ThemeProvider>
     </StyledEngineProvider>
   )
