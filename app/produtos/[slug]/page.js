@@ -18,16 +18,16 @@ export async function generateMetadata({ params: { slug }}) {
     redirect('/404')
   }
 
-  const { name, images, type } = product;
+  const { name, image, price, discount, type } = product;
 
   return {
     title: `${type} ${name}`,
-    description: `Bem-vindo à sua porta de entrada para o estilo na Rua de Baixo! Explore esta ${type} única, cuidadosamente selecionada, que redefine o conceito de moda urbana. Cada detalhe da ${name} conta uma história, desde o design inovador até a autenticidade da peça.`,
+    description: `Bem-vindo à sua porta de entrada para o estilo na Rua de Baixo! Explore esta ${type} única, cuidadosamente selecionada, que redefine o conceito de moda urbana. Adquira ${type} ${name} já pelo preço baixo de ${price - discount}.`,
     keywords: [`${type}`, `${name}`,`${type} ${name} barata`,`${type} ${name} em promoção`,`${type} ${name} com desconto`,`${type} ${name} usada`,`${type} ${name} nova`],
     openGraph: {
       title: `${type} ${name}`,
-      description: `Faça sua compra de ${type} ${name} aqui na Rua de Baixo. Confira!`,
-      images: images.reverse(),
+      description: `Adquira o(a) ${type} ${name} já pelo preço baixo de ${price - discount}!`,
+      images: image,
     },
     alternates: {
       canonical: `/produtos/${slug}`,
