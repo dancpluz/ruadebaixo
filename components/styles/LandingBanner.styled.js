@@ -57,7 +57,7 @@ export const TopDiv = styled.div`
 
 export const LogoDiv = styled.div`
   margin-right: 120px;
-  width: 65vw;
+  width: 55vw;
   @media ${({ theme }) => theme.sizes.small} {
     width: 100%;
     margin: auto;
@@ -103,9 +103,9 @@ export const Caption = styled.div`
 
 export const TopImage = styled.div`
   position: relative;
-  width: 35vw;
+  width: 45vw;
   height: auto;
-  aspect-ratio: 1/1;
+  aspect-ratio: 3/2;
 
   @media ${({ theme }) => theme.sizes.small} {
     width: 100%;
