@@ -8,9 +8,9 @@ import { checkMaintenanceMode } from '@/lib/config';
 export const metadata = {
   title: 'Produtos',
   description: 'Bem-vindo à nossa galeria de estilo na Rua de Baixo! Cada peça aqui conta uma história, uma jornada pela moda urbana autêntica e inovadora. Navegue por nossa seleção cuidadosamente curada de roupas vintage e streetwear contemporâneo. Cada item é escolhido a dedo, refletindo nossa paixão pelo estilo das ruas. Desde roupas clássicas até os lançamentos mais recentes, nossa coleção oferece uma gama diversificada para todos os gostos. Encontre sua próxima peça favorita e faça parte do movimento urbano com Rua de Baixo. Vista-se com personalidade, vista-se com história.',
-  openGraph: {
-    description: 'Se liga nas peças mais F**** do Brasil',
-  },
+  // openGraph: {
+  //   description: 'Se liga nas peças mais F**** do Brasil',
+  // },
   alternates: {
     canonical: '/produtos',
   },

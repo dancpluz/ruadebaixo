@@ -29,7 +29,7 @@ export default async function LandingBanner() {
           />
         </TopImage>
       </TopDiv>
-      <h2>ESSA P*RRA É <u>TUKO</u></h2>
+      <h2>Basta uma faísca...</h2>
       <HeroBanner>
         <LeftImage>
           <Image

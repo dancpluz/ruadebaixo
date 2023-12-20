@@ -107,7 +107,7 @@ export default function FilterBar({ show, options: { productTypes,productSizes, 
       <Accordion title={'Tipo'}>
         <FilterDiv>
           {productTypes.map((item, n) => (
-            <StyledLink key={n + item} selected={selectedTags.tipo?.includes(item)} href={`?${createQueryString('tipo', item)}`}>
+            <StyledLink key={n + item} selected={selectedTags.tipo?.includes(item)} href={`/produtos?${createQueryString('tipo', item)}`}>
               <FilterText>
                 {item}
               </FilterText>
@@ -118,7 +118,7 @@ export default function FilterBar({ show, options: { productTypes,productSizes, 
       <Accordion title={'Tamanho'}>
         <FilterDiv>
           {productSizes.map((item,n) => (
-            <StyledLink key={n + item} selected={selectedTags.tamanho?.includes(item)} href={`?${createQueryString('tamanho',item)}`}>
+            <StyledLink key={n + item} selected={selectedTags.tamanho?.includes(item)} href={`/produtos?${createQueryString('tamanho',item)}`}>
               <FilterText>
                 {item}
               </FilterText>
@@ -129,7 +129,7 @@ export default function FilterBar({ show, options: { productTypes,productSizes, 
       <Accordion title={'Categoria'}>
         <FilterDiv>
           {productCategory.map((item,n) => (
-            <StyledLink key={n + item} selected={selectedTags.categoria?.includes(item)} href={`?${createQueryString('categoria', item)}`}>
+            <StyledLink key={n + item} selected={selectedTags.categoria?.includes(item)} href={`/produtos?${createQueryString('categoria', item)}`}>
               <FilterText>
                 {item}
               </FilterText>
@@ -140,7 +140,7 @@ export default function FilterBar({ show, options: { productTypes,productSizes, 
       <Accordion title={'Qualidade'}>
         <FilterDiv>
           {productQualities.map((item,n) => (
-            <StyledLink key={n + item} selected={selectedTags.qualidade?.includes(item)} href={`?${createQueryString('qualidade', item)}`}>
+            <StyledLink key={n + item} selected={selectedTags.qualidade?.includes(item)} href={`/produtos?${createQueryString('qualidade', item)}`}>
               <FilterText>
                 {item}
               </FilterText>
@@ -151,7 +151,7 @@ export default function FilterBar({ show, options: { productTypes,productSizes, 
       <Accordion title={'Drop'}>
         <FilterDiv>
           {productDrops.map((item,n) => (
-            <StyledLink key={n + item} selected={selectedTags.drop?.includes(item)} href={`?${createQueryString('drop', item)}`}>
+            <StyledLink key={n + item} selected={selectedTags.drop?.includes(item)} href={`/produtos?${createQueryString('drop', item)}`}>
               <FilterText>
                 {item}
               </FilterText>
@@ -166,10 +166,11 @@ export default function FilterBar({ show, options: { productTypes,productSizes, 
           }
         </FilterDiv>
       </Accordion> */}
+      <TagRemovable searchParams={searchParams} selectedTags={selectedTags} />
+      <br/>
       <StyledAlert variant="filled" severity="info">
         R$5 de Desconto no PIX
       </StyledAlert>
-      <TagRemovable searchParams={searchParams} selectedTags={selectedTags} />
     </Container>
   )
 }
