@@ -9,7 +9,6 @@ import Link from 'next/link';
 import TagRemovable from './TagRemovable';
 import Accordion from './Accordion';
 import { useSearchParams } from 'next/navigation';
-import { StyledAlert } from '@/components/BuyForm'
 
 const Container = styled.div`
   position: sticky;
@@ -168,9 +167,6 @@ export default function FilterBar({ show, options: { productTypes,productSizes, 
       </Accordion> */}
       <TagRemovable searchParams={searchParams} selectedTags={selectedTags} />
       <br/>
-      <StyledAlert variant="filled" severity="info">
-        R$5 de Desconto no PIX
-      </StyledAlert>
     </Container>
   )
 }

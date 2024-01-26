@@ -3,7 +3,6 @@ export default function robots() {
     rules: {
       userAgent: '*',
       allow: '/',
-      disallow: '/comprar/',
     },
     sitemap: 'https://www.ruadebaixo.com.br/sitemap.xml',
   }

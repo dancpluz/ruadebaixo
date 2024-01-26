@@ -18,7 +18,7 @@ const Error = styled.p`
   text-decoration: underline;
 `;
 
-export default function InputBox({ title, span, errorMessage, children }) {
+export default function InputBox({ title, span, error, children }) {
   return (
     <InputDiv>
       <HeaderDiv>
@@ -26,7 +26,7 @@ export default function InputBox({ title, span, errorMessage, children }) {
           <h3>{title}</h3>
           <span>{span}</span>
         </div>
-        {errorMessage && <Error>{errorMessage.message}</Error>}
+        {error && <Error>{error.message}</Error>}
       </HeaderDiv>
       {children}
     </InputDiv>

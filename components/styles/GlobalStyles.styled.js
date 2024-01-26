@@ -47,6 +47,7 @@ const GlobalStyle = createGlobalStyle`
     font-family: 'Clash Display', sans-serif;
     font-size: 1rem;
     background: ${theme.colors.light};
+    min-width: 0;
 
     &:focus {
       outline: none !important;

@@ -2,6 +2,22 @@ export const deliveryLocations = [{ local: 'Plano (Asa Norte, Asa Sul, Cruzeiro,
 
 export const pickupLocations = ['UnB','Rodoviária','Guará II','Asa Norte','Paranoá']
 
+export const clothesWeight = {
+  'Camiseta': 0.3,
+  'Camisa': 0.3,
+  'Cinto': 0.2,
+  'Polo': 0.3,
+  'Boné': 0.2,
+  'Calça': 0.6,
+  'Shorts': 0.4,
+  'Jaqueta': 0.8,
+  'Suéter': 0.6,
+  'Casaco': 0.6,
+  'Óculos': 0.2,
+  'Shoulder Bag': 0.4,
+  'Tênis': 0.8,
+}
+
 export const questions = [
   { title: "E pra pagar, como faz?",text: "É simples! Aceitamos Pix, Cartão de Crédito e Dinheiro! Mandaremos todas as informações certinho pelo zap. Se quiser pagar no crédito, é só selecionar a opção e preencher todos os dados! No caso do dinheiro, é só falar se vai precisar de troco e faremos a entrega tipo moto boy 😎." },
   { title: "E como eu vou receber a mercadoria?",text: "Você que escolhe! Se você olhar ali em cima tem todas as informações pra retirada ou entrega das peças. Se tiver qualquer outra dúvida a gnt explica tudo no nosso zap ou no insta (@ruadebaixoloja)." },
