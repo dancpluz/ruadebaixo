@@ -489,6 +489,10 @@ export default function BuyForm() {
         <OrderPreview cartItems={cartItems} lastRemovedItem={lastRemovedItem} totalDiscount={totalDiscount} totalPrice={totalPrice} fee={fee} deliveryType={deliveryType} paymentType={paymentType} />
         <StyledStepper activeStep={activeStep} orientation="vertical">
             <Step>
+              <StyledAlert variant="filled" severity="warning">
+                Entregas somente depois do dia 15/02
+              </StyledAlert>
+              <br/>
               <StepLabel onClick={activeStep === 1 ? handleBack : undefined}>
                 <h2>Dados Pessoais</h2>
               </StepLabel>

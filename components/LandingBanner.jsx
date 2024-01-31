@@ -1,10 +1,8 @@
 import logoIcon from '@/public/assets/logonew.svg';
 import { MainContainer, LogoDiv, Logo, TopImage, TopDiv, Caption, LeftImage, RightImage, MiddleImage, HeroBanner } from './styles/LandingBanner.styled';
-import { fetchLandingImages } from '@/lib/api';
 import Image from 'next/image'
 
-export default async function LandingBanner() {
-  const {text, images} = await fetchLandingImages();
+export default async function LandingBanner({ images }) {
 
   return (
     <MainContainer>

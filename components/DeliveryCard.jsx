@@ -2,7 +2,6 @@
 
 import Image from 'next/image';
 import styled from 'styled-components';
-import { useState } from 'react';
 import { formatFloat } from '@/lib/format';
 
 const Card = styled.div`
@@ -21,15 +20,25 @@ const Card = styled.div`
   }
   h3 {
     font-weight: 500;
+    @media ${({ theme }) => theme.sizes.small} {
+      font-size: 1.2rem;
+    }
   }
 
   h2 {
+    @media ${({ theme }) => theme.sizes.small} {
+      font-size: 1.25rem;
+    }
     font-weight: 400;
   }
 `;
 
 const Logo = styled(Image)`
   filter: grayscale(100%);
+  
+  @media ${({ theme }) => theme.sizes.small} {
+    display: none;
+  }
 `;
 
 
