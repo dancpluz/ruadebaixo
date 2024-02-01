@@ -27,7 +27,7 @@ export default async function LandingBanner({ images }) {
           />
         </TopImage>
       </TopDiv>
-      <h2>Basta uma faísca...</h2>
+      <h2>Birosca na Rua de Baixo</h2>
       <HeroBanner>
         <LeftImage>
           <Image
@@ -42,7 +42,7 @@ export default async function LandingBanner({ images }) {
         <MiddleImage>
           <Image
             src={images[2].url}
-            alt='Homem se pendura numa estrutura semelhante a um poste de luz. Ele veste uma camisa azul e um short preto e está de costas para a camera. ' /// aaaaaaaaaaaaaaa -- caio pendurado
+            alt='Homem se pendura numa estrutura semelhante a um poste de luz. Ele veste uma camisa azul e um short preto e está de costas para a camera. '
             fill
             sizes={'(max-width: 400px) 200px, 640px'}
             placeholder={'blur'}
