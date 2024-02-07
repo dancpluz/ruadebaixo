@@ -6,7 +6,7 @@ import { useForm } from 'react-hook-form';
 import InputBox from '@/components/InputBox';
 import { Button } from '@/components/Cart';
 import { useState,useEffect } from 'react';
-import { deliveryLocations,pickupLocations } from '@/sanity/options';
+import { deliveryLocations,pickupLocations,clothesWeight } from '@/sanity/options';
 import OrderPreview from '@/components/OrderPreview';
 import { sendOrderToServer,updateOrderedProduct, checkSoldProduct } from '@/lib/api';
 import { storeFormData,getFormData } from '@/lib/localStorage';
@@ -20,6 +20,7 @@ import Image from 'next/image';
 import Alert from '@mui/material/Alert';
 import CardPayment from '@/components/CardPayment';
 import CircularProgress from '@mui/material/CircularProgress';
+import DeliveryCard from './DeliveryCard';
 
 const Container = styled.div`
   display: flex;
@@ -157,22 +158,94 @@ export const ErrorText = styled.h4`
   width: 100%;
 `;
 
+const CalculateDiv = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  width: 100%;
+  input {
+    flex-grow: 1;
+  }
+  
+  button {
+    background-color: ${({ theme }) => theme.colors.light};
+    color: ${({ theme }) => theme.colors.dark};
+    border: 1px solid ${({ theme }) => theme.colors.dark};
+    height: 42px;
+    min-width: 180px;
+    flex: 1;
+  }
+`;
+
+const AddressDiv = styled.div`
+  display: grid;
+  grid-template-columns: repeat(9, 1fr);
+  row-gap: 8px;
+  column-gap: 8px;
+
+  input:nth-child(1) {
+    grid-column: 1/6;
+  }
+  input:nth-child(2) {
+    grid-column: 6/8;
+  }
+  input:nth-child(3) {
+    grid-column: 8/10;
+  }
+  input:nth-child(4) {
+    grid-column: 1/5;
+  }
+  input:nth-child(5) {
+    grid-column: 5/9;
+  }
+  input:nth-child(6) {
+
+  }
+  @media ${({ theme }) => theme.sizes.medium} {
+    grid-template-rows: 1fr 1fr 1fr;
+    input:nth-child(1) {
+      grid-column: 1/7;
+    }
+    input:nth-child(2) {
+      grid-column: 7/10;
+    }
+    input:nth-child(3) {
+      grid-column: 1/6;
+    }
+    input:nth-child(4) {
+      grid-column: 6/10;
+    }
+    input:nth-child(5) {
+      grid-column: 1/8;
+    }
+    input:nth-child(6) {
+      grid-column: 8/10;
+    }
+  }
+`;
+
 export default function BuyForm() {
   const { totalPrice,totalDiscount, onBuy,cartItems,lastRemovedItem,router } = useStateContext();
   const [deliveryType,setDeliveryType] = useState('Taxa');
-  const [tax,setTax] = useState(null);
+  const [fee,setFee] = useState(null);
   const [paymentType,setPaymentType] = useState(null);
   const [activeStep,setActiveStep] = useState(0);
   const [formError,setFormError] = useState('');
+  const [renderShipping, setRenderShipping] = useState(true);
+  const [shippingOptions, setShippingOptions] = useState([]);
+  const [shippingError, setShippingError] = useState('');
+  const [isSubmiting, setIsSubmiting] = useState(false);
+
+  const { register,handleSubmit,getValues,setValue,trigger,resetField,formState: { errors } } = useForm();
 
   const handleNext = async () => {
     if (activeStep == 0) {
-      if (await trigger(['name','phone'],{ shouldFocus: true })) {
+      if (await trigger(['name','phone','email'],{ shouldFocus: true })) {
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
       }
     }
     else if (activeStep == 1) {
-      if (await trigger(['delivery','payment'],{ shouldFocus: true })) {
+      if (await trigger(['shipping','payment'],{ shouldFocus: true })) {
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
       }
     } 
@@ -182,7 +255,141 @@ export default function BuyForm() {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
-  const { register,handleSubmit,getValues,trigger,formState: { errors } } = useForm();
+  const simulateShipping = async () => {
+    if (await trigger(['shipping.cep'],{ shouldFocus: true })) {
+      resetField('shipping.price');
+      setFee(null);
+      setShippingError('');
+      setRenderShipping(false);
+      
+      const inputCep = document.getElementById('cep').value;
+      fillCepFields(inputCep);
+
+      const simulateInfo = {
+        cepOrigem: "71010959",
+        cepDestino: inputCep,
+        vlrMerc: totalPrice - totalDiscount,
+        pesoMerc: cartItems.reduce((peso, item) => {return peso += clothesWeight[item.type]}, 0),
+        produtos: cartItems.map((item) => {
+          return {
+            peso: clothesWeight[item.type],
+            altura: 7,
+            largura: 30,
+            comprimento: 24,
+            valor: item.price - item.discount,
+            quantidade: 1
+          }
+        }),
+        servicos: ['E','X'],
+      }
+      
+      const simulateKangu = await fetch('/api/simulate', {
+        method: 'POST',
+        body: JSON.stringify(simulateInfo)
+      })
+
+      const options = await simulateKangu.json()
+
+      if (options.error) {
+        setShippingError(options.error.mensagem);
+        setShippingOptions([]);
+        setRenderShipping(true);
+        resetField('shipping.cep');
+        resetField('shipping.price');
+      } else {
+        setShippingOptions(options.filter((option) => option.nf_obrig == "N"));
+        setRenderShipping(true);
+      }
+    }
+  }
+
+  const fillCepFields = async (inputCep) => {
+    const res = await fetch(`https://viacep.com.br/ws/${inputCep}/json/`,{
+        method: 'GET',
+    });
+    
+    const cepInfo = await res.json();
+
+    if (cepInfo.erro) {
+      resetField('shipping.address')
+      resetField('shipping.complement')
+      resetField('shipping.district')
+      resetField('shipping.ciy')
+      resetField('shipping.uf')
+    } else {
+      const { logradouro, complemento, bairro, localidade, uf } = cepInfo;
+      
+      setValue('shipping.address', logradouro, { shouldValidate: true });
+      setValue('shipping.complement', complemento, { shouldValidate: true });
+      setValue('shipping.district', bairro, { shouldValidate: true });
+      setValue('shipping.city', localidade, { shouldValidate: true });
+      setValue('shipping.uf',uf,{ shouldValidate: true });
+    }
+  }
+
+  const sendShipping = async (json) => {
+    const shippingInfo = {
+      pedido: {
+        tipo: "D",
+        vlrMerc: totalPrice - totalDiscount,
+        pesoMerc: cartItems.reduce((peso, item) => {return peso += clothesWeight[item.type]}, 0),
+      },
+      remetente: {
+        nome: "Daniel da Cunha Pereira Luz",
+        endereco: {
+          cnpjCpf: "05749091171",
+          logradouro: "QE 2 Bloco P Área Especial SRIA",
+          numero: "2",
+          complemento: "",
+          bairro: "Guará I",
+          cep: "71010970",
+          cidade: "Brasília",
+          uf: "DF"
+        },
+        email: "contato@ruadebaixo.com.br",
+        celular: "6196492791"
+      },
+      destinatario: {
+        nome: json.name,
+        endereco: {
+          logradouro: json.shipping.address,
+          numero: json.shipping.number,
+          complemento: json.shipping.complement,
+          bairro: json.shipping.district,
+          cep: json.shipping.cep,
+          cidade: json.shipping.city,
+          uf: json.shipping.uf,
+        },
+        email: json.email,
+        celular: json.phone,
+      },
+      produtos: cartItems.map((item) => {
+        return {
+          peso: clothesWeight[item.type],
+          altura: 7,
+          largura: 30,
+          comprimento: 24,
+          produto: cartItems.reduce((string, item, i) => {
+            return cartItems.length != i + 1 ? string += `${item.type} ${item.name}, ` : string += `${item.type} ${item.name}`
+          }, ''),
+          valor: item.price - item.discount,
+          quantidade: 1
+        }
+      }),
+      servicos: ["P"]
+    }
+
+    const postShipping = await fetch('/api/shipping', {
+      method: 'POST',
+      body: JSON.stringify(shippingInfo)
+    })
+
+    const response = await postShipping.json()
+    
+    if (response.error.mensagem) {
+      throw new Error(response.error.mensagem);
+    }
+  }
 
   useEffect(() => {
     document.getElementById('name').focus();
@@ -199,11 +406,20 @@ export default function BuyForm() {
   useEffect(() => {
     const timer = setTimeout(() => {
       setFormError('');
-    }, 800);
+    }, 2000);
     return () => clearTimeout(timer);
-    }, [formError]);
+  }, [formError]);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsSubmiting(false);
+    }, 3000);
+    return () => clearTimeout(timer);
+  }, [isSubmiting]);
+
 
   const onSubmitInfo = async (data) => {
+    setIsSubmiting(true) 
     try {
       if (cartItems.length == 0) {
         throw new Error('Sua caixa está vazia!');
@@ -215,16 +431,17 @@ export default function BuyForm() {
         }
       })
 
-      if (totalPrice - totalDiscount - 5 < 0) {
+      if (totalPrice - totalDiscount < 0) {
         throw new Error('Não é possível concluir essa compra');
       }
       
       storeFormData(data);
-      const total = paymentType === 'pix' ? formatFloat(totalPrice - totalDiscount + tax - 5) : formatFloat(totalPrice - totalDiscount + tax);
+
+      const total = paymentType == 'card' ? formatFloat((totalPrice - totalDiscount + fee)*1.04 + 0.4): formatFloat(totalPrice - totalDiscount + fee);
       
       const order = {
         subtotal: totalPrice - totalDiscount,
-        tax: formatFloat(tax),
+        fee: formatFloat(fee),
         total,
         products: cartItems.map((item) => {
           return {
@@ -236,24 +453,25 @@ export default function BuyForm() {
         })
       }
 
-      // Consertar string para objeto
-      if (deliveryType === 'Entrega') {
-        data.delivery.local = JSON.parse(data.delivery.local).local;
-      }
-
       const json = {
         ...data,
-        delivery: { local: data.delivery.local, type: data.delivery.type},
         phone: data.phone.length > 10 ? data.phone.replace('9','') : data.phone,
         order,
       }
 
       await sendOrderToServer(json);
+
+      if (deliveryType == 'Entrega') {
+        await sendShipping(json);
+      }
+
       await cartItems.map((item) => updateOrderedProduct(item._id))
       onBuy();
       buyer(json.name,json.email,json.phone) // Facebook Pixel Buyer Event for SEO
-      purchase(json.total, cartItems, json.delivery.type); // Facebook Pixel Purchase Event for SEO
+      purchase(json.total, cartItems, json.shipping.type); // Facebook Pixel Purchase Event for SEO
+      console.log(json)
       router.push('/comprar/sucesso');
+      
     }
     catch (e) {
       console.log(e)
@@ -265,18 +483,22 @@ export default function BuyForm() {
     <Container>
       <TitleDiv>
         <h1>Finalizar Compra</h1>
-        <p>É <u>necessário</u> ter um número de celular com <u>Whatsapp</u> para concluir a compra por <u>PIX</u></p>
+        <p>É <u>necessário</u> ter um número de celular com <u>Whatsapp</u> para concluir a compra</p>
       </TitleDiv>
       <Wrapper>
-        <OrderPreview cartItems={cartItems} lastRemovedItem={lastRemovedItem} totalDiscount={totalDiscount} totalPrice={totalPrice} tax={tax} deliveryType={deliveryType} paymentType={paymentType} />
+        <OrderPreview cartItems={cartItems} lastRemovedItem={lastRemovedItem} totalDiscount={totalDiscount} totalPrice={totalPrice} fee={fee} deliveryType={deliveryType} paymentType={paymentType} />
         <StyledStepper activeStep={activeStep} orientation="vertical">
             <Step>
+              <StyledAlert variant="filled" severity="warning">
+                Entregas somente depois do dia 15/02
+              </StyledAlert>
+              <br/>
               <StepLabel onClick={activeStep === 1 ? handleBack : undefined}>
                 <h2>Dados Pessoais</h2>
               </StepLabel>
               <StepContent>
                   <p>Precisamos dessas informações para nos comunicarmos</p>
-                  <InputBox title={'Nome*'} span={'Como devemos te chamar?'} errorMessage={errors.name}>
+                  <InputBox title={'Nome*'} span={'Como devemos te chamar? (Nome completo se optar por entrega)'} error={errors.name}>
                     <input
                       id='name'
                       type='text'
@@ -287,7 +509,7 @@ export default function BuyForm() {
                       })}
                     />
                   </InputBox>
-                  <InputBox title={'Número de Celular*'} span={'O pedido será concluído pelo Whatsapp'} errorMessage={errors.phone}>
+                  <InputBox title={'Número de Celular*'} span={'O pedido será concluído pelo Whatsapp'} error={errors.phone}>
                     <input
                       id='phone'
                       type='tel'
@@ -299,17 +521,18 @@ export default function BuyForm() {
                       })}
                     />
                   </InputBox>
-                  <InputBox title={'Email'} span={'Email para receber notícias e informações do pedido '} errorMessage={errors.email}>
+                  <InputBox title={'Email*'} span={'Email para receber notícias e informações do pedido '} error={errors.email}>
                     <input
                       id='email'
                       type='email'
                       placeholder='ex. ruadebaixoloja@gmail.com'
                       {...register('email', {
+                        required: '(Obrigatório)',
                         maxLength: { value: 30,message: '(Limite de caracteres excedido)' }
                       })}
                     />
                   </InputBox>
-                  <InputBox title={'Instagram'} span={'Pra ficar por dentro da cultura da Rua de Baixo'} errorMessage={errors.insta}>
+                  <InputBox title={'Instagram'} span={'Pra ficar por dentro da cultura da Rua de Baixo'} error={errors.insta}>
                     <input
                       id='insta'
                       type='text'
@@ -331,30 +554,29 @@ export default function BuyForm() {
                 </StepTitle>
               </StepLabel>
               <StepContent>
-                <p>Essas informações são importantes para agilizar a venda</p>
-                <InputBox title={'Forma de Recebimento*'} span={'Vamos até você ou você vem até nós, você decide!'} errorMessage={errors.delivery && errors.delivery.type}>
+                <p>Essas informações são importantes para completar a venda</p>
+                <InputBox title={'Forma de Recebimento*'} span={'Enviamos até você ou você vem até nós, você decide!'} error={errors.shipping && errors.shipping.type}>
                   <DeliveryDiv>
                     <RadioDiv>
                       <input
-                        onClick={() => { setDeliveryType('Entrega'); setTax(null) }}
+                        onClick={() => { setDeliveryType('Entrega'); setFee(null);}}
                         value='Entrega'
                         type='radio'
-                        {...register('delivery.type',{
+                        {...register('shipping.type',{
                           required: '(Obrigatório)'
                         })}
                       />
                       <div>
                         <h4>Entrega</h4>
-                        <span>Sujeito a taxa</span>
+                        <span>Sujeito a Taxa</span>
                       </div>
-                      <span>(2-7 dias)</span>
                     </RadioDiv>
                     <RadioDiv>
                       <input
-                        onClick={() => { setDeliveryType('Retirada'); setTax(0) }}
+                        onClick={() => { setDeliveryType('Retirada'); setFee(0); resetField('shipping.price'); }}
                         value='Retirada'
                         type='radio'
-                        {...register('delivery.type',{
+                        {...register('shipping.type',{
                           required: '(Obrigatório)'
                         })}
                       />
@@ -362,24 +584,12 @@ export default function BuyForm() {
                         <h4>Retirada</h4>
                         <span>Frete Grátis</span>
                       </div>
-                      <span>(4-10 dias)</span>
                     </RadioDiv>
                   </DeliveryDiv>
                 </InputBox>
                 {renderDeliveryForms()}
-                <InputBox title={'Forma de Pagamento*'} span={'Escolha como deseja pagar'} errorMessage={errors.payment && errors.payment}>
+                <InputBox title={'Forma de Pagamento*'} span={'Escolha como deseja pagar'} error={errors.payment && errors.payment}>
                   <DeliveryDiv>
-                    <RadioDiv>
-                      <input
-                        onClick={() => setPaymentType('card')}
-                        type='radio'
-                        value='Cartão de Crédito'
-                        {...register('payment',{
-                          required: '(Obrigatório)'
-                        })}
-                      />
-                      <h4>Cartão de Crédito</h4>
-                    </RadioDiv>
                     <RadioDiv>
                       <input
                         onClick={() => setPaymentType('pix')}
@@ -389,20 +599,25 @@ export default function BuyForm() {
                           required: '(Obrigatório)'
                         })}
                       />
-                      <h4>PIX (-R$5)</h4>
+                      <h4>PIX</h4>
                     </RadioDiv>
                     <RadioDiv>
                       <input
-                        onClick={() => setPaymentType('money')}
+                        onClick={() => setPaymentType('card')}
                         type='radio'
-                        value='Dinheiro físico'
+                        value='Cartão de Crédito'
                         {...register('payment',{
                           required: '(Obrigatório)'
                         })}
                       />
-                      <h4>Dinheiro físico</h4>
+                      <div>
+                        <h4>Cartão de Crédito</h4>
+                        <span>+ R${formatFloat((totalPrice - totalDiscount + fee)*0.04 + 0.4)} de taxa</span>
+                      </div>
                     </RadioDiv>
-                    {renderPaymentAlert()}
+                    {paymentType == 'card' && <StyledAlert variant="filled" severity="warning">
+                      No momento não aceitamos parcelamento
+                    </StyledAlert>}
                   </DeliveryDiv>
                 </InputBox>
               </StepContent>
@@ -429,24 +644,92 @@ export default function BuyForm() {
     switch (deliveryType) {
       case 'Entrega':
         return (
-          <InputBox title={'Local de Entrega*'} span={'Fazemos entrega nesses locais:'} errorMessage={errors.delivery && errors.delivery.local}>
-            <select defaultValue='' {...register('delivery.local',{
-              required: 'Selecione uma opção',
-              onChange: (e) => setTax(JSON.parse(e.target.value).tax)
-            })}>
-              <option value="" disabled>Selecione um local</option>
-              {deliveryLocations.map((location) => {
-                return <option key={location.local} value={JSON.stringify(location)}>{`${location.local} (R$ ${formatFloat(location.tax)})`}</option>
-              })}
-            </select>
-          </InputBox>
+          <>
+            <InputBox title={'Frete*'} span={'Insira o seu CEP para calcularmos o frete'} error={errors.shipping && [errors.shipping.cep, errors.shipping.price].filter((e) => e != undefined)[0]}>
+              <CalculateDiv>
+                <input
+                  id='cep'
+                  type='text'
+                  placeholder='ex. 71060142'
+                  {...register('shipping.cep',{
+                    required: '(Obrigatório)',
+                    minLength: { value: 8,message: '(Formato incorreto: "71060142")' },
+                    maxLength: { value: 8, message: '(Formato incorreto: "71060142")' },
+                  })}
+                />
+                <button onClick={simulateShipping}>
+                  CALCULAR
+                </button>
+              </CalculateDiv>
+              {renderShipping ? shippingOptions.map((option) => {
+              return (
+                <DeliveryCard key={option.transp_nome} delivery={option}>
+                  <input onClick={() => {setFee(option.vlrFrete);}} type='radio' {...register('shipping.price',{
+                    required: '(Escolha uma opção de frete)'
+                  })}  />
+                </DeliveryCard>)
+              }) : <CircularProgress color='inherit' />
+              }
+              {renderShipping && <ErrorText>{shippingError}</ErrorText>}
+            </InputBox>
+            <InputBox title={'Informações de Entrega*'} span={'Precisamos desses dados para enviarmos sua entrega'} error={errors.shipping && [errors.shipping.address,errors.shipping.district,errors.shipping.number,errors.shipping.city,errors.shipping.uf].filter((e) => e != undefined)[0]}>
+              <AddressDiv>
+                <input
+                  id='address'
+                  type='text'
+                  placeholder='Endereço*'
+                  {...register('shipping.address',{
+                    required: '(Preencha o Endereço)',
+                  })}
+                />
+                <input
+                  id='district'
+                  type='text'
+                  placeholder='Bairro*'
+                  {...register('shipping.district',{
+                    required: '(Preencha o Bairro)',
+                  })}
+                />
+                <input
+                  id='number'
+                  type='text'
+                  placeholder='Número*'
+                  {...register('shipping.number',{
+                    required: '(Preencha o Número)',
+                  })}
+                />
+                <input
+                  id='complement'
+                  type='text'
+                  placeholder='Complemento'
+                  {...register('shipping.complement')}
+                />
+                <input
+                  id='city'
+                  type='text'
+                  placeholder='Cidade*'
+                  {...register('shipping.city',{
+                    required: '(Preencha a Cidade)',
+                  })}
+                />
+                <input
+                  id='uf'
+                  type='text'
+                  placeholder='UF*'
+                  {...register('shipping.uf',{
+                    required: '(Preencha a UF)',
+                  })}
+                />
+              </AddressDiv>
+            </InputBox>
+          </>
         )
       case 'Retirada':
         return (
-          <InputBox title={'Local de Retirada*'} span={'Nos encontramos com frete grátis nesses locais:'} errorMessage={errors.delivery && errors.delivery.local}>
-            <select defaultValue='' {...register('delivery.local',{
+          <InputBox title={'Local de Retirada*'} span={'Nos encontramos com frete grátis nesses locais:'} error={errors.shipping && errors.shipping.local}>
+            <select defaultValue='' {...register('shipping.local',{
               required: 'Selecione uma opção',
-              onChange: () => setTax(0)
+              onChange: () => setFee(0)
             })}>
               <option value='' disabled>Selecione um local</option>
               {pickupLocations.sort().map((location) => {
@@ -454,31 +737,6 @@ export default function BuyForm() {
               })}
             </select>
           </InputBox>
-        )
-      default:
-        return
-    }
-  }
-
-  function renderPaymentAlert() {
-    switch (paymentType) {
-      case 'pix':
-        return (
-          <StyledAlert variant="filled">
-            -R$5 de Desconto Ativado
-          </StyledAlert>
-        )
-      case 'card':
-        return (
-          <StyledAlert variant="filled" severity="warning">
-            No momento não aceitamos parcelamento
-          </StyledAlert>
-        )
-      case 'money':
-        return (
-          <StyledAlert variant="filled" severity="info">
-            Pagamento no momento da entrega/retirada
-          </StyledAlert>
         )
       default:
         return
@@ -495,26 +753,37 @@ export default function BuyForm() {
               <Whatsapp src={'assets/icons/whatsapp-fill.svg'} alt={'Whatsapp Logo'} width={80} height={80} />
               <p>O pagamento será feito pelo Whatsapp, mandaremos uma mensagem confirmando o seu pedido! Decidiremos a entrega por lá também. Muito obrigado!</p>
             </RowDiv>
-            <Button type="submit">
-              CONCLUIR COMPRA
+            <Button type="submit" disabled={isSubmiting}>
+              {!isSubmiting ? 'CONCLUIR COMPRA' : <CircularProgress color='inherit' />}
             </Button>
           </Form>
         );
       case 'card':
+        const shippingValues = getValues('shipping');
+        const address = (deliveryType == 'Entrega') ? {
+              city: shippingValues.city,
+              country: 'BR',
+              line1: shippingValues.address,
+              line2: shippingValues.complement + shippingValues.number,
+              postal_code: shippingValues.cep,
+              state: shippingValues.uf,
+            } : {
+              city: 'Brasília',
+              country: 'BR',
+              line1: shippingValues.local,
+              state: 'DF',
+            }
         const cardOrder = {
-          amount: (totalPrice - totalDiscount + tax) * 100,
+          amount:  Math.round(((totalPrice - totalDiscount + fee) * 1.04 + 0.4) * 100),
           description: cartItems.map((product) => {
             return `R$${product.price - product.discount} - ${product.type} ${product.name}`;
           }).join(', '),
           shipping: {
             name: getValues('name'),
             phone: getValues('phone'),
-            address: {
-              country: 'BR',
-              city: tax && JSON.parse(getValues('delivery').local).local,
-            }
+            address
           },
-          receipt_email: getValues('email') ? getValues('email') : undefined,
+          receipt_email: getValues('email'),
           statement_descriptor: `${cartItems.length} ${cartItems.length > 1 ? 'ITENS' : 'ITEM'}`,
           metadata: { order: JSON.stringify(cartItems.map((product) => {
             return {id: product.id, type: product.type, name: product.name, size: product.size, price: product.price, discount: product.discount}
@@ -528,21 +797,7 @@ export default function BuyForm() {
               <h3>Cartão de Crédito</h3>
                 <CardPayment order={cardOrder} onSubmitInfo={handleSubmit(onSubmitInfo)} />
             </> : <CircularProgress color='inherit' /> }
-            {/* pix */}
           </div>
-        );
-      case 'money':
-        return (
-          <Form onSubmit={handleSubmit(onSubmitInfo)}>
-            <h3>Dinheiro Físico</h3>
-            <RowDiv>
-              <Whatsapp src={'assets/icons/whatsapp-fill.svg'} alt={'Whatsapp Logo'} width={80} height={80} />
-              <p>O pagamento será feito no momento da entrega/retirada, mandaremos uma mensagem confirmando o seu pedido! Decidiremos a entrega por lá também. Muito obrigado!</p>
-            </RowDiv>
-            <Button type="submit">
-              CONCLUIR COMPRA
-            </Button>
-          </Form>
         );
       default:
         return

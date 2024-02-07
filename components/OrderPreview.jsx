@@ -80,8 +80,8 @@ const OrderFooter = styled.div`
   flex-direction: column;
 `;
 
-export default function OrderPreview({ cartItems,lastRemovedItem,totalDiscount,totalPrice,tax,paymentType,deliveryType }) {
-  const pixDiscount = paymentType == 'pix' ? 5 : 0 
+export default function OrderPreview({ cartItems,lastRemovedItem,totalDiscount,totalPrice,fee,paymentType,deliveryType }) {
+  const cardTax = paymentType == 'card' ? (totalPrice - totalDiscount + fee)*0.04 + 0.4 : 0 
 
   return (
     <OrderDiv>
@@ -117,21 +117,21 @@ export default function OrderPreview({ cartItems,lastRemovedItem,totalDiscount,t
         <OrderBody>
           <h2>{deliveryType}</h2>
           <PriceDiv>
-            {tax === null ? <h2>-</h2> : (tax === 0 ? <h2>Grátis</h2> : <h2>R${formatFloat(tax)}</h2>)}
+            {fee === null ? <h2>-</h2> : (fee === 0 ? <h2>Grátis</h2> : <h2>R${formatFloat(fee)}</h2>)}
           </PriceDiv>
         </OrderBody>
         <OrderBody>
           <div>
             <h1>Total</h1>
-            {pixDiscount != 0 && <u>Desconto PIX</u>}
+            {cardTax != 0 && <u>+ R${formatFloat(cardTax)}</u>}
           </div>
           <PriceDiv>
-            {(totalDiscount > 0 || pixDiscount) ?
+            {(totalDiscount > 0 && cardTax == 0) ?
               <>
-                <h4>R${formatFloat(totalPrice + tax)}</h4>
-                <h2>R${formatFloat(totalPrice - totalDiscount + tax - pixDiscount)}</h2>
+                <h4>R${formatFloat(totalPrice + fee)}</h4>
+                <h2>R${formatFloat(totalPrice - totalDiscount + fee + cardTax)}</h2>
               </> :
-              <h2>R${formatFloat(totalPrice - totalDiscount + tax - pixDiscount)}</h2>
+              <h2>R${formatFloat(totalPrice - totalDiscount + fee + cardTax)}</h2>
             }
           </PriceDiv>
         </OrderBody>

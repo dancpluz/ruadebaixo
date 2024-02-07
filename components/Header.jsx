@@ -39,7 +39,6 @@ const Wrapper = styled.div`
 const Logo = styled(Image)`
   height: auto;
   width: 80px;
-  filter: invert(100%);
 `;
 
 const LogoContainer = styled(Link)`

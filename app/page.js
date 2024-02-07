@@ -3,6 +3,7 @@ import LandingProducts from "@/components/LandingProducts";
 import Strip from "@/components/Strip";
 import Maintenance from "@/components/Maintenance";
 import { checkMaintenanceMode } from '@/lib/config';
+import { fetchLandingImages } from '@/lib/api';
 
 export const metadata = {
   title: 'Rua de Baixo - Brechó Streetwear com Estética Autêntica',
@@ -24,17 +25,20 @@ export const metadata = {
 export const revalidate = 60;
 export const dynamic = 'force-dynamic';
 
+
 export default async function Home() {
   
   if (await checkMaintenanceMode()) {
     return (<Maintenance />)
   }
 
+  const { title,images } = await fetchLandingImages();
+
   return (
     <div>
-      <LandingBanner />
+      <LandingBanner images={images} />
       <Strip text={"RUA DE BAIXO - "} />
-      <LandingProducts />
+      <LandingProducts title={title} />
     </div>
   )
 }

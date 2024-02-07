@@ -11,7 +11,6 @@ export default function ProductInfo({ measures }) {
   
   return (
     <Container>
-      
       <Accordion measure expandMeasures={expandMeasures} setExpandMeasures={setExpandMeasures} title={'Medidas'}>
         {measures ? 
         <>
