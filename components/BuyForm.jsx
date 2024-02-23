@@ -263,7 +263,7 @@ export default function BuyForm() {
       setShippingError('');
       setRenderShipping(false);
       
-      const inputCep = await document.getElementById('cep').value.replace('-','');
+      const inputCep = await getValues('shipping.cep').replace('-','');
       fillCepFields(inputCep);
 
       const simulateInfo = {
@@ -305,17 +305,18 @@ export default function BuyForm() {
   }
 
   const fillCepFields = async (inputCep) => {
+    console.log(inputCep)
     const res = await fetch(`https://viacep.com.br/ws/${inputCep}/json/`,{
         method: 'GET',
     });
     
     const cepInfo = await res.json();
-
+    console.log(cepInfo)
     if (cepInfo.erro) {
       resetField('shipping.address', { defaultValue: '' })
       resetField('shipping.complement', { defaultValue: '' })
       resetField('shipping.district', { defaultValue: '' })
-      resetField('shipping.ciy', { defaultValue: '' })
+      resetField('shipping.city', { defaultValue: '' })
       resetField('shipping.uf', { defaultValue: '' })
     } else {
       const { logradouro, complemento, bairro, localidade, uf } = cepInfo;
@@ -452,7 +453,7 @@ export default function BuyForm() {
 
       const json = {
         ...data,
-        phone: data.phone.length > 10 ? data.phone.replace('9','') : data.phone,
+        phone: data.phone.replace(/\D/g,'').replace('9',''),
         order,
       }
 
