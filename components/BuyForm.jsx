@@ -5,7 +5,7 @@ import { useStateContext } from '@/context/StateContext';
 import { useForm } from 'react-hook-form';
 import InputBox from '@/components/InputBox';
 import { Button } from '@/components/Cart';
-import { useState,useEffect } from 'react';
+import { useState,useEffect,useRef } from 'react';
 import { deliveryLocations,pickupLocations,clothesWeight } from '@/sanity/options';
 import OrderPreview from '@/components/OrderPreview';
 import { sendOrderToServer,updateOrderedProduct, checkSoldProduct } from '@/lib/api';
@@ -21,6 +21,7 @@ import Alert from '@mui/material/Alert';
 import CardPayment from '@/components/CardPayment';
 import CircularProgress from '@mui/material/CircularProgress';
 import DeliveryCard from './DeliveryCard';
+import InputMask from "react-input-mask";
 
 const Container = styled.div`
   display: flex;
@@ -245,7 +246,7 @@ export default function BuyForm() {
       }
     }
     else if (activeStep == 1) {
-      if (await trigger(['shipping','payment'],{ shouldFocus: true })) {
+      if (await trigger(['shipping','cpf','payment'],{ shouldFocus: true })) {
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
       }
     } 
@@ -257,12 +258,12 @@ export default function BuyForm() {
 
   const simulateShipping = async () => {
     if (await trigger(['shipping.cep'],{ shouldFocus: true })) {
-      resetField('shipping.price');
+      resetField('shipping.price', { defaultValue: '' });
       setFee(null);
       setShippingError('');
       setRenderShipping(false);
       
-      const inputCep = document.getElementById('cep').value;
+      const inputCep = await document.getElementById('cep').value.replace('-','');
       fillCepFields(inputCep);
 
       const simulateInfo = {
@@ -294,8 +295,8 @@ export default function BuyForm() {
         setShippingError(options.error.mensagem);
         setShippingOptions([]);
         setRenderShipping(true);
-        resetField('shipping.cep');
-        resetField('shipping.price');
+        resetField('shipping.cep', { defaultValue: '' });
+        resetField('shipping.price', { defaultValue: '' });
       } else {
         setShippingOptions(options.filter((option) => option.nf_obrig == "N"));
         setRenderShipping(true);
@@ -311,11 +312,11 @@ export default function BuyForm() {
     const cepInfo = await res.json();
 
     if (cepInfo.erro) {
-      resetField('shipping.address')
-      resetField('shipping.complement')
-      resetField('shipping.district')
-      resetField('shipping.ciy')
-      resetField('shipping.uf')
+      resetField('shipping.address', { defaultValue: '' })
+      resetField('shipping.complement', { defaultValue: '' })
+      resetField('shipping.district', { defaultValue: '' })
+      resetField('shipping.ciy', { defaultValue: '' })
+      resetField('shipping.uf', { defaultValue: '' })
     } else {
       const { logradouro, complemento, bairro, localidade, uf } = cepInfo;
       
@@ -351,12 +352,13 @@ export default function BuyForm() {
       },
       destinatario: {
         nome: json.name,
+        cnpjCpf: json.cpf.replace(/\D/g,''),
         endereco: {
           logradouro: json.shipping.address,
           numero: json.shipping.number,
           complemento: json.shipping.complement,
           bairro: json.shipping.district,
-          cep: json.shipping.cep,
+          cep: json.shipping.cep.replace(/\D/g,''),
           cidade: json.shipping.city,
           uf: json.shipping.uf,
         },
@@ -392,15 +394,10 @@ export default function BuyForm() {
   }
 
   useEffect(() => {
-    document.getElementById('name').focus();
-    document.getElementById('name').value = getFormData('name');
-    document.getElementById('phone').focus();
-    document.getElementById('phone').value = getFormData('phone');
-    document.getElementById('email').focus();
-    document.getElementById('email').value = getFormData('email');
-    document.getElementById('insta').focus();
-    document.getElementById('insta').value = getFormData('insta');
-    document.activeElement.blur();
+    setValue('name', getFormData('name'));
+    setValue('phone', getFormData('phone'));
+    setValue('email', getFormData('email'));
+    setValue('insta', getFormData('insta'));
   },[]);
 
   useEffect(() => {
@@ -469,7 +466,6 @@ export default function BuyForm() {
       onBuy();
       buyer(json.name,json.email,json.phone) // Facebook Pixel Buyer Event for SEO
       purchase(json.total, cartItems, json.shipping.type); // Facebook Pixel Purchase Event for SEO
-      console.log(json)
       router.push('/comprar/sucesso');
       
     }
@@ -489,9 +485,6 @@ export default function BuyForm() {
         <OrderPreview cartItems={cartItems} lastRemovedItem={lastRemovedItem} totalDiscount={totalDiscount} totalPrice={totalPrice} fee={fee} deliveryType={deliveryType} paymentType={paymentType} />
         <StyledStepper activeStep={activeStep} orientation="vertical">
             <Step>
-              <StyledAlert variant="filled" severity="warning">
-                Entregas somente depois do dia 15/02
-              </StyledAlert>
               <br/>
               <StepLabel onClick={activeStep === 1 ? handleBack : undefined}>
                 <h2>Dados Pessoais</h2>
@@ -510,16 +503,17 @@ export default function BuyForm() {
                     />
                   </InputBox>
                   <InputBox title={'Número de Celular*'} span={'O pedido será concluído pelo Whatsapp'} error={errors.phone}>
-                    <input
+                    <InputMask
                       id='phone'
                       type='tel'
-                      placeholder='ex. 61987654321'
+                      mask="(99)99999-9999"
+                      placeholder='ex. (61)98765-4321'
                       {...register('phone',{
                         required: '(Obrigatório)',
-                        minLength: { value: 10,message: '(Formato incorreto: "61987654321")' },
-                        maxLength: { value: 11, message: '(Formato incorreto: "61987654321")' },
+                        pattern: { value: /^[^_]*$/,message: '(Formato incorreto)' },
                       })}
                     />
+                    
                   </InputBox>
                   <InputBox title={'Email*'} span={'Email para receber notícias e informações do pedido '} error={errors.email}>
                     <input
@@ -573,7 +567,7 @@ export default function BuyForm() {
                     </RadioDiv>
                     <RadioDiv>
                       <input
-                        onClick={() => { setDeliveryType('Retirada'); setFee(0); resetField('shipping.price'); }}
+                        onClick={() => { setDeliveryType('Retirada'); setFee(0); resetField('shipping.price', { defaultValue: '' }); }}
                         value='Retirada'
                         type='radio'
                         {...register('shipping.type',{
@@ -647,14 +641,13 @@ export default function BuyForm() {
           <>
             <InputBox title={'Frete*'} span={'Insira o seu CEP para calcularmos o frete'} error={errors.shipping && [errors.shipping.cep, errors.shipping.price].filter((e) => e != undefined)[0]}>
               <CalculateDiv>
-                <input
+                <InputMask
                   id='cep'
-                  type='text'
-                  placeholder='ex. 71060142'
+                  mask="99999-999"
+                  placeholder='ex. 12345-678'
                   {...register('shipping.cep',{
                     required: '(Obrigatório)',
-                    minLength: { value: 8,message: '(Formato incorreto: "71060142")' },
-                    maxLength: { value: 8, message: '(Formato incorreto: "71060142")' },
+                    pattern: { value: /^[^_]*$/, message: '(Formato incorreto)'},
                   })}
                 />
                 <button onClick={simulateShipping}>
@@ -721,6 +714,16 @@ export default function BuyForm() {
                   })}
                 />
               </AddressDiv>
+            </InputBox>
+            <InputBox title={'CPF*'} span={'Coloque seu CPF para mandarmos sua entrega'} error={errors.cpf}>
+              <InputMask
+                mask="999.999.999-99"
+                placeholder='ex. 000.111.222-33'
+                {...register('cpf',{
+                  required: '(Obrigatório)',
+                  pattern: { value: /^[^_]*$/,message: '(Formato incorreto)' }
+                })}
+              />
             </InputBox>
           </>
         )
