@@ -168,9 +168,6 @@ export default function FilterBar({ show, options: { productTypes,productSizes, 
       </Accordion> */}
       <TagRemovable searchParams={searchParams} selectedTags={selectedTags} />
       <br/>
-      <StyledAlert variant="filled" severity="info">
-        Entregas somente depois do dia 15/02
-      </StyledAlert>
     </Container>
   )
 }

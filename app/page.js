@@ -6,7 +6,7 @@ import { checkMaintenanceMode } from '@/lib/config';
 import { fetchLandingImages } from '@/lib/api';
 
 export const metadata = {
-  title: 'Rua de Baixo - Brechó Streetwear com Estética Autêntica',
+  title: 'Rua de Baixo',
   alternates: {
     canonical: '/',
   },

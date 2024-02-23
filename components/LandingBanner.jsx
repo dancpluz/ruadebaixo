@@ -27,7 +27,7 @@ export default async function LandingBanner({ images }) {
           />
         </TopImage>
       </TopDiv>
-      <h2>Birosca na Rua de Baixo</h2>
+      <h2>Uma Birosca na Rua de Baixo</h2>
       <HeroBanner>
         <LeftImage>
           <Image
