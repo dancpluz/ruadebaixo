@@ -22,6 +22,7 @@ import CardPayment from '@/components/CardPayment';
 import CircularProgress from '@mui/material/CircularProgress';
 import DeliveryCard from './DeliveryCard';
 import InputMask from "react-input-mask";
+import { sendEmailToGroup, sendMessageToClient, sendMessageToGroup } from '@/lib/bot';
 
 const Container = styled.div`
   display: flex;
@@ -399,7 +400,7 @@ export default function BuyForm() {
     setValue('phone', getFormData('phone'));
     setValue('email', getFormData('email'));
     setValue('insta', getFormData('insta'));
-  },[]);
+  },[setValue]);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -457,7 +458,9 @@ export default function BuyForm() {
         order,
       }
 
-      await sendOrderToServer(json);
+      await sendEmailToGroup(json);
+      await sendMessageToGroup(json);
+      await sendMessageToClient(json);
 
       if (deliveryType == 'Entrega') {
         await sendShipping(json);
