@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 
-const KANGU_TOKEN = process.env.NEXT_PUBLIC_KANGU_TOKEN
+const KANGU_TOKEN = process.env.KANGU_TOKEN
 
 export async function POST(req) {
   const shippingInfo = await req.json()

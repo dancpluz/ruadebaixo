@@ -1,4 +1,4 @@
-const ZAP_KEY = process.env.NEXT_PUBLIC_ZAP_API_TOKEN
+const ZAP_KEY = process.env.ZAP_API_TOKEN
 
 export async function POST(req) {
   const order = await req.json()

@@ -6,7 +6,7 @@ export const client = createClient({
   dataset: process.env.NEXT_PUBLIC_SANITY_DATASET,
   projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
   useCdn: true,
-  token: process.env.NEXT_PUBLIC_SANITY_SECRET_TOKEN,
+  token: process.env.SANITY_SECRET_TOKEN,
   perspective: 'published',
 })
 
