@@ -6,7 +6,7 @@ import Card from '@/components/Card';
 import { useState } from 'react';
 import { HamburgerIcon} from '@/components/Header';
 import { SkeletonStyled } from '@/components/styles/OtherStyles.styled';
-import LoadMore from '@/components/LoadMore';
+import LoadMore from '@/components/LoadMoreProducts';
 
 const Wrapper = styled.div`
   position: relative;

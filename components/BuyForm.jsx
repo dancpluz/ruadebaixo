@@ -57,7 +57,7 @@ const Form = styled.form`
   width: 100%;
 `;
 
-const TitleDiv = styled.div`
+export const TitleDiv = styled.div`
   text-align: center;
 `;
 
@@ -478,9 +478,27 @@ export default function BuyForm() {
       setFormError(e.message)
     }
   }
+  const sendEmail = async () => {
+    const send = await fetch('/api/emailgroup', {
+      method: 'POST',
+      body: JSON.stringify({ message: 'Teste' })
+    })
+
+    console.log(send)
+    // if (send.ok) {
+    //   send.json().then((data) => {
+    //     if (!data.success) {
+    //       throw new Error(`Ocorreu um erro: ${data.error}`)
+    //     } else {console.log(data)}
+    //   })
+    // } else {
+    //   throw new Error(send.statusText);
+    // }
+  }
 
   return (
     <Container>
+      <button onClick={sendEmail}>TESTE</button>
       <TitleDiv>
         <h1>Finalizar Compra</h1>
         <p>É <u>necessário</u> ter um número de celular com <u>Whatsapp</u> para concluir a compra</p>

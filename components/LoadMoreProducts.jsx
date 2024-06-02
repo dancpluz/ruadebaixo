@@ -16,7 +16,7 @@ const Spinner = styled(CircularProgress)`
 
 export default function LoadMore({ searchParams, count }) {
   const [products, setProducts] = useState([]);
-  const [interval, setInterval] = useState(0);
+  const [interval, setInterval] = useState(1);
 
   const { ref, inView } = useInView();
 

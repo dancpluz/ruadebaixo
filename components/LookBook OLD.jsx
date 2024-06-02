@@ -7,6 +7,7 @@ import LoadMore from '@/components/LoadMorePhotos';
 
 export default function LookBook({ collection, count }) {
   const [bigImage,setBigImage] = useState(null);
+
   return (
     <>
       <BigImageDiv onClick={() => setBigImage(null)} showOverlay={bigImage ? 'block' : 'none'}>
@@ -41,7 +42,7 @@ export default function LookBook({ collection, count }) {
             ))}
           </Gallery>
         </Collection>
-        {/* <LoadMore count={count} setBigImage={setBigImage} /> */}
+        <LoadMore count={count} setBigImage={setBigImage} />
       </Gallery>
     </>
   )

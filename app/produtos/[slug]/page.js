@@ -47,7 +47,7 @@ export async function generateMetadata({ params: { slug }}) {
 
 
 export async function generateStaticParams() {
-  const slugs = await fetchStaticParams();
+  const slugs = await fetchStaticParams('product');
 
   return slugs.map((slug) => ({ slug }))
 }

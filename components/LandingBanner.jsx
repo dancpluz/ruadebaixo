@@ -24,6 +24,7 @@ export default async function LandingBanner({ images }) {
             sizes={'(max-width: 400px) 400px, 900px'}
             placeholder={'blur'}
             blurDataURL={images[0].blur}
+            priority
           />
         </TopImage>
       </TopDiv>
@@ -37,6 +38,7 @@ export default async function LandingBanner({ images }) {
             sizes={'(max-width: 400px) 200px, 640px'}
             placeholder={'blur'}
             blurDataURL={images[1].blur}
+            priority 
           />
         </LeftImage>
         <MiddleImage>
@@ -47,6 +49,7 @@ export default async function LandingBanner({ images }) {
             sizes={'(max-width: 400px) 200px, 640px'}
             placeholder={'blur'}
             blurDataURL={images[2].blur}
+            priority 
           /> 
         </MiddleImage>
         <RightImage>
@@ -57,6 +60,7 @@ export default async function LandingBanner({ images }) {
             sizes={'(max-width: 400px) 200px, 640px'}
             placeholder={'blur'}
             blurDataURL={images[3].blur}
+            priority 
             /> 
         </RightImage>
       </HeroBanner>
