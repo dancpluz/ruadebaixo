@@ -1,7 +1,7 @@
 import { Container } from '@/components/styles/CatalogPage.styled';
 import { TitleDiv } from '@/components/BuyForm';
-import LookBook from '@/components/LookBook';
-import { fetchLookBook, countLookBook } from '@/lib/api';
+import Magazine from '@/components/Magazine';
+import { fetchLookBook } from '@/lib/api';
 
 export const metadata = {
   title: 'LookBook',
@@ -12,16 +12,15 @@ export const metadata = {
 }
 
 export default async function LookBookPage() {
-  const collection = await fetchLookBook();
-  const count = await countLookBook()
-
+  const lookbooks = await fetchLookBook();
+  
   return (
     <Container>
       <TitleDiv>
         <h1>LookBook</h1>
         <p>Bem vindo à coleção de fotos da Rua de Baixo</p>
       </TitleDiv>
-      <LookBook collection={collection} count={count} />
+      <Magazine lookbooks={lookbooks} />
     </Container>
   )
 }

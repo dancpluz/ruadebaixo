@@ -7,6 +7,7 @@ import LoadMore from '@/components/LoadMorePhotos';
 
 export default function LookBook({ collection, count }) {
   const [bigImage,setBigImage] = useState(null);
+
   return (
     <>
       <BigImageDiv onClick={() => setBigImage(null)} showOverlay={bigImage ? 'block' : 'none'}>
@@ -35,13 +36,13 @@ export default function LookBook({ collection, count }) {
                   placeholder={'blur'}
                   blurDataURL={image.blur}
                   fill
-                  priority={n < 5 ? true : undefined}
+                  priority
                 />
               </PhotoDiv>
             ))}
+            <LoadMore slug={collection.slug.current} count={count} setBigImage={setBigImage} />
           </Gallery>
         </Collection>
-        {/* <LoadMore count={count} setBigImage={setBigImage} /> */}
       </Gallery>
     </>
   )

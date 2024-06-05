@@ -498,7 +498,7 @@ export default function BuyForm() {
 
   return (
     <Container>
-      <button onClick={sendEmail}>TESTE</button>
+      {/* <button onClick={sendEmail}>TESTE</button> */}
       <TitleDiv>
         <h1>Finalizar Compra</h1>
         <p>É <u>necessário</u> ter um número de celular com <u>Whatsapp</u> para concluir a compra</p>
