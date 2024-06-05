@@ -1,4 +1,4 @@
-import { fetchLookBookInfo,fetchMetadata,fetchStaticParams,fetchLookbookImages,countLookBook } from '@/lib/api';
+import { fetchLookBookInfo,fetchStaticParams,fetchLookbookImages,countLookBook } from '@/lib/api';
 import { Container } from '@/components/styles/CatalogPage.styled';
 import LookBook from '@/components/LookBook';
 
