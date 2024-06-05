@@ -29,6 +29,13 @@ const Wrapper = styled.div`
   ''};
   transition-property: all;
   transition-duration: 300ms;
+
+  &:hover {
+    ${props  => props.selected ? 
+    '' 
+      : 
+    'transform: scale(1.1);'};
+  }
 `;
 
 const Shadow = styled.div`
