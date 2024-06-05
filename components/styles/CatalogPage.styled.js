@@ -7,6 +7,7 @@ export const Container = styled.div`
   position: relative;
   flex-direction: column;
   padding: 130px 200px;
+  min-height: calc(100vh - 385px);
   h1 {
     text-align: center;
   }

@@ -1,15 +1,36 @@
 import logoIcon from '@/public/assets/logonew.svg';
-import { MainContainer, LogoDiv, Logo, TopImage, TopDiv, Caption, LeftImage, RightImage, MiddleImage, HeroBanner } from './styles/LandingBanner.styled';
-import Image from 'next/image'
+import { MainContainer, LogoDiv, Logo, LetterDiv, Letter, TopImage, TopDiv, LeftImage, RightImage, MiddleImage, HeroBanner } from './styles/LandingBanner.styled';
+import Image from 'next/image';
+import P from '@/public/assets/P.webp';
+import R from '@/public/assets/R.webp';
+import O1 from '@/public/assets/O1.webp';
+import L from '@/public/assets/L.webp';
+import O2 from '@/public/assets/O2.webp';
+import G from '@/public/assets/G.webp';
+import O3 from '@/public/assets/O3.webp';
+import ruadebaixosketch from '@/public/assets/ruadebaixosketch.webp';
+
 
 export default async function LandingBanner({ images }) {
+  
+  const getRandomTransformValues = () => {
+    const getRandomValue = () => Math.floor(Math.random() * 11) - 5;
+    const getRandomFloat = () => (Math.random() * 1.5 + 3.5).toFixed(1);
+    return {
+      x: getRandomValue(),
+      y: getRandomValue(),
+      r: getRandomValue(),
+      t: getRandomFloat()
+    };
+  };
+
 
   return (
     <MainContainer>
       <TopDiv>
         <LogoDiv>
           <Logo
-            src={logoIcon}
+            src={ruadebaixosketch}
             alt='Rua de Baixo Logo'
             priority />
           {/* <Caption>
@@ -24,10 +45,48 @@ export default async function LandingBanner({ images }) {
             sizes={'(max-width: 400px) 400px, 900px'}
             placeholder={'blur'}
             blurDataURL={images[0].blur}
+            priority
           />
         </TopImage>
       </TopDiv>
-      <h2>Uma Birosca na Rua de Baixo</h2>
+      <LetterDiv>
+        <Letter
+          src={P}
+          alt='Letra P de Revista'
+          random={getRandomTransformValues()}
+        />
+        <Letter
+          src={R}
+          alt='Letra R de Revista'
+          random={getRandomTransformValues()}
+        />
+        <Letter
+          src={O1}
+          alt='Letra O de Revista'
+          random={getRandomTransformValues()}
+        />
+        <Letter
+          src={L}
+          alt='Letra L de Revista'
+          random={getRandomTransformValues()}
+        />
+        <Letter
+          src={O2}
+          alt='Letra O de Revista'
+          random={getRandomTransformValues()}
+        />
+        <Letter
+          src={G}
+          alt='Letra G de Revista'
+          random={getRandomTransformValues()}
+        />
+        <Letter
+          src={O3}
+          alt='Letra O de Revista'
+          random={getRandomTransformValues()}
+        />
+      </LetterDiv>
+      {/* <h2>Uma Birosca na Rua de Baixo</h2> */}
       <HeroBanner>
         <LeftImage>
           <Image
@@ -37,6 +96,7 @@ export default async function LandingBanner({ images }) {
             sizes={'(max-width: 400px) 200px, 640px'}
             placeholder={'blur'}
             blurDataURL={images[1].blur}
+            priority 
           />
         </LeftImage>
         <MiddleImage>
@@ -47,6 +107,7 @@ export default async function LandingBanner({ images }) {
             sizes={'(max-width: 400px) 200px, 640px'}
             placeholder={'blur'}
             blurDataURL={images[2].blur}
+            priority 
           /> 
         </MiddleImage>
         <RightImage>
@@ -57,6 +118,7 @@ export default async function LandingBanner({ images }) {
             sizes={'(max-width: 400px) 200px, 640px'}
             placeholder={'blur'}
             blurDataURL={images[3].blur}
+            priority 
             /> 
         </RightImage>
       </HeroBanner>

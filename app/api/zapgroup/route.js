@@ -2,9 +2,8 @@ const ZAP_KEY = process.env.ZAP_API_TOKEN
 
 export async function POST(req) {
   const order = await req.json()
-  console.log(order.message);
 
-  const res = await fetch(`http://mc.ruadebaixo.com.br:6969/client/sendMessage/ruadebaixo/`,{
+  const res = await fetch(`http://hub.ruadebaixo.com.br:6969/client/sendMessage/ruadebaixo/`,{
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

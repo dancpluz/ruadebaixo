@@ -1,6 +1,6 @@
 'use client'
 
-import styled, { keyframes } from 'styled-components';
+import styled, { css, keyframes } from 'styled-components';
 import Image from 'next/image';
 
 const floating = keyframes`
@@ -57,7 +57,7 @@ export const TopDiv = styled.div`
 
 export const LogoDiv = styled.div`
   margin-right: 120px;
-  width: 55vw;
+  width: 50vw;
   @media ${({ theme }) => theme.sizes.small} {
     width: 100%;
     margin: auto;
@@ -66,16 +66,19 @@ export const LogoDiv = styled.div`
 
 export const Logo = styled(Image)`
   margin-left: 200px;
-  height: 350px;
+  //height: 350px;
+  height: 400px;
   width: auto;
   @media ${({ theme }) => theme.sizes.medium} {
-    height: 160px;
+    //height: 160px;
+    height: 200px;
     margin-left: 100px;
   }
 
   @media ${({theme}) => theme.sizes.small} {
     margin: 16px auto;
-    height: 100px;
+    //height: 100px;
+    height: 140px;
     display: block;
   }
 `;
@@ -103,7 +106,7 @@ export const Caption = styled.div`
 
 export const TopImage = styled.div`
   position: relative;
-  width: 45vw;
+  width: 50vw;
   height: auto;
   aspect-ratio: 3/2;
 
@@ -146,4 +149,40 @@ export const RightImage = styled.div`
   @media ${({ theme }) => theme.sizes.small} {
     display: none;
   }
+`;
+
+const stutteringWiggle = random => keyframes`
+  0%, 30%, 60% {
+    transform: translateX(${-random.x}px) translateY(${random.y+2}px) rotate(${random.r-3}deg);
+  }
+  10%, 40%, 70% {
+    transform: translateX(${random.x+3}px) translateY(${random.y}px) rotate(${random.r+3}deg);
+  }
+  20%, 50%, 80% {
+    transform: translateX(${random.x-2}px) translateY(${random.y+2}px) rotate(${-random.r}deg);
+  }
+  90% {
+    transform: translateX(${random.x+1}px) translateY(${random.y-4}px) rotate(${random.r+2}deg);
+  }
+`;
+
+export const Letter = styled(Image)`
+  width: auto;
+  height: 80px;
+  //aspect-ratio: 1/1;
+  ${({ random }) => 
+    css`
+      animation: ${stutteringWiggle(random)} ${random.t}s step-start infinite;
+    `
+  }
+  @media ${({ theme }) => theme.sizes.small} {
+    height: 50px;
+  }
+`;
+
+export const LetterDiv = styled.div`
+  background: ${({ theme }) => theme.colors.dark};
+  display: flex;
+  justify-content: center;
+  padding: 40px 0;
 `;

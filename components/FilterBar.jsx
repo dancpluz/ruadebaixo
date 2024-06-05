@@ -94,7 +94,7 @@ export default function FilterBar({ show, options: { productTypes,productSizes, 
       } else {
         params.set(name, value)
       }
-
+      
       return params.toString()
     }
   

@@ -8,7 +8,13 @@ const nextConfig = {
     },
   },
   images: {
-    domains: ['cdn.sanity.io', 'portal.kangu.com.br'],
+    remotePatterns: [{
+      protocol: 'https',
+      hostname: 'cdn.sanity.io',
+    }, {
+      protocol: 'https',
+      hostname: 'portal.kangu.com.br',
+    }]
   },
 }
 
