@@ -8,6 +8,9 @@ export async function generateStaticParams() {
   return slugs.map((slug) => ({ slug }))
 }
 
+export const revalidate = 60;
+export const dynamic = 'force-dynamic';
+
 export default async function PhotosPage({ params: { slug } }) {
   const collection = await fetchLookBookInfo(slug)
   const images = await fetchLookbookImages(slug,0)
