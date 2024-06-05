@@ -1,6 +1,6 @@
 import { fetchLookBookInfo,fetchStaticParams,fetchLookbookImages,countLookBook } from '@/lib/api';
 import { Container } from '@/components/styles/CatalogPage.styled';
-import LookBook from '@/components/LookBook';
+import Lookbook from '@/components/Lookbook';
 
 export async function generateStaticParams() {
   const slugs = await fetchStaticParams('lookbook');
@@ -18,7 +18,7 @@ export default async function PhotosPage({ params: { slug } }) {
 
   return (
     <Container >
-      <LookBook collection={{...collection, images}} count={count} />
+      <Lookbook collection={{...collection, images}} count={count} />
     </Container >
   )
 }

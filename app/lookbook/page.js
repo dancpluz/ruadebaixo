@@ -18,7 +18,7 @@ export default async function LookBookPage() {
     <Container>
       <TitleDiv>
         <h1>LookBook</h1>
-        <p>Bem vindo à coleção de fotos da Rua de Baixo</p>
+        {/* <p>Bem vindo à coleção de fotos da Rua de Baixo</p> */}
       </TitleDiv>
       <Magazine lookbooks={lookbooks} />
     </Container>

@@ -5,7 +5,7 @@ import { formatDate } from '@/lib/format.js';
 import { Collection, Gallery, PhotoDiv, Photo, BigImageDiv, BigImage, HeaderDiv } from '@/components/styles/LookBook.styled';
 import LoadMore from '@/components/LoadMorePhotos';
 
-export default function LookBook({ collection, count }) {
+export default function Lookbook({ collection, count }) {
   const [bigImage,setBigImage] = useState(null);
 
   return (
