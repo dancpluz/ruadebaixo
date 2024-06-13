@@ -1,5 +1,5 @@
 import { Container, ProductDiv, DetailsDiv, TitleDiv, SizeDiv, BulletDiv, Point, BottomDiv, TopDiv, MiddleDiv, SizeWrapper } from '@/components/styles/ProductPage.styled.js';
-import { fetchProduct, fetchMetadata, fetchStaticParams } from '@/lib/api';
+import { fetchProduct, fetchProductMetadata, fetchStaticParams } from '@/lib/api';
 import { checkMaintenanceMode } from '@/lib/config';
 import Tag from '@/components/Tag';
 import ProductBuy from '@/components/ProductBuy';
@@ -12,7 +12,7 @@ import BackButton from '@/components/BackButton';
 import { redirect } from 'next/navigation';
 
 export async function generateMetadata({ params: { slug }}) {
-  const product = await fetchMetadata(slug);
+  const product = await fetchProductMetadata(slug);
   // Se o produto não for achado, erro 404
   if (!product) {
     redirect('/404')
@@ -44,7 +44,6 @@ export async function generateMetadata({ params: { slug }}) {
     },
   }
 }
-
 
 export async function generateStaticParams() {
   const slugs = await fetchStaticParams('product');

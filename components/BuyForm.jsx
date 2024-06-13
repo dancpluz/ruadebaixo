@@ -5,11 +5,11 @@ import { useStateContext } from '@/context/StateContext';
 import { useForm } from 'react-hook-form';
 import InputBox from '@/components/InputBox';
 import { Button } from '@/components/Cart';
-import { useState,useEffect,useRef } from 'react';
-import { deliveryLocations,pickupLocations,clothesWeight } from '@/sanity/options';
+import { useState,useEffect } from 'react';
+import { pickupLocations,clothesWeight } from '@/sanity/options';
 import OrderPreview from '@/components/OrderPreview';
-import { sendOrderToServer,updateOrderedProduct, checkSoldProduct } from '@/lib/api';
-import { storeFormData,getFormData } from '@/lib/localStorage';
+import { updateOrderedProduct, checkSoldProduct } from '@/lib/api';
+import { storeFormData, getFormData } from '@/lib/localStorage';
 import { formatFloat } from '@/lib/format'
 import { purchase, buyer } from '@/lib/fpixel';
 import Stepper from '@mui/material/Stepper';
@@ -22,7 +22,8 @@ import CardPayment from '@/components/CardPayment';
 import CircularProgress from '@mui/material/CircularProgress';
 import DeliveryCard from './DeliveryCard';
 import InputMask from "react-input-mask";
-import { sendEmailToGroup, sendMessageToClient, sendMessageToGroup } from '@/lib/bot';
+import { sendMessageToClient, sendMessageToGroup } from '@/lib/bot';
+import { sendEmailToGroup } from '@/lib/mail';
 
 const Container = styled.div`
   display: flex;
@@ -478,27 +479,11 @@ export default function BuyForm() {
       setFormError(e.message)
     }
   }
-  const sendEmail = async () => {
-    const send = await fetch('/api/emailgroup', {
-      method: 'POST',
-      body: JSON.stringify({ message: 'Teste' })
-    })
-
-    console.log(send)
-    // if (send.ok) {
-    //   send.json().then((data) => {
-    //     if (!data.success) {
-    //       throw new Error(`Ocorreu um erro: ${data.error}`)
-    //     } else {console.log(data)}
-    //   })
-    // } else {
-    //   throw new Error(send.statusText);
-    // }
-  }
+  
 
   return (
     <Container>
-      {/* <button onClick={sendEmail}>TESTE</button> */}
+      {/* <button onClick={() => sendEmailToGroup()}>TESTE</button> */}
       <TitleDiv>
         <h1>Finalizar Compra</h1>
         <p>É <u>necessário</u> ter um número de celular com <u>Whatsapp</u> para concluir a compra</p>

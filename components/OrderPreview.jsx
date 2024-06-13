@@ -81,6 +81,7 @@ const OrderFooter = styled.div`
 `;
 
 export default function OrderPreview({ cartItems,lastRemovedItem,totalDiscount,totalPrice,fee,paymentType,deliveryType }) {
+  
   const cardTax = paymentType == 'card' ? (totalPrice - totalDiscount + fee)*0.04 + 0.4 : 0 
 
   return (
