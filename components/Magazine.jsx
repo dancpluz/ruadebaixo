@@ -34,7 +34,7 @@ const Wrapper = styled.div`
     ${props  => props.selected ? 
     '' 
       : 
-    'transform: scale(1.1);'};
+    'transform: scale(1.1); z-index: 1;'};
   }
 `;
 
