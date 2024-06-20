@@ -459,7 +459,7 @@ export default function BuyForm() {
         order,
       }
 
-      await sendEmailToGroup(json);
+      //await sendEmailToGroup(json);
       await sendMessageToGroup(json);
       await sendMessageToClient(json);
 
