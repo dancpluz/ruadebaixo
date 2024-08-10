@@ -520,7 +520,6 @@ export default function BuyForm() {
                         pattern: { value: /^[^_]*$/,message: '(Formato incorreto)' },
                       })}
                     />
-                    
                   </InputBox>
                   <InputBox title={'Email*'} span={'Email para receber notícias e informações do pedido '} error={errors.email}>
                     <input

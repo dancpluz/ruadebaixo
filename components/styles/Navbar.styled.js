@@ -18,6 +18,7 @@ export const StyledNav = styled.nav`
   gap: 48px;
   @media ${({theme}) => theme.sizes.small} {
     margin: 0 32px;
+    gap: 36px;
     justify-content: space-between;
     p {
       font-size: .8rem;
