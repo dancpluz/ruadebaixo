@@ -538,7 +538,7 @@ export default function BuyForm() {
                       type='text'
                       placeholder='ex. @ruadebaixoloja'
                       {...register('insta',{
-                        maxLength: { value: 20,message: '(Limite de caracteres excedido)' }
+                        maxLength: { value: 30,message: '(Limite de caracteres excedido)' }
                       })}
                     />
                   </InputBox>
