@@ -1,147 +1,73 @@
-'use client'
-
-import styled from 'styled-components';
 import Image from 'next/image'
 import Niver1 from '@/public/assets/Niver1.webp';
 import Niver2 from '@/public/assets/Niver2.webp';
 import Niver3 from '@/public/assets/Niver3.webp';
 import Niver4 from '@/public/assets/Niver4.webp';
 import Niver5 from '@/public/assets/Niver5.webp';
-import InputBox from '@/components/InputBox';
-import InputMask from 'react-input-mask';
-import { useForm } from 'react-hook-form';
-import { Button } from '@/components/Cart';
-import { useState,useEffect } from 'react';
+import { Container, Wrapper, ImageDiv } from '@/components/styles/AdesivoPage.styled';
+import AdesivoForm from '@/components/AdesivoForm';
 
-// export const metadata = {
-//   title: 'Aniversário Rua de Baixo',
-//   description: 'Comemorando 1 ano de Rua de Baixo, trazemos uma competição de adesivos com prêmio para os 3 primeiros colocados. São 300 reais em prêmios, participe!',
-//   openGraph: {
-//     description: '1 Ano de Rua de Baixo',
-//   },
-//   alternates: {
-//       canonical: '/adesivo',
-//   },
-// }
-
-const Container = styled.div`
-  display: flex;
-  gap: 10px;
-  min-height: 79vh;
-  padding-top: 65px;
-  justify-content: center;
-`;
-
-const Wrapper = styled.div`
-  display: flex;
-  flex-flow: column nowrap;
-  max-width: 700px;
-  width: 100%;
-  gap: 32px;
-  padding: 32px;
-
-  form {
-    display: flex;
-    flex-flow: column nowrap;
-    gap: 8px;
-  }
-
-  span {
-    font-size: 24px;
-  }
-`;
-
-const ImageDiv = styled.div`
-  position: relative;
-  aspect-ratio: 1;
-`;
+export const metadata = {
+  title: 'Aniversário Rua de Baixo',
+  description: 'Comemorando 1 ano de Rua de Baixo, trazemos uma competição de adesivos com prêmio para os 3 primeiros colocados. São 300 reais em prêmios, participe!',
+  openGraph: {
+    description: '1 Ano de Rua de Baixo',
+  },
+  alternates: {
+      canonical: '/adesivo',
+  },
+}
 
 export default function Adesivo() {
-  const { register,handleSubmit,formState: { errors } } = useForm();
-  const [formResult,setFormResult] = useState('');
-
-  const onSubmit = async (data) => {
-    try {
-      const res = await fetch(`http://hub.ruadebaixo.com.br:3000/client/sendMessage/ruadebaixo/`,{
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-api-key': process.env.ZAP_API_TOKEN
-        },
-        body: JSON.stringify({
-          chatId: '120363303372334067@g.us',
-          contentType: "string",
-          content: data
-        }),
-      })
-
-      const datat = await res.json();
-      console.log(datat)
-      setFormResult(`Obrigado ${data.name}! Vamos mandar mensagem quando começar.`)
-    } catch (error) {
-      setFormResult('Ocorreu um erro inesperado')
-      console.log(error)
-    }
-    
-  };
 
   return (
     <Container>
       <Wrapper>
-        {/* <form onSubmit={handleSubmit(onSubmit)}>
-          <div>
-            <h2>Inscrições Não Começaram</h2>
-            <p>Preencha suas informações para ficar sabendo quando vai começar</p>
-          </div>
-          <InputBox title={'Seu Nome'} span={'Como devemos te chamar?'} error={errors.name}>
-              <input
-                id='name'
-                type='text'
-                placeholder='ex. Guigão'
-                {...register('name',{
-                  required: '(Obrigatório)',
-                  maxLength: { value: 40,message: '(Limite de caracteres excedido)' }
-                })}
-              />
-            </InputBox>
-          <InputBox title={'Seu Número de Celular'} span={'Enviaremos mensagem para você quando começarmos a competição'} error={errors.phone}>
-            <InputMask
-              id='phone'
-              type='tel'
-              mask="(99)99999-9999"
-              placeholder='ex. (61)98765-4321'
-              {...register('phone',{
-                required: '(Obrigatório)',
-                pattern: { value: /^[^_]*$/,message: '(Formato incorreto)' },
-              })}
-            />
-          </InputBox>
-          <Button>
-            EU QUERO SABER
-          </Button>
-          <span>
-            {formResult}
-          </span>
-        </form> */}
         <ImageDiv>
-          <Image src={Niver1} fill />
+          <Image alt='Campeonato de Adesivo Capa' src={Niver1} fill />
         </ImageDiv>
+        <ul style={{ fontWeight: '400',fontSize: '20px',listStyle: '',lineHeight: '140%' }}>
+          <li><u>Agradecemos</u> todos que apoiaram a gente até aqui, de coração</li>
+          <li>Como agradecimento vamos estar dando R$300 em <u>prêmios</u> pra VOCÊS!</li>
+        </ul>
         <ImageDiv>
-          <Image src={Niver2} fill />
+          <Image alt='Campeonato de Adesivo Passo 1' src={Niver2} fill />
         </ImageDiv>
+        <ul style={{ fontWeight: '400',fontSize: '20px',listStyle: '', lineHeight: '140%' }}>
+          <li>Faremos entregas de adesivos quando rolar <u>eventos</u></li>
+          <li>Avisaremos tudo no <u>insta</u> quando acontecer</li>
+          <li>Manda uma mensagem pra gente que dependendo do local podemos até te <u>entregar</u> o adesivo</li>
+        </ul>
         <ImageDiv>
-          <Image src={Niver3} fill />
+          <Image alt='Campeonato de Adesivo Passo 2' src={Niver3} fill />
         </ImageDiv>
+        <ul style={{ fontWeight: '400',fontSize: '20px',listStyle: '', lineHeight: '140%' }}>
+          <li>Vamos dar notas em <u>criatividade, dificuldade e visibilidade</u> para os locais de 0 a 10</li>
+          <li>Calcularemos a <u>média ponderada</u> entre as 3 notas e essa será a nota final</li>
+        </ul>
         <ImageDiv>
-          <Image src={Niver4} fill />
+          <Image alt='Campeonato de Adesivo Passo 3' src={Niver4} fill />
         </ImageDiv>
+        <ul style={{ fontWeight: '400',fontSize: '20px',listStyle: '', lineHeight: '140%' }}>
+          <li>Capricha nas fotos, vamos aceitar 3, busque fotografar <u>diferentes ângulos</u></li>
+          <li>O vídeo é importante para verificar a <u>validade</u> da sua inscrição</li>
+          <li><u>Sua inscrição só vai ser validada</u> se postar um stories e marcar @ruadebaixoloja</li>
+        </ul>
         <ImageDiv>
-          <Image src={Niver5} fill />
+          <Image alt='Campeonato de Adesivo Premiação' src={Niver5} fill />
         </ImageDiv>
-        <div>
-          <h2>Inscrições Abrem Dia 14/08</h2>
-          <p>Fica ligado nas nossas redes sociais que vamos avisar em breve</p>
-        </div>
+        <ul style={{ fontWeight: '400',fontSize: '20px',listStyle: '',lineHeight: '140%' }}>
+          <li>Vamos fazer uma <u>live</u> no instagram para divulgar os <u>vencedores</u></li>
+          <li>Os descontos em compras serão entregues em <u>cupons</u> no site</li>
+          <li>O valor em dinheiro da premiação será enviado por <u>PIX</u></li>
+        </ul>
+        <AdesivoForm />
+        <ul style={{ fontWeight: '400',fontSize: '20px',listStyle: '',lineHeight: '140%' }}>
+          <li>É permitido mandar <u>mais de uma inscrição</u>, só pedimos que envie com o mesmo instagram</li>
+          <li>Até o momento receberemos inscrições por 1 mês, acabando dia <u>14/09/2024</u>, mas pode alterar</li>
+          <li>Muito obrigada pela atenção e caso tenha alguma <u>dúvida</u> pode mandar mensagem pra gente nas redes</li>
+        </ul>
+        <span>A Rua de Baixo não se responsabiliza por crimes ou delitos cometidos por participantes da competição</span>
       </Wrapper>
     </Container>
   )

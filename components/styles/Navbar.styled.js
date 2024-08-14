@@ -6,8 +6,12 @@ import styled from 'styled-components';
 export const NavLink = styled(Link)`
   text-decoration: none;
   text-align: center;
+  display: flex;
+  align-items: center;
+  gap: 8px;
   p {
     color: ${({theme}) => theme.colors.light};
+    text-decoration: ${(props) => props.selected ? 'underline' : ''};
     &:hover {
       text-decoration: underline;
     }
