@@ -1,6 +1,11 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  experimental: {
+    serverActions: {
+      bodySizeLimit: '200mb',
+    },
+  },
   env: {
     SANITY_TOKEN: process.env.SANITY_SECRET_TOKEN,
     PLUNK_API_KEY: process.env.PLUNK_API_KEY,
