@@ -8,6 +8,7 @@ import { Button } from '@/components/Cart';
 import { Paper } from '@mui/material';
 import fileUp from '@/public/assets/icons/file-up.svg'
 import plus from '@/public/assets/icons/plus.svg'
+import { sendMessageSticker } from '@/lib/bot'
 import { useState, useRef } from 'react';
 import CircularProgress from '@mui/material/CircularProgress';
 
@@ -25,6 +26,10 @@ const Wrapper = styled.div`
   gap: 8px;
 `;
 
+const CheckBox = styled.input`
+
+`;
+
 
 export default function AdesivoForm() {
   const { register,handleSubmit,setValue,resetField,formState: { isSubmitSuccessful,errors } } = useForm();
@@ -40,14 +45,13 @@ export default function AdesivoForm() {
   const vidInputRef = useRef(null);
 
   const onSubmit = async (data) => {
-    //console.log(data)
     try {
       setIsLoading(true)
       const formData = new FormData()
 
       const instaHandle = data.insta.replace('@','').toLowerCase();
 
-      formData.append('data', JSON.stringify({ nome: data.nome, insta: data.insta }))
+      formData.append('data', JSON.stringify({ nome: data.nome, insta: data.insta, anonimo: data.anonimo, feedback: data.feedback }));
 
       for (let i = 0; i < data.imagens.length; i++) {
         const file = data.imagens[i];
@@ -83,6 +87,7 @@ export default function AdesivoForm() {
         console.log(res)
         setFormResult('Enviado com sucesso! Não se esquece de postar a foto ou o vídeo nos stories e marcar @ruadebaixoloja')
         setIsLoading(false)
+        await sendMessageSticker(data);
       }
     } catch(error) {
       console.log(error)
@@ -216,7 +221,7 @@ export default function AdesivoForm() {
           <h2>Inscrições Abertas!</h2>
           <p>Preencha o formulário para enviar sua submissão</p>
         </div>
-        <InputBox title={'Nome ou Apelido'} span={'Como devemos te chamar?'} error={errors.nome}>
+        <InputBox title={'Nome ou Apelido*'} span={'Como devemos te chamar?'} error={errors.nome}>
           <input
             type='text'
             placeholder='ex. Guigão'
@@ -226,7 +231,7 @@ export default function AdesivoForm() {
             })}
           />
         </InputBox>
-        <InputBox title={'Seu Instagram'} span={'Vamos nos comunicar com você por aqui, vamos checar o stories também.'} error={errors.insta}>
+        <InputBox title={'Seu Instagram*'} span={'Vamos nos comunicar com você por aqui, vamos checar o stories também.'} error={errors.insta}>
           <input
             type='text'
             placeholder='ex. @ruadebaixoloja'
@@ -236,7 +241,7 @@ export default function AdesivoForm() {
             })}
           />
         </InputBox>
-        <InputBox title={'Fotos do Adesivo'} span={'Até 3 fotos. Formatos aceitos: JPG, PNG, WEBP, HEIC.'} error={errors.imagens}>
+        <InputBox title={'Fotos do Adesivo*'} span={'Até 3 fotos. Formatos aceitos: JPG, PNG, WEBP, HEIC.'} error={errors.imagens}>
           <Paper
             onMouseEnter={() => setImgHoverText('Clique aqui para adicionar suas imagens')}
             onMouseLeave={() => setImgHoverText('')}
@@ -376,6 +381,12 @@ export default function AdesivoForm() {
               </>
             )}
           </Paper>
+        </InputBox>
+        <InputBox title={'Anônimo?'} span={'Caso não queira que seu instagram ou nome seja divulgado. Mas ainda saberemos essas informações.'} error={errors.anonimo}>
+          <CheckBox type='checkbox' {...register("anonimo")}/>
+        </InputBox>
+        <InputBox title={'Feedback'} span={'.'} error={errors.feedback}>
+          <textarea {...register("feedback")} />
         </InputBox>
         <Button style={{ marginTop: '8px' }} disabled={isLoading || isSubmitSuccessful}>
           {isLoading ? <CircularProgress color='inherit' /> : isSubmitSuccessful ? 'SUCESSO!' : 'INSCREVER-SE'}
