@@ -385,8 +385,8 @@ export default function AdesivoForm() {
         <InputBox title={'Anônimo?'} span={'Caso não queira que seu instagram ou nome seja divulgado. Mas ainda saberemos essas informações.'} error={errors.anonimo}>
           <CheckBox type='checkbox' {...register("anonimo")}/>
         </InputBox>
-        <InputBox title={'Feedback'} span={'.'} error={errors.feedback}>
-          <textarea {...register("feedback")} />
+        <InputBox title={'Feedback'} span={'Fala com a gente! Queremos saber o que você acha desse evento e da Rua de Baixo.'} error={errors.feedback}>
+          <textarea placeholder='Opiniões, críticas ou elogios' {...register("feedback")} />
         </InputBox>
         <Button style={{ marginTop: '8px' }} disabled={isLoading || isSubmitSuccessful}>
           {isLoading ? <CircularProgress color='inherit' /> : isSubmitSuccessful ? 'SUCESSO!' : 'INSCREVER-SE'}
