@@ -124,6 +124,51 @@ const GlobalStyle = createGlobalStyle`
       transform: scale(1) !important;
     }
   }
+
+  input[type=checkbox] {
+    width: 32px;
+    height: 32px;
+    border: 1px solid ${({ theme }) => theme.colors.dark};
+
+    display: grid;
+    place-content: center;
+
+    &::before {
+      content: "";
+      width: 18px;
+      height: 18px;
+      transform: scale(0);
+      transition: 120ms transform ease-in-out;
+      box-shadow: inset 18px 18px black;
+      clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+    }
+
+    &:checked::before {
+      transform: scale(1);
+    }
+  }
+
+  textarea {
+    appearance: none;
+    min-height: 60px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    padding-left: 16px;
+    padding-right: 16px;
+    border: 1px solid ${theme.colors.dark};
+    color: ${theme.colors.dark};
+    font-family: 'Clash Display', sans-serif;
+    font-size: 1rem;
+    background: ${theme.colors.light};
+    min-width: 0;
+    resize: vertical;
+
+    &:focus {
+      outline: none !important;
+      box-shadow: 3px 3px 0 ${theme.colors.dark};
+    }
+  }
+
   h1, h2, h3, h4 {
     font-weight: 600;
   }
