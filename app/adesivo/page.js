@@ -64,7 +64,7 @@ export default function Adesivo() {
         <AdesivoForm />
         <ul style={{ fontWeight: '400',fontSize: '20px',listStyle: '',lineHeight: '140%' }}>
           <li>É permitido mandar <u>mais de uma inscrição</u>, só pedimos que envie com o mesmo instagram</li>
-          <li>Até o momento receberemos inscrições por 1 mês, acabando dia <u>14/09/2024</u>, mas pode alterar</li>
+          <li>Até o momento receberemos inscrições por 2 meses, acabando dia <u>14/10/2024</u>, mas pode alterar</li>
           <li>Muito obrigada pela atenção e caso tenha alguma <u>dúvida</u> pode mandar mensagem pra gente nas redes</li>
         </ul>
         <span>A Rua de Baixo não se responsabiliza por crimes ou delitos cometidos por participantes da competição</span>

@@ -132,6 +132,7 @@ const GlobalStyle = createGlobalStyle`
 
     display: grid;
     place-content: center;
+    cursor: pointer;
 
     &::before {
       content: "";
@@ -151,10 +152,7 @@ const GlobalStyle = createGlobalStyle`
   textarea {
     appearance: none;
     min-height: 60px;
-    padding-top: 8px;
-    padding-bottom: 8px;
-    padding-left: 16px;
-    padding-right: 16px;
+    padding: 16px;
     border: 1px solid ${theme.colors.dark};
     color: ${theme.colors.dark};
     font-family: 'Clash Display', sans-serif;
