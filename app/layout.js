@@ -37,11 +37,11 @@ export default function RootLayout({ children }) {
       <html lang="pt-BR">
         <StyledComponentsRegistry>
           <GlobalStyles>
-            <body className={clash.className}>
+            <body className={clash.className} style={{ background: 'black' }}>
               <FacebookPixel />
               <Header />
               {children}
-              <Footer />
+              {/* <Footer /> */}
             </body>
           </GlobalStyles>
         </StyledComponentsRegistry>

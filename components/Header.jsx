@@ -103,10 +103,10 @@ export default function Header() {
         <NavBarDiv>
           <Navbar />
         </NavBarDiv>
-        <ButtonContainer>
+        {/* <ButtonContainer>
           <CartButton onClick={() => setShowCart(true)} />
           {showCart && < Cart />}
-        </ButtonContainer>
+        </ButtonContainer> */}
       </Wrapper>
       {showNavbar && 
         <MobileNavbar>

@@ -4,6 +4,7 @@ import Strip from "@/components/Strip";
 import Maintenance from "@/components/Maintenance";
 import { checkMaintenanceMode } from '@/lib/config';
 import { fetchLandingImages } from '@/lib/api';
+import { CenterScreen } from '@/components/styles/OtherStyles.styled';
 
 export const metadata = {
   title: 'Rua de Baixo',
@@ -25,8 +26,13 @@ export const metadata = {
 export const revalidate = 60;
 export const dynamic = 'force-dynamic';
 
-
 export default async function Home() {
+
+  return (
+    <CenterScreen>
+      <h1 style={{color: 'white'}}>Ex umbra in solem.</h1>
+    </CenterScreen>
+  )
   
   if (await checkMaintenanceMode()) {
     return (<Maintenance />)

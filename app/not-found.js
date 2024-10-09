@@ -9,8 +9,8 @@ export default function NotFound() {
   return (
     <CenterScreen>
       <div>
-        <h1>Erro 404</h1>
-        <p>A página que você está procurando não foi encontrada</p>
+        <h1 style={{ color: 'white' }}>Erro 404</h1>
+        <p style={{ color: 'white' }}>A página que você está procurando não foi encontrada</p>
       </div>
     </CenterScreen>
   )
