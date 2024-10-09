@@ -12,7 +12,7 @@ export default function Navbar() {
   
   return (
       <StyledNav>
-        <NavLink selected={currentPage === 'produtos'} href={'/produtos'}>
+        {/* <NavLink selected={currentPage === 'produtos'} href={'/produtos'}>
           <Popover
             id="mouse-over-popover"
             sx={{
@@ -36,16 +36,16 @@ export default function Navbar() {
           </Popover>
           <Image alt='Aviso' onMouseEnter={(e) => setPopoverElement(e.currentTarget)} onMouseLeave={() => setPopoverElement(null)} src={maintenance} height={16} width={16}/>
           <p>Produtos</p>
-        </NavLink>
+        </NavLink> */}
         <NavLink selected={currentPage === 'lookbook'} href={'/lookbook'}>
           <p>LookBook</p>
         </NavLink>
-        <NavLink selected={currentPage === 'adesivo'} href={'/adesivo'}>
+        {/* <NavLink selected={currentPage === 'adesivo'} href={'/adesivo'}>
           <p>Adesivo</p>
         </NavLink>
         <NavLink selected={currentPage === 'links'} href={'/links'}>
           <p>Links</p>
-        </NavLink>
+        </NavLink> */}
       </StyledNav>
   )
 }
