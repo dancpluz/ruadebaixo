@@ -34,6 +34,30 @@ const nextConfig = {
       ],
     }
   },
+  async redirects() {
+    return [
+      {
+        source: '/adesivo',
+        destination: '/404',
+        permanent: true,
+      },
+      {
+        source: '/links',
+        destination: '/404',
+        permanent: true,
+      },
+      {
+        source: '/produtos',
+        destination: '/404',
+        permanent: true,
+      },
+      {
+        source: '/comprar',
+        destination: '/404',
+        permanent: true,
+      },
+    ]
+  }
 }
 
 module.exports = nextConfig
