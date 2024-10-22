@@ -9,9 +9,11 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
-      },
+        background: 'hsl(var(--background))',
+        foreground: 'hsl(var(--foreground))',
+        accent: 'hsl(var(--accent))',
+        alternate: 'hsl(var(--alternate))',
+      }
     },
   },
   plugins: [],

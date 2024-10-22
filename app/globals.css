@@ -7,27 +7,33 @@
 }
 
 .dark {
-  --background: 0, 0, 0;
-  --foreground: 255, 255, 255;
-  --alternate: 111, 111, 111;
+  --background: 0, 0%, 0%;
+  --foreground: 0, 0%, 100%;
+  --accent: 0, 100%, 50%;
+  --alternate: hsl(0, 0%, 43.53%);
 
-  background: rgba(var(--background));
-  color: rgba(var(--foreground));
+  background: hsl(var(--background));
+  color: hsl(var(--foreground));
 }
 
 .light {
   --background: 255, 255, 255;
   --foreground: 0, 0, 0;
+  --accent: 0, 0, 255;
   --alternate: 160, 160, 160;
 
-  background: rgba(var(--background));
-  color: rgba(var(--foreground));
+  background: hsl(var(--background));
+  color: hsl(var(--foreground));
+}
+
+.clash {
+  font-family: var(--font-clash);
 }
 
 body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  color: hsl(var(--foreground));
+  background: hsl(var(--background));
+  font-family: var(--font-archivo);
 }
 
 @layer utilities {
