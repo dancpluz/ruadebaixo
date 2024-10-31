@@ -7,20 +7,20 @@
 }
 
 .dark {
-  --background: 0, 0%, 0%;
-  --foreground: 0, 0%, 100%;
-  --accent: 0, 100%, 50%;
-  --alternate: hsl(0, 0%, 43.53%);
+  --background: 0 0% 0%;
+  --foreground: 0 0% 100%;
+  --accent: 0 100% 50%;
+  --alternate: 0 0% 43.53%;
 
   background: hsl(var(--background));
   color: hsl(var(--foreground));
 }
 
 .light {
-  --background: 255, 255, 255;
-  --foreground: 0, 0, 0;
-  --accent: 0, 0, 255;
-  --alternate: 160, 160, 160;
+  --background: 255 255% 255%;
+  --foreground: 0 0% 0%;
+  --accent: 0 0% 255%;
+  --alternate: 160 160% 160%;
 
   background: hsl(var(--background));
   color: hsl(var(--foreground));
@@ -39,5 +39,11 @@ body {
 @layer utilities {
   .text-balance {
     text-wrap: balance;
+  }
+}
+
+@layer base {
+  :root {
+    --radius: 0.5rem;
   }
 }
