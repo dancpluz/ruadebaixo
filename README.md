@@ -1,6 +1,8 @@
-- [ ] Pág. Landing
-  - [ ] Header
-  - [ ] Rodapé
+- [x] Pág. Landing
+  - [x] Header
+  - [x] Animação
+  - [x] Countdown
+  - [x] Rodapé
 - [ ] Pág. Catalogo
   - [ ] Card Produto
   - [ ] Infinite Scroll
@@ -13,6 +15,10 @@
 - [ ] Pág. Links
 - [ ] Pág. Lookbook
 - [ ] Rotas de API definidas
+ - [ ] Asaas
+ - [ ] Strapi
+ - [ ] Kangu
+ - [x] Whatsapp
 - [ ] Integração com entregas (kangu)
 - [ ] Integração de pagamento (asaas.dev/stripe)
 - [ ] Integração com bot do zap
