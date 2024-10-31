@@ -29,9 +29,7 @@ export default async function RootLayout({
 }>) {
   const data = await fetchFromStrapi<Home>('home', true);
   const marqueeStrings = data.data?.attributes?.anuncios || [];
-  const finalDate = data.data?.attributes?.data_lancamento;
-  console.log(finalDate)
-  '2024-11-06T18:00:00'
+  const finalDate = data.data?.attributes?.data_lancamento || '';
 
   return (
     <html lang="pt-BR">

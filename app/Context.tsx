@@ -25,7 +25,7 @@ type StoreProviderProps = {
   finalDate: string;
 }
 
-export default function StoreProvider({ children, finalDate }: StoreProviderProps) {
+export default function StoreProvider({ children, finalDate='' }: StoreProviderProps) {
 
   const [store] = useState(() =>
     createStore<CartState>((set) => ({
