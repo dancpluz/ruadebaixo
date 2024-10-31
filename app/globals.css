@@ -1,0 +1,49 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  -webkit-font-smoothing: antialiased;
+}
+
+.dark {
+  --background: 0 0% 0%;
+  --foreground: 0 0% 100%;
+  --accent: 0 100% 50%;
+  --alternate: 0 0% 43.53%;
+
+  background: hsl(var(--background));
+  color: hsl(var(--foreground));
+}
+
+.light {
+  --background: 255 255% 255%;
+  --foreground: 0 0% 0%;
+  --accent: 0 0% 255%;
+  --alternate: 160 160% 160%;
+
+  background: hsl(var(--background));
+  color: hsl(var(--foreground));
+}
+
+.clash {
+  font-family: var(--font-clash);
+}
+
+body {
+  color: hsl(var(--foreground));
+  background: hsl(var(--background));
+  font-family: var(--font-archivo);
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+@layer base {
+  :root {
+    --radius: 0.5rem;
+  }
+}
