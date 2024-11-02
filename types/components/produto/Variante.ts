@@ -6,6 +6,7 @@ export interface Variante {
   cor?: any;
   desconto: number;
   valor: number;
+  unique?: boolean;
 }
 export interface Variante_Plain {
   quantidade: number;
@@ -13,6 +14,7 @@ export interface Variante_Plain {
   cor?: any;
   desconto: number;
   valor: number;
+  unique?: boolean;
 }
 
 export interface Variante_NoRelations {
@@ -21,5 +23,6 @@ export interface Variante_NoRelations {
   cor?: any;
   desconto: number;
   valor: number;
+  unique?: boolean;
 }
 

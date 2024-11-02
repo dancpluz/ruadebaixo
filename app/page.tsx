@@ -5,18 +5,21 @@ import Image from 'next/image';
 import LogoAnimation from '@/components/LogoAnimation';
 import { Skeleton } from "@/components/ui/skeleton"
 import type { Home } from "@/types/api/home";
+import { format } from 'date-fns';
+
 
 export const dynamic = 'force-dynamic'
 
 export default async function Home() {
   const data = await fetchFromStrapi<Home>('home?populate[0]=imagens');
   const images = data.data?.attributes?.imagens?.data;
+  const date = data.data?.attributes?.data_lancamento;
 
   return (
-    <main className="mt-8 flex flex-col flex-1 gap-8 min-h-screen overflow-hidden">
+    <main className="mt-8 flex flex-col flex-1 gap-8 overflow-hidden">
       <div>
         <h1 className="text-4xl md:text-5xl md:text-center md:px-16 px-5 font-regular clash uppercase tracking-wider">Vendas liberadas em:</h1>
-        <h2 className="text-4xl md:text-5xl md:text-center md:px-16 px-5 font-regular clash uppercase font-semibold tracking-wider">06/11 - 18:00</h2>
+        <h2 className="text-4xl md:text-5xl md:text-center md:px-16 px-5 font-regular clash uppercase font-semibold tracking-wider">{date ? format(new Date(date), 'dd/MM - HH:mm') : ''}</h2>
       </div>
       <Countdown />
       <div className="flex flex-wrap w-full -z-10 after:content-[''] after:grow-[999]">

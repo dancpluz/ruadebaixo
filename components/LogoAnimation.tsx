@@ -18,17 +18,22 @@ export const useFrameStore = create<FrameStore>((set) => ({
 const FRAME_COUNT = 30; // Total number of frames
 const SCROLL_RANGE = 1500; // The range of y-scroll position to consider for the animation
 
+// Helper function to handle negative modulo
+function positiveModulo(n: number, m: number) {
+  return ((n % m) + m) % m;
+}
+
 export default function LogoAnimation() {
   const [{ y }] = useWindowScroll();
   const { currentFrame, setCurrentFrame } = useFrameStore();
 
   useEffect(() => {
     if (y !== null) {
-      // Calculate the scroll percentage beyond the first loop (no clamping)
+      // Calculate the scroll percentage beyond the first loop, accounting for negative values
       const scrollPercentage = y / SCROLL_RANGE;
 
-      // Calculate the new frame with a looping effect using modulo
-      const newFrame = Math.floor(scrollPercentage * FRAME_COUNT) % FRAME_COUNT;
+      // Calculate the new frame using the positive modulo function for looping
+      const newFrame = positiveModulo(Math.floor(scrollPercentage * FRAME_COUNT), FRAME_COUNT);
 
       // Update the current frame in state
       setCurrentFrame(newFrame);
@@ -42,7 +47,7 @@ export default function LogoAnimation() {
       alt={`Animação Logo Frame ${i}`}
       width={280}
       height={320}
-      className={`absolute top-0 left-0 object-fit w-full h-full ${i === currentFrame ? "opacity-100" : "opacity-0"}`}
+      className={`absolute top-0 left-0 object-cover w-full h-full ${i === currentFrame ? "opacity-100" : "opacity-0"}`}
       priority={i === 0}
     />
   ));
