@@ -26,7 +26,6 @@ export async function generateMetadata(): Promise<Metadata> {
     return {
       title: seo.metaTitle,
       description: seo.metaDescription,
-      viewport: seo.metaViewport,
       keywords: seo.keywords?.split(','),
       alternates: {
         canonical: seo.canonicalURL,
