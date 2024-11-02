@@ -39,7 +39,7 @@ const nextConfig = {
     return config
   },
   env: {
-    SANITY_TOKEN: process.env.STRAPI_TOKEN,
+    STRAPI_TOKEN: process.env.STRAPI_TOKEN,
     ASAAS_API_KEY: process.env.ASAAS_API_KEY,
     ZAP_API_TOKEN: process.env.ZAP_API_TOKEN,
     ZAP_URL: process.env.ZAP_URL,

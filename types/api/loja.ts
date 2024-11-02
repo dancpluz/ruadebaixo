@@ -14,14 +14,14 @@ export interface Loja {
     createdAt: Date;    updatedAt: Date;    publishedAt?: Date;    _softDeletedAt?: Date;
     _softDeletedById?: number;
     _softDeletedByType?: string;
-    title: string;
-    slug?: string;
+    nome: string;
     logo?: { data: Media };
-    cor?: string;
+    cor?: any;
     whatsapp?: string;
     taxa?: number;
     drops: { data: Drop[] };
     produtos: { data: Produto[] };
+    slug?: string;
   };
 }
 export interface Loja_Plain {
@@ -29,14 +29,14 @@ export interface Loja_Plain {
   createdAt: Date;  updatedAt: Date;  publishedAt?: Date;  _softDeletedAt?: Date;
   _softDeletedById?: number;
   _softDeletedByType?: string;
-  title: string;
-  slug?: string;
+  nome: string;
   logo?: Media_Plain;
-  cor?: string;
+  cor?: any;
   whatsapp?: string;
   taxa?: number;
   drops: Drop_Plain[];
   produtos: Produto_Plain[];
+  slug?: string;
 }
 
 export interface Loja_NoRelations {
@@ -44,14 +44,14 @@ export interface Loja_NoRelations {
   createdAt: Date;  updatedAt: Date;  publishedAt?: Date;  _softDeletedAt?: Date;
   _softDeletedById?: number;
   _softDeletedByType?: string;
-  title: string;
-  slug?: string;
+  nome: string;
   logo?: number;
-  cor?: string;
+  cor?: any;
   whatsapp?: string;
   taxa?: number;
   drops: number[];
   produtos: number[];
+  slug?: string;
 }
 
 export interface Loja_AdminPanelLifeCycle {
@@ -59,12 +59,12 @@ export interface Loja_AdminPanelLifeCycle {
   createdAt: Date;  updatedAt: Date;  publishedAt?: Date;  _softDeletedAt?: Date;
   _softDeletedById?: number;
   _softDeletedByType?: string;
-  title: string;
-  slug?: string;
+  nome: string;
   logo?: AdminPanelRelationPropertyModification<Media_Plain>;
-  cor?: string;
+  cor?: any;
   whatsapp?: string;
   taxa?: number;
   drops: AdminPanelRelationPropertyModification<Drop_Plain>;
   produtos: AdminPanelRelationPropertyModification<Produto_Plain>;
+  slug?: string;
 }

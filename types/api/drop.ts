@@ -14,13 +14,13 @@ export interface Drop {
     createdAt: Date;    updatedAt: Date;    publishedAt?: Date;    _softDeletedAt?: Date;
     _softDeletedById?: number;
     _softDeletedByType?: string;
-    title: string;
-    slug?: string;
+    nome: string;
     cor?: string;
     produtos: { data: Produto[] };
     lookbook?: { data: Lookbook };
     loja?: { data: Loja };
     data?: Date;
+    slug?: string;
   };
 }
 export interface Drop_Plain {
@@ -28,13 +28,13 @@ export interface Drop_Plain {
   createdAt: Date;  updatedAt: Date;  publishedAt?: Date;  _softDeletedAt?: Date;
   _softDeletedById?: number;
   _softDeletedByType?: string;
-  title: string;
-  slug?: string;
+  nome: string;
   cor?: string;
   produtos: Produto_Plain[];
   lookbook?: Lookbook_Plain;
   loja?: Loja_Plain;
   data?: Date;
+  slug?: string;
 }
 
 export interface Drop_NoRelations {
@@ -42,13 +42,13 @@ export interface Drop_NoRelations {
   createdAt: Date;  updatedAt: Date;  publishedAt?: Date;  _softDeletedAt?: Date;
   _softDeletedById?: number;
   _softDeletedByType?: string;
-  title: string;
-  slug?: string;
+  nome: string;
   cor?: string;
   produtos: number[];
   lookbook?: number;
   loja?: number;
   data?: Date;
+  slug?: string;
 }
 
 export interface Drop_AdminPanelLifeCycle {
@@ -56,11 +56,11 @@ export interface Drop_AdminPanelLifeCycle {
   createdAt: Date;  updatedAt: Date;  publishedAt?: Date;  _softDeletedAt?: Date;
   _softDeletedById?: number;
   _softDeletedByType?: string;
-  title: string;
-  slug?: string;
+  nome: string;
   cor?: string;
   produtos: AdminPanelRelationPropertyModification<Produto_Plain>;
   lookbook?: AdminPanelRelationPropertyModification<Lookbook_Plain>;
   loja?: AdminPanelRelationPropertyModification<Loja_Plain>;
   data?: Date;
+  slug?: string;
 }

@@ -6,6 +6,7 @@ import StoreProvider from '@/app/Context'
 import Footer from "@/components/Footer";
 import { fetchFromStrapi } from "./actions/strapi";
 import { Home } from "@/types/api/home";
+import { Toaster } from "@/components/ui/toaster"
 
 const clashDisplay = localFont({
   src: "./fonts/ClashDisplay-Variable.ttf",
@@ -17,10 +18,34 @@ const archivo = localFont({
   variable: '--font-archivo',
 });
 
-export const metadata: Metadata = {
-  title: "Rua de Baixo",
-  description: "Os donos da Rua",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const data = await fetchFromStrapi<Home>('home?populate[0]=seo');
+  const seo = data.data?.attributes?.seo;
+
+  if (seo) {
+    return {
+      title: seo.metaTitle,
+      description: seo.metaDescription,
+      keywords: seo.keywords?.split(','),
+      alternates: {
+        canonical: seo.canonicalURL,
+      }
+      // openGraph: {
+      //   title: seo.opengraphTitle,
+      //   description: seo.opengraphDescription,
+      //   url: seo.opengraphUrl,
+      //   type: seo.opengraphType,
+      //   image: seo.opengraphImage,
+      // }
+    }
+  }
+
+  return {
+    title: "Rua de Baixo",
+    description: "Os donos da Rua",
+    viewport: "width=device-width, initial-scale=1",
+  }
+}
 
 export default async function RootLayout({
   children,
@@ -41,6 +66,7 @@ export default async function RootLayout({
           {children}
           <Footer />
         </StoreProvider>
+        <Toaster />
       </body>
     </html>
   );
