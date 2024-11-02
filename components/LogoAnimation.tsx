@@ -47,7 +47,7 @@ export default function LogoAnimation() {
       alt={`Animação Logo Frame ${i}`}
       width={280}
       height={320}
-      className={`absolute top-0 left-0 object-cover w-full h-full ${i === currentFrame ? "opacity-100" : "opacity-0"}`}
+      className={`absolute top-0 left-0 object-contain w-full h-full ${i === currentFrame ? "opacity-100" : "opacity-0"}`}
       priority={i === 0}
     />
   ));
