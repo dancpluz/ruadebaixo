@@ -2,7 +2,7 @@ import { fetchFromStrapi } from "@/app/actions/strapi";
 import Countdown from "@/components/Countdown";
 import { buildImgUrl, selectImageUrl } from "@/lib/utils";
 import Image from 'next/image';
-import LogoAnimation from '@/components/LogoAnimation';
+import LogoAnimation from '@/components/LogoScroll';
 import { Skeleton } from "@/components/ui/skeleton"
 import type { Home } from "@/types/api/home";
 import { format } from 'date-fns';
@@ -31,7 +31,7 @@ export default async function Home() {
           return (
             <div key={id} className="w-full outline outline-1 outline-foreground sm:w-1/2 md:w-1/3 lg:w-1/4 ">
               <Image
-                className="object-cover h-auto w-full"
+                className="object-contain h-auto w-full"
                 src={buildImgUrl(imageUrl)}
                 alt={alternativeText || `Lookbook Image ${id}`}
                 width={width}

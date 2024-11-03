@@ -1,60 +1,40 @@
 'use client'
 
-import { useWindowScroll } from "@uidotdev/usehooks";
-import { useEffect } from "react";
-import { create } from 'zustand';
-import Image from 'next/image';
-
-interface FrameStore {
-  currentFrame: number;
-  setCurrentFrame: (frame: number) => void;
-}
-
-export const useFrameStore = create<FrameStore>((set) => ({
-  currentFrame: 0,
-  setCurrentFrame: (frame: number) => set({ currentFrame: frame }),
-}));
-
-const FRAME_COUNT = 30; // Total number of frames
-const SCROLL_RANGE = 1500; // The range of y-scroll position to consider for the animation
-
-// Helper function to handle negative modulo
-function positiveModulo(n: number, m: number) {
-  return ((n % m) + m) % m;
-}
+import Link from 'next/link'
+import { useState, useEffect } from 'react'
+import Image from 'next/image'
 
 export default function LogoAnimation() {
-  const [{ y }] = useWindowScroll();
-  const { currentFrame, setCurrentFrame } = useFrameStore();
+  const [currentFrame, setCurrentFrame] = useState(0)
+  const totalFrames = 30
+  const frameRate = 20 // Frames per second
 
   useEffect(() => {
-    if (y !== null) {
-      // Calculate the scroll percentage beyond the first loop, accounting for negative values
-      const scrollPercentage = y / SCROLL_RANGE;
+    const intervalId = setInterval(() => {
+      setCurrentFrame((prevFrame) =>
+        prevFrame === totalFrames ? 1 : prevFrame + 1
+      )
+    }, 1000 / frameRate)
 
-      // Calculate the new frame using the positive modulo function for looping
-      const newFrame = positiveModulo(Math.floor(scrollPercentage * FRAME_COUNT), FRAME_COUNT);
+    return () => clearInterval(intervalId)
+  }, [])
 
-      // Update the current frame in state
-      setCurrentFrame(newFrame);
-    }
-  }, [y, setCurrentFrame]);
-
-  const frames = Array.from({ length: FRAME_COUNT }, (_, i) => (
-    <Image
-      key={i}
-      src={`/anim/anisite${String(i).padStart(4, '0')}.webp`}
-      alt={`Animação Logo Frame ${i}`}
-      width={280}
-      height={320}
-      className={`absolute top-0 left-0 object-contain w-full h-full ${i === currentFrame ? "opacity-100" : "opacity-0"}`}
-      priority={i === 0}
-    />
-  ));
+  const padFrame = (frame: number) => frame.toString().padStart(4, '0')
 
   return (
-    <div className='fixed top-1/2 left-1/2 lg:size-64 mix-blend-lighten sm:mix-blend-normal size-48 transform -translate-x-1/2 -translate-y-1/2 -z-10'>
-      {frames}
-    </div>
-  );
+     <div className="size-48 lg:size-64 lg:mb-6 relative">
+        {[...Array(totalFrames)].map((_, index) => (
+          <Link href='/' key={index + 1}>
+            <Image
+              src={`/anim/anisite${padFrame(index + 1)}.webp`}
+              alt={`Animation frame ${index + 1}`}
+              fill
+              priority={index === 0} // Prioritize loading for the first 5 frames
+              className={`object-contain ${currentFrame === index + 1 ? 'opacity-100' : 'opacity-0'
+                }`}
+            />
+          </Link>
+        ))}
+      </div>
+  )
 }
