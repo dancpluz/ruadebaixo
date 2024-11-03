@@ -1,3 +1,4 @@
+import { Variante } from "@/types/components/produto/Variante";
 import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
 
@@ -39,3 +40,18 @@ export function selectImageUrl(formats: ImageFormats) {
 `,
   };
 }
+
+export function checkProductAvailability(variantes: Variante[]) {
+  return variantes.reduce((acc, variante) => acc + variante.quantidade, 0) > 0
+}
+
+export function formatToBRL(value: number, options={ showDecimals: false, showCurrencySymbol: true }) {
+  const { showDecimals, showCurrencySymbol } = options;
+  return value.toLocaleString('pt-BR', { 
+    style: showCurrencySymbol ? 'currency' : 'decimal', 
+    currency: 'BRL', 
+    minimumFractionDigits: showDecimals ? 2 : 0, 
+    maximumFractionDigits: showDecimals ? 2 : 0 
+  });
+}
+

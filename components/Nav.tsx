@@ -11,8 +11,8 @@ import Link from "next/link"
 
 const routes = [
   { label: 'Catálogo', href: '/catalogo' },
-  { label: 'Lookbook', href: '/contato' },
-  { label: 'Adesivo', href: '/sobre' },
+  { label: 'Lookbook', href: '/lookbook' },
+  { label: 'Adesivo', href: '/adesivo' },
   { label: 'Links', href: '/links' },
 ]
 

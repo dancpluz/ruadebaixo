@@ -31,7 +31,7 @@ export default function Footer() {
           ))}
         </ul>
       </div>
-      {/* <Nav /> */}
+      <Nav />
       <span className='text-xs py-2 px-5 text-center w-full wide-letter tracking-wider uppercase'>
         Todos os direitos reservados ruadebaixo ®
       </span>

@@ -78,14 +78,14 @@ export default function Header({ marqueeStrings = [] } : { marqueeStrings: strin
   
   return (
     <header>
-      <div className={`h-16 top-0 left-0 w-screen fixed bg-background ${marqueeStrings.length > 0 ? '' : 'border-b'} ${y === 0 ? '' : 'border-b'} border-foreground flex justify-center items-center px-5 z-10 gap-2 transition-transform duration-500 ${shouldHide ? '-translate-y-full' : 'translate-y-0'}`}>
-        {/* <Hamburger /> */}
+      <div className={`h-16 top-0 left-0 w-screen fixed bg-background ${marqueeStrings.length > 0 ? '' : 'border-b'} ${y === 0 ? '' : 'border-b'} border-foreground flex justify-between items-center px-5 z-20 gap-2 transition-transform duration-500 ${shouldHide ? '-translate-y-full' : 'translate-y-0'}`}>
+        <Hamburger />
         <div onClick={() => scrollTo({ left: 0, top: 0, behavior: "smooth" })} className='relative size-[48px]'>
           <Link href='/'>
             <Image alt='Logo Rua de Baixo' className='object-cover' src='/logo.png' fill />
           </Link>
         </div>
-        {/* <Cart /> */}
+        <Cart />
       </div>
       {marqueeStrings.length > 0 && <Marquee className='h-9 border-t border-b border-foreground' autoFill pauseOnClick speed={40}>
         {marqueeStrings.map((string,i) => (
