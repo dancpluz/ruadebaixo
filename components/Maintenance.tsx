@@ -11,8 +11,8 @@ export default function Maintenance() {
         <Clock className="size-8 text-muted-foreground mix-blend-difference absolute bottom-2 right-0 animate-spin" />
       </div>
       <h1 className="text-4xl font-semibold mb-2 uppercase clash">Página em manutenção</h1>
-      <p className="text-lg text-muted-foreground mb-6">
-        Ainda estamos trabalhando nessa página. Por favor, volte mais tarde.
+      <p className="text-md lg:text-lg text-muted-foreground uppercase mb-6">
+        Ainda estamos trabalhando nesta página. Por favor, volte mais tarde.
       </p>
       <div className="flex space-x-4">
         <Button asChild>

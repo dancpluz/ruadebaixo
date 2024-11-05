@@ -7,15 +7,19 @@ import {
   ResponsiveModalTitle,
   ResponsiveModalTrigger,
 } from '@/components/ui/responsive-modal';
-import type { Variante } from "@/types/components/produto/Variante";
+import type { Produto } from "@/types/api/produto";
 import { useMemo, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { formatToBRL } from '@/lib/utils';
 import PlusIcon from "@/public/icons/plus.svg";
+import { useCart } from '@/app/Context'
 
-export default function AddCartModal({ variantes }: { variantes: Variante[] }) {
-    const [selectedColor, setSelectedColor] = useState<string | null>(null)
+export default function AddCartModal({ product }: { product: Produto }) {
+  const { variantes } = product.attributes;
+
+  const [selectedColor, setSelectedColor] = useState<string | null>(null)
   const [selectedSize, setSelectedSize] = useState<string | null>(null)
+  const { totalPrice, addItemToCart } = useCart((state) => state)
 
   const uniqueColors = useMemo(() => 
     Array.from(new Set(variantes.map(variante => variante.cor))),
@@ -72,7 +76,7 @@ export default function AddCartModal({ variantes }: { variantes: Variante[] }) {
   if (variantes.length === 1) {
     console.log(variantes[0])
     return (
-      <Button className='cursor-pointer size-12 p-0 text-foreground' variant='ghost' asChild>
+      <Button onClick={() => addItemToCart(product,variantes[0])} className='cursor-pointer size-12 p-0 text-foreground' variant='ghost' asChild>
         <PlusIcon />
       </Button>
     )

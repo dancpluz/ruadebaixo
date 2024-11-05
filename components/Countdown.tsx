@@ -6,8 +6,7 @@ import { useTime } from '@/app/Context'
 import { Skeleton } from "@/components/ui/skeleton"
 
 export default function Countdown() {
-  const  timeLeft = useTime(({ timeLeft }) => timeLeft)
-  const calculateTimeLeft = useTime(({ calculateTimeLeft }) => calculateTimeLeft)
+  const { timeLeft, calculateTimeLeft } = useTime((state) => state)
 
   useEffect(() => {
     const timer = setInterval(() => {

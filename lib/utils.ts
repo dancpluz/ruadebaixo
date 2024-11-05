@@ -55,3 +55,14 @@ export function formatToBRL(value: number, options={ showDecimals: false, showCu
   });
 }
 
+export function applyDiscount(value: number, discount: number) {
+  if (discount >= value || value === 0) {
+    return value
+  } else if (discount < 1) {
+    return value * (1 - discount)
+  } else if (discount >= 1) {
+    return value - discount
+  } else {
+    return value
+  }
+}
