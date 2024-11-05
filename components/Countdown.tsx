@@ -2,12 +2,11 @@
 
 import { useEffect } from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { useCart } from '@/app/Context'
+import { useTime } from '@/app/Context'
 import { Skeleton } from "@/components/ui/skeleton"
 
 export default function Countdown() {
-  const  timeLeft = useCart(({ timeLeft }) => timeLeft)
-  const calculateTimeLeft = useCart(({ calculateTimeLeft }) => calculateTimeLeft)
+  const { timeLeft, calculateTimeLeft } = useTime((state) => state)
 
   useEffect(() => {
     const timer = setInterval(() => {

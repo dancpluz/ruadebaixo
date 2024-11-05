@@ -59,7 +59,7 @@ export default async function RootLayout({
   return (
     <html lang="pt-BR">
       <body
-        className={`${clashDisplay.variable} ${archivo.variable} dark antialiased min-h-screen flex flex-col pt-16 relative`}
+        className={`${clashDisplay.variable} ${archivo.variable} dark antialiased min-h-screen flex flex-col relative`}
       >
         <StoreProvider finalDate={finalDate}>
           <Header marqueeStrings={marqueeStrings} />

@@ -4,7 +4,7 @@
   - [x] Countdown
   - [x] Rodapé
 - [ ] Pág. Catalogo
-  - [ ] Card Produto
+  - [x] Card Produto
   - [ ] Infinite Scroll
   - [ ] Filtragem
 - [ ] Pág. Produto

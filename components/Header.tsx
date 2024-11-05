@@ -62,11 +62,11 @@ export default function Header({ marqueeStrings = [] } : { marqueeStrings: strin
     return (
       <Sheet open={open} onOpenChange={toggleOpen}>
         <SheetTrigger>
-          <HamburgerIcon className='text-foreground size-6' />
+          <HamburgerIcon className='hover:opacity-70 transition-opacity text-foreground size-6' />
         </SheetTrigger>
         <SheetContent close={<XIcon className='text-foreground size-7'/>} side='left' className="w-screen">
           <SheetHeader className='flex p-5 flex-row items-center justify-between'>
-            <HamburgerIcon onClick={toggleOpen} className='cursor-pointer transform -scale-y-100 text-foreground size-6' />
+            <HamburgerIcon onClick={toggleOpen} className='hover:opacity-70 transition-opacity cursor-pointer transform -scale-y-100 text-foreground size-6' />
             <SheetTitle>RUAS</SheetTitle>
             <span aria-hidden='true' className='size-10' />
           </SheetHeader>
@@ -77,10 +77,10 @@ export default function Header({ marqueeStrings = [] } : { marqueeStrings: strin
   }
   
   return (
-    <header>
-      <div className={`h-16 top-0 left-0 w-screen fixed bg-background ${marqueeStrings.length > 0 ? '' : 'border-b'} ${y === 0 ? '' : 'border-b'} border-foreground flex justify-center items-center px-5 z-10 gap-2 transition-transform duration-500 ${shouldHide ? '-translate-y-full' : 'translate-y-0'}`}>
+    <header className='pt-16'>
+      <div className={`h-16 top-0 left-0 w-screen fixed bg-background ${marqueeStrings.length > 0 ? '' : 'border-b'} ${y === 0 ? '' : 'border-b'} border-foreground flex justify-between items-center px-5 z-20 gap-2 transition-transform duration-500 ${shouldHide ? '-translate-y-full' : 'translate-y-0'}`}>
         {/* <Hamburger /> */}
-        <div onClick={() => scrollTo({ left: 0, top: 0, behavior: "smooth" })} className='relative size-[48px]'>
+        <div onClick={() => scrollTo({ left: 0, top: 0, behavior: "smooth" })} className='mx-auto relative size-[48px]'>
           <Link href='/'>
             <Image alt='Logo Rua de Baixo' className='object-cover' src='/logo.png' fill />
           </Link>

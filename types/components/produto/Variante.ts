@@ -3,26 +3,23 @@
 export interface Variante {
   quantidade: number;
   tamanho: string;
-  cor?: any;
+  cor: any;
   desconto: number;
   valor: number;
-  unique?: boolean;
 }
 export interface Variante_Plain {
   quantidade: number;
   tamanho: string;
-  cor?: any;
+  cor: any;
   desconto: number;
   valor: number;
-  unique?: boolean;
 }
 
 export interface Variante_NoRelations {
   quantidade: number;
   tamanho: string;
-  cor?: any;
+  cor: any;
   desconto: number;
   valor: number;
-  unique?: boolean;
 }
 

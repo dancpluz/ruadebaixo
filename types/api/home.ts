@@ -10,52 +10,52 @@ import { AdminPanelRelationPropertyModification } from '../common/AdminPanelRela
 export interface Home {
   id: number;
   attributes: {
-    createdAt: string;    updatedAt: string;    publishedAt?: string;    _softDeletedAt?: string;
+    createdAt: Date;    updatedAt: Date;    publishedAt?: Date;    _softDeletedAt?: Date;
     _softDeletedById?: number;
     _softDeletedByType?: string;
     manutencao?: boolean;
     imagens?: { data: Media[] };
-    anuncios?: string[];
-    data_lancamento?: string;
+    anuncios?: any;
+    data_lancamento?: Date;
     texto_manutencao?: string;
     seo?: Seo;
   };
 }
 export interface Home_Plain {
   id: number;
-  createdAt: string;  updatedAt: string;  publishedAt?: string;  _softDeletedAt?: string;
+  createdAt: Date;  updatedAt: Date;  publishedAt?: Date;  _softDeletedAt?: Date;
   _softDeletedById?: number;
   _softDeletedByType?: string;
   manutencao?: boolean;
   imagens?: Media_Plain[];
-  anuncios?: string[];
-  data_lancamento?: string;
+  anuncios?: any;
+  data_lancamento?: Date;
   texto_manutencao?: string;
   seo?: Seo_Plain;
 }
 
 export interface Home_NoRelations {
   id: number;
-  createdAt: string;  updatedAt: string;  publishedAt?: string;  _softDeletedAt?: string;
+  createdAt: Date;  updatedAt: Date;  publishedAt?: Date;  _softDeletedAt?: Date;
   _softDeletedById?: number;
   _softDeletedByType?: string;
   manutencao?: boolean;
   imagens?: number[];
-  anuncios?: string[];
-  data_lancamento?: string;
+  anuncios?: any;
+  data_lancamento?: Date;
   texto_manutencao?: string;
   seo?: Seo_NoRelations;
 }
 
 export interface Home_AdminPanelLifeCycle {
   id: number;
-  createdAt: string;  updatedAt: string;  publishedAt?: string;  _softDeletedAt?: string;
+  createdAt: Date;  updatedAt: Date;  publishedAt?: Date;  _softDeletedAt?: Date;
   _softDeletedById?: number;
   _softDeletedByType?: string;
   manutencao?: boolean;
   imagens?: AdminPanelRelationPropertyModification<Media_Plain>[];
-  anuncios?: string[];
-  data_lancamento?: string;
+  anuncios?: any;
+  data_lancamento?: Date;
   texto_manutencao?: string;
   seo?: Seo_Plain;
 }

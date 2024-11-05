@@ -12,24 +12,27 @@ import { Variante_NoRelations } from '../components/produto/Variante';
 import { AdminPanelRelationPropertyModification } from '../common/AdminPanelRelationPropertyModification';
 
 export enum Tipo {
-  Camiseta = 'Camiseta',
-  Camisa = 'Camisa',
-  Cinto = 'Cinto',
-  Colete = 'Colete',
-  Polo = 'Polo',
+  Anel = 'Anel',
+  Bermuda = 'Bermuda',
   Bone = 'Boné',
   CalcA = 'Calça',
-  Short = 'Short',
-  Bermuda = 'Bermuda',
-  Jaqueta = 'Jaqueta',
-  SueTer = 'Suéter',
-  MacacaO = 'Macacão',
+  Camisa = 'Camisa',
+  Camiseta = 'Camiseta',
   Casaco = 'Casaco',
+  Cinto = 'Cinto',
+  Colar = 'Colar',
+  Colete = 'Colete',
+  Isqueiro = 'Isqueiro',
+  Jaqueta = 'Jaqueta',
+  MacacaO = 'Macacão',
   OCulos = 'Óculos',
+  Polo = 'Polo',
+  Pulseira = 'Pulseira',
   ReloGio = 'Relógio',
+  Short = 'Short',
   ShoulderBag = 'Shoulder Bag',
-  TeNis = 'Tênis',
-  Pulseira = 'Pulseira',}
+  SueTer = 'Suéter',
+  TeNis = 'Tênis',}
 
 export interface Produto {
   id: number;
@@ -42,11 +45,12 @@ export interface Produto {
     imagens_produto?: { data: Media[] };
     drop?: { data: Drop };
     descricao?: any;
-    categorias?: string;
+    categorias?: any;
     variantes: Variante[];
     loja?: { data: Loja };
-    usado: boolean;
+    brecho: boolean;
     slug?: string;
+    unico?: boolean;
     locale: string;
     localizations?: { data: Produto[] };
   };
@@ -61,11 +65,12 @@ export interface Produto_Plain {
   imagens_produto?: Media_Plain[];
   drop?: Drop_Plain;
   descricao?: any;
-  categorias?: string;
+  categorias?: any;
   variantes: Variante_Plain[];
   loja?: Loja_Plain;
-  usado: boolean;
+  brecho: boolean;
   slug?: string;
+  unico?: boolean;
   locale: string;
   localizations?: Produto_Plain[];
 }
@@ -80,11 +85,12 @@ export interface Produto_NoRelations {
   imagens_produto?: number[];
   drop?: number;
   descricao?: any;
-  categorias?: string;
+  categorias?: any;
   variantes: Variante_NoRelations[];
   loja?: number;
-  usado: boolean;
+  brecho: boolean;
   slug?: string;
+  unico?: boolean;
   locale: string;
   localizations?: Produto[];
 }
@@ -99,11 +105,12 @@ export interface Produto_AdminPanelLifeCycle {
   imagens_produto?: AdminPanelRelationPropertyModification<Media_Plain>[];
   drop?: AdminPanelRelationPropertyModification<Drop_Plain>;
   descricao?: any;
-  categorias?: string;
+  categorias?: any;
   variantes: Variante_Plain[];
   loja?: AdminPanelRelationPropertyModification<Loja_Plain>;
-  usado: boolean;
+  brecho: boolean;
   slug?: string;
+  unico?: boolean;
   locale: string;
   localizations?: Produto[];
 }
