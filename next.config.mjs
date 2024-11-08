@@ -40,6 +40,7 @@ const nextConfig = {
   },
   env: {
     STRAPI_TOKEN: process.env.STRAPI_TOKEN,
+    ASAAS_API_KEY: process.env.ASAAS_API_KEY,
     ZAP_API_TOKEN: process.env.ZAP_API_TOKEN,
     ZAP_URL: process.env.ZAP_URL,
     KANGU_API_KEY: process.env.KANGU_API_KEY,
