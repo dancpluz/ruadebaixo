@@ -17,11 +17,11 @@ export default async function Home() {
   const isoDate = parseISO(date);
 
   return (
-    <main className="mt-8 flex flex-col flex-1 gap-8 overflow-hidden">
-      <div>
+    <main className="flex flex-col flex-1 gap-8 overflow-hidden">
+      {/* <div>
         <h1 className="text-4xl md:text-5xl md:text-center md:px-16 px-5 font-regular clash uppercase tracking-wider">Vendas liberadas em:</h1>
         <h2 className="text-4xl md:text-5xl md:text-center md:px-16 px-5 font-regular clash uppercase font-semibold tracking-wider">{date ? format(isoDate, 'dd/MM - HH:mm') : ''}</h2>
-      </div>
+      </div> */}
       <Countdown />
       <div className="flex flex-wrap w-full -z-10 after:content-[''] after:grow-[999]">
         {images ? images.map(({ id, attributes }) => {
