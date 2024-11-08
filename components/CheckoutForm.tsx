@@ -54,9 +54,8 @@ export default function CheckoutForm() {
     shouldFocusError: false,
   });
 
-  const { setFormInfo, setInfo, generatePix } = useUser((state) => state);
-  const test = useUser((state) => state);
-  const { cartItems, totalItems } = useCart((state) => state);
+  const { setFormInfo, setInfo, deliveryOptions,  generatePix } = useUser((state) => state);
+  const { cartItems, totalItems, totalPrice } = useCart((state) => state);
 
   async function onBuy(values: FormT) {
     const functions = []
@@ -73,7 +72,17 @@ export default function CheckoutForm() {
       setFormInfo(form, key, value)
     }
     if (values.paymentType === 'pix') {
-      await generatePix();
+      
+      let frete = 0;
+      const delivery = form.getValues('delivery')
+      const selectedDelivery = form.getValues('selectedDelivery')
+      if (delivery === 'entrega' && selectedDelivery && deliveryOptions) {
+        const selectedOption = deliveryOptions.find(({ referencia }) => referencia === selectedDelivery)
+        
+        frete = selectedOption.vlrFrete || 0
+      }
+      
+      await generatePix(totalPrice() + frete);
       
       setInfo('successCallback', async () => {
         setInfo('loading', true);
@@ -91,7 +100,6 @@ export default function CheckoutForm() {
     if (stepper.current.id === id) {
       console.log(form.getValues())
       console.log(form.formState.errors)
-      console.log('context',test.form)
     }
 
     const goToIndex = id ? stepper.all.indexOf(stepper.all.find((step) => step.id === id)) : undefined;

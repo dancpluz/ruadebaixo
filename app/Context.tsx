@@ -389,7 +389,7 @@ const createUserSlice = (set: (fn: (state: UserState) => UserState) => void, get
       get().resetPayment()
     }
   },
-  generatePix: async () => {
+  generatePix: async (value) => {
     try {
       set(() => ({ loading: true }))
 
@@ -399,7 +399,7 @@ const createUserSlice = (set: (fn: (state: UserState) => UserState) => void, get
       let cobranca = get().cobranca
 
       if (!cobranca) {
-        cobranca = await createPayment({ cpf: '05749091171', billingType: 'PIX', value: 32, installmentCount: 1, description: 'Teste de pagamento' })
+        cobranca = await createPayment({ cpf: '05749091171', billingType: 'PIX', value: value, installmentCount: 1, description: 'Compra' })
       }
 
       set(() => ({ cobranca, paymentStatus: cobranca.status }))
