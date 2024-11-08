@@ -22,10 +22,14 @@ export async function fetchFromStrapi<T>(path: string, noCache: boolean = false)
     }
 
     console.log(`[Puxado ${path} com sucesso]`);
-
+    
     return response.json();
   } catch (error) {
     console.error(`Erro ao tentar puxar ${path}:`, error);
     throw error;
   }
 }
+
+// const updateProductQuantity(product: Produto, variant: Variante ) {
+
+// }

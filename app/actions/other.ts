@@ -1,6 +1,7 @@
 'use server'
 
 import { headers } from 'next/headers'
+import { CepInfo } from '@/types/api'
 
 export async function getUserIP(): Promise<string> {
   const forwardedFor = headers().get('x-forwarded-for')
@@ -32,4 +33,16 @@ function extractIPv4(ip: string): string {
 
   // If it's neither, return 'Unknown'
   return 'Unknown'
+}
+
+export async function getCepFields(inputCep: string): Promise<CepInfo> {
+  const response = await fetch(`https://viacep.com.br/ws/${inputCep}/json/`);
+
+  const data = await response.json();
+
+  if (data.erro) {
+    throw new Error('CEP não encontrado');
+  }
+  
+  return data
 }

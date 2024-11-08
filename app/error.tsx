@@ -19,14 +19,14 @@ export default function ErrorBoundary({
 }) {
   const { toast } = useToast()
 
-  useEffect(() => {
-    const sendLog = async () => {
-      const userIp = await getUserIP()
-      const errorMessage = `[${userIp}] *OCORREU UM ERRO NO SITE:*\n⚠️ ${error.message}\n🌲 ${error.stack}`
-      await sendMessageToGroupError(errorMessage)
-    }
-    sendLog()
-  }, [error])
+  // useEffect(() => {
+  //   const sendLog = async () => {
+  //     const userIp = await getUserIP()
+  //     const errorMessage = `[${userIp}] *OCORREU UM ERRO NO SITE:*\n⚠️ ${error.message}\n🌲 ${error.stack}`
+  //     await sendMessageToGroupError(errorMessage)
+  //   }
+  //   sendLog()
+  // }, [error])
 
   const handleSubmit = async (formData: FormData) => {
     try {

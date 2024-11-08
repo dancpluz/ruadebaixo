@@ -45,13 +45,16 @@ export function checkProductAvailability(variantes: Variante[]) {
   return variantes.reduce((acc, variante) => acc + variante.quantidade, 0) > 0
 }
 
-export function formatToBRL(value: number, options={ showDecimals: false, showCurrencySymbol: true }) {
-  const { showDecimals, showCurrencySymbol } = options;
+export const hoverAnim = 'relative flex after:absolute after:bg-foreground after:bottom-0 after:h-[1px] after:w-full after:origin-bottom-right after:scale-x-0 hover:after:origin-bottom-left hover:after:scale-x-100 after:transition-transform after:ease-in-out after:duration-300'
+
+export function formatToBRL(value: number, options={ showCurrencySymbol: true }) {
+  const { showCurrencySymbol } = options;
+  const hasDecimals = value % 1 !== 0;
   return value.toLocaleString('pt-BR', { 
     style: showCurrencySymbol ? 'currency' : 'decimal', 
     currency: 'BRL', 
-    minimumFractionDigits: showDecimals ? 2 : 0, 
-    maximumFractionDigits: showDecimals ? 2 : 0 
+    minimumFractionDigits: hasDecimals ? 2 : 0, 
+    maximumFractionDigits: hasDecimals ? 2 : 0 
   });
 }
 

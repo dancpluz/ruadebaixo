@@ -62,8 +62,11 @@ const nextConfig = {
       {
         protocol: 'https',
         hostname: 'ruadebaixo.com.br',
-        port: '',
         pathname: '/uploads/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'portal.kangu.com.br',
       },
     ]
   },

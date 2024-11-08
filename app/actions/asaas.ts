@@ -1,7 +1,7 @@
 'use server'
 
 import { checkEnvVars, roundToDecimal } from "@/lib/utils";
-import { Customer, ListInfo, FormCustomer, NewCustomer, Payment, SimulatePayment, PixQR, CreditCard } from "@/types/checkout";
+import { Customer, ListInfo, NewCustomer, Payment, SimulatePayment, PixQR, CreditCard } from "@/types/api";
 
 const ASAAS_API_URL = process.env.NEXT_PUBLIC_ASAAS_API_URL;
 const ASAAS_API_KEY = process.env.ASAAS_API_KEY;
@@ -159,6 +159,7 @@ export async function getParcelOptions(value: number, parcelNumber: number): Pro
   const parcelOptionsArray = await Promise.all(filteredParcels.map(async (parcel) => {
     try {
       const payment = await simulatePayment({ value, installmentCount: parcel, billingTypes: ['CREDIT_CARD'] });
+      console.log(payment)
       
       const { feePercentage, operationFee } = payment.creditCard;
       const fee = feePercentage + operationFee;
@@ -167,7 +168,7 @@ export async function getParcelOptions(value: number, parcelNumber: number): Pro
         [parcel]: roundToDecimal(value * ((fee / 100) + 1))
       }
     } catch (error) {
-      console.log('[Erro ao obter opções de parcela:', error + ']')
+      console.log('Erro ao obter opções de parcela:', error)
       return;
     }
   }));
@@ -239,6 +240,23 @@ export async function getPixQR( id: string ): Promise<PixQR> {
   if (!data.success) {
     throw new Error(`Erro ao puxar QR Code: ${data.error}`);
   }
+
+  return data;
+}
+
+export async function checkPaymentStatus(id: string): Promise<Pick<Payment, 'status'>> {
+  checkEnvVars(['NEXT_PUBLIC_ASAAS_API_URL', 'ASAAS_API_KEY']);
+
+  console.log(id)
+  const response = await fetch(`${ASAAS_API_URL}/payments/${id}/status`, {
+    headers: asaasHeaders,
+  });
+
+  if (!response.ok) {
+    throw new Error(`Erro ao checar status de pagamento: (${response.status}) ${response.statusText}`);
+  }
+
+  const data = await response.json();
 
   return data;
 }

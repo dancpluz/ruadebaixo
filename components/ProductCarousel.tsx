@@ -13,7 +13,13 @@ import { Media } from "@/types/common/Media"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 
-export default function ProductCarousel({ images }: { images: Media[] }) {
+export default function ProductCarousel({ images, sold }: { images?: Media[], sold: boolean }) {
+  if (!images) {
+    return (
+      <div className='w-full aspect-[32/40]' />
+    )
+  }
+
   const [currentIndex, setCurrentIndex] = useState(0)
   const [api, setApi] = useState<CarouselApi | null>(null)
 
@@ -48,9 +54,9 @@ export default function ProductCarousel({ images }: { images: Media[] }) {
             const { imageUrl, sizes } = selectImageUrl(formats)
 
             return (
-              <CarouselItem className='p-0' key={image.id}>
+              <CarouselItem className='p-0' style={{ filter: sold ? 'grayscale(80%)' : 'grayscale(0)' , opacity: sold ? 0.4 : 1 }} key={image.id}>
                 <Image
-                  className="object-cover h-full w-full"
+                  className="object-contain aspect-[32/40] h-full w-full object-top"
                   src={buildImgUrl(imageUrl)}
                   alt={alternativeText || `Produto ${image.id}`}
                   width={width}

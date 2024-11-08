@@ -19,31 +19,41 @@ const archivo = localFont({
 });
 
 export async function generateMetadata(): Promise<Metadata> {
-  const data = await fetchFromStrapi<Home>('home?populate[0]=seo');
-  const seo = data.data?.attributes?.seo;
-
-  if (seo) {
-    return {
-      title: seo.metaTitle,
-      description: seo.metaDescription,
-      keywords: seo.keywords?.split(','),
-      alternates: {
-        canonical: seo.canonicalURL,
-      }
-      // openGraph: {
-      //   title: seo.opengraphTitle,
-      //   description: seo.opengraphDescription,
-      //   url: seo.opengraphUrl,
-      //   type: seo.opengraphType,
-      //   image: seo.opengraphImage,
-      // }
-    }
-  }
-
-  return {
-    title: "Rua de Baixo",
+  const defaultMetadata = {
+    title: {
+      template: `%s | RDB`,
+      default: 'RUA DE BAIXO'
+    },
     description: "Os donos da Rua",
-    viewport: "width=device-width, initial-scale=1",
+  }
+  try {
+    const data = await fetchFromStrapi<Home>('home?populate[0]=seo');
+    const seo = data.data?.attributes?.seo;
+  
+    if (seo) {
+      return {
+        title: {
+          template: `%s | RDB`,
+          default: 'Rua de Baixo'
+        },
+        description: seo.metaDescription,
+        keywords: seo.keywords?.split(','),
+        alternates: {
+          canonical: seo.canonicalURL,
+        }
+        // openGraph: {
+        //   title: seo.opengraphTitle,
+        //   description: seo.opengraphDescription,
+        //   url: seo.opengraphUrl,
+        //   type: seo.opengraphType,
+        //   image: seo.opengraphImage,
+        // }
+      }
+    }
+
+    return defaultMetadata
+  } catch (error) {
+    return defaultMetadata
   }
 }
 
