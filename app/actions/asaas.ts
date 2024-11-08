@@ -3,7 +3,7 @@
 import { checkEnvVars, roundToDecimal } from "@/lib/utils";
 import { Customer, ListInfo, NewCustomer, Payment, SimulatePayment, PixQR, CreditCard } from "@/types/api";
 
-const ASAAS_API_URL = process.env.NEXT_PUBLIC_ASAAS_API_URL;
+const NEXT_PUBLIC_ASAAS_API_URL = process.env.NEXT_PUBLIC_ASAAS_API_URL;
 const ASAAS_API_KEY = process.env.ASAAS_API_KEY;
 
 const asaasHeaders = {
@@ -15,7 +15,7 @@ const asaasHeaders = {
 export async function getCustomer({ id, cpfCnpj }: { id?: string, cpfCnpj?: string }): Promise<ListInfo<Customer> | Customer | undefined> {
   checkEnvVars(['NEXT_PUBLIC_ASAAS_API_URL', 'ASAAS_API_KEY']);
   if (id) {
-    const response = await fetch(`${ASAAS_API_URL}/customers/${id}`, {
+    const response = await fetch(`${NEXT_PUBLIC_ASAAS_API_URL}/customers/${id}`, {
       headers: asaasHeaders,
     });
 
@@ -32,7 +32,7 @@ export async function getCustomer({ id, cpfCnpj }: { id?: string, cpfCnpj?: stri
     return data;
   } else {
     // CPF PRECISA SER TRATADO
-    const response = await fetch(`${ASAAS_API_URL}/customers`, {
+    const response = await fetch(`${NEXT_PUBLIC_ASAAS_API_URL}/customers`, {
       headers: asaasHeaders,
     });
 
@@ -74,7 +74,7 @@ export async function createCustomer({ id, name, cpf, email, phone, cep, number,
   if (customer) {
     body.observations = feedback ? `${customer.observations || ''}\n${feedback}` : customer.observations;
 
-    const response = await fetch(`${ASAAS_API_URL}/customers/${customer.id}`, {
+    const response = await fetch(`${NEXT_PUBLIC_ASAAS_API_URL}/customers/${customer.id}`, {
       method: 'PUT',
       headers: asaasHeaders,
       body: JSON.stringify(body),
@@ -103,7 +103,7 @@ export async function createCustomer({ id, name, cpf, email, phone, cep, number,
     if (!name) {
       throw new Error('Nome é obrigatório');
     }
-    const response = await fetch(`${ASAAS_API_URL}/customers`, {
+    const response = await fetch(`${NEXT_PUBLIC_ASAAS_API_URL}/customers`, {
       method: 'POST',
       headers: asaasHeaders,
       body: JSON.stringify(body),
@@ -128,7 +128,7 @@ export async function createCustomer({ id, name, cpf, email, phone, cep, number,
 export async function simulatePayment({ value, installmentCount, billingTypes }: { value: number, installmentCount: number, billingTypes: string[] }): Promise<SimulatePayment> {
   checkEnvVars(['NEXT_PUBLIC_ASAAS_API_URL', 'ASAAS_API_KEY']);
 
-  const response = await fetch(`${ASAAS_API_URL}/payments/simulate`, {
+  const response = await fetch(`${NEXT_PUBLIC_ASAAS_API_URL}/payments/simulate`, {
     method: 'POST',
     headers: asaasHeaders,
     body: JSON.stringify({
@@ -197,7 +197,7 @@ export async function createPayment({ id, cpf, billingType, value, installmentCo
   dueDate.setDate(dueDate.getDate() + 1);
   const formattedDueDate = dueDate.toISOString().split('T')[0];
 
-  const response = await fetch(`${ASAAS_API_URL}/payments`, {
+  const response = await fetch(`${NEXT_PUBLIC_ASAAS_API_URL}/payments`, {
     method: 'POST',
     headers: asaasHeaders,
     body: JSON.stringify({
@@ -228,7 +228,7 @@ export async function createPayment({ id, cpf, billingType, value, installmentCo
 export async function getPixQR( id: string ): Promise<PixQR> {
   checkEnvVars(['NEXT_PUBLIC_ASAAS_API_URL', 'ASAAS_API_KEY']);
 
-  const response = await fetch(`${ASAAS_API_URL}/payments/${id}/pixQrCode`, {
+  const response = await fetch(`${NEXT_PUBLIC_ASAAS_API_URL}/payments/${id}/pixQrCode`, {
     headers: asaasHeaders,
   });
 
@@ -248,7 +248,7 @@ export async function checkPaymentStatus(id: string): Promise<Pick<Payment, 'sta
   checkEnvVars(['NEXT_PUBLIC_ASAAS_API_URL', 'ASAAS_API_KEY']);
 
   console.log(id)
-  const response = await fetch(`${ASAAS_API_URL}/payments/${id}/status`, {
+  const response = await fetch(`${NEXT_PUBLIC_ASAAS_API_URL}/payments/${id}/status`, {
     headers: asaasHeaders,
   });
 
@@ -264,7 +264,7 @@ export async function checkPaymentStatus(id: string): Promise<Pick<Payment, 'sta
 export async function payCreditCard({ creditCard, creditCardHolderInfo }: CreditCard): Promise<Payment> {
   checkEnvVars(['NEXT_PUBLIC_ASAAS_API_URL', 'ASAAS_API_KEY']);
 
-  const response = await fetch(`${ASAAS_API_URL}/payments/${id}/pixQrCode`, {
+  const response = await fetch(`${NEXT_PUBLIC_ASAAS_API_URL}/payments/${id}/pixQrCode`, {
     headers: asaasHeaders,
   });
 

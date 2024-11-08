@@ -4,13 +4,13 @@ import { checkEnvVars } from "@/lib/utils";
 import { Payload } from "@/types/common/Payload";
 
 const STRAPI_TOKEN = process.env.STRAPI_TOKEN;
-const STRAPI_API_URL = process.env.NEXT_PUBLIC_STRAPI_API_URL;
+const NEXT_PUBLIC_STRAPI_API_URL = process.env.NEXT_PUBLIC_STRAPI_API_URL;
 
 export async function fetchFromStrapi<T>(path: string, noCache: boolean = false): Promise<Payload<T>> {
   checkEnvVars(['STRAPI_TOKEN', 'NEXT_PUBLIC_STRAPI_API_URL']);
 
   try {
-    const response = await fetch(`${STRAPI_API_URL}/api/${path}`, {
+    const response = await fetch(`${NEXT_PUBLIC_STRAPI_API_URL}/api/${path}`, {
       headers: {
         Authorization: `bearer ${STRAPI_TOKEN}`,
       },

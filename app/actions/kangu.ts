@@ -7,7 +7,7 @@ import { clothesWeight, FormT } from "@/types/checkout";
 import { RateLimiterMemory } from 'rate-limiter-flexible';
 import { getUserIP } from "./other";
 
-const KANGU_API_URL = process.env.NEXT_PUBLIC_KANGU_API_URL;
+const NEXT_PUBLIC_KANGU_API_URL = process.env.NEXT_PUBLIC_KANGU_API_URL;
 const KANGU_API_TOKEN = process.env.KANGU_API_TOKEN;
 
 function calculateCartInfo(cartItems: CartItem[]) {
@@ -58,7 +58,7 @@ export async function simulateShipping(inputCep: string, cartItems: CartItem[]):
     produtos,
   } as SimulateShipping;
 
-  const response = await fetch(`${KANGU_API_URL}/simular`, {
+  const response = await fetch(`${NEXT_PUBLIC_KANGU_API_URL}/simular`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -140,7 +140,7 @@ export async function postShipping(values: FormT, cartItems: CartItem[])  {
     servicos: ["P"]
   } as ShippingInfo;
 
-  const response = await fetch(`${KANGU_API_URL}/solicitar`, {
+  const response = await fetch(`${NEXT_PUBLIC_KANGU_API_URL}/solicitar`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

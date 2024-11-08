@@ -105,7 +105,7 @@ export default function CheckoutForm() {
     const goToIndex = id ? stepper.all.indexOf(stepper.all.find((step) => step.id === id)) : undefined;
     const currentIndex = stepper.current.index;
 
-    if (goToIndex > currentIndex || direction === 'next') {
+    if (goToIndex > currentIndex || direction === 'next' || id !== 'complete') {
       if (await form.trigger(stepper.current.keys)) {
         id ? stepper.goTo(id) : stepper.next()
       }
