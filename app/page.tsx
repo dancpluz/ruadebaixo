@@ -7,7 +7,6 @@ import { Skeleton } from "@/components/ui/skeleton"
 import type { Home } from "@/types/api/home";
 import { format, parseISO } from 'date-fns';
 
-
 export const dynamic = 'force-dynamic'
 
 export default async function Home() {

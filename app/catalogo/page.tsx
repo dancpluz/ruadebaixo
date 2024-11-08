@@ -4,6 +4,8 @@ import ProductCard from "@/components/ProductCard";
 
 import { Metadata } from "next";
 
+export const dynamic = 'force-dynamic'
+
 export const metadata: Metadata = {
   title: "CATÁLOGO",
   description: "Explore nosso catálogo de produtos variados e encontre o que você precisa.",

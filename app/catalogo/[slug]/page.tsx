@@ -5,6 +5,8 @@ import type { Produto } from "@/types/api/produto";
 import { notFound } from 'next/navigation'
 import FloatProduct from "@/components/FloatProduct";
 
+export const dynamic = 'force-dynamic'
+
 export async function generateStaticParams() {
   const data = await fetchFromStrapi<Produto[]>('produtos?fields[0]=slug');
   
