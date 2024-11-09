@@ -12,14 +12,14 @@ export default function CheckoutFooter({ children }) {
   return (
     <div className="fixed p-5 sm:px-12 flex flex-col z-20 bg-background border-t w-full min-h-[180px] left-0 bottom-0 gap-4">
       <div>
-        <div className='flex uppercase text-lg text-foreground justify-between'>
+        <div className='flex uppercase text-lg md:text-xl text-foreground justify-between'>
           <p>Subtotal</p>
           <span>{formatToBRL(totalPrice())}</span>
         </div>
-        <div className='flex w-full uppercase text-lg text-foreground/70 justify-between'>
+        <div className='flex w-full uppercase md:text-xl text-lg text-foreground/70 justify-between'>
           <p>Entrega</p>
           <span>
-            {delivery === 'entrega' 
+            {delivery === undefined || delivery === 'entrega' 
               ? vlrFrete === undefined ? 'Calcule o frete' :
                 vlrFrete === 0 ? 'Grátis' : '+' + formatToBRL(vlrFrete)
              :
@@ -27,7 +27,7 @@ export default function CheckoutFooter({ children }) {
             }
           </span>
         </div>
-        <div className='flex uppercase text-lg text-foreground justify-between'>
+        <div className='flex uppercase text-xl text-foreground justify-between md:text-2xl'>
           <p>Total</p>
           <span>{paymentType === 'credit' && parcelOptions && parcels ? formatToBRL(parcelOptions.find(({ id }) => id === parcels).value) : formatToBRL(totalPrice() + (vlrFrete && delivery !== 'retirada' ? vlrFrete : 0))}</span>
         </div>

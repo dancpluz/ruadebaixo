@@ -43,7 +43,7 @@ export function selectImageUrl(formats: ImageFormats) {
   };
 }
 
-function formatValueToString(emoji, value) {
+function formatValueToString(emoji: string, value?: string) {
   return value ? `${emoji} ${value}\n` : ''
 }
 

@@ -46,7 +46,7 @@ export const personalSchemaRefined = personalSchema.superRefine(({ phone, email 
 })
 
 export const orderSchema = z.object({
-  delivery: z.enum(['retirada', 'entrega'], { required_error: 'Selecione' }),
+  delivery: z.enum(['retirada', 'entrega'], { required_error: 'Selecione um tipo de entrega' }),
   selectedLocation: z.enum(['UnB', 'Rodoviária', 'Guará II', 'Asa Norte', 'Paranoá']).optional(),
   selectedDelivery: z.string(),
   cep: z.string().transform(val => val.replace(/\D/g, '')).pipe(z.string().length(8, 'O CEP deve ter 8 dígitos')).or(z.literal('')),
