@@ -8,9 +8,10 @@ import ArrowIcon from "@/public/icons/arrow.svg";
 import { useCart } from "@/app/Context";
 import { Button } from "./ui/button";
 import Link from 'next/link';
+import { updateProductQuantities } from "@/app/actions/strapi";
 
 export default function CartFooter() {
-  const { toggleCartOpen, cepFreight, calculateFreight, totalPrice } = useCart((state) => state)
+  const { toggleCartOpen, cepFreight, calculateFreight, totalPrice, cartItems } = useCart((state) => state)
 
   const { frete, loading } = cepFreight;
 

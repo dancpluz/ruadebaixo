@@ -15,6 +15,7 @@ import React from 'react';
 import { useCart, useUser } from '@/app/Context';
 import { sendMessageToGroup } from "@/app/actions/zapbot";
 import { postShipping } from "@/app/actions/kangu";
+import { updateProductQuantities } from "@/app/actions/strapi";
 import CheckoutFooter from './CheckoutFooter'
 import Link from 'next/link'
 import CheckIcon from '@/public/icons/check.svg'
@@ -63,6 +64,7 @@ export default function CheckoutForm() {
       functions.push(postShipping(values, cartItems))
     }
     functions.push(sendMessageToGroup(orderMessage(values, cartItems, total)))
+    functions.push(updateProductQuantities(cartItems))
 
     await Promise.all(functions)
   }

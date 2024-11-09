@@ -27,7 +27,7 @@ export default function CheckoutFooter({ children }) {
             }
           </span>
         </div>
-        <div className='flex uppercase text-xl text-foreground justify-between md:text-2xl'>
+        <div className='flex uppercase text-xl text-foreground font-semibold justify-between md:text-2xl'>
           <p>Total</p>
           <span>{paymentType === 'credit' && parcelOptions && parcels ? formatToBRL(parcelOptions.find(({ id }) => id === parcels).value) : formatToBRL(totalPrice() + (vlrFrete && delivery !== 'retirada' ? vlrFrete : 0))}</span>
         </div>

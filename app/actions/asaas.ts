@@ -2,6 +2,7 @@
 
 import { checkEnvVars, roundToDecimal } from "@/lib/utils";
 import { Customer, ListInfo, NewCustomer, Payment, SimulatePayment, PixQR } from "@/types/api";
+import { FormT } from "@/types/checkout";
 
 const NEXT_PUBLIC_ASAAS_API_URL = process.env.NEXT_PUBLIC_ASAAS_API_URL;
 const ASAAS_API_KEY = process.env.ASAAS_API_KEY;
@@ -12,7 +13,7 @@ const asaasHeaders = {
   'access-token': ASAAS_API_KEY || '',
 }
 
-export async function getCustomer({ id, cpfCnpj }: { id?: string, cpfCnpj?: string }): Promise<ListInfo<Customer> | Customer | undefined> {
+export async function getCustomer({ id, cpfCnpj }: { id?: string, cpfCnpj?: string }): Promise<Customer | undefined> {
   checkEnvVars(['NEXT_PUBLIC_ASAAS_API_URL', 'ASAAS_API_KEY']);
 
   if (id) {
@@ -37,7 +38,7 @@ export async function getCustomer({ id, cpfCnpj }: { id?: string, cpfCnpj?: stri
     });
 
     if (response.status === 404) {
-      throw new Error(`Erro ao puxar customers: (${response.status}) ${response.statusText}`);
+      return;
     }
 
     if (!response.ok) {
@@ -45,32 +46,29 @@ export async function getCustomer({ id, cpfCnpj }: { id?: string, cpfCnpj?: stri
     }
 
     const data = await response.json();
-    console.log(data.data.find((customer: Customer) => customer.cpfCnpj === cpfCnpj.replace(/\D/g, '')))
 
-    return data.data.find((customer: Customer) => customer.cpfCnpj === cpfCnpj.replace(/\D/g, ''));
+    return cpfCnpj ? data.data.find((customer: Customer) => customer.cpfCnpj === cpfCnpj.replace(/\D/g, '')) : undefined;
   }
 }
 
-export async function createCustomer({ id, name, cpf, email, phone, cep, number, complement, feedback }: FormCustomer & { id?: string }): Promise<FormCustomer | undefined> {
+export async function createCustomer({ id, name, cpf, email, phone, cep, number, complement, feedback }: FormT & { id?: string }): Promise<Customer | undefined> {
   checkEnvVars(['NEXT_PUBLIC_ASAAS_API_URL', 'ASAAS_API_KEY']);
   let customer;
 
   if (id) {
     // Check if there is customer with id, if there is update it
-    console.log('com id')
-    customer = await getCustomer({ id }) as Customer;
+    customer = await getCustomer({ id });
   }
 
   if (!customer && cpf) {
     // Check if there is customer with cpf, if there is update it
-    console.log('sem id')
-    customer = await getCustomer({ cpfCnpj: cpf }) as Customer;
+    customer = await getCustomer({ cpfCnpj: cpf });
   }
 
   const body: NewCustomer = {
     name,
     email: email ?? null,
-    mobilePhone: phone.replace(/\D/g, ''),
+    mobilePhone: (phone ?? '').replace(/\D/g, ''),
     addressNumber: number ?? null,
     complement: complement ?? null,
     postalCode: cep.replace(/\D/g, '') ?? null,

@@ -85,7 +85,7 @@ export default function CartCard({ cartItem }: { cartItem: CartItem }) {
     return (
       <Card key={cor} className='flex'>
         <Link href={`/catalogo/${slug}`}>
-          <div onClick={toggleCartOpen} className='w-[120px] h-[160px]'>
+          <div onClick={() => cartOpen ? toggleCartOpen() : ''} className='w-[120px] h-[160px]'>
             <Image
               className="object-cover h-full w-full"
               src={buildImgUrl(imageUrl)}
