@@ -82,7 +82,7 @@ export default function CheckoutForm() {
         frete = selectedOption.vlrFrete || 0
       }
       
-      await generatePix(totalPrice() + frete, form.getValues('cpf'));
+      await generatePix(totalPrice() + frete, form.getValues());
       
       setInfo('successCallback', async () => {
         setInfo('loading', true);

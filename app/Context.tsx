@@ -12,7 +12,7 @@ import { Produto } from "@/types/api/produto";
 import { simulateShipping } from '@/app/actions/kangu';
 import { FormOrder, FormPersonal } from "@/types/checkout";
 import { DeliveryOption } from './../types/kangu';
-import { createPayment, getPixQR, checkPaymentStatus } from "./actions/asaas";
+import { createPayment, getPixQR, checkPaymentStatus, createCustomer } from "./actions/asaas";
 import { Payment } from "@/types/api";
 import { add } from 'date-fns';
 import { UseFormReturn } from "react-hook-form";
@@ -389,20 +389,21 @@ const createUserSlice = (set: (fn: (state: UserState) => UserState) => void, get
       get().resetPayment()
     }
   },
-  generatePix: async (value, cpf) => {
+  customer: undefined,
+  generatePix: async (total, values) => {
     try {
       set(() => ({ loading: true }))
 
       // const { cpf, parcels } = values;
       // const installmentCount = parcels || 1
-
+      const customer = await createCustomer(values)
       let cobranca = get().cobranca
 
       if (!cobranca) {
-        cobranca = await createPayment({ cpf: cpf.replace(/\D/g, ''), billingType: 'PIX', value: value, installmentCount: 1, description: 'Compra' })
+        cobranca = await createPayment({ id: customer.id,  cpf: values.cpf, billingType: 'PIX', value: total, installmentCount: 1, description: 'Compra' })
       }
 
-      set(() => ({ cobranca, paymentStatus: cobranca.status }))
+      set(() => ({ customer, cobranca, paymentStatus: cobranca.status }))
       
       const pix = await getPixQR(cobranca.id);
       

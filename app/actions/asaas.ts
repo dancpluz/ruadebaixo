@@ -31,7 +31,6 @@ export async function getCustomer({ id, cpfCnpj }: { id?: string, cpfCnpj?: stri
 
     return data;
   } else {
-    // CPF PRECISA SER TRATADO
     const response = await fetch(`${NEXT_PUBLIC_ASAAS_API_URL}/customers`, {
       headers: asaasHeaders,
     });
@@ -42,7 +41,7 @@ export async function getCustomer({ id, cpfCnpj }: { id?: string, cpfCnpj?: stri
 
     const data = await response.json();
 
-    return data.data.find((customer: Customer) => customer.cpfCnpj === cpfCnpj);
+    return data.data.find((customer: Customer) => customer.cpfCnpj === cpfCnpj.replace(/\D/g, ''));
   }
 }
 
@@ -63,11 +62,11 @@ export async function createCustomer({ id, name, cpf, email, phone, cep, number,
   const body: NewCustomer = {
     name,
     email: email ?? null,
-    mobilePhone: phone,
+    mobilePhone: phone.replace(/\D/g, ''),
     addressNumber: number ?? null,
     complement: complement ?? null,
-    postalCode: cep ?? null,
-    cpfCnpj: cpf,
+    postalCode: cep.replace(/\D/g, '') ?? null,
+    cpfCnpj: cpf.replace(/\D/g, ''),
     observations: feedback ?? null,
   };
 
