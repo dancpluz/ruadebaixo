@@ -14,6 +14,7 @@ const asaasHeaders = {
 
 export async function getCustomer({ id, cpfCnpj }: { id?: string, cpfCnpj?: string }): Promise<ListInfo<Customer> | Customer | undefined> {
   checkEnvVars(['NEXT_PUBLIC_ASAAS_API_URL', 'ASAAS_API_KEY']);
+
   if (id) {
     const response = await fetch(`${NEXT_PUBLIC_ASAAS_API_URL}/customers/${id}`, {
       headers: asaasHeaders,
@@ -35,11 +36,16 @@ export async function getCustomer({ id, cpfCnpj }: { id?: string, cpfCnpj?: stri
       headers: asaasHeaders,
     });
 
+    if (response.status === 404) {
+      throw new Error(`Erro ao puxar customers: (${response.status}) ${response.statusText}`);
+    }
+
     if (!response.ok) {
-      throw new Error(`Erro ao puxar clientes: (${response.status}) ${response.statusText}`);
+      throw new Error(`Erro ao puxar customers: (${response.status}) ${response.statusText}`);
     }
 
     const data = await response.json();
+    console.log(data.data.find((customer: Customer) => customer.cpfCnpj === cpfCnpj.replace(/\D/g, '')))
 
     return data.data.find((customer: Customer) => customer.cpfCnpj === cpfCnpj.replace(/\D/g, ''));
   }
@@ -51,11 +57,13 @@ export async function createCustomer({ id, name, cpf, email, phone, cep, number,
 
   if (id) {
     // Check if there is customer with id, if there is update it
+    console.log('com id')
     customer = await getCustomer({ id }) as Customer;
   }
 
   if (!customer && cpf) {
     // Check if there is customer with cpf, if there is update it
+    console.log('sem id')
     customer = await getCustomer({ cpfCnpj: cpf }) as Customer;
   }
 
@@ -109,12 +117,12 @@ export async function createCustomer({ id, name, cpf, email, phone, cep, number,
     });
 
     const data = await response.json();
+    
     if (data.errors) {
-      throw new Error(`Erro ao criar cliente: ${data.errors[0].description}`);
+      return data
     }
 
     if (!response.ok) {
-      const data = await response.json();
       console.log('[Erro ao puxar cliente:', data + ']')
       throw new Error(`Erro ao puxar cliente: (${response.status}) ${response.statusText}`);
     }

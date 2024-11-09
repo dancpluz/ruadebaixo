@@ -82,7 +82,7 @@ export default function Header({ marqueeStrings = [] } : { marqueeStrings: strin
     <header className='pt-16'>
       <div className={`h-16 top-0 left-0 w-screen fixed bg-background ${marqueeStrings.length > 0 ? '' : 'border-b'} ${y === 0 ? '' : 'border-b'} border-foreground grid grid-cols-3 place-content-center place-items-center px-5 md:px-12 z-20 gap-2 transition-transform duration-500 ${shouldHide ? '-translate-y-full' : 'translate-y-0'}`}>
         <Hamburger />
-        <div className='hidden md:flex'>
+        <div className='place-self-start self-center hidden md:flex'>
           <Nav />
         </div>
         <div onClick={() => scrollTo({ left: 0, top: 0, behavior: "smooth" })} className='relative self-center size-[48px]'>

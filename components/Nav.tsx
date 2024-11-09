@@ -50,8 +50,8 @@ export default function Nav({ onSwitchTab }: { onSwitchTab?: () => void }) {
         <CarouselNext className='absolute size-9 bg-background border-0 border-l border-foreground rounded-none hover:bg-background/80 right-0 disabled:hidden' />
         <CarouselPrevious className='absolute size-9 bg-background border-0 border-r border-foreground rounded-none hover:bg-background/80 left-0 disabled:hidden' />
       </Carousel>
-      <div className='hidden md:flex flex-row place-self-start self-center items-center w-full gap-6 justify-start'>
-        {routes.map(({ label, href }, index) => {
+      <div className='hidden md:flex flex-row items-center w-full gap-6 justify-start'>
+        {routes.map(({ label, href }) => {
           return (
             <div
               key={label}

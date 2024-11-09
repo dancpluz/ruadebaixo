@@ -1,6 +1,8 @@
 import { Variante } from "@/types/components/produto/Variante";
+import { CartItem } from "@/types/cart";
 import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
+import { FormT } from "@/types/checkout";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -39,6 +41,31 @@ export function selectImageUrl(formats: ImageFormats) {
   33vw                    
 `,
   };
+}
+
+function formatValueToString(emoji, value) {
+  return value ? `${emoji} ${value}\n` : ''
+}
+
+export function orderMessage(values: FormT, cartItems: CartItem[], total: number) {
+  const { name, email, cpf, phone, insta, delivery, selectedLocation, selectedDelivery, cep, address, district, city, number, state, complement, feedback, paymentType,  } = values;
+
+  const deliveryString = delivery === 'entrega' ? 'Entrega' : 'Retirada'
+  const paymentTypeString = paymentType === 'credit' ? 'Cartão de Crédito' : 'PIX'
+  const addressString = delivery === 'entrega' ? `${cep} - ${address} ${district} ${state} ${city} ${number} ${complement}\n🦘${selectedDelivery}` : selectedLocation
+
+  return `${formatValueToString('👤', name)}${formatValueToString('🔢', cpf)}${formatValueToString('📧', email)}${formatValueToString('📞', '+55 '+ phone)}${formatValueToString('📱', insta)}${formatValueToString('🚚', deliveryString)}${formatValueToString('🏠', addressString)}${formatValueToString('💳', paymentTypeString)}${formatValueToString('💬', feedback)}
+PEDIDO:
+${cartItemsToString(cartItems)}
+${formatValueToString('💵', formatToBRL(total))}`
+}
+
+export function cartItemsToString(cartItems: CartItem[]) {
+  return cartItems.map(cartItem => {
+    return `${cartItem.attributes.tipo} ${cartItem.attributes.nome}: ${cartItem.cartVariants.map(cartVariant => {
+      return `${cartItem.attributes.unico ? cartVariant.variant.cor : ''} - [${cartVariant.variant.tamanho}] (${cartVariant.quantity}x ${formatToBRL(applyDiscount(cartVariant.variant.valor, cartVariant.variant.desconto))})`
+    }).join('/')}`
+  }).join('\n')
 }
 
 export function checkProductAvailability(variantes: Variante[]) {

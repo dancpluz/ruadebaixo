@@ -10,7 +10,7 @@ export default function CheckoutFooter({ children }) {
   const { vlrFrete } = selectedOption || {};
 
   return (
-    <div className="fixed p-5 flex flex-col z-20 bg-background border-t w-full min-h-[180px] left-0 bottom-0 gap-4">
+    <div className="fixed p-5 sm:px-12 flex flex-col z-20 bg-background border-t w-full min-h-[180px] left-0 bottom-0 gap-4">
       <div>
         <div className='flex uppercase text-lg text-foreground justify-between'>
           <p>Subtotal</p>

@@ -12,7 +12,8 @@ export default function Cart() {
   
   return (
     <Sheet open={cartOpen} onOpenChange={toggleCartOpen}>
-      <SheetTrigger className='place-self-end self-center items-center'>
+      <SheetTrigger className='place-self-end self-center items-center flex gap-2'>
+        <span className='hidden md:block text-lg uppercase text-foreground/60 whitespace-nowrap hover:text-foreground transition-colors'>Seu Carrinho</span>
         <QtyCounter qty={qty} />
       </SheetTrigger>
       <SheetContent close={<XIcon className='text-foreground size-8' />} className="w-screen flex flex-col gap-5">

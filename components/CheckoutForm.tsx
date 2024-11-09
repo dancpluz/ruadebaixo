@@ -18,6 +18,7 @@ import { postShipping } from "@/app/actions/kangu";
 import CheckoutFooter from './CheckoutFooter'
 import Link from 'next/link'
 import CheckIcon from '@/public/icons/check.svg'
+import { cartItemsToString, orderMessage } from "@/lib/utils";
 
 const { useStepper, steps } = defineStepper(
   { id: 'personal', label: 'Dados Pessoais', schema: personalSchemaRefined, keys: personalSchema.keyof().options },  
@@ -44,7 +45,6 @@ export default function CheckoutForm() {
       number: '',
       complement: '',
       feedback: '',
-      //installments: undefined,
       parcels: '1',
       holderName: '',
       cardNumber: '',
@@ -57,12 +57,12 @@ export default function CheckoutForm() {
   const { setFormInfo, setInfo, deliveryOptions,  generatePix } = useUser((state) => state);
   const { cartItems, totalItems, totalPrice } = useCart((state) => state);
 
-  async function onBuy(values: FormT) {
+  async function onBuy(values: FormT, total: number) {
     const functions = []
     if (values.selectedDelivery && values.delivery === 'entrega') {
       functions.push(postShipping(values, cartItems))
     }
-    functions.push(sendMessageToGroup(JSON.stringify({...values, ...cartItems},null,2)))
+    functions.push(sendMessageToGroup(orderMessage(values, cartItems, total)))
 
     await Promise.all(functions)
   }
@@ -81,16 +81,17 @@ export default function CheckoutForm() {
         
         frete = selectedOption.vlrFrete || 0
       }
+      const total = totalPrice() + frete
       
-      await generatePix(totalPrice() + frete, form.getValues());
+      await generatePix(total, form.getValues() as FormT, cartItemsToString(cartItems));
       
       setInfo('successCallback', async () => {
         setInfo('loading', true);
-        await onBuy(form.getValues() as FormT);
+        await onBuy(form.getValues() as FormT, total);
         setInfo('loading', false);
         setInfo('paymentStatus', undefined)
-        stepper.goTo('complete')}
-      )
+        stepper.goTo('complete')
+      })
     } else if (values.paymentType === 'credit') {
       
     } 
@@ -105,11 +106,11 @@ export default function CheckoutForm() {
     const goToIndex = id ? stepper.all.indexOf(stepper.all.find((step) => step.id === id)) : undefined;
     const currentIndex = stepper.current.index;
 
-    if (goToIndex > currentIndex || direction === 'next' || id !== 'complete') {
-      if (await form.trigger(stepper.current.keys)) {
+    if (goToIndex === currentIndex + 1 || direction === 'next') {
+      if (id !== 'complete' && await form.trigger(stepper.current.keys)) {
         id ? stepper.goTo(id) : stepper.next()
       }
-    } else if (goToIndex < currentIndex || direction === 'prev') {
+    } else if (goToIndex < currentIndex || direction === 'prev' && id !== 'complete') {
       id ? stepper.goTo(id) : stepper.prev()
     }
   }
@@ -118,7 +119,7 @@ export default function CheckoutForm() {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="flex flex-col border-t grow md:max-w-[500px] border-foreground md:border-l md:border-t-0 px-5"
+        className="flex flex-col border-t grow md:max-w-[500px] border-foreground md:border-l md:border-t-0 px-5 md:pr-12"
       >
         <nav aria-label="Checkout Steps" className="group flex py-5">
           <ol className="flex flex-col grow gap-2">

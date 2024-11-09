@@ -188,11 +188,11 @@ export type FormOrder = {
 
 export type FormPayment = {
   paymentType: 'credit' | 'pix';
-  installments?: number;
   holderName: string;
   cardNumber: string;
   expirationDate: string;
   cvv: string;
+  parcels: string;
 }
 
 export type FormT = FormPersonal & FormOrder & FormPayment;

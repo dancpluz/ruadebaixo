@@ -10,10 +10,10 @@ import { applyDiscount } from '@/lib/utils'
 import { toast } from '@/hooks/use-toast'
 import { Produto } from "@/types/api/produto";
 import { simulateShipping } from '@/app/actions/kangu';
-import { FormOrder, FormPersonal } from "@/types/checkout";
+import { FormOrder, FormPersonal, FormT } from "@/types/checkout";
 import { DeliveryOption } from './../types/kangu';
 import { createPayment, getPixQR, checkPaymentStatus, createCustomer } from "./actions/asaas";
-import { Payment } from "@/types/api";
+import { Payment, Customer } from "@/types/api";
 import { add } from 'date-fns';
 import { UseFormReturn } from "react-hook-form";
 import { getParcelOptions } from '@/app/actions/asaas';
@@ -50,7 +50,7 @@ type TimeState = {
 type UserState = { 
   form: FormPersonal & FormOrder
   loading: boolean,
-  setInfo: (id: string, value: string) => void,
+  setInfo: (id: string, value: any) => void,
   setFormInfo: (form: UseFormReturn, id: string, value: string) =>  void,
   deliveryOptions: DeliveryOption[]
   getDeliveryOptions: (cep: string) => Promise<void>,
@@ -65,7 +65,8 @@ type UserState = {
   resetTimeout: () => void,
   paymentStatus?: Pick<Payment, 'status'>,
   checkPayment: () => Promise<void>,
-  generatePix: () => Promise<void>,
+  customer?: Customer,
+  generatePix: (value: number, values: FormT, description: string) => Promise<void>,
   resetPayment: () => void,
 }
 
@@ -390,17 +391,21 @@ const createUserSlice = (set: (fn: (state: UserState) => UserState) => void, get
     }
   },
   customer: undefined,
-  generatePix: async (total, values) => {
+  generatePix: async (total, values, description) => {
     try {
       set(() => ({ loading: true }))
 
       // const { cpf, parcels } = values;
       // const installmentCount = parcels || 1
-      const customer = await createCustomer(values)
+      const customer = await createCustomer({...values, id: get().customer?.id})
+      if (customer.errors) {
+        throw new Error(customer.errors[0].description)
+      }
+
       let cobranca = get().cobranca
 
       if (!cobranca) {
-        cobranca = await createPayment({ id: customer.id,  cpf: values.cpf, billingType: 'PIX', value: total, installmentCount: 1, description: 'Compra' })
+        cobranca = await createPayment({ id: customer.id,  cpf: values.cpf, billingType: 'PIX', value: total, installmentCount: 1, description })
       }
 
       set(() => ({ customer, cobranca, paymentStatus: cobranca.status }))
