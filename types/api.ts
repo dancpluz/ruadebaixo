@@ -37,6 +37,7 @@ export type Customer = {
   cityName: string | null;
   state: string | null;
   country: string | null;
+  errors: { code: string; description: string }[] | null;
 };
 
 export type NewCustomer = Pick<Customer, 'name' | 'email' | 'cpfCnpj' | 'mobilePhone' | 'postalCode' | 'addressNumber' | 'complement' | 'observations'>;
@@ -100,6 +101,10 @@ export type SimulatePayment = {
 };
 
 
+export type BillingType = 'UNDEFINED' | 'BOLETO' | 'CREDIT_CARD' | 'DEBIT_CARD' | 'TRANSFER' | 'DEPOSIT' | 'PIX';
+
+export type Status = 'PENDING' | 'RECEIVED' | 'CONFIRMED' | 'OVERDUE' | 'REFUNDED' | 'RECEIVED_IN_CASH' | 'REFUND_REQUESTED' | 'REFUND_IN_PROGRESS' | 'CHARGEBACK_REQUESTED' | 'CHARGEBACK_DISPUTE' | 'AWAITING_CHARGEBACK_REVERSAL' | 'DUNNING_REQUESTED' | 'DUNNING_RECEIVED' | 'AWAITING_RISK_ANALYSIS';
+
 export type Payment = {
   object: "payment";
   id: string;
@@ -113,7 +118,7 @@ export type Payment = {
   description: string | null;
   billingType: 'UNDEFINED' | 'BOLETO' | 'CREDIT_CARD' | 'DEBIT_CARD' | 'TRANSFER' | 'DEPOSIT' | 'PIX';
   pixTransaction: string | null;
-  status: 'PENDING' | 'RECEIVED' | 'CONFIRMED' | 'OVERDUE' | 'REFUNDED' | 'RECEIVED_IN_CASH' | 'REFUND_REQUESTED' | 'REFUND_IN_PROGRESS' | 'CHARGEBACK_REQUESTED' | 'CHARGEBACK_DISPUTE' | 'AWAITING_CHARGEBACK_REVERSAL' | 'DUNNING_REQUESTED' | 'DUNNING_RECEIVED' | 'AWAITING_RISK_ANALYSIS';
+  status: Status;
   dueDate: string;
   originalDueDate: string;
   paymentDate: string | null;

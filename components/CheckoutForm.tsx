@@ -112,7 +112,7 @@ export default function CheckoutForm() {
       if (id !== 'complete' && await form.trigger(stepper.current.keys)) {
         id ? stepper.goTo(id) : stepper.next()
       }
-    } else if (goToIndex < currentIndex || direction === 'prev' && id !== 'complete') {
+    } else if ((goToIndex !== undefined && goToIndex < currentIndex) || (direction === 'prev' && id !== 'complete')) {
       id ? stepper.goTo(id) : stepper.prev()
     }
   }

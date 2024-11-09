@@ -13,7 +13,7 @@ import { simulateShipping } from '@/app/actions/kangu';
 import { FormOrder, FormPersonal, FormT } from "@/types/checkout";
 import { DeliveryOption } from './../types/kangu';
 import { createPayment, getPixQR, checkPaymentStatus, createCustomer } from "./actions/asaas";
-import { Payment, Customer } from "@/types/api";
+import { Payment, Customer, Status } from "@/types/api";
 import { add } from 'date-fns';
 import { UseFormReturn } from "react-hook-form";
 import { getParcelOptions } from '@/app/actions/asaas';
@@ -63,9 +63,10 @@ type UserState = {
   },
   timeout?: Date,
   resetTimeout: () => void,
-  paymentStatus?: Pick<Payment, 'status'>,
+  paymentStatus?: Status,
   checkPayment: () => Promise<void>,
   customer?: Customer,
+  successCallback?: () => Promise<void>,
   generatePix: (value: number, values: FormT, description: string) => Promise<void>,
   resetPayment: () => void,
 }
@@ -354,7 +355,7 @@ const createUserSlice = (set: (fn: (state: UserState) => UserState) => void, get
         case 'PENDING':
           toast({
             title: `Aguardando pagamento`,
-            description: `Ainda não recebemos seu pagamento`,
+            description: `Ainda não recebemos seu pagamento, por favor, aguarde.`,
             duration: 3000,
           });
           break;
@@ -367,7 +368,9 @@ const createUserSlice = (set: (fn: (state: UserState) => UserState) => void, get
           });
           get().resetPayment()
           set(() => ({ paymentStatus: status }))
-          await get().successCallback()
+          if (get().successCallback) {
+            await get().successCallback();
+          }
 
           break;
         default:
@@ -398,14 +401,15 @@ const createUserSlice = (set: (fn: (state: UserState) => UserState) => void, get
       // const { cpf, parcels } = values;
       // const installmentCount = parcels || 1
       const customer = await createCustomer({...values, id: get().customer?.id})
+      
       if (customer.errors) {
-        throw new Error(customer.errors[0].description)
+        throw new Error(customer?.errors[0].description)
       }
 
       let cobranca = get().cobranca
 
       if (!cobranca) {
-        cobranca = await createPayment({ id: customer.id,  cpf: values.cpf, billingType: 'PIX', value: total, installmentCount: 1, description })
+        cobranca = await createPayment(values, total, 1, description, customer?.id)
       }
 
       set(() => ({ customer, cobranca, paymentStatus: cobranca.status }))

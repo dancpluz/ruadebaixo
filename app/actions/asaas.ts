@@ -1,7 +1,7 @@
 'use server'
 
 import { checkEnvVars, roundToDecimal } from "@/lib/utils";
-import { Customer, ListInfo, NewCustomer, Payment, SimulatePayment, PixQR } from "@/types/api";
+import { Customer, NewCustomer, Payment, SimulatePayment, PixQR } from "@/types/api";
 import { FormT } from "@/types/checkout";
 
 const NEXT_PUBLIC_ASAAS_API_URL = process.env.NEXT_PUBLIC_ASAAS_API_URL;
@@ -68,10 +68,10 @@ export async function createCustomer({ id, name, cpf, email, phone, cep, number,
   const body: NewCustomer = {
     name,
     email: email ?? null,
-    mobilePhone: (phone ?? '').replace(/\D/g, ''),
+    mobilePhone: phone ? phone.replace(/\D/g, '') : null,
     addressNumber: number ?? null,
     complement: complement ?? null,
-    postalCode: cep.replace(/\D/g, '') ?? null,
+    postalCode: cep ? cep.replace(/\D/g, '') : null,
     cpfCnpj: cpf.replace(/\D/g, ''),
     observations: feedback ?? null,
   };
@@ -194,8 +194,10 @@ export async function getParcelOptions(value: number, parcelNumber: number): Pro
   return parcelOptions;
 }
 
-export async function createPayment({ id, cpf, billingType, value, installmentCount, description }: { id?: string, cpf?: string, billingType: 'CREDIT_CARD' | 'PIX' | 'BOLETO', value: number, installmentCount?: number, description?: string }): Promise<Payment> {
+export async function createPayment(values: FormT, total: number, installmentCount: number, description: string, id?: string): Promise<Payment> {
   checkEnvVars(['NEXT_PUBLIC_ASAAS_API_URL', 'ASAAS_API_KEY']);
+
+  const { cpf, paymentType } = values;
 
   const customer = await getCustomer({ id, cpfCnpj: cpf }) as Customer;
   const dueDate = new Date();
@@ -207,12 +209,12 @@ export async function createPayment({ id, cpf, billingType, value, installmentCo
     headers: asaasHeaders,
     body: JSON.stringify({
       customer: customer.id,
-      billingType,
-      value,
+      billingType: paymentType === 'pix' ? 'PIX' : 'CREDIT_CARD',
+      value: total,
       dueDate: formattedDueDate,
-      installmentCount: billingType === 'CREDIT_CARD' ? installmentCount : undefined,
-      totalValue: billingType === 'CREDIT_CARD' ? value : undefined,
-      description,
+      installmentCount: paymentType === 'credit' ? installmentCount : undefined,
+      totalValue: paymentType === 'credit' ? total : undefined,
+      description: JSON.stringify({...values, total}),
     }),
   });
 
