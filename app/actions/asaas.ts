@@ -1,7 +1,7 @@
 'use server'
 
 import { checkEnvVars, roundToDecimal } from "@/lib/utils";
-import { Customer, ListInfo, NewCustomer, Payment, SimulatePayment, PixQR, CreditCard } from "@/types/api";
+import { Customer, ListInfo, NewCustomer, Payment, SimulatePayment, PixQR } from "@/types/api";
 
 const NEXT_PUBLIC_ASAAS_API_URL = process.env.NEXT_PUBLIC_ASAAS_API_URL;
 const ASAAS_API_KEY = process.env.ASAAS_API_KEY;
@@ -117,7 +117,7 @@ export async function createCustomer({ id, name, cpf, email, phone, cep, number,
     });
 
     const data = await response.json();
-    
+
     if (data.errors) {
       return data
     }
@@ -268,21 +268,21 @@ export async function checkPaymentStatus(id: string): Promise<Pick<Payment, 'sta
   return data;
 }
 
-export async function payCreditCard({ creditCard, creditCardHolderInfo }: CreditCard): Promise<Payment> {
-  checkEnvVars(['NEXT_PUBLIC_ASAAS_API_URL', 'ASAAS_API_KEY']);
+// export async function payCreditCard({ creditCard, creditCardHolderInfo }: CreditCard): Promise<Payment> {
+//   checkEnvVars(['NEXT_PUBLIC_ASAAS_API_URL', 'ASAAS_API_KEY']);
 
-  const response = await fetch(`${NEXT_PUBLIC_ASAAS_API_URL}/payments/${id}/pixQrCode`, {
-    headers: asaasHeaders,
-  });
+//   const response = await fetch(`${NEXT_PUBLIC_ASAAS_API_URL}/payments/${id}/pixQrCode`, {
+//     headers: asaasHeaders,
+//   });
 
-  if (!response.ok) {
-    throw new Error(`Erro ao puxar QR Code: (${response.status}) ${response.statusText}`);
-  }
+//   if (!response.ok) {
+//     throw new Error(`Erro ao puxar QR Code: (${response.status}) ${response.statusText}`);
+//   }
 
-  const data = await response.json();
-  if (!data.success) {
-    throw new Error(`Erro ao puxar QR Code: ${data.error}`);
-  }
+//   const data = await response.json();
+//   if (!data.success) {
+//     throw new Error(`Erro ao puxar QR Code: ${data.error}`);
+//   }
 
-  return data;
-}
+//   return data;
+// }

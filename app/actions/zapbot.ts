@@ -1,9 +1,7 @@
 'use server'
 
 import { checkEnvVars } from "@/lib/utils";
-
-const ZAP_API_TOKEN = process.env.ZAP_API_TOKEN;
-const ZAP_URL = process.env.ZAP_URL;
+import { ZAP_API_TOKEN, ZAP_URL } from "./env";
 
 export async function sendMessageToClient(message: string = 'message', phone: string) {
   checkEnvVars(['ZAP_API_TOKEN', 'ZAP_URL']);

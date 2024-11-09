@@ -6,9 +6,7 @@ import { ShippingInfo, SimulateShipping, DeliveryOption } from "@/types/kangu";
 import { clothesWeight, FormT } from "@/types/checkout";
 import { RateLimiterMemory } from 'rate-limiter-flexible';
 import { getUserIP } from "./other";
-
-const NEXT_PUBLIC_KANGU_API_URL = process.env.NEXT_PUBLIC_KANGU_API_URL;
-const KANGU_API_TOKEN = process.env.KANGU_API_TOKEN;
+import { NEXT_PUBLIC_KANGU_API_URL, KANGU_API_TOKEN } from "./env";
 
 function calculateCartInfo(cartItems: CartItem[]) {
   let pesoMerc = 0;
@@ -44,7 +42,7 @@ export async function simulateShipping(inputCep: string, cartItems: CartItem[]):
 
   try {
     await rateLimiter.consume(await getUserIP());
-  } catch (error) {
+  } catch {
     throw new Error('Muitas solicitações. Tente novamente mais tarde.');
   }
 
