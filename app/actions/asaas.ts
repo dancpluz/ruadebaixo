@@ -214,7 +214,7 @@ export async function createPayment(values: FormT, total: number, installmentCou
       dueDate: formattedDueDate,
       installmentCount: paymentType === 'credit' ? installmentCount : undefined,
       totalValue: paymentType === 'credit' ? total : undefined,
-      description: JSON.stringify({...values, total}),
+      description,
     }),
   });
 
