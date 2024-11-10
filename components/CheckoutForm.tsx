@@ -7,7 +7,7 @@ import { z } from 'zod';
 import { Form } from './ui/form';
 import { Separator } from "./ui/separator";
 import { Button } from "./ui/button";
-import { FormT, orderSchema, paymentSchema,  personalSchemaRefined, orderSchemaRefined,  paymentSchemaRefined,personalSchema } from '@/types/checkout';
+import { FormT } from '@/types/checkout';
 import FormPersonal from "./FormPersonal";
 import FormOrder from "./FormOrder";
 import FormPayment from "./FormPayment";
@@ -20,6 +20,7 @@ import CheckoutFooter from './CheckoutFooter'
 import Link from 'next/link'
 import CheckIcon from '@/public/icons/check.svg'
 import { cartItemsToString, orderMessage } from "@/lib/utils";
+import { personalSchemaRefined, personalSchema, orderSchemaRefined, orderSchema, paymentSchemaRefined, paymentSchema } from "@/lib/fields";
 
 const { useStepper, steps } = defineStepper(
   { id: 'personal', label: 'Dados Pessoais', schema: personalSchemaRefined, keys: personalSchema.keyof().options },  
@@ -55,8 +56,8 @@ export default function CheckoutForm() {
     shouldFocusError: false,
   });
 
-  const { setFormInfo, setInfo, deliveryOptions,  generatePix } = useUser((state) => state);
-  const { cartItems, totalItems, totalPrice } = useCart((state) => state);
+  const { setFormInfo, setInfo, deliveryOptions, makePayment, parcelOptions } = useUser((state) => state);
+  const { cartItems, totalItems, resetCart, totalPrice } = useCart((state) => state);
 
   async function onBuy(values: FormT, total: number) {
     const functions = []
@@ -69,34 +70,37 @@ export default function CheckoutForm() {
     await Promise.all(functions)
   }
 
-  const onSubmit = async (values: z.infer<typeof stepper.current.schema>) => {
+  const onSubmit = async () => {
     for (const [key, value] of Object.entries(form.getValues())) {
       setFormInfo(form, key, value)
     }
-    if (values.paymentType === 'pix') {
+
+    let frete = 0;
+    const paymentType = form.getValues('paymentType')
+    const delivery = form.getValues('delivery')
+    const selectedDelivery = form.getValues('selectedDelivery')
+    if (delivery === 'entrega' && selectedDelivery && deliveryOptions) {
+      const selectedOption = deliveryOptions.find(({ referencia }) => referencia === selectedDelivery)
       
-      let frete = 0;
-      const delivery = form.getValues('delivery')
-      const selectedDelivery = form.getValues('selectedDelivery')
-      if (delivery === 'entrega' && selectedDelivery && deliveryOptions) {
-        const selectedOption = deliveryOptions.find(({ referencia }) => referencia === selectedDelivery)
-        
-        frete = selectedOption.vlrFrete || 0
-      }
-      const total = totalPrice() + frete
-      
-      await generatePix(total, form.getValues() as FormT, cartItemsToString(cartItems));
-      
-      setInfo('successCallback', async () => {
-        setInfo('loading', true);
-        await onBuy(form.getValues() as FormT, total);
-        setInfo('loading', false);
-        setInfo('paymentStatus', undefined)
-        stepper.goTo('complete')
-      })
-    } else if (values.paymentType === 'credit') {
-      
-    } 
+      frete = selectedOption.vlrFrete || 0
+    }
+    let total = totalPrice() + frete
+    if (paymentType === 'credit') {
+      total = parcelOptions.find(({ id }) =>  id === form.getValues('parcels')).value
+    }
+
+    setInfo('successCallback', async () => {
+      setInfo('loading', true);
+      await onBuy(form.getValues() as FormT, total);
+      setInfo('paymentStatus', undefined)
+      setInfo('loading', false);
+      stepper.goTo('complete')
+      await new Promise(resolve => setTimeout(resolve, 4000));
+      resetCart()
+    })
+
+    await makePayment(total, form.getValues() as FormT, cartItemsToString(cartItems));
+    
   };
 
   const onChangeStep = async (id?: string, direction?: 'next' | 'prev') => {
@@ -112,7 +116,7 @@ export default function CheckoutForm() {
       if (id !== 'complete' && await form.trigger(stepper.current.keys)) {
         id ? stepper.goTo(id) : stepper.next()
       }
-    } else if ((goToIndex !== undefined && goToIndex < currentIndex) || (direction === 'prev' && id !== 'complete')) {
+    } else if ((goToIndex !== undefined && goToIndex < currentIndex) || (direction === 'prev') && stepper.current.id !== 'complete')  {
       id ? stepper.goTo(id) : stepper.prev()
     }
   }

@@ -12,7 +12,7 @@ import { UseFormReturn } from 'react-hook-form';
 import { FormT } from '@/types/checkout';
 
 export default function DeliveryOptions({ form }: { form: UseFormReturn<FormT> }) {
-  const { deliveryOptions, form: { selectedDelivery }, setFormInfo, setInfo, loading } = useUser((state) => state)
+  const { deliveryOptions, form: { selectedDelivery }, setFormInfo, loading } = useUser((state) => state)
 
   return (
     <div className='flex flex-col'>

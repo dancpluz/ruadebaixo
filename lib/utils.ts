@@ -3,6 +3,7 @@ import { CartItem } from "@/types/cart";
 import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
 import { FormT } from "@/types/checkout";
+import { CustomError } from "@/types/api";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -48,7 +49,7 @@ function formatValueToString(emoji: string, value?: string) {
 }
 
 export function orderMessage(values: FormT, cartItems: CartItem[], total: number) {
-  const { name, email, cpf, phone, insta, delivery, selectedLocation, selectedDelivery, cep, address, district, city, number, state, complement, feedback, paymentType,  } = values;
+  const { name, email, cpf, phone, insta, delivery, selectedLocation, selectedDelivery, cep, address, district, city, number, state, complement, feedback, paymentType, parcels } = values;
 
   const deliveryString = delivery === 'entrega' ? 'Entrega' : 'Retirada'
   const paymentTypeString = paymentType === 'credit' ? 'Cartão de Crédito' : 'PIX'
@@ -57,7 +58,7 @@ export function orderMessage(values: FormT, cartItems: CartItem[], total: number
   return `${formatValueToString('👤', name)}${formatValueToString('🔢', cpf)}${formatValueToString('📧', email)}${formatValueToString('📞', '+55 '+ phone)}${formatValueToString('📱', insta)}${formatValueToString('🚚', deliveryString)}${formatValueToString('🏠', addressString)}${formatValueToString('💳', paymentTypeString)}${formatValueToString('💬', feedback)}
 PEDIDO:
 ${cartItemsToString(cartItems)}
-${formatValueToString('💵', formatToBRL(total))}`
+*${formatValueToString('💵', paymentType === 'credit' && parcels !== '1' ? `${formatToBRL(total)} (${parcels}x de ${formatToBRL(total / Number(parcels))})` : formatToBRL(total))}*`
 }
 
 export function cartItemsToString(cartItems: CartItem[]) {
@@ -94,5 +95,17 @@ export function applyDiscount(value: number, discount: number) {
     return value - discount
   } else {
     return value
+  }
+}
+
+export function isError(obj: any): obj is { error: CustomError } {
+  return obj && typeof obj === 'object' && 'error' in obj;
+}
+
+export function logError(error: { error: CustomError } | CustomError) {
+  if (isError(error)) {
+    console.log(`[${error.error.code}] ${error.error.message}`)
+  } else {
+    console.log(`[${error.code}] ${error.message}`)
   }
 }

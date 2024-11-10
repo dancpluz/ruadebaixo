@@ -1,8 +1,9 @@
 'use server'
 
-import { checkEnvVars, roundToDecimal } from "@/lib/utils";
-import { Customer, NewCustomer, Payment, SimulatePayment, PixQR } from "@/types/api";
+import { checkEnvVars, isError, logError, roundToDecimal } from "@/lib/utils";
+import type { Customer, NewCustomer, Payment, SimulatePayment, PixQR, CustomError } from "@/types/api";
 import { FormT } from "@/types/checkout";
+import { getUserIP } from "./other";
 
 const NEXT_PUBLIC_ASAAS_API_URL = process.env.NEXT_PUBLIC_ASAAS_API_URL;
 const ASAAS_API_KEY = process.env.ASAAS_API_KEY;
@@ -13,7 +14,7 @@ const asaasHeaders = {
   'access-token': ASAAS_API_KEY || '',
 }
 
-export async function getCustomer({ id, cpfCnpj }: { id?: string, cpfCnpj?: string }): Promise<Customer | undefined> {
+export async function getCustomer({ id, cpfCnpj }: { id?: string, cpfCnpj?: string }): Promise<Customer | { error: CustomError }> {
   checkEnvVars(['NEXT_PUBLIC_ASAAS_API_URL', 'ASAAS_API_KEY']);
 
   if (id) {
@@ -22,11 +23,15 @@ export async function getCustomer({ id, cpfCnpj }: { id?: string, cpfCnpj?: stri
     });
 
     if (response.status === 404) {
-      return;
+      const error = { error: { code: 404, message: 'Cliente não encontrado' }}
+      logError(error)
+      return error;
     }
 
     if (!response.ok) {
-      throw new Error(`Erro ao puxar cliente: (${response.status}) ${response.statusText}`);
+      const error = { error: { code: response.status, message: response.statusText }}
+      logError(error)
+      return error;
     }
 
     const data = await response.json();
@@ -38,20 +43,35 @@ export async function getCustomer({ id, cpfCnpj }: { id?: string, cpfCnpj?: stri
     });
 
     if (response.status === 404) {
-      return;
+      const error = { error: { code: 404, message: 'Clientes não encontrado' }}
+      logError(error)
+      return error;
     }
 
     if (!response.ok) {
-      throw new Error(`Erro ao puxar customers: (${response.status}) ${response.statusText}`);
+      const error = { error: { code: response.status, message: response.statusText }}
+      logError(error)
+      return error;
     }
 
     const data = await response.json();
 
-    return cpfCnpj ? data.data.find((customer: Customer) => customer.cpfCnpj === cpfCnpj.replace(/\D/g, '')) : undefined;
+    let customer = data.data.find((customer: Customer) => customer.cpfCnpj === cpfCnpj.replace(/\D/g, ''));
+    
+    customer = customer ? customer : { error: { code: 404, message: 'CPF não encontrado' } }
+
+    if (isError(customer)) {
+      logError(customer)
+      return customer;
+    } else {
+      console.log(`[200] Cliente encontrado: ${customer.name} ${customer.id}`)
+    }
+
+    return customer;
   }
 }
 
-export async function createCustomer({ id, name, cpf, email, phone, cep, number, complement, feedback }: FormT & { id?: string }): Promise<Customer | undefined> {
+export async function createCustomer({ id, name, cpf, email, phone, cep, number, complement, feedback }: FormT & { id?: string }): Promise<Customer | { error: CustomError }> {
   checkEnvVars(['NEXT_PUBLIC_ASAAS_API_URL', 'ASAAS_API_KEY']);
   let customer;
 
@@ -76,37 +96,51 @@ export async function createCustomer({ id, name, cpf, email, phone, cep, number,
     observations: feedback ?? null,
   };
 
-  if (customer) {
-    body.observations = feedback ? `${customer.observations || ''}\n${feedback}` : customer.observations;
+  if (!isError(customer)) {
+    const { id, observations } = customer as Customer;
 
-    const response = await fetch(`${NEXT_PUBLIC_ASAAS_API_URL}/customers/${customer.id}`, {
+    body.observations = feedback ? `${observations || ''}\n${feedback}` : observations;
+
+    const response = await fetch(`${NEXT_PUBLIC_ASAAS_API_URL}/customers/${id}`, {
       method: 'PUT',
       headers: asaasHeaders,
       body: JSON.stringify(body),
     });
 
     const data = await response.json();
+
     if (data.errors) {
-      throw new Error(`Erro ao atualizar cliente: ${data.errors[0].description}`);
+      const error = { error: { code: 400, message: data.errors[0].description }}
+      logError(error)
+      return error;
     }
 
     if (response.status === 404) {
-      return;
+      const error = { error: { code: 404, message: `Cliente ${id} não encontrado` }}
+      logError(error)
+      return error;
     }
 
     if (!response.ok) {
-      throw new Error(`Erro ao puxar cliente: (${response.status}) ${response.statusText}`);
+      const error = { error: { code: response.status, message: response.statusText }}
+      logError(error)
+      return error;
     }
 
-    console.log('[Cliente atualizado com sucesso:', customer.name, customer.id + ']')
+    console.log(`[200] Cliente atualizado com sucesso: ${data.name} ${data.id} ${cpf}`)
+
     return data;
 
   } else {
     if (!cpf) {
-      throw new Error('CPF é obrigatório');
+      const error = { error: { code: 400, message: 'CPF é obrigatório' }}
+      logError(error)
+      return error;
     }
     if (!name) {
-      throw new Error('Nome é obrigatório');
+      const error = { error: { code: 400, message: 'Nome é obrigatório' } }
+      logError(error)
+      return error;
     }
     const response = await fetch(`${NEXT_PUBLIC_ASAAS_API_URL}/customers`, {
       method: 'POST',
@@ -117,15 +151,18 @@ export async function createCustomer({ id, name, cpf, email, phone, cep, number,
     const data = await response.json();
 
     if (data.errors) {
-      return data
+      const error = { error: { code: 400, message: data.errors[0].description }}
+      logError(error)
+      return error;
     }
 
     if (!response.ok) {
-      console.log('[Erro ao puxar cliente:', data + ']')
-      throw new Error(`Erro ao puxar cliente: (${response.status}) ${response.statusText}`);
+      const error = { error: { code: response.status, message: response.statusText }}
+      logError(error)
+      return error; 
     }
 
-    console.log('[Cliente criado com sucesso:', data.name, data.id + ']')
+    console.log(`[200] Cliente criado com sucesso: ${data.name} ${data.id} ${data.cpfCnpj}`)
     return data;
   }
 }
@@ -164,7 +201,6 @@ export async function getParcelOptions(value: number, parcelNumber: number): Pro
   const parcelOptionsArray = await Promise.all(filteredParcels.map(async (parcel) => {
     try {
       const payment = await simulatePayment({ value, installmentCount: parcel, billingTypes: ['CREDIT_CARD'] });
-      console.log(payment)
       
       const { feePercentage, operationFee } = payment.creditCard;
       const fee = feePercentage + operationFee;
@@ -172,8 +208,9 @@ export async function getParcelOptions(value: number, parcelNumber: number): Pro
       return {
         [parcel]: roundToDecimal(value * ((fee / 100) + 1))
       }
-    } catch (error) {
-      console.log('Erro ao obter opções de parcela:', error)
+    } catch {
+      const customError = { error: { code: 500, message: `Erro ao obter opções de parcela ${parcel}` }}
+      logError(customError)
       return;
     }
   }));
@@ -194,95 +231,126 @@ export async function getParcelOptions(value: number, parcelNumber: number): Pro
   return parcelOptions;
 }
 
-export async function createPayment(values: FormT, total: number, installmentCount: number, description: string, id?: string): Promise<Payment> {
+export async function createPayment(values: FormT, total: number, description: string, id?: string): Promise<Payment | { error: CustomError }> {
   checkEnvVars(['NEXT_PUBLIC_ASAAS_API_URL', 'ASAAS_API_KEY']);
 
-  const { cpf, paymentType } = values;
+  const { cpf, paymentType, parcels } = values;
 
   const customer = await getCustomer({ id, cpfCnpj: cpf }) as Customer;
   const dueDate = new Date();
   dueDate.setDate(dueDate.getDate() + 1);
   const formattedDueDate = dueDate.toISOString().split('T')[0];
 
+  const body = {
+    customer: customer.id,
+    billingType: paymentType === 'pix' ? 'PIX' : 'CREDIT_CARD',
+    value: total,
+    dueDate: formattedDueDate,
+    installmentCount: paymentType === 'credit' && parcels !== '1' ? Number(parcels) : undefined,
+    totalValue: paymentType === 'credit' ? total : undefined,
+    description,
+    remoteIp: paymentType === 'credit' ? await getUserIP() : undefined,
+  }
+
+  if (paymentType === 'credit') {
+    const { holderName, email, cpf, cep, number, phone, complement, cardNumber, expirationDate, cvv } = values;
+
+    body['creditCard'] = {
+      holderName,
+      number: cardNumber.replace(/\D/g, ''),
+      expiryMonth: expirationDate.split('/')[0],
+      expiryYear: `20${expirationDate.split('/')[1]}`,
+      ccv: cvv,
+    };
+
+    body['creditCardHolderInfo'] = {
+      name: holderName,
+      email,
+      cpfCnpj: cpf.replace(/\D/g, ''),
+      postalCode: cep.replace(/\D/g, ''),
+      addressNumber: number,
+      addressComplement: complement,
+      mobilePhone: phone ? phone.replace(/\D/g, '') : undefined
+    }
+  }
+
   const response = await fetch(`${NEXT_PUBLIC_ASAAS_API_URL}/payments`, {
     method: 'POST',
     headers: asaasHeaders,
-    body: JSON.stringify({
-      customer: customer.id,
-      billingType: paymentType === 'pix' ? 'PIX' : 'CREDIT_CARD',
-      value: total,
-      dueDate: formattedDueDate,
-      installmentCount: paymentType === 'credit' ? installmentCount : undefined,
-      totalValue: paymentType === 'credit' ? total : undefined,
-      description,
-    }),
+    body: JSON.stringify(body),
   });
 
-  if (!response.ok) {
-    throw new Error(`Erro ao criar pagamento: (${response.status}) ${response.statusText}`);
-  }
+  // if (!response.ok) {
+  //   const error = { error: { code: response.status, message: response.statusText }}
+  //   logError(error)
+  //   return error;
+  // }
 
   const data = await response.json();
 
   if (data.errors) {
-    throw new Error(`Erro ao criar pagamento: ${data.errors[0].description}`);
+    const error = { error: { code: 400, message: data.errors[0].description }}
+    logError(error)
+    return error;
   }
 
+  console.log(`[200] Pagamento criado com sucesso: ${data.id} ${data.value} ${data.status}`)
   return data;
 }
 
 
-export async function getPixQR( id: string ): Promise<PixQR> {
+export async function getPixQR( id: string ): Promise<PixQR | {  error:  CustomError }> {
   checkEnvVars(['NEXT_PUBLIC_ASAAS_API_URL', 'ASAAS_API_KEY']);
 
   const response = await fetch(`${NEXT_PUBLIC_ASAAS_API_URL}/payments/${id}/pixQrCode`, {
     headers: asaasHeaders,
   });
 
+  if (response.status === 404) {
+    const error = { error: { code: 404, message: 'QR Code não encontrado' }}
+    logError(error)
+    return error;
+  }
+
   if (!response.ok) {
-    throw new Error(`Erro ao puxar QR Code: (${response.status}) ${response.statusText}`);
+    const error = { error: { code: response.status, message: response.statusText }}
+    logError(error)
+    return error;
   }
 
-  const data = await response.json();
+  const data = await response.json() as PixQR;
+
   if (!data.success) {
-    throw new Error(`Erro ao puxar QR Code: ${data.error}`);
+    const error = { error: { code: 500, message: 'Ocorreu um erro ao  puxar o QR code' }}
+    logError(error)
+    return error;
   }
 
+  console.log(`[200] QR Code puxado com sucesso: ${id}`)
   return data;
 }
 
-export async function checkPaymentStatus(id: string): Promise<Pick<Payment, 'status'>> {
+export async function checkPaymentStatus(id: string): Promise<Pick<Payment, 'status'> | { error: CustomError }> {
   checkEnvVars(['NEXT_PUBLIC_ASAAS_API_URL', 'ASAAS_API_KEY']);
 
-  console.log(id)
   const response = await fetch(`${NEXT_PUBLIC_ASAAS_API_URL}/payments/${id}/status`, {
     headers: asaasHeaders,
   });
 
   if (!response.ok) {
-    throw new Error(`Erro ao checar status de pagamento: (${response.status}) ${response.statusText}`);
+    const error = { error: { code: response.status, message: response.statusText }}
+    logError(error)
+    return error;
   }
 
   const data = await response.json();
 
+  if (data.errors) {
+    const error = { error: { code: 400, message: data.errors[0].description }}
+    logError(error)
+    return error;
+  }
+
+  console.log(`[200] Status do pagamento ${id}: ${data.status}`)
   return data;
 }
-
-// export async function payCreditCard({ creditCard, creditCardHolderInfo }: CreditCard): Promise<Payment> {
-//   checkEnvVars(['NEXT_PUBLIC_ASAAS_API_URL', 'ASAAS_API_KEY']);
-
-//   const response = await fetch(`${NEXT_PUBLIC_ASAAS_API_URL}/payments/${id}/pixQrCode`, {
-//     headers: asaasHeaders,
-//   });
-
-//   if (!response.ok) {
-//     throw new Error(`Erro ao puxar QR Code: (${response.status}) ${response.statusText}`);
-//   }
-
-//   const data = await response.json();
-//   if (!data.success) {
-//     throw new Error(`Erro ao puxar QR Code: ${data.error}`);
-//   }
-
-//   return data;
-// }

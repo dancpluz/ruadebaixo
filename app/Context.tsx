@@ -6,7 +6,7 @@ import { useEffect } from 'react';
 import { createContext, useContext, useState } from "react"
 import { createStore, StoreApi, useStore } from "zustand"
 import { persist } from 'zustand/middleware'
-import { applyDiscount } from '@/lib/utils'
+import { applyDiscount, isError } from '@/lib/utils'
 import { toast } from '@/hooks/use-toast'
 import { Produto } from "@/types/api/produto";
 import { simulateShipping } from '@/app/actions/kangu';
@@ -38,6 +38,7 @@ type CartState = {
   removeItemFromCart: (item: CartItem, variant: Variante) => void;
   totalPrice: () => number;
   totalItems: () => number;
+  resetCart: () => void;
 }
 
 // Time State Slice
@@ -67,8 +68,10 @@ type UserState = {
   checkPayment: () => Promise<void>,
   customer?: Customer,
   successCallback?: () => Promise<void>,
-  generatePix: (value: number, values: FormT, description: string) => Promise<void>,
+  makePayment: (total: number, values: FormT, description: string) => Promise<void>,
   resetPayment: () => void,
+  parcelOptions: { id: string, label: string, value: number }[];
+  calculateParcelOptions: (value: number, installmentCount: number) => void;
 }
 
 // Combined Store State
@@ -297,9 +300,6 @@ const createUserSlice = (set: (fn: (state: UserState) => UserState) => void, get
   },
   paymentStatus: undefined,
   successCallback: undefined,
-  onBuy: async () => {
-
-  },
   resetPayment: () => set(() => ({
     paymentStatus: undefined,
     cobranca: undefined,
@@ -330,7 +330,7 @@ const createUserSlice = (set: (fn: (state: UserState) => UserState) => void, get
         const label = `${formatToBRL(value)} (${formatToBRL(value/Number(key))} em ${key}x)`
         parcelOptions.push({ id: key, label, value })
       }
-      console.log(parcelOptions)
+
       set((state) => ({ parcelOptions, form: {...state.form, parcels: '1'}, loading: false }))
     } catch (error) {
       toast({
@@ -355,7 +355,7 @@ const createUserSlice = (set: (fn: (state: UserState) => UserState) => void, get
         case 'PENDING':
           toast({
             title: `Aguardando pagamento`,
-            description: `Ainda não recebemos seu pagamento, por favor, aguarde.`,
+            description: `Não saia dessa página, por favor aguarde.`,
             duration: 3000,
           });
           break;
@@ -394,34 +394,51 @@ const createUserSlice = (set: (fn: (state: UserState) => UserState) => void, get
     }
   },
   customer: undefined,
-  generatePix: async (total, values, description) => {
+  makePayment: async (total, values, description) => {
     try {
       set(() => ({ loading: true }))
 
-      // const { cpf, parcels } = values;
-      // const installmentCount = parcels || 1
       const customer = await createCustomer({...values, id: get().customer?.id})
       
-      if (customer.errors) {
-        throw new Error(customer?.errors[0].description)
+      if (isError(customer)) {
+        throw new Error(customer.error.message)
       }
+      
+      set(() => ({ customer }))
 
-      let cobranca = get().cobranca
+      let cobranca = undefined
 
       if (!cobranca) {
-        cobranca = await createPayment(values, total, 1, description, customer?.id)
+        cobranca = await createPayment(values, total, description, customer?.id)
+        if (isError(cobranca)) {
+          console.log('cobranca',cobranca)
+          throw new Error(cobranca.error.message)
+        }
       }
 
-      set(() => ({ customer, cobranca, paymentStatus: cobranca.status }))
-      
-      const pix = await getPixQR(cobranca.id);
-      
+      set(() => ({ cobranca, paymentStatus: cobranca.status }))
+
       const expirationTime = add(new Date(), { minutes: 10 });
 
-      set(() => ({ loading: false, pix, timeout: expirationTime }))
-    } catch(error) {
+      if (values.paymentType === 'pix') {
+        
+        const pix = await getPixQR(cobranca.id);
+  
+        if (isError(pix)) {
+          throw new Error(pix.error.message)
+        }
+  
+        set(() => ({ loading: false, pix, timeout: expirationTime }))
+
+      } else if (values.paymentType === 'credit') {
+        await get().checkPayment()
+        set(() => ({ loading: false, timeout: expirationTime }))
+      } else {
+        throw new Error('Forma de pagamento inválida')
+      }
+    } catch (error) {
       toast({
-        title: `Erro ao gerar o pix`,
+        title: `Erro ao criar pagamento`,
         description: error.message,
         variant: "destructive",
         duration: 3000,
@@ -446,7 +463,7 @@ export default function StoreProvider({ children, finalDate = '' }: StoreProvide
     }),
       {
         name: 'cart',
-        partialize: (state) => ({ cartItems: state.cartItems, cepFreight: state.cepFreight, pix: state.pix, paymentStatus: state.paymentStatus, cobranca: state.cobranca, timeout: state.timeout }),
+        partialize: (state) => ({ cartItems: state.cartItems, cepFreight: state.cepFreight, customer: state.customer }),
         skipHydration: true,
       },
     )

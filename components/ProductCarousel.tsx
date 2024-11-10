@@ -14,12 +14,6 @@ import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 
 export default function ProductCarousel({ images, sold }: { images?: Media[], sold: boolean }) {
-  if (!images) {
-    return (
-      <div className='w-full aspect-[32/40]' />
-    )
-  }
-
   const [currentIndex, setCurrentIndex] = useState(0)
   const [api, setApi] = useState<CarouselApi | null>(null)
 
@@ -43,6 +37,12 @@ export default function ProductCarousel({ images, sold }: { images?: Media[], so
     if (api) {
       api.scrollTo(index)
     }
+  }
+  
+  if (!images) {
+    return (
+      <div className='w-full aspect-[32/40]' />
+    )
   }
 
   return (

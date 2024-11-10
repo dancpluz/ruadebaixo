@@ -7,6 +7,7 @@ import { useCart, useUser } from '@/app/Context';
 import { differenceInSeconds } from 'date-fns';
 import { useEffect, useState } from 'react';
 import { getParcelOptions } from '@/app/actions/asaas';
+import { DeliveryFields } from '@/components/FormOrder';  
 
 const formatTime = (totalSeconds: number) => {
   const minutes = Math.floor(totalSeconds / 60);
@@ -22,9 +23,9 @@ export default function FormPayment() {
     { label: 'PIX', id: 'pix' }
   ]
   const [remainingTime, setRemainingTime] = useState<string | null>(null);
-  const { loading, timeout, deliveryOptions, resetTimeout } = useUser((state) => state);
-  const { totalPrice, calculateParcelOptions, parcelOptions } = useCart((state) => state);
-
+  const { loading, timeout, deliveryOptions, checkPayment, paymentStatus, calculateParcelOptions, parcelOptions, resetTimeout } = useUser((state) => state);
+  const { totalPrice } = useCart((state) => state);
+  
   const delivery = form.getValues('delivery')
   const selectedDelivery = form.getValues('selectedDelivery')
 
@@ -62,28 +63,49 @@ export default function FormPayment() {
       }
     };
 
-    if (false) runCalculateParcelOptions();
+    runCalculateParcelOptions();
   }, []);
+
+  useEffect(() => {
+    console.log(paymentStatus)
+    const interval = setInterval(() => {
+      if (paymentStatus === 'PENDING') {
+        checkPayment();
+      }
+    }, 8000);
+
+    return () => clearInterval(interval);
+  }, [paymentStatus]);
 
   return (
     <div className="flex flex-col gap-5">
       <FormInput type='radio' items={paymentTypes} id='paymentType' form={form} />
       {paymentType === 'credit' ? 
-        <span className='uppercase text-center'>
-          Infelizmente ainda não terminamos de integrar o pagamento em cartão de crédito. Em breve vamos liberar.
-        </span>
-        // <>
-        //   <FormInput id='holderName' label='NOME DO TITULAR' form={form} />
-        //   <FormInput mask={[/\d/, /\d/, /\d/, /\d/, ' ', /\d/, /\d/, /\d/, /\d/, ' ', /\d/, /\d/, /\d/, /\d/, ' ', /\d/, /\d/, /\d/, /\d/]} id='cardNumber' label='NÚMERO DO CARTÃO' form={form} />
-        //   <div className='flex gap-4'>
-        //     <FormInput mask={[/[0-1]/, /[0-9]/, '/', /\d/, /\d/]} id='expirationDate' label='DATA DE VALIDADE' form={form} />
-        //     <FormInput id='cvv' className={'max-w-24'} mask={[/\d/, /\d/, /\d/]} label='CVV' form={form} />
-        //   </div>
-        //   <FormInput type='select' items={parcelOptions} id='parcels' label='Parcelamento' form={form} />
-        //   <Button type='submit' className='uppercase'>
-        //     Finalizar Compra
-        //   </Button>
-        // </>
+        <>
+          <FormInput id='holderName' label='NOME DO TITULAR' form={form} />
+          <FormInput mask={[/\d/, /\d/, /\d/, /\d/, ' ', /\d/, /\d/, /\d/, /\d/, ' ', /\d/, /\d/, /\d/, /\d/, ' ', /\d/, /\d/, /\d/, /\d/]} id='cardNumber' label='NÚMERO DO CARTÃO' form={form} />
+          <div className='flex gap-4 grow'>
+            <FormInput mask={[/[0-1]/, /[0-9]/, '/', /\d/, /\d/]} className='grow' id='expirationDate' label='DATA DE VALIDADE' form={form} />
+            <FormInput id='cvv' className={'max-w-24'} mask={[/\d/, /\d/, /\d/]} label='CVV' form={form} />
+          </div>
+          <FormInput type='select' items={parcelOptions} id='parcels' label='Parcelamento' form={form} />
+          <span className='uppercase text-sm text-foreground/70'>Endereço de Cobrança {delivery === 'entrega' && '(Mesmo da entrega)'}</span>
+          <FormInput type='cep' mask={[/\d/, /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/]} id='cep' label='CEP' form={form} />
+          <FormInput id='address' label='ENDEREÇO' form={form} />
+          <div className='flex gap-4'>
+            <FormInput id='district' label='BAIRRO' form={form} />
+            <FormInput id='city' label='CIDADE' form={form} />
+          </div>
+          <div className='flex gap-4'>
+            <FormInput id='state' label='ESTADO' form={form} />
+            <FormInput id='number' label='NÚMERO' form={form} />
+            <FormInput id='complement' label='COMPLEMENTO' form={form} />
+          </div>
+          <Button type='submit' disabled={loading || timeout} className='uppercase'>
+            Finalizar Compra{remainingTime && ` - ${remainingTime}`}
+          </Button>
+          {JSON.stringify(paymentStatus)}
+        </>
         : paymentType === 'pix' ?
         <>
           <Pix />

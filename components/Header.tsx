@@ -17,7 +17,6 @@ import Nav from './Nav';
 import Link from 'next/link';
 import { useWindowScroll } from "@uidotdev/usehooks";
 import { useEffect } from 'react';
-import { useMediaQuery } from "@uidotdev/usehooks";
 
 interface ScrollStore {
   y: number;

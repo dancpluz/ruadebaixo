@@ -8,11 +8,12 @@ import { Button } from '@/components/ui/button';
 import AddCartModal from "@/components/AddCartModal";
 
 export default function ProductCard({ product }: { product: Produto }) {
-  const { nome, descricao, slug, variantes, loja, imagens_produto } = product.attributes;
+  const { nome, slug, variantes, imagens_produto } = product.attributes;
 
   const sold = variantes.reduce((acc, variant) => acc + variant.quantidade, 0) === 0;
 
-  const { valor, desconto, tamanho } = variantes[0];
+  // MELHORAR
+  const { valor, desconto } = variantes[0];
 
   return (
     <Card className='border-0 relative bg-transparent'>

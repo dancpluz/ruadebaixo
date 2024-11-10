@@ -40,6 +40,11 @@ export type Customer = {
   errors: { code: string; description: string }[] | null;
 };
 
+export type CustomError = {
+  code: number | string;
+  message: string;
+}
+
 export type NewCustomer = Pick<Customer, 'name' | 'email' | 'cpfCnpj' | 'mobilePhone' | 'postalCode' | 'addressNumber' | 'complement' | 'observations'>;
 
 export type Product = {
@@ -152,6 +157,19 @@ export type PixQR = {
   expirationDate: string;
 };
 
+export type CreditPayment = {
+  billingType: 'CREDIT_CARD';
+  customer: string;
+  value: number;
+  dueDate: string;
+  description: string;
+  externalReference: string;
+  installmentCount: number;
+  totalValue: number;
+  installmentValue: number;
+  remoteIp: string;
+};
+
 export type CreditCard = {
   creditCard: {
     holderName: string;
@@ -166,9 +184,9 @@ export type CreditCard = {
     cpfCnpj: string;
     postalCode: string;
     addressNumber: string;
+    addressComplement: string;
     phone?: string;
     mobilePhone: string;
-    addressComplement: string;
   };
 };
 

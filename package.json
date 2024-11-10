@@ -31,6 +31,7 @@
     "next": "14.2.15",
     "rate-limiter-flexible": "^5.0.4",
     "react": "^18",
+    "react-beforeunload": "^2.6.0",
     "react-dom": "^18",
     "react-fast-marquee": "^1.6.5",
     "react-hook-form": "^7.53.1",
