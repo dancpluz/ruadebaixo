@@ -7,6 +7,12 @@ export type ListInfo<Type> = {
   data: Type[];
 };
 
+export type Parcel = {
+  id: string,
+  label: string,
+  value: number
+}
+
 export type Customer = {
   id: string;
   dateCreated: string;

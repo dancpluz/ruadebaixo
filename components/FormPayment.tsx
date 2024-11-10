@@ -30,10 +30,12 @@ export default function FormPayment() {
   const selectedDelivery = form.getValues('selectedDelivery')
 
   let frete = 0;
-  if (delivery === 'entrega' && selectedDelivery && deliveryOptions) {
+  if (delivery === 'entrega' && selectedDelivery && deliveryOptions.length > 0) {
     const selectedOption = deliveryOptions.find(({ referencia }) => referencia === selectedDelivery)
 
-    frete = selectedOption.vlrFrete
+    if (selectedOption) {
+      frete = selectedOption.vlrFrete;
+    }
   }
 
   useEffect(() => {
@@ -64,7 +66,7 @@ export default function FormPayment() {
     };
 
     runCalculateParcelOptions();
-  }, []);
+  }, [frete]);
 
   useEffect(() => {
     const interval = setInterval(() => {

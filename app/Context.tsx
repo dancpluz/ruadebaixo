@@ -13,7 +13,7 @@ import { simulateShipping } from '@/app/actions/kangu';
 import { FormOrder, FormPersonal, FormT } from "@/types/checkout";
 import { DeliveryOption } from './../types/kangu';
 import { createPayment, getPixQR, checkPaymentStatus, createCustomer } from "./actions/asaas";
-import { Payment, Customer, Status } from "@/types/api";
+import { Payment, Customer, Status, Parcel } from "@/types/api";
 import { add } from 'date-fns';
 import { UseFormReturn } from "react-hook-form";
 import { getParcelOptions } from '@/app/actions/asaas';
@@ -70,8 +70,8 @@ type UserState = {
   successCallback?: () => Promise<void>,
   makePayment: (total: number, values: FormT, description: string) => Promise<void>,
   resetPayment: () => void,
-  parcelOptions: { id: string, label: string, value: number }[];
-  calculateParcelOptions: (value: number, installmentCount: number) => void;
+  parcelOptions: Parcel[];
+  calculateParcelOptions: (value: number, installmentCount: number) => Promise<void>;
 }
 
 // Combined Store State

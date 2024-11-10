@@ -1,7 +1,7 @@
 'use server'
 
 import { checkEnvVars, isError, logError, roundToDecimal } from "@/lib/utils";
-import type { Customer, NewCustomer, Payment, SimulatePayment, PixQR, CustomError } from "@/types/api";
+import type { Customer, NewCustomer, Payment, SimulatePayment, PixQR, Parcel, CustomError } from "@/types/api";
 import { FormT } from "@/types/checkout";
 import { getUserIP } from "./other";
 
@@ -194,7 +194,7 @@ export async function simulatePayment({ value, installmentCount, billingTypes }:
   return data;
 }
 
-export async function getParcelOptions(value: number, parcelNumber: number): Promise<{ [key: number]: number }> {
+export async function getParcelOptions(value: number, parcelNumber: number): Promise<Parcel[]> {
   const parcels = [1, 3, 6, 9, 12];
   const filteredParcels = parcels.filter(parcel => parcel <= parcelNumber);
 
