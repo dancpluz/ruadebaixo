@@ -48,7 +48,6 @@ export async function updateVariants(productId: number, variantes: Variante[]): 
     });
 
     if (!response.ok) {
-      console.log(response.status, response.statusText);
       throw new Error(`Erro ao atualizar a quantidade das variantes do produto ${productId}`);
     }
 
@@ -78,7 +77,3 @@ export async function updateProductQuantities(cartItems: CartItem[]): Promise<vo
     await updateVariants(productId, newVariants);
   }
 }
-
-// const updateProductQuantity(product: Produto, variant: Variante ) {
-
-// }

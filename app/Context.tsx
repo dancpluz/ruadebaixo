@@ -411,7 +411,6 @@ const createUserSlice = (set: (fn: (state: UserState) => UserState) => void, get
       if (!cobranca) {
         cobranca = await createPayment(values, total, description, customer?.id)
         if (isError(cobranca)) {
-          console.log('cobranca',cobranca)
           throw new Error(cobranca.error.message)
         }
       }

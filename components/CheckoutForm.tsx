@@ -104,10 +104,10 @@ export default function CheckoutForm() {
   };
 
   const onChangeStep = async (id?: string, direction?: 'next' | 'prev') => {
-    if (stepper.current.id === id) {
-      console.log(form.getValues())
-      console.log(form.formState.errors)
-    }
+    // if (stepper.current.id === id) {
+    //   console.log(form.getValues())
+    //   console.log(form.formState.errors)
+    // }
 
     const goToIndex = id ? stepper.all.indexOf(stepper.all.find((step) => step.id === id)) : undefined;
     const currentIndex = stepper.current.index;

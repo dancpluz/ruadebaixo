@@ -1,7 +1,5 @@
 import CartItems from "@/components/CartItems";
 import CheckoutForm from "@/components/CheckoutForm";
-// import { sendMessageToClient } from "@/app/actions/zapbot";
-// import { simulateShipping } from "../actions/kangu";
 
 export const metadata = {
   title: "FINALIZAR COMPRA",

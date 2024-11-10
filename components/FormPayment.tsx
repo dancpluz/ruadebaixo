@@ -67,7 +67,6 @@ export default function FormPayment() {
   }, []);
 
   useEffect(() => {
-    console.log(paymentStatus)
     const interval = setInterval(() => {
       if (paymentStatus === 'PENDING') {
         checkPayment();
