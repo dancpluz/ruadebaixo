@@ -11,7 +11,7 @@ const ASAAS_API_KEY = process.env.ASAAS_API_KEY;
 const asaasHeaders = {
   'Content-Type': 'application/json',
   'User-Agent': 'ruadebaixo',
-  'access-token': ASAAS_API_KEY || ''
+  'access-token': '$' + ASAAS_API_KEY || ''
 }
 
 export async function getCustomer({ id, cpfCnpj }: { id?: string, cpfCnpj?: string }): Promise<Customer | { error: CustomError }> {
