@@ -1,8 +1,30 @@
-const routes = [
+export const routes = [
   { label: 'Catálogo', href: '/catalogo' },
   { label: 'Lookbook', href: '/contato' },
   { label: 'Adesivo', href: '/sobre' },
   { label: 'Links', href: '/links' },
 ]
 
-export { routes }
+export const clothesWeight = {
+  'Anel': 0.1,
+  'Bermuda': 0.4,
+  'Boné': 0.2,
+  'Calça': 0.6,
+  'Camisa': 0.3,
+  'Camiseta': 0.3,
+  'Casaco': 0.6,
+  'Cinto': 0.2,
+  'Colar': 0.1,
+  'Colete': 0.4,
+  'Isqueiro': 0.1,
+  'Jaqueta': 0.8,
+  'Macacão': 0.8,
+  'Óculos': 0.2,
+  'Polo': 0.3,
+  'Pulseira': 0.1,
+  'Relógio': 0.2,
+  'Short': 0.4,
+  'Shoulder Bag': 0.4,
+  'Suéter': 0.6,
+  'Tênis': 0.8,
+}

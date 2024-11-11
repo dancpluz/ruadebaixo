@@ -3,10 +3,16 @@
 import { applyDiscount, checkEnvVars } from "@/lib/utils";
 import { CartItem } from "@/types/cart";
 import { ShippingInfo, SimulateShipping, DeliveryOption } from "@/types/kangu";
-import { clothesWeight, FormT } from "@/types/checkout";
+import { FormT } from "@/types/checkout";
 import { RateLimiterMemory } from 'rate-limiter-flexible';
 import { getUserIP } from "./other";
 import { NEXT_PUBLIC_KANGU_API_URL, KANGU_API_TOKEN } from "./env";
+import { clothesWeight } from "@/lib/globals";
+
+const rateLimiter = new RateLimiterMemory({
+  points: 4, // Number of requests
+  duration: 30,
+});
 
 function calculateCartInfo(cartItems: CartItem[]) {
   let pesoMerc = 0;
@@ -31,11 +37,6 @@ function calculateCartInfo(cartItems: CartItem[]) {
 
   return { pesoMerc, vlrMerc, produtos };
 }
-
-const rateLimiter = new RateLimiterMemory({
-  points: 4, // Number of requests
-  duration: 30,
-});
 
 export async function simulateShipping(inputCep: string, cartItems: CartItem[]): Promise<DeliveryOption[]> {
   checkEnvVars(['NEXT_PUBLIC_KANGU_API_URL', 'KANGU_API_TOKEN']);

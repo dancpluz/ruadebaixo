@@ -105,10 +105,11 @@ export default function CartCard({ cartItem }: { cartItem: CartItem }) {
             <QtyCounter qty={variant.quantity} />
           </CardHeader>
           <CardContent className='p-0 grow'>
-            {<div className='flex gap-2 items-center'>
-              <strong className='font-normal opacity-50 line-through'>{formatToBRL(valor)}</strong>
-              <h2 className='text-xl'>{formatToBRL(applyDiscount(valor, desconto))}</h2>
-            </div>}
+            {desconto ?
+              <CardDescription className={'text-xl items-center gap-2'}><strong className='text-lg font-normal line-through'>{formatToBRL(valor)}</strong>{formatToBRL(applyDiscount(valor, desconto))}</CardDescription>
+              :
+              <CardDescription className={'text-xl'}>{formatToBRL(valor)}</CardDescription>
+            }
           </CardContent>
           <CardFooter className='p-0 flex items-center justify-between gap-2'>
             <div className='p-0 flex gap-2 items-center'>
