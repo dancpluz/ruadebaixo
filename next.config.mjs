@@ -43,7 +43,7 @@ const nextConfig = {
     ASAAS_API_KEY: process.env.ASAAS_API_KEY,
     ZAP_API_TOKEN: process.env.ZAP_API_TOKEN,
     ZAP_URL: process.env.ZAP_URL,
-    KANGU_API_KEY: process.env.KANGU_API_KEY,
+    KANGU_API_TOKEN: process.env.KANGU_API_TOKEN,
   },
   images: {
     remotePatterns: [
@@ -67,6 +67,7 @@ const nextConfig = {
       {
         protocol: 'https',
         hostname: 'portal.kangu.com.br',
+        pathname: '/ged/**',
       },
     ]
   },
