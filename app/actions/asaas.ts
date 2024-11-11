@@ -9,9 +9,9 @@ const NEXT_PUBLIC_ASAAS_API_URL = process.env.NEXT_PUBLIC_ASAAS_API_URL;
 const ASAAS_API_KEY = process.env.ASAAS_API_KEY;
 
 const asaasHeaders = {
-  "Content-Type": "application/json",
-  "User-Agent": "ruadebaixo",
-  'access-token': ASAAS_API_KEY || '',
+  'Content-Type': 'application/json',
+  'User-Agent': 'ruadebaixo',
+  'access-token': ASAAS_API_KEY || ''
 }
 
 export async function getCustomer({ id, cpfCnpj }: { id?: string, cpfCnpj?: string }): Promise<Customer | { error: CustomError }> {
@@ -167,28 +167,33 @@ export async function createCustomer({ id, name, cpf, email, phone, cep, number,
   }
 }
 
-export async function simulatePayment({ value, installmentCount, billingTypes }: { value: number, installmentCount: number, billingTypes: string[] }): Promise<SimulatePayment> {
+export async function simulatePayment({ value, installmentCount, billingTypes }: { value: number, installmentCount: number, billingTypes: string[] }): Promise<SimulatePayment | { error: CustomError }> {
   checkEnvVars(['NEXT_PUBLIC_ASAAS_API_URL', 'ASAAS_API_KEY']);
+
+  const body = {
+    value,
+    installmentCount,
+    billingTypes,
+  }
 
   const response = await fetch(`${NEXT_PUBLIC_ASAAS_API_URL}/payments/simulate`, {
     method: 'POST',
     headers: asaasHeaders,
-    body: JSON.stringify({
-      value,
-      installmentCount,
-      billingTypes,
-    }),
+    body: JSON.stringify(body),
   });
 
   if (!response.ok) {
-    throw new Error(`Erro ao simular pagamento: (${response.status}) ${response.statusText}`);
+    const error = { error: { code: response.status, message: response.statusText }}
+    logError(error)
+    return error;
   }
 
   const data = await response.json();
 
   if (data.errors) {
-    console.log('[Erro ao simular pagamento:', data + ']')
-    throw new Error(`Erro ao simular pagamento: ${data.errors[0].description}`);
+    const error = { error: { code: 400, message: data.errors[0].description }}
+    logError(error)
+    return error;
   }
 
   return data;
@@ -201,6 +206,9 @@ export async function getParcelOptions(value: number, parcelNumber: number): Pro
   const parcelOptionsArray = await Promise.all(filteredParcels.map(async (parcel) => {
     try {
       const payment = await simulatePayment({ value, installmentCount: parcel, billingTypes: ['CREDIT_CARD'] });
+      if (isError(payment)) {
+        throw new Error(payment.error.message);
+      }
       
       const { feePercentage, operationFee } = payment.creditCard;
       const fee = feePercentage + operationFee;
