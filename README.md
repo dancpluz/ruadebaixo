@@ -26,3 +26,9 @@
 - [ ] Modo Manutenção
 - [ ] Responsivo
 - [ ] Tracker
+
+# Backlog:
+
+- [ ] Melhorar Context
+- [ ] Query state (nuqs)
+- [ ] Reduzir info no cartitems

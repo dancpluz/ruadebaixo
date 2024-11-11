@@ -13,13 +13,14 @@ import { Button } from '@/components/ui/button';
 import { formatToBRL } from '@/lib/utils';
 import PlusIcon from "@/public/icons/plus.svg";
 import { useCart } from '@/app/Context'
+import { cn } from './../lib/utils';
 
-export default function AddCartModal({ product }: { product: Produto }) {
+export default function AddCartModal({ product, className }: { product: Produto, className?: string }) {
   const { variantes } = product.attributes;
 
   const [selectedColor, setSelectedColor] = useState<string | null>(null)
   const [selectedSize, setSelectedSize] = useState<string | null>(null)
-  const { totalPrice, addItemToCart } = useCart((state) => state)
+  const { addItemToCart, toggleCartOpen } = useCart((state) => state)
 
   const uniqueColors = useMemo(() => 
     Array.from(new Set(variantes.map(variante => variante.cor))),
@@ -68,15 +69,14 @@ export default function AddCartModal({ product }: { product: Produto }) {
         v => v.cor === selectedColor && v.tamanho === selectedSize
       )
       if (selectedVariant) {
-       console.log(selectedVariant)
+        addItemToCart(product, selectedVariant)
       }
     }
   }
 
-  if (variantes.length === 1) {
-    console.log(variantes[0])
+  if (variantes.length === 1 || product.attributes.unico) {
     return (
-      <Button onClick={() => addItemToCart(product,variantes[0])} className='cursor-pointer size-12 p-0 text-foreground' variant='ghost' asChild>
+      <Button onClick={() => {addItemToCart(product,variantes[0]); toggleCartOpen()}} className={cn('cursor-pointer size-full p-0 text-foreground', className)} variant='ghost' asChild>
         <PlusIcon />
       </Button>
     )
@@ -85,7 +85,7 @@ export default function AddCartModal({ product }: { product: Produto }) {
   return (
     <ResponsiveModal>
       <ResponsiveModalTrigger asChild>
-        <Button className='cursor-pointer size-12 p-0 text-foreground' variant='ghost' asChild>
+        <Button className={cn('cursor-pointer size-full p-0 text-foreground', className)} variant='ghost' asChild>
           <PlusIcon />
         </Button>
       </ResponsiveModalTrigger>
@@ -104,9 +104,8 @@ export default function AddCartModal({ product }: { product: Produto }) {
                       key={color}
                       onClick={() => handleColorSelect(color)}
                       disabled={isOutOfStock}
-                      className={`size-7 rounded-full border-0 p-0 relative after:content-[''] after:absolute after:border after:border-foreground after:rounded-full after:scale-0 after:size-9 after:transition-transform after:duration-200 ${selectedColor === color ? 'after:scale-110' : ''}
-                  ${isOutOfStock ? 'opacity-50' : ''}
-                `}
+                      className={`size-7 rounded-full border p-0 relative border-foreground/50 after:content-[''] after:absolute after:border after:border-foreground after:rounded-full after:scale-0 after:size-9 after:transition-transform after:duration-200 ${selectedColor === color ? 'after:scale-110' : ''} ${isOutOfStock ? 'opacity-50' : ''}
+                      `}
                       style={{ backgroundColor: color }}
                     >
                       {isOutOfStock && (

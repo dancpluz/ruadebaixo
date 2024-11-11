@@ -14,7 +14,7 @@ export default function Footer() {
 
   return (
     <footer className='flex flex-col divide-y border-t z-10 bg-background'>
-      <div className='flex flex-col py-2 px-5'>
+      <div className='flex flex-col py-2 px-5 md:px-12'>
         <h2 className='uppercase clash text-lg font-semibold'>FALE CONOSCO</h2>
         <ul className='grid grid-cols-2 md:grid-cols-4'>
           {socials.map(({ label, href, icon }) => (
@@ -31,8 +31,10 @@ export default function Footer() {
           ))}
         </ul>
       </div>
-      {/* <Nav /> */}
-      <span className='text-xs py-2 px-5 text-center w-full wide-letter tracking-wider uppercase'>
+      <div className='md:px-12'>
+        <Nav />
+      </div>
+      <span className='text-xs py-2 px-5 md:px-12 text-center w-full wide-letter tracking-wider uppercase'>
         Todos os direitos reservados ruadebaixo ®
       </span>
     </footer>

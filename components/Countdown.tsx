@@ -44,7 +44,7 @@ export default function Countdown() {
       </Card>
     ));
 
-  return (
+  if (timeLeft > 0) return (
     <div className="fixed bottom-0 flex flex-wrap w-full justify-center">
       {Object.values(timeLeft).some(value => value > 0) ? timeComponents : 
       Array.from({ length: 4 }).map((_, index) => (
