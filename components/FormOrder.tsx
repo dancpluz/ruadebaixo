@@ -3,7 +3,6 @@ import { useFormContext } from 'react-hook-form';
 import FormInput from './FormInput';
 import DeliveryOptions from './DeliveryOptions';
 
-
 export default function FormOrder() {
   const form = useFormContext<FormOrderValues>();
   const delivery = form.watch('delivery');

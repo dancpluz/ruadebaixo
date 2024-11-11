@@ -215,7 +215,7 @@ export async function getParcelOptions(value: number, parcelNumber: number): Pro
     }
   }));
 
-  const parcelOptions: { [key: number]: number } = parcelOptionsArray.filter(option => option !== undefined).reduce((acc, option) => {
+  const parcelOptions: Parcel[] = parcelOptionsArray.filter(option => option !== undefined).reduce((acc, option) => {
     return { ...acc, ...option };
   }, {});
 

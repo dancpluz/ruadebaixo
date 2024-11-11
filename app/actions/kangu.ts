@@ -1,6 +1,6 @@
 'use server'
 
-import { applyDiscount, checkEnvVars } from "@/lib/utils";
+import { applyDiscount, checkEnvVars, logError } from "@/lib/utils";
 import { CartItem } from "@/types/cart";
 import { ShippingInfo, SimulateShipping, DeliveryOption } from "@/types/kangu";
 import { FormT } from "@/types/checkout";
@@ -8,6 +8,7 @@ import { RateLimiterMemory } from 'rate-limiter-flexible';
 import { getUserIP } from "./other";
 import { NEXT_PUBLIC_KANGU_API_URL, KANGU_API_TOKEN } from "./env";
 import { clothesWeight } from "@/lib/globals";
+import { CustomError } from "@/types/api";
 
 const rateLimiter = new RateLimiterMemory({
   points: 4, // Number of requests
@@ -38,13 +39,15 @@ function calculateCartInfo(cartItems: CartItem[]) {
   return { pesoMerc, vlrMerc, produtos };
 }
 
-export async function simulateShipping(inputCep: string, cartItems: CartItem[]): Promise<DeliveryOption[]> {
+export async function simulateShipping(inputCep: string, cartItems: CartItem[]): Promise<DeliveryOption[] | { error : CustomError }> {
   checkEnvVars(['NEXT_PUBLIC_KANGU_API_URL', 'KANGU_API_TOKEN']);
 
   try {
     await rateLimiter.consume(await getUserIP());
   } catch {
-    throw new Error('Muitas solicitações. Tente novamente mais tarde.');
+    const error = { error: { code: 429, message: 'Muitas solicitações. Tente novamente mais tarde.' } }; 
+    logError(error);
+    return error;
   }
 
   const { pesoMerc, vlrMerc, produtos } = calculateCartInfo(cartItems);
@@ -67,27 +70,29 @@ export async function simulateShipping(inputCep: string, cartItems: CartItem[]):
   });
 
   if (!response.ok) {
-    throw new Error(`Erro ao simular frete: ${response.statusText} (${response.status})`);
+    const error = { error: { code: response.status, message: `Erro ao simular frete: ${response.statusText}` } };
+    logError(error);
+    return error;
   }
 
   const data = await response.json();
 
   // Melhorar dps
   if (data.error) {
-    switch (data.error.codigo) {
-      case 870:
-        throw new Error('CEP inválido');
-      default: 
-        throw new Error(data.error.mensagem);
-    }
+    const error = { error: { code: 400, message: data.error } };
+    logError(error);
+    return error;
   }
 
   const options = data.filter((option: DeliveryOption) => option.nf_obrig == "N")
 
   if (options.length === 0) {
-    throw new Error('Nenhuma opção de frete disponível');
+    const error = { error: { code: 400, message: 'Nenhuma opção de frete disponível.' } };
+    logError(error);
+    return error;
   }
 
+  console.log(`[200] Frete simulado com sucesso para o CEP ${inputCep}`);
   return options;
 }
 

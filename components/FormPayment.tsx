@@ -6,8 +6,6 @@ import { Button } from '@/components/ui/button';
 import { useCart, useUser } from '@/app/Context';
 import { differenceInSeconds } from 'date-fns';
 import { useEffect, useState } from 'react';
-import { getParcelOptions } from '@/app/actions/asaas';
-import { DeliveryFields } from '@/components/FormOrder';  
 
 const formatTime = (totalSeconds: number) => {
   const minutes = Math.floor(totalSeconds / 60);
@@ -59,7 +57,8 @@ export default function FormPayment() {
   useEffect(() => {
     const runCalculateParcelOptions = async () => {
       try {
-        await calculateParcelOptions(totalPrice() + frete,12);
+        const total = totalPrice() + frete;
+        await calculateParcelOptions(total,12);
       } catch (error) {
         console.error("Error calculating parcel options:", error);
       }

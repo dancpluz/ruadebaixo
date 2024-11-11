@@ -98,6 +98,10 @@ const createCartSlice = (set: (fn: (state: CartState) => CartState) => void, get
       }
 
       const data = await simulateShipping(cep, get().cartItems);
+      if (isError(data)) {
+        throw new Error(data.error.message)
+      }
+
       set({ cepFreight: { cep: cep, frete: data[0].vlrFrete, loading: false }})
     } catch (error) {
       toast({
@@ -278,6 +282,10 @@ const createUserSlice = (set: (fn: (state: UserState) => UserState) => void, get
       }
 
       const data = await simulateShipping(cep, get().cartItems);
+      if (isError(data)) {
+        throw new Error(data.error.message)
+      }
+
       set({ deliveryOptions: data })
       set(() => ({ loading: false }))
     } catch (error) {
@@ -320,7 +328,7 @@ const createUserSlice = (set: (fn: (state: UserState) => UserState) => void, get
       set(() => ({ loading: true }))
       const data = await getParcelOptions(value, installmentCount);
 
-      const parcelOptions = []
+      const parcelOptions: Parcel[] = []
 
       for (const [key, value] of Object.entries(data)) {
         if (key === '1') {
