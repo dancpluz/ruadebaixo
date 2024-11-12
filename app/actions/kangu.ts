@@ -79,7 +79,7 @@ export async function simulateShipping(inputCep: string, cartItems: CartItem[]):
 
   // Melhorar dps
   if (data.error) {
-    const error = { error: { code: 400, message: data.error } };
+    const error = { error: { code: 400, message: data.error.mensagem } };
     logError(error);
     return error;
   }

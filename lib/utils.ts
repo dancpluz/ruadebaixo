@@ -44,8 +44,8 @@ export function selectImageUrl(formats: ImageFormats) {
   };
 }
 
-function formatValueToString(emoji: string, value?: string) {
-  return value ? `${emoji} ${value}\n` : ''
+function formatValueToString(emoji: string, value?: string, nextLine: boolean = true) {
+  return value ? `${emoji} ${value}${nextLine ? '\n' : ''}` : ''
 }
 
 export function orderMessage(values: FormT, cartItems: CartItem[], total: number) {
@@ -58,7 +58,7 @@ export function orderMessage(values: FormT, cartItems: CartItem[], total: number
   return `${formatValueToString('👤', name)}${formatValueToString('🔢', cpf)}${formatValueToString('📧', email)}${formatValueToString('📞', '+55 '+ phone)}${formatValueToString('📱', insta)}${formatValueToString('🚚', deliveryString)}${formatValueToString('🏠', addressString)}${formatValueToString('💳', paymentTypeString)}${formatValueToString('💬', feedback)}
 PEDIDO:
 ${cartItemsToString(cartItems)}
-*${formatValueToString('💵', paymentType === 'credit' && parcels !== '1' ? `${formatToBRL(total)} (${parcels}x de ${formatToBRL(total / Number(parcels))})` : formatToBRL(total))}*`
+*${formatValueToString('💵', paymentType === 'credit' && parcels !== '1' ? `${formatToBRL(total)} (${parcels}x de ${formatToBRL(total / Number(parcels))})` : formatToBRL(total), false)}*`
 }
 
 export function cartItemsToString(cartItems: CartItem[]) {
