@@ -296,7 +296,6 @@ const createUserSlice = (set: (fn: (state: UserState) => UserState) => void, get
         duration: 3000,
       });
       set(() => ({ loading: false }))
-      throw error
     }
   },
   cobranca: undefined,
@@ -357,7 +356,12 @@ const createUserSlice = (set: (fn: (state: UserState) => UserState) => void, get
         throw new Error('Tente novamente')
       }
 
-      const { status } = await checkPaymentStatus(id)
+      const paymentStatus = await checkPaymentStatus(id);
+      if (isError(paymentStatus)) {
+        throw new Error(paymentStatus.error.message)
+      }
+
+      const { status } = paymentStatus;
 
       switch (status) {
         case 'PENDING':
@@ -376,10 +380,7 @@ const createUserSlice = (set: (fn: (state: UserState) => UserState) => void, get
           });
           get().resetPayment()
           set(() => ({ paymentStatus: status }))
-          if (get().successCallback) {
-            await get().successCallback();
-          }
-
+          await get().successCallback();
           break;
         default:
           toast({

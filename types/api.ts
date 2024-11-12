@@ -1,4 +1,5 @@
 export type ListInfo<Type> = {
+import { Payment } from '@/types/api';
   object: "list";
   hasMore: boolean;
   totalCount: number;
@@ -154,6 +155,7 @@ export type Payment = {
   postalService: boolean;
   custody: string | null;
   refunds: string | null;
+  remoteIp: string | null;
 };
 
 export type PixQR = {
@@ -163,36 +165,23 @@ export type PixQR = {
   expirationDate: string;
 };
 
-export type CreditPayment = {
-  billingType: 'CREDIT_CARD';
-  customer: string;
-  value: number;
-  dueDate: string;
-  description: string;
-  externalReference: string;
-  installmentCount: number;
-  totalValue: number;
-  installmentValue: number;
-  remoteIp: string;
-};
-
-export type CreditCard = {
-  creditCard: {
+export interface CreditPayment extends Payment {
+  creditCard?: {
     holderName: string;
     number: string;
     expiryMonth: string;
     expiryYear: string;
     ccv: string;
   };
-  creditCardHolderInfo: {
+  creditCardHolderInfo?: {
     name: string;
     email: string;
     cpfCnpj: string;
     postalCode: string;
-    addressNumber: string;
-    addressComplement: string;
-    phone?: string;
-    mobilePhone: string;
+    addressNumber: string | null;
+    addressComplement: string | null;
+    phone: string | null;
+    mobilePhone: string | null;
   };
 };
 

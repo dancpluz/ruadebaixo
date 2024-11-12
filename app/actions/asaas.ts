@@ -1,7 +1,7 @@
 'use server'
 
 import { checkEnvVars, isError, logError, roundToDecimal } from "@/lib/utils";
-import type { Customer, NewCustomer, Payment, SimulatePayment, PixQR, Parcel, CustomError } from "@/types/api";
+import type { Customer, NewCustomer, Payment, SimulatePayment, PixQR, CustomError, Status, CreditPayment } from "@/types/api";
 import { FormT } from "@/types/checkout";
 import { getUserIP } from "./other";
 
@@ -29,7 +29,7 @@ export async function getCustomer({ id, cpfCnpj }: { id?: string, cpfCnpj?: stri
     }
 
     if (!response.ok) {
-      const error = { error: { code: response.status, message: response.statusText }}
+      const error = { error: { code: response.status, message: `Erro ao encontrar cliente ${response.statusText}` }}
       logError(error)
       return error;
     }
@@ -49,14 +49,14 @@ export async function getCustomer({ id, cpfCnpj }: { id?: string, cpfCnpj?: stri
     }
 
     if (!response.ok) {
-      const error = { error: { code: response.status, message: response.statusText }}
+      const error = { error: { code: response.status, message: `Erro ao encontrar clientes ${response.statusText}` }}
       logError(error)
       return error;
     }
 
     const data = await response.json();
 
-    let customer = data.data.find((customer: Customer) => customer.cpfCnpj === cpfCnpj.replace(/\D/g, ''));
+    let customer = data.data.find((customer: Customer) => cpfCnpj && customer.cpfCnpj === cpfCnpj.replace(/\D/g, ''));
     
     customer = customer ? customer : { error: { code: 404, message: 'CPF não encontrado' } }
 
@@ -122,7 +122,7 @@ export async function createCustomer({ id, name, cpf, email, phone, cep, number,
     }
 
     if (!response.ok) {
-      const error = { error: { code: response.status, message: response.statusText }}
+      const error = { error: { code: response.status, message: `Erro ao editar cliente ${response.statusText}` }}
       logError(error)
       return error;
     }
@@ -157,7 +157,7 @@ export async function createCustomer({ id, name, cpf, email, phone, cep, number,
     }
 
     if (!response.ok) {
-      const error = { error: { code: response.status, message: response.statusText }}
+      const error = { error: { code: response.status, message: `Erro ao criar cliente ${response.statusText}` }}
       logError(error)
       return error; 
     }
@@ -183,7 +183,7 @@ export async function simulatePayment({ value, installmentCount, billingTypes }:
   });
 
   if (!response.ok) {
-    const error = { error: { code: response.status, message: response.statusText }}
+    const error = { error: { code: response.status, message: `Erro ao simular pagamento ${response.statusText}` }}
     logError(error)
     return error;
   }
@@ -199,7 +199,7 @@ export async function simulatePayment({ value, installmentCount, billingTypes }:
   return data;
 }
 
-export async function getParcelOptions(value: number, parcelNumber: number): Promise<Parcel[]> {
+export async function getParcelOptions(value: number, parcelNumber: number): Promise<{ [id: number]: number; }> {
   const parcels = [1, 3, 6, 9, 12];
   const filteredParcels = parcels.filter(parcel => parcel <= parcelNumber);
 
@@ -223,7 +223,7 @@ export async function getParcelOptions(value: number, parcelNumber: number): Pro
     }
   }));
 
-  const parcelOptions: Parcel[] = parcelOptionsArray.filter(option => option !== undefined).reduce((acc, option) => {
+  const parcelOptions = parcelOptionsArray.filter(option => option !== undefined).reduce((acc, option) => {
     return { ...acc, ...option };
   }, {});
 
@@ -258,7 +258,7 @@ export async function createPayment(values: FormT, total: number, description: s
     totalValue: paymentType === 'credit' ? total : undefined,
     description,
     remoteIp: paymentType === 'credit' ? await getUserIP() : undefined,
-  }
+  } as CreditPayment;
 
   if (paymentType === 'credit') {
     const { holderName, email, cpf, cep, number, phone, complement, cardNumber, expirationDate, cvv } = values;
@@ -277,8 +277,8 @@ export async function createPayment(values: FormT, total: number, description: s
       cpfCnpj: cpf.replace(/\D/g, ''),
       postalCode: cep.replace(/\D/g, ''),
       addressNumber: number,
-      addressComplement: complement,
-      mobilePhone: phone ? phone.replace(/\D/g, '') : undefined
+      addressComplement: complement ?? null,
+      mobilePhone: phone ? phone.replace(/\D/g, '') : null,
     }
   }
 
@@ -321,7 +321,7 @@ export async function getPixQR( id: string ): Promise<PixQR | {  error:  CustomE
   }
 
   if (!response.ok) {
-    const error = { error: { code: response.status, message: response.statusText }}
+    const error = { error: { code: response.status, message: `Erro ao encontrar QR code ${response.statusText}` }}
     logError(error)
     return error;
   }
@@ -338,7 +338,7 @@ export async function getPixQR( id: string ): Promise<PixQR | {  error:  CustomE
   return data;
 }
 
-export async function checkPaymentStatus(id: string): Promise<Pick<Payment, 'status'> | { error: CustomError }> {
+export async function checkPaymentStatus(id: string): Promise<{ status: Status } | { error: CustomError }> {
   checkEnvVars(['NEXT_PUBLIC_ASAAS_API_URL', 'ASAAS_API_KEY']);
 
   const response = await fetch(`${NEXT_PUBLIC_ASAAS_API_URL}/payments/${id}/status`, {
@@ -346,7 +346,7 @@ export async function checkPaymentStatus(id: string): Promise<Pick<Payment, 'sta
   });
 
   if (!response.ok) {
-    const error = { error: { code: response.status, message: response.statusText }}
+    const error = { error: { code: response.status, message: `Erro ao checar pagamento ${response.statusText}` }}
     logError(error)
     return error;
   }
