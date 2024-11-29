@@ -56,7 +56,7 @@ export default function ProductCarousel({ images, sold }: { images?: Media[], so
             return (
               <CarouselItem className='p-0' style={{ filter: sold ? 'grayscale(80%)' : 'grayscale(0)' , opacity: sold ? 0.4 : 1 }} key={image.id}>
                 <Image
-                  className="object-contain aspect-[32/40] h-full w-full object-top"
+                  className="object-cover aspect-[32/40] h-full w-full object-top"
                   src={buildImgUrl(imageUrl)}
                   alt={alternativeText || `Produto ${image.id}`}
                   width={width}

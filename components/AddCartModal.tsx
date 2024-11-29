@@ -15,8 +15,8 @@ import PlusIcon from "@/public/icons/plus.svg";
 import { useCart } from '@/app/Context'
 import { cn } from './../lib/utils';
 
-export default function AddCartModal({ product, className }: { product: Produto, className?: string }) {
-  const { variantes } = product.attributes;
+export default function AddCartModal({ products, className }: { products: Produto[], className?: string }) {
+  const { variantes } = products[0].attributes;
 
   const [selectedColor, setSelectedColor] = useState<string | null>(null)
   const [selectedSize, setSelectedSize] = useState<string | null>(null)
@@ -69,14 +69,14 @@ export default function AddCartModal({ product, className }: { product: Produto,
         v => v.cor === selectedColor && v.tamanho === selectedSize
       )
       if (selectedVariant) {
-        addItemToCart(product, selectedVariant)
+        addItemToCart(product[0], selectedVariant)
       }
     }
   }
 
-  if (variantes.length === 1 || product.attributes.unico) {
+  if (variantes.length === 1 || product[0].attributes.unico) {
     return (
-      <Button onClick={() => {addItemToCart(product,variantes[0]); toggleCartOpen()}} className={cn('cursor-pointer size-full p-0 text-foreground', className)} variant='ghost' asChild>
+      <Button onClick={() => { products.forEach((product) => addItemToCart(product, product.attributes.variantes[0])); toggleCartOpen()}} className={cn('cursor-pointer size-full p-0 text-foreground', className)} variant='ghost' asChild>
         <PlusIcon />
       </Button>
     )

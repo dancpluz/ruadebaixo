@@ -7,7 +7,7 @@ import { useFormContext } from "react-hook-form";
 
 export default function CheckoutFooter({ children }: { children: React.ReactNode }) {
   const form = useFormContext<FormT>();
-  const { totalPrice } = useCart((state) => state)
+  const { totalPrice, checkPackage } = useCart((state) => state)
   const { deliveryOptions, parcelOptions } = useUser((state) => state)
 
   const delivery = form.watch('delivery')
@@ -17,13 +17,19 @@ export default function CheckoutFooter({ children }: { children: React.ReactNode
 
   const selectedOption = deliveryOptions.find(({ referencia }) => referencia === selectedDelivery)
   const { vlrFrete } = selectedOption || {};
+  const discount = checkPackage();
+  const total = totalPrice()
 
   return (
     <div className="fixed p-5 sm:px-12 flex flex-col z-20 bg-background border-t w-full min-h-[180px] left-0 bottom-0 gap-4">
       <div>
         <div className='flex uppercase text-lg md:text-xl text-foreground justify-between'>
           <p>Subtotal</p>
-          <span>{formatToBRL(totalPrice())}</span>
+          <span>{formatToBRL(total)}</span>
+        </div>
+        <div className='flex uppercase text-lg md:text-xl text-foreground justify-between'>
+          <p>Desconto</p>
+          <span>- {formatToBRL(discount)}</span>
         </div>
         <div className='flex w-full uppercase md:text-xl text-lg text-foreground/70 justify-between'>
           <p>Entrega</p>
@@ -38,7 +44,7 @@ export default function CheckoutFooter({ children }: { children: React.ReactNode
         </div>
         <div className='flex uppercase text-xl text-foreground font-semibold justify-between md:text-2xl'>
           <p>Total</p>
-          <span>{paymentType === 'credit' && parcelOptions.length > 0 && parcels ? formatToBRL(parcelOptions.find(({ id }) => id === parcels)?.value || 0) : formatToBRL(totalPrice() + (vlrFrete && delivery !== 'retirada' ? vlrFrete : 0))}</span>
+          <span>{paymentType === 'credit' && parcelOptions.length > 0 && parcels ? formatToBRL((parcelOptions.find(({ id }) => id === parcels)?.value || 0) - discount) : formatToBRL(total + (vlrFrete && delivery !== 'retirada' ? vlrFrete : 0) - discount)}</span>
         </div>
       </div>
       <div className={'flex grow items-end justify-end gap-2'} >

@@ -20,7 +20,7 @@ export default async function Home() {
   //const isoDate = parseISO(date);
 
   return (
-    <main className="flex flex-col flex-1 gap-8 overflow-hidden">
+    <main className="flex flex-col flex-1 overflow-hidden">
       {/* <div>
         <h1 className="text-4xl md:text-5xl md:text-center md:px-16 px-5 font-regular clash uppercase tracking-wider">Vendas liberadas em:</h1>
         <h2 className="text-4xl md:text-5xl md:text-center md:px-16 px-5 font-regular clash uppercase font-semibold tracking-wider">{date ? format(isoDate, 'dd/MM - HH:mm') : ''}</h2>
