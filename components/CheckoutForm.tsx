@@ -15,7 +15,7 @@ import React from 'react';
 import { useCart, useUser } from '@/app/Context';
 import { sendMessageToGroup } from "@/app/actions/zapbot";
 import { postShipping } from "@/app/actions/kangu";
-import { updateProductQuantities } from "@/app/actions/strapi";
+import { createNewSale, updateProductQuantities } from "@/app/actions/strapi";
 import CheckoutFooter from './CheckoutFooter'
 import Link from 'next/link'
 import CheckIcon from '@/public/icons/check.svg'
@@ -43,6 +43,9 @@ export default function CheckoutForm() {
       insta: '',
       selectedDelivery: '',
       cep: '',
+      district: '',
+      city: '',
+      state: '',
       address: '',
       number: '',
       complement: '',
@@ -56,42 +59,49 @@ export default function CheckoutForm() {
     shouldFocusError: false,
   });
 
-  const { setFormInfo, setInfo, deliveryOptions, makePayment, parcelOptions } = useUser((state) => state);
-  const { cartItems, totalItems, resetCart, totalPrice } = useCart((state) => state);
+  const { setFormInfo, setInfo, deliveryOptions, makePayment, customer, parcelOptions } = useUser((state) => state);
+  const { cartItems, totalItems, resetCart, totalPrice, checkPackage } = useCart((state) => state);
 
-  async function onBuy(values: FormT, total: number) {
+  async function onBuy(values: FormT, total: number, freight: number, discount: number) {
     const functions = []
     if (values.selectedDelivery && values.delivery === 'entrega') {
       functions.push(postShipping(values, cartItems))
     }
-    functions.push(sendMessageToGroup(orderMessage(values, cartItems, total)))
+    functions.push(createNewSale({ values, total, cartItems, freight, discount, asaasCustomerId: customer?.id }))
+    functions.push(sendMessageToGroup(orderMessage(values, cartItems, total, freight, discount)))
     functions.push(updateProductQuantities(cartItems))
 
     await Promise.all(functions)
   }
 
   const onSubmit = async () => {
-    for (const [key, value] of Object.entries(form.getValues())) {
+    const values = form.getValues() as FormT;
+
+    for (const [key, value] of Object.entries(values)) {
       setFormInfo(form, key, value)
     }
 
     let frete = 0;
-    const paymentType = form.getValues('paymentType')
-    const delivery = form.getValues('delivery')
-    const selectedDelivery = form.getValues('selectedDelivery')
+    const discount = checkPackage()
+    
+    const paymentType = values.paymentType
+    const delivery = values.delivery
+    const selectedDelivery = values.selectedDelivery
     if (delivery === 'entrega' && selectedDelivery && deliveryOptions) {
       const selectedOption = deliveryOptions.find(({ referencia }) => referencia === selectedDelivery)
       
-      frete = selectedOption.vlrFrete || 0
+      frete = selectedOption?.vlrFrete || 0
     }
-    let total = totalPrice() + frete
+
+    let total = totalPrice() + frete - discount
+    
     if (paymentType === 'credit') {
-      total = parcelOptions.find(({ id }) =>  id === form.getValues('parcels')).value
+      total = parcelOptions.find(({ id }) =>  id === values.parcels).value
     }
 
     setInfo('successCallback', async () => {
       setInfo('loading', true);
-      await onBuy(form.getValues() as FormT, total);
+      await onBuy(form.getValues() as FormT, total, frete, discount);
       setInfo('paymentStatus', undefined)
       setInfo('loading', false);
       stepper.goTo('complete')
@@ -181,6 +191,7 @@ export default function CheckoutForm() {
         {!stepper.isLast &&
         <CheckoutFooter>
             <>
+              {/* <Button type='button' onClick={() => { console.log(orderMessage(form.getValues(),cartItems,300,0,0))} }>Teste</Button> */}
               <Button
                 type='button'
                 variant="outline"
