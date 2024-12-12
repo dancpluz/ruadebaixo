@@ -9,7 +9,7 @@ import AddCartModal from "@/components/AddCartModal";
 
 export default function PackageCard({ pkg }: { pkg: Pacote }) {
   
-  const { nome: nomePkg, desconto: descontoPkg, produtos } = pkg.attributes;
+  const { capa, nome: nomePkg, desconto: descontoPkg, produtos } = pkg.attributes;
 
   const product = produtos.data.reduce((acc, produto) => (
     { nome: `${produto.attributes.nome}${acc.nome ? ' + ' + acc.nome : ''}`,
@@ -33,6 +33,7 @@ export default function PackageCard({ pkg }: { pkg: Pacote }) {
 
   // MELHORAR
   //const { valor, desconto } = variantes[0];
+  console.log(capa)
 
   return (
     // <pre>{JSON.stringify(pkg,null,2)}</pre>
@@ -48,7 +49,7 @@ export default function PackageCard({ pkg }: { pkg: Pacote }) {
         </Link>
       </CardHeader>
       <CardContent className='p-0 border border-foreground'>
-        <ProductCarousel sold={sold} images={imagens_produto} />
+        <ProductCarousel sold={sold} images={capa?.data ? [capa.data, ...imagens_produto] : imagens_produto} />
       </CardContent>
       <Link href={`/catalogo/${slug}`}>
         <CardFooter className='justify-between p-0 pt-2'>

@@ -16,7 +16,7 @@ export const metadata: Metadata = {
 export default async function Catalogo() {
   const data = await fetchFromStrapi<Produto[]>('produtos?populate[0]=variantes&populate[1]=loja&populate[2]=imagens_produto');
   const products = data.data;
-  const dataPackage = await fetchFromStrapi<Pacote[]>('pacotes?populate[0]=produtos&populate[1]=produtos.imagens_produto&populate[2]=produtos.variantes');
+  const dataPackage = await fetchFromStrapi<Pacote[]>('pacotes?populate[0]=produtos&populate[1]=produtos.imagens_produto&populate[2]=produtos.variantes&populate[3]=capa');
   const packages = dataPackage.data;
 
   return (

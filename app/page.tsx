@@ -15,6 +15,7 @@ export const dynamic = 'force-dynamic'
 export default async function Home() {
   const data = await fetchFromStrapi<Home>('home?populate[0]=imagens');
   const images = data.data?.attributes?.imagens?.data;
+
   //const date = data.data?.attributes?.data_lancamento;
 
   //const isoDate = parseISO(date);
