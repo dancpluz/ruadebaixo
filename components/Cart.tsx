@@ -22,9 +22,7 @@ export default function Cart() {
           <SheetTitle className='mt-0 uppercase'>Carrinho</SheetTitle>
           <span aria-hidden='true' className='size-10'/>
         </SheetHeader>
-        <div className='flex-1 px-5'>
-          <CartItems scrollable />
-        </div>
+        <CartItems scrollable/>
         {totalItems() > 0 && <CartFooter />}
       </SheetContent>
     </Sheet>

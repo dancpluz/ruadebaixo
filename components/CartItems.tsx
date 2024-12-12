@@ -17,7 +17,7 @@ export default function CartItems({ scrollable = false }: { scrollable?: boolean
 
   return (
     <Component className='flex-1'>
-      <div className='flex flex-col gap-6'>
+      <div className={`flex flex-col gap-6 ${scrollable ? 'px-5' : ''}`}>
         {cartItems.map((cartItem) => <CartCard key={cartItem.id} cartItem={cartItem} />)}
       </div>
     </Component>

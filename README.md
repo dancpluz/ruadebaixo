@@ -7,28 +7,41 @@
   - [x] Card Produto
   - [ ] Infinite Scroll
   - [ ] Filtragem
-- [ ] Pág. Produto
+- [x] Pág. Produto
 - [ ] Pág. Adesivo
-- [ ] Pág. Checkout
-  - [ ] Carrinho de Compras
+- [x] Pág. Checkout
+  - [x] Carrinho de Compras
   - [ ] Local Storage
 - [ ] Pág. Links
 - [ ] Pág. Lookbook
-- [ ] Rotas de API definidas
- - [ ] Asaas
- - [ ] Strapi
- - [ ] Kangu
+- [x] Rotas de API definidas
+ - [x] Asaas
+ - [x] Strapi
+ - [x] Kangu
  - [x] Whatsapp
-- [ ] Integração com entregas (kangu)
-- [ ] Integração de pagamento (asaas.dev/stripe)
-- [ ] Integração com bot do zap
+- [x] Integração com entregas (kangu)
+- [x] Integração de pagamento (asaas.dev/stripe)
+- [x] Integração com bot do zap
 - [ ] SEO
 - [ ] Modo Manutenção
-- [ ] Responsivo
-- [ ] Tracker
+- [x] Responsivo
+- [ ] Analytics
 
 # Backlog:
 
 - [ ] Melhorar Context
 - [ ] Query state (nuqs)
 - [ ] Reduzir info no cartitems
+- [x] Salvar vendas e clientes
+- [ ] Verificação produto vendido
+- [ ] Essência
+- [ ] FAQ e Sobre
+- [ ] Loading state
+- [ ] Dark Mode
+- [ ] Backup
+- [ ] Webhooks
+- [ ] Página de transmissão
+- [ ] Melhorar Local Storage
+- [ ] Melhorar Página de Produto
+- [ ] Melhorar Imagens
+- [ ] Melhorar Context

@@ -2,11 +2,12 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import Header from "@/components/Header";
-import StoreProvider from '@/app/Context'
+import StoreProvider, { Pkg } from '@/app/Context'
 import Footer from "@/components/Footer";
 import { fetchFromStrapi } from "./actions/strapi";
 import { Home } from "@/types/api/home";
 import { Toaster } from "@/components/ui/toaster"
+import { Pacote } from "@/types/api/pacote";
 
 const clashDisplay = localFont({
   src: "./fonts/ClashDisplay-Variable.ttf",
@@ -66,12 +67,19 @@ export default async function RootLayout({
   const marqueeStrings = data.data?.attributes?.anuncios || [];
   const finalDate = data.data?.attributes?.data_lancamento || '';
 
+  let pkgs;
+
+  const dataPackage = await fetchFromStrapi<Pacote[]>('pacotes?populate[0]=produtos');
+  if (dataPackage) {
+    pkgs = dataPackage.data.map((pkg) => ({ id: pkg.attributes.produtos.data.map((product) => product.id ), desconto: pkg.attributes.desconto})) as Pkg[]
+  }
+
   return (
     <html lang="pt-BR">
       <body
         className={`${clashDisplay.variable} ${archivo.variable} dark antialiased min-h-screen flex flex-col relative`}
       >
-        <StoreProvider finalDate={finalDate}>
+        <StoreProvider finalDate={finalDate} pkgs={pkgs}>
           <Header marqueeStrings={marqueeStrings} />
           {children}
           <Footer />

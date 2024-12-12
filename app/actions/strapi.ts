@@ -1,10 +1,14 @@
 'use server'
 
-import { checkEnvVars } from "@/lib/utils";
+import { cartItemsToString, checkEnvVars, isError } from "@/lib/utils";
 import { Payload } from "@/types/common/Payload";
 import { NEXT_PUBLIC_STRAPI_API_URL, STRAPI_TOKEN } from "./env";
 import { CartItem } from "@/types/cart";
 import { Variante } from "@/types/components/produto/Variante";
+import { FormT } from "@/types/checkout";
+import { Cliente } from "@/types/api/cliente";
+import { Venda } from "@/types/api/venda";
+import { createCustomer } from "./asaas";
 
 export async function fetchFromStrapi<T>(path: string, noCache: boolean = false): Promise<Payload<T>> {
   checkEnvVars(['STRAPI_TOKEN', 'NEXT_PUBLIC_STRAPI_API_URL']);
@@ -75,5 +79,214 @@ export async function updateProductQuantities(cartItems: CartItem[]): Promise<vo
       }
     }
     await updateVariants(productId, newVariants);
+  }
+}
+
+export async function verifyVariantsSold(cartItems: CartItem[]): Promise<void> {
+  checkEnvVars(['STRAPI_TOKEN', 'NEXT_PUBLIC_STRAPI_API_URL']);
+  //WIP
+
+  for (const { id: productId, cartVariants } of cartItems) {
+    const response = await fetch(`${NEXT_PUBLIC_STRAPI_API_URL}/api/produtos/${productId}`, {
+      headers: {
+        Authorization: `bearer ${STRAPI_TOKEN}`,
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`Erro ao tentar puxar o produto ${productId}`);
+    }
+
+    const product = await response.json();
+    const { variantes } = product.data.attributes;
+
+    for (const { variant } of cartVariants) {
+      const soldVariant = variantes.find((v: Variante) => v.id === variant.id);
+      if (!soldVariant || soldVariant.quantidade <= 0) {
+        console.log(`Variante ${variant.id} do produto ${productId} foi vendida`);
+      } else {
+        console.log(`Variante ${variant.id} do produto ${productId} ainda está disponível`);
+      }
+    }
+  }
+}
+
+interface ClientProps {
+  values: FormT;
+  asaasCustomerId?: string;
+  clientId?: number;
+  checkCpf?: boolean;
+}
+
+export async function createNewClient({ values, asaasCustomerId, clientId, checkCpf = true }: ClientProps): Promise<Cliente> {
+  checkEnvVars(['STRAPI_TOKEN', 'NEXT_PUBLIC_STRAPI_API_URL']);
+
+  const { name, email, cpf, phone, insta, cep, address, city, district, state, number, complement } = values;
+
+  if (clientId) {
+    const response = await fetch(`${NEXT_PUBLIC_STRAPI_API_URL}/api/clientes/${clientId}`, {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `bearer ${STRAPI_TOKEN}`,
+      }
+    });
+
+    if (response.status === 404) {
+      console.log(`[404] Cliente ${clientId} não encontrado, criando novo cliente`);
+      return await createNewClient({ values, asaasCustomerId, checkCpf: true});
+    }
+
+    if (!response.ok) {
+      throw new Error(`Erro ao tentar puxar o cliente ${clientId}`);
+    }
+
+    console.log(`[200] Cliente ${clientId} puxado com sucesso`);
+    const client = await response.json();
+    return client.data;
+  } else if (checkCpf) {
+    const response = await fetch(`${NEXT_PUBLIC_STRAPI_API_URL}/api/clientes?filters[cpf][$eq]=${values.cpf}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `bearer ${STRAPI_TOKEN}`,
+      }
+    });
+
+    const clients = await response.json();
+    if (clients.data.length > 0) {
+      console.log(`[200] Cliente com CPF ${values.cpf} já existe`);
+      const client = clients.data[0]
+      console.log(client)
+      const response = await fetch(`${NEXT_PUBLIC_STRAPI_API_URL}/api/clientes/${client.id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `bearer ${STRAPI_TOKEN}`,
+        },
+        body: JSON.stringify({
+          data: {
+            email: email || client.attributes.email,
+            celular: phone || client.attributes.celular,
+            cep: cep || client.attributes.cep,
+            endereco: address || client.attributes.endereco,
+            distrito: district || client.attributes.distrito,
+            cidade: city || client.attributes.cidade,
+            estado: state || client.attributes.estado,
+            numero: number || client.attributes.numero,
+            complemento: complement || client.attributes.complemento,
+            id_asaas: asaasCustomerId,
+          },
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Erro ao tentar atualizar o cliente ${response.statusText}`);
+      }
+
+      const updatedClient = await response.json()
+      console.log(`[200] Cliente ${client.id} atualizado com sucesso`);
+      return updatedClient.data;
+    } else {
+      console.log(`[404] Cliente com CPF ${values.cpf} não encontrado, criando novo cliente`);
+      return await createNewClient({ values, asaasCustomerId, checkCpf: false });
+    }
+  } else {
+    
+    const body = {
+      data: {
+        nome: name,
+        email,
+        cpf,
+        celular: phone,
+        insta,
+        cep,
+        endereco: address,
+        distrito: district,
+        cidade: city,
+        estado: state,
+        numero: number,
+        complemento: complement,
+        id_asaas: asaasCustomerId,
+      },
+    } as unknown as Cliente;
+
+    const response = await fetch(`${NEXT_PUBLIC_STRAPI_API_URL}/api/clientes`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `bearer ${STRAPI_TOKEN}`,
+      },
+      body: JSON.stringify(body),
+    });
+
+    if (!response.ok) {
+      throw new Error(`Erro ao tentar criar o cliente ${response.statusText}`);
+    }
+
+    const client = await response.json();
+    console.log(`Cliente ${client.data.id} criado com sucesso`);
+    return client.data;
+  }
+}
+
+interface SaleProps {
+  values: FormT;
+  cartItems: CartItem[];
+  total: number;
+  freight: number;
+  discount: number;
+  clientId?: number;
+  asaasCustomerId?: string;
+  asaasPaymentId?: string;
+}
+
+export async function createNewSale({ values, total, freight, discount, cartItems, clientId, asaasCustomerId }: SaleProps ): Promise<void> {
+  checkEnvVars(['STRAPI_TOKEN', 'NEXT_PUBLIC_STRAPI_API_URL']);
+
+  try {
+    const customer = await createCustomer(values, asaasCustomerId);
+    if (isError(customer)) {
+      throw new Error('Erro ao tentar criar o cliente');
+    }
+    const client = await createNewClient({ values, clientId, asaasCustomerId: customer.id });
+
+    const { feedback, delivery, selectedLocation, paymentType, parcels } = values;
+
+    const body = {
+      data: {
+        feedback,
+        cliente: { connect: [client.id] },
+        produtos: { connect: cartItems.map(item => item.id ) },
+        tipo_entrega: delivery,
+        local_retirada: selectedLocation,
+        tipo_pagamento: paymentType,
+        //id_kangu: ,
+        //id_pagamento: asaasPaymentId,
+        descricao: cartItemsToString(cartItems),
+        subtotal: total - freight + discount,
+        frete: freight,
+        total,
+        parcelas: Number(parcels),
+      },
+    } as unknown as Venda;
+
+    const response = await fetch(`${NEXT_PUBLIC_STRAPI_API_URL}/api/vendas`, {
+      method: 'POST',
+      headers: {
+      'Content-Type': 'application/json',
+      Authorization: `bearer ${STRAPI_TOKEN}`,
+      },
+      body: JSON.stringify(body),
+    });
+
+    if (!response.ok) {
+      throw new Error(`Erro ao tentar criar a venda ${response.statusText}`);
+    }
+
+    const sale = await response.json();
+    console.log(`[200] Venda ${sale.data.id} criada com sucesso`);
+
+  } catch (error) {
+    console.error('[400] Erro ao tentar criar a venda:', error);
   }
 }

@@ -38,6 +38,7 @@ type CartState = {
   removeItemFromCart: (item: CartItem, variant: Variante) => void;
   totalPrice: () => number;
   totalItems: () => number;
+  checkPackage: () => number;
   resetCart: () => void;
 }
 
@@ -81,7 +82,7 @@ type StoreState = CartState & TimeState & UserState;
 const StoreContext = createContext<StoreApi<StoreState> | undefined>(undefined);
 
 // Cart state slice function
-const createCartSlice = (set: (fn: (state: CartState) => CartState) => void, get: () => CartState): CartState => ({
+const createCartSlice = (set: (fn: (state: CartState) => CartState) => void, get: () => CartState, pkgs?: Pkg[]): CartState => ({
   cartOpen: false,
   toggleCartOpen: () => set((state) => ({ cartOpen: !state.cartOpen })),
   cepFreight: { cep: '', frete: null, loading: false },
@@ -116,6 +117,15 @@ const createCartSlice = (set: (fn: (state: CartState) => CartState) => void, get
   cartItems: [],
   totalItems: () => get().cartItems.reduce((acc, item) => acc + item.cartVariants.reduce((acc, variant) => acc + variant.quantity, 0), 0),
   totalPrice: () => get().cartItems.reduce((acc, item) => acc + item.cartVariants.reduce((acc, variant) => acc + applyDiscount(variant.variant.valor, variant.variant.desconto) * variant.quantity, 0), 0),
+  checkPackage: () => {
+    if (pkgs) {
+      const itemsId = get().cartItems.map(item => item.id)
+      const sum = pkgs.reduce((acc, pkg) => acc + (pkg.id.every(id => itemsId.includes(id)) ? pkg.desconto : 0),0)
+      return sum
+    } else {
+      return 0
+    }
+  },
   addItemToCart: (item, variant) => set((state) => {
     // Checa quantidade
     if (variant.quantidade === 0) {
@@ -407,7 +417,7 @@ const createUserSlice = (set: (fn: (state: UserState) => UserState) => void, get
     try {
       set(() => ({ loading: true }))
 
-      const customer = await createCustomer({...values, id: get().customer?.id})
+      const customer = await createCustomer(values, get().customer?.id)
       
       if (isError(customer)) {
         throw new Error(customer.error.message)
@@ -456,18 +466,24 @@ const createUserSlice = (set: (fn: (state: UserState) => UserState) => void, get
   }
 });
 
+export type Pkg = {
+ id: number[],
+ desconto: number
+}
+
 type StoreProviderProps = {
   children: React.ReactNode;
-  finalDate: string;
+  finalDate: Date | string;
+  pkgs?: Pkg[];
 }
 
 // Store Provider with merged slices
-export default function StoreProvider({ children, finalDate = '' }: StoreProviderProps) {
+export default function StoreProvider({ children, finalDate = '', pkgs }: StoreProviderProps) {
   const [store] = useState(() =>
     createStore<StoreState, [["zustand/persist", Partial<StoreState>]]>(persist((set, get) => ({
-      ...createCartSlice(set, get),
+      ...createCartSlice(set, get, pkgs),
       ...createTimeSlice(set, finalDate),
-      ...createUserSlice(set, get),
+      ...createUserSlice(set, get), 
     }),
       {
         name: 'cart',

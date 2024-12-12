@@ -70,7 +70,7 @@ export default function FloatProduct({ product }: { product: Produto }) {
         <Separator className='w-[8%] h-0.5' />
       </div>
       {!sold && <div className='aspect-square grow-0 w-auto h-full'>
-        <AddCartModal product={product} className='p-6' />
+        <AddCartModal products={[product]} className='p-6' />
       </div>}
     </div>
   )

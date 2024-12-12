@@ -71,13 +71,15 @@ export async function getCustomer({ id, cpfCnpj }: { id?: string, cpfCnpj?: stri
   }
 }
 
-export async function createCustomer({ id, name, cpf, email, phone, cep, number, complement, feedback }: FormT & { id?: string }): Promise<Customer | { error: CustomError }> {
+export async function createCustomer(values: FormT, asaasCustomerId?: string): Promise<Customer | { error: CustomError }> {
   checkEnvVars(['NEXT_PUBLIC_ASAAS_API_URL', 'ASAAS_API_KEY']);
+
+  const { name, cpf, email, phone, cep, number, complement, feedback } = values;
   let customer;
 
-  if (id) {
+  if (asaasCustomerId) {
     // Check if there is customer with id, if there is update it
-    customer = await getCustomer({ id });
+    customer = await getCustomer({ asaasCustomerId });
   }
 
   if (!customer && cpf) {

@@ -10,17 +10,23 @@ import { Button } from "./ui/button";
 import Link from 'next/link';
 
 export default function CartFooter() {
-  const { toggleCartOpen, cepFreight, calculateFreight, totalPrice } = useCart((state) => state)
+  const { toggleCartOpen, cepFreight, calculateFreight, totalPrice, checkPackage } = useCart((state) => state)
 
   const { frete, loading } = cepFreight;
+  const discount = checkPackage();
+  const total = totalPrice()
 
   return (
     <div className='bg-background bottom-0 flex flex-col w-full border-t p-5 gap-4'>
       <div>
         <div className='flex uppercase text-lg text-foreground justify-between'>
           <p>Subtotal</p>
-          <span>{formatToBRL(totalPrice())}</span>
+          <span>{formatToBRL(total)}</span>
         </div>
+        {discount > 0 && <div className='flex uppercase text-lg text-foreground justify-between'>
+          <p>Desconto Pacote</p>
+          <span>- {formatToBRL(discount)}</span>
+        </div>}
         <div className='flex uppercase text-lg text-foreground/70 justify-between'>
           <p>Entrega</p>
           <span>
@@ -46,7 +52,7 @@ export default function CartFooter() {
       </form>
       <Link className='flex flex-1' href='/comprar'>
         <Button onClick={toggleCartOpen} disabled={loading} className='uppercase grow'>
-          Finalizar Compra - {frete ? formatToBRL(totalPrice() + frete) : formatToBRL(totalPrice())}
+          Finalizar Compra - {frete ? formatToBRL(total + frete - discount) : formatToBRL(total - discount)}
         </Button>
       </Link>
     </div>
