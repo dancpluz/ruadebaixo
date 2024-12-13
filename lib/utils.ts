@@ -62,9 +62,9 @@ ${cartItemsToString(cartItems)}
 ${formatValueToString('🪙', `Subtotal: ${formatToBRL(total - freight + discount)}`)}${formatValueToString('📭', `Frete: ${freight > 0 ? '+' + formatToBRL(freight) : 'Grátis'}`)}${formatValueToString('💸', discount > 0 ? `Desconto: -${formatToBRL(discount)}` : undefined)}*${formatValueToString('💵', paymentType === 'credit' && parcels !== '1' ? `Total: ${formatToBRL(total)} (${parcels}x de ${formatToBRL(total / Number(parcels))})` : 'Total: '+ formatToBRL(total), false)}*`
 }
 
-export function cartItemsToString(cartItems: CartItem[]) {
+export function cartItemsToString(cartItems: CartItem[], emoji: boolean = true) {
   return cartItems.map(cartItem => {
-    return `🏷️ ${cartItem.attributes.tipo} ${cartItem.attributes.nome}: ${cartItem.cartVariants.map(cartVariant => {
+    return `${emoji ? '🏷️ ' : ''}${cartItem.attributes.tipo} ${cartItem.attributes.nome}: ${cartItem.cartVariants.map(cartVariant => {
       return `${cartItem.attributes.unico ? cartVariant.variant.cor : ''} - [${cartVariant.variant.tamanho}] (${cartVariant.quantity}x ${formatToBRL(applyDiscount(cartVariant.variant.valor, cartVariant.variant.desconto))})`
     }).join('/')}`
   }).join('\n')

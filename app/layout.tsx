@@ -8,6 +8,7 @@ import { fetchFromStrapi } from "./actions/strapi";
 import { Home } from "@/types/api/home";
 import { Toaster } from "@/components/ui/toaster"
 import { Pacote } from "@/types/api/pacote";
+import { buildImgUrl } from '@/lib/utils';
 
 const clashDisplay = localFont({
   src: "./fonts/ClashDisplay-Variable.ttf",
@@ -26,13 +27,17 @@ export async function generateMetadata(): Promise<Metadata> {
       default: 'RUA DE BAIXO'
     },
     description: "Os donos da Rua",
+    metadataBase: new URL('https://www.ruadebaixo.com.br'),
+    icons: {
+      icon: '/favicon.ico',
+    },
   }
   try {
-    const data = await fetchFromStrapi<Home>('home?populate[0]=seo');
+    const data = await fetchFromStrapi<Home>('home?populate[0]=seo.metaImage');
     const seo = data.data?.attributes?.seo;
   
     if (seo) {
-      return {
+      return { ...defaultMetadata, ...{
         title: {
           template: `%s | RDB`,
           default: 'Rua de Baixo'
@@ -41,7 +46,8 @@ export async function generateMetadata(): Promise<Metadata> {
         keywords: seo.keywords?.split(','),
         alternates: {
           canonical: seo.canonicalURL,
-        }
+        },
+        image: buildImgUrl(seo.metaImage?.data?.attributes?.url),
         // openGraph: {
         //   title: seo.opengraphTitle,
         //   description: seo.opengraphDescription,
@@ -49,6 +55,7 @@ export async function generateMetadata(): Promise<Metadata> {
         //   type: seo.opengraphType,
         //   image: seo.opengraphImage,
         // }
+        }
       }
     }
 

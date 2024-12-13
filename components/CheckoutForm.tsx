@@ -109,7 +109,7 @@ export default function CheckoutForm() {
       resetCart()
     })
 
-    await makePayment(total, form.getValues() as FormT, cartItemsToString(cartItems));
+    await makePayment(total, form.getValues() as FormT, cartItemsToString(cartItems,false));
     
   };
 
@@ -191,7 +191,6 @@ export default function CheckoutForm() {
         {!stepper.isLast &&
         <CheckoutFooter>
             <>
-              {/* <Button type='button' onClick={() => { console.log(orderMessage(form.getValues(),cartItems,300,0,0))} }>Teste</Button> */}
               <Button
                 type='button'
                 variant="outline"
