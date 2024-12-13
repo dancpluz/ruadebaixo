@@ -27,13 +27,12 @@ export default function PackageCard({ pkg }: { pkg: Pacote }) {
   product.imagens_produto = interleaved
 
   product.desconto += descontoPkg
-  const { nome, slug, imagens_produto, valor, desconto, sold } = product;
+  const { slug, imagens_produto, valor, desconto, sold } = product;
 
   //const sold = variantes.reduce((acc, variant) => acc + variant.quantidade, 0) === 0;
 
   // MELHORAR
   //const { valor, desconto } = variantes[0];
-  console.log(capa)
 
   return (
     // <pre>{JSON.stringify(pkg,null,2)}</pre>

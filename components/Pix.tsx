@@ -13,7 +13,7 @@ export default function Pix() {
   const [isCopied, setIsCopied] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const { toast } = useToast();
-  const { loading, pix, checkPayment, paymentStatus } = useUser((state) => state);
+  const { loading, pix, paymentStatus } = useUser((state) => state);
 
   const handleCopy = () => {
     if (inputRef.current) {
