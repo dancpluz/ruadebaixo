@@ -99,8 +99,8 @@ export function applyDiscount(value: number, discount: number) {
   }
 }
 
-export function isError(obj: any): obj is { error: CustomError } {
-  return obj && typeof obj === 'object' && 'error' in obj;
+export function isError(obj: unknown): obj is { error: CustomError } {
+  return obj !== null && typeof obj === 'object' && 'error' in obj;
 }
 
 export function logError(error: { error: CustomError } | CustomError) {
