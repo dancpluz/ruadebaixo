@@ -1,6 +1,6 @@
 'use server'
 
-import { cartItemsToString, checkEnvVars, isError, logError } from "@/lib/utils";
+import { cartItemsToString, checkEnvVars, logError } from "@/lib/utils";
 import { Payload } from "@/types/common/Payload";
 import { NEXT_PUBLIC_STRAPI_API_URL, STRAPI_TOKEN } from "./env";
 import { CartItem } from "@/types/cart";

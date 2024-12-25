@@ -13,9 +13,7 @@ import FormOrder from "./FormOrder";
 import FormPayment from "./FormPayment";
 import React from 'react';
 import { useCart, useUser } from '@/app/Context';
-import { sendMessageToGroup } from "@/app/actions/zapbot";
-import { postShipping } from "@/app/actions/kangu";
-import { createNewClient, createNewSale, updateProductQuantities } from "@/app/actions/strapi";
+import { createNewClient, createNewSale } from "@/app/actions/strapi";
 import CheckoutFooter from './CheckoutFooter'
 import Link from 'next/link'
 import CheckIcon from '@/public/icons/check.svg'
