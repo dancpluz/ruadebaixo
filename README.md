@@ -26,6 +26,8 @@
 - [ ] Modo Manutenção
 - [x] Responsivo
 - [ ] Analytics
+- [ ] Melhorar final do checkout
+- [ ] Mensagem para o cliente
 
 # Backlog:
 
@@ -35,13 +37,14 @@
 - [x] Salvar vendas e clientes
 - [ ] Verificação produto vendido
 - [ ] Essência
+- [ ] Avaliações
 - [ ] FAQ e Sobre
 - [ ] Loading state
-- [ ] Dark Mode
+- [ ] Dark/Light Mode
 - [ ] Backup
-- [ ] Webhooks
+- [x] Webhooks
+- [ ] Segurança Webhook
 - [ ] Página de transmissão
 - [ ] Melhorar Local Storage
 - [ ] Melhorar Página de Produto
 - [ ] Melhorar Imagens
-- [ ] Melhorar Context

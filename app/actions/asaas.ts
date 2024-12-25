@@ -71,10 +71,31 @@ export async function getCustomer({ id, cpfCnpj }: { id?: string, cpfCnpj?: stri
   }
 }
 
+export async function updateCustomerExternalRef(asaasCustomerId: string, strapiClientId: number): Promise<Customer | { error: CustomError }> {
+  checkEnvVars(['NEXT_PUBLIC_ASAAS_API_URL', 'ASAAS_API_KEY']);
+
+  const response = await fetch(`${NEXT_PUBLIC_ASAAS_API_URL}/customers/${asaasCustomerId}`, {
+    method: 'PUT',
+    headers: asaasHeaders,
+    body: JSON.stringify({ externalReference: strapiClientId }),
+  });
+
+
+  const data = await response.json();
+
+  if (data.errors) {
+    const error = { error: { code: 400, message: data.errors[0].description } }
+    logError(error)
+    return error;
+  }
+
+  return data;
+}
+
 export async function createCustomer(values: FormT, asaasCustomerId?: string): Promise<Customer | { error: CustomError }> {
   checkEnvVars(['NEXT_PUBLIC_ASAAS_API_URL', 'ASAAS_API_KEY']);
 
-  const { name, cpf, email, phone, cep, number, complement, feedback } = values;
+  const { name, cpf, email, phone, cep, address, district, number, complement, feedback } = values;
   let customer;
 
   if (asaasCustomerId) {
@@ -91,8 +112,10 @@ export async function createCustomer(values: FormT, asaasCustomerId?: string): P
     name,
     email: email ?? null,
     mobilePhone: phone ? phone.replace(/\D/g, '') : null,
+    address: address ?? null,
     addressNumber: number ?? null,
     complement: complement ?? null,
+    province: district ?? null,
     postalCode: cep ? cep.replace(/\D/g, '') : null,
     cpfCnpj: cpf.replace(/\D/g, ''),
     observations: feedback ?? null,
@@ -241,18 +264,17 @@ export async function getParcelOptions(value: number, parcelNumber: number): Pro
   return parcelOptions;
 }
 
-export async function createPayment(values: FormT, total: number, description: string, id?: string): Promise<Payment | { error: CustomError }> {
+export async function createPayment(values: FormT, total: number, description: string, asaasCustomerId: string, strapiSaleId: string): Promise<Payment | { error: CustomError }> {
   checkEnvVars(['NEXT_PUBLIC_ASAAS_API_URL', 'ASAAS_API_KEY']);
 
-  const { cpf, paymentType, parcels } = values;
+  const { paymentType, parcels } = values;
 
-  const customer = await getCustomer({ id, cpfCnpj: cpf }) as Customer;
   const dueDate = new Date();
   dueDate.setDate(dueDate.getDate() + 1);
   const formattedDueDate = dueDate.toISOString().split('T')[0];
 
   const body = {
-    customer: customer.id,
+    customer: asaasCustomerId,
     billingType: paymentType === 'pix' ? 'PIX' : 'CREDIT_CARD',
     value: total,
     dueDate: formattedDueDate,
@@ -260,6 +282,7 @@ export async function createPayment(values: FormT, total: number, description: s
     totalValue: paymentType === 'credit' ? total : undefined,
     description,
     remoteIp: paymentType === 'credit' ? await getUserIP() : undefined,
+    externalReference: strapiSaleId,
   } as CreditPayment;
 
   if (paymentType === 'credit') {

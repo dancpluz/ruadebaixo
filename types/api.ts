@@ -1,13 +1,3 @@
-export type ListInfo<Type> = {
-import { Payment } from '@/types/api';
-  object: "list";
-  hasMore: boolean;
-  totalCount: number;
-  limit: number;
-  offset: number;
-  data: Type[];
-};
-
 export type Parcel = {
   id: string,
   label: string,
@@ -52,7 +42,7 @@ export type CustomError = {
   message: string;
 }
 
-export type NewCustomer = Pick<Customer, 'name' | 'email' | 'cpfCnpj' | 'mobilePhone' | 'postalCode' | 'addressNumber' | 'complement' | 'observations'>;
+export type NewCustomer = Pick<Customer, 'name' | 'email' | 'address' | 'province' | 'cpfCnpj' | 'mobilePhone' | 'postalCode' | 'addressNumber' | 'complement' | 'observations'>;
 
 export type Product = {
   peso: number;
@@ -180,7 +170,7 @@ export interface CreditPayment extends Payment {
     postalCode: string;
     addressNumber: string | null;
     addressComplement: string | null;
-    phone: string | null;
+    phone?: string | null;
     mobilePhone: string | null;
   };
 };

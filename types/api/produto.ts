@@ -37,7 +37,7 @@ export enum Tipo {
 export interface Produto {
   id: number;
   attributes: {
-    createdAt: Date;    updatedAt: Date | string;    publishedAt?: Date;    _softDeletedAt?: Date;
+    createdAt: Date;    updatedAt: Date;    publishedAt?: Date;    _softDeletedAt?: Date;
     _softDeletedById?: number;
     _softDeletedByType?: string;
     nome: string;
