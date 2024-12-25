@@ -27,6 +27,7 @@ export async function generateMetadata({ params: { slug } }: { params: { slug: s
   const { nome, descricao, tipo, variantes, categorias, imagens_produto } = product.attributes;
   const { desconto, valor } = variantes[0];
 
+  const categoriasArray = categorias ? categorias : []
   const descriptionArray = descricao[0].children.map(desc => desc.children[0].text);
   const descriptionText = descriptionArray.join(", ");
 
@@ -35,14 +36,14 @@ export async function generateMetadata({ params: { slug } }: { params: { slug: s
   const keywords = [
     nome,
     tipo,
-    ...categorias,
+    ...categoriasArray,
     "Acessórios exclusivos",
     "Bijuterias únicas",
     descriptionArray,
     `Comprar ${nome}`,
     `${tipo} customizadas`,
     `Pulseiras exclusivas Rua de Baixo`,
-    `${nome} em ${categorias.join(", ")}`,
+    `${nome} em ${categoriasArray.join(", ")}`,
     `Ofertas de ${tipo}`,
     `${tipo} ajustável`,
     "Bijuteria personalizada",
@@ -148,9 +149,6 @@ export default async function Produto({ params: { slug } }: { params: { slug: st
           }
         </div>
         <FloatProduct product={product}/>
-        {/* <pre>
-          {JSON.stringify(product, null, 2)}
-        </pre> */}
       </main>
     </>
   )

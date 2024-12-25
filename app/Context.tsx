@@ -12,7 +12,7 @@ import { Produto } from "@/types/api/produto";
 import { simulateShipping } from '@/app/actions/kangu';
 import { FormOrder, FormPersonal, FormT } from "@/types/checkout";
 import { DeliveryOption } from './../types/kangu';
-import { createPayment, getPixQR, checkPaymentStatus, createCustomer } from "./actions/asaas";
+import { createPayment, getPixQR, checkPaymentStatus } from "./actions/asaas";
 import { Payment, Customer, Status, Parcel } from "@/types/api";
 import { add } from 'date-fns';
 import { UseFormReturn } from "react-hook-form";
@@ -68,8 +68,8 @@ type UserState = {
   paymentStatus?: Status,
   checkPayment: () => Promise<void>,
   customer?: Customer,
-  successCallback?: () => Promise<void>,
-  makePayment: (total: number, values: FormT, description: string) => Promise<void>,
+  successCallback: () => any,
+  makePayment: (asaasCustomerId: string, strapiSaleId: string, total: number, values: FormT, description: string) => Promise<void>,
   resetPayment: () => void,
   parcelOptions: Parcel[];
   calculateParcelOptions: (value: number, installmentCount: number) => Promise<void>;
@@ -316,7 +316,7 @@ const createUserSlice = (set: (fn: (state: UserState) => UserState) => void, get
     expirationDate: '',
   },
   paymentStatus: undefined,
-  successCallback: undefined,
+  successCallback: () => console.log('No Callback Defined'),
   resetPayment: () => set(() => ({
     paymentStatus: undefined,
     cobranca: undefined,
@@ -390,7 +390,7 @@ const createUserSlice = (set: (fn: (state: UserState) => UserState) => void, get
           });
           get().resetPayment()
           set(() => ({ paymentStatus: status }))
-          await get().successCallback();
+          get().successCallback();
           break;
         default:
           toast({
@@ -413,25 +413,13 @@ const createUserSlice = (set: (fn: (state: UserState) => UserState) => void, get
     }
   },
   customer: undefined,
-  makePayment: async (total, values, description) => {
+  makePayment: async (asaasCustomerId, strapiSaleId, total, values, description) => {
     try {
       set(() => ({ loading: true }))
+      const cobranca = await createPayment(values, total, description, asaasCustomerId, strapiSaleId);
 
-      const customer = await createCustomer(values, get().customer?.id)
-      
-      if (isError(customer)) {
-        throw new Error(customer.error.message)
-      }
-      
-      set(() => ({ customer }))
-
-      let cobranca = undefined
-
-      if (!cobranca) {
-        cobranca = await createPayment(values, total, description, customer?.id)
-        if (isError(cobranca)) {
-          throw new Error(cobranca.error.message)
-        }
+      if (isError(cobranca)) {
+        throw new Error(cobranca.error.message)
       }
 
       set(() => ({ cobranca, paymentStatus: cobranca.status }))

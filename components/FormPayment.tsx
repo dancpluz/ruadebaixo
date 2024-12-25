@@ -1,4 +1,4 @@
-import { FormPaymentValues } from '@/types/checkout';
+import { FormT } from '@/types/checkout';
 import { useFormContext } from 'react-hook-form';
 import FormInput from './FormInput'
 import Pix from './Pix'
@@ -14,7 +14,7 @@ const formatTime = (totalSeconds: number) => {
 };
 
 export default function FormPayment() {
-  const form = useFormContext<FormPaymentValues>();
+  const form = useFormContext<FormT>();
   const paymentType = form.watch('paymentType');
   const paymentTypes = [
     { label: 'Cartão de Crédito', id: 'credit' },
@@ -27,12 +27,12 @@ export default function FormPayment() {
   const delivery = form.getValues('delivery')
   const selectedDelivery = form.getValues('selectedDelivery')
 
-  let frete = 0;
+  let freight = 0;
   if (delivery === 'entrega' && selectedDelivery && deliveryOptions.length > 0) {
     const selectedOption = deliveryOptions.find(({ referencia }) => referencia === selectedDelivery)
 
     if (selectedOption) {
-      frete = selectedOption.vlrFrete;
+      freight = selectedOption.vlrFrete;
     }
   }
 
@@ -57,7 +57,7 @@ export default function FormPayment() {
   useEffect(() => {
     const runCalculateParcelOptions = async () => {
       try {
-        const total = totalPrice() + frete;
+        const total = totalPrice() + freight;
         await calculateParcelOptions(total,12);
       } catch (error) {
         console.error("Error calculating parcel options:", error);
@@ -65,7 +65,7 @@ export default function FormPayment() {
     };
 
     runCalculateParcelOptions();
-  }, [frete]);
+  }, [freight]);
 
   useEffect(() => {
     const interval = setInterval(() => {

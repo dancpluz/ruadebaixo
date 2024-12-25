@@ -9,7 +9,7 @@ import { AdminPanelRelationPropertyModification } from '../common/AdminPanelRela
 export interface Pacote {
   id: number;
   attributes: {
-    createdAt: Date; updatedAt: Date; publishedAt?: Date; _softDeletedAt?: Date;
+    createdAt: Date;    updatedAt: Date;    publishedAt?: Date;    _softDeletedAt?: Date;
     _softDeletedById?: number;
     _softDeletedByType?: string;
     nome: string;
@@ -20,7 +20,7 @@ export interface Pacote {
 }
 export interface Pacote_Plain {
   id: number;
-  createdAt: Date; updatedAt: Date; publishedAt?: Date; _softDeletedAt?: Date;
+  createdAt: Date;  updatedAt: Date;  publishedAt?: Date;  _softDeletedAt?: Date;
   _softDeletedById?: number;
   _softDeletedByType?: string;
   nome: string;
@@ -31,7 +31,7 @@ export interface Pacote_Plain {
 
 export interface Pacote_NoRelations {
   id: number;
-  createdAt: Date; updatedAt: Date; publishedAt?: Date; _softDeletedAt?: Date;
+  createdAt: Date;  updatedAt: Date;  publishedAt?: Date;  _softDeletedAt?: Date;
   _softDeletedById?: number;
   _softDeletedByType?: string;
   nome: string;
@@ -42,7 +42,7 @@ export interface Pacote_NoRelations {
 
 export interface Pacote_AdminPanelLifeCycle {
   id: number;
-  createdAt: Date; updatedAt: Date; publishedAt?: Date; _softDeletedAt?: Date;
+  createdAt: Date;  updatedAt: Date;  publishedAt?: Date;  _softDeletedAt?: Date;
   _softDeletedById?: number;
   _softDeletedByType?: string;
   nome: string;

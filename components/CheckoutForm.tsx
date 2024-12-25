@@ -15,12 +15,14 @@ import React from 'react';
 import { useCart, useUser } from '@/app/Context';
 import { sendMessageToGroup } from "@/app/actions/zapbot";
 import { postShipping } from "@/app/actions/kangu";
-import { createNewSale, updateProductQuantities } from "@/app/actions/strapi";
+import { createNewClient, createNewSale, updateProductQuantities } from "@/app/actions/strapi";
 import CheckoutFooter from './CheckoutFooter'
 import Link from 'next/link'
 import CheckIcon from '@/public/icons/check.svg'
-import { cartItemsToString, orderMessage } from "@/lib/utils";
+import { cartItemsToString, isError } from "@/lib/utils";
 import { personalSchemaRefined, personalSchema, orderSchemaRefined, orderSchema, paymentSchemaRefined, paymentSchema } from "@/lib/fields";
+import { createCustomer, updateCustomerExternalRef } from "@/app/actions/asaas";
+import { toast } from "@/hooks/use-toast";
 
 const { useStepper, steps } = defineStepper(
   { id: 'personal', label: 'Dados Pessoais', schema: personalSchemaRefined, keys: personalSchema.keyof().options },  
@@ -59,58 +61,80 @@ export default function CheckoutForm() {
     shouldFocusError: false,
   });
 
-  const { setFormInfo, setInfo, deliveryOptions, makePayment, customer, parcelOptions } = useUser((state) => state);
+  const { setFormInfo, setInfo, deliveryOptions, makePayment, customer, parcelOptions, resetPayment } = useUser((state) => state);
   const { cartItems, totalItems, resetCart, totalPrice, checkPackage } = useCart((state) => state);
 
-  async function onBuy(values: FormT, total: number, freight: number, discount: number) {
-    const functions = []
-    if (values.selectedDelivery && values.delivery === 'entrega') {
-      functions.push(postShipping(values, cartItems))
-    }
-    functions.push(createNewSale({ values, total, cartItems, freight, discount, asaasCustomerId: customer?.id }))
-    functions.push(sendMessageToGroup(orderMessage(values, cartItems, total, freight, discount)))
-    functions.push(updateProductQuantities(cartItems))
-
-    await Promise.all(functions)
-  }
-
   const onSubmit = async () => {
-    const values = form.getValues() as FormT;
+    try {      
+      setInfo('loading', true)
 
-    for (const [key, value] of Object.entries(values)) {
-      setFormInfo(form, key, value)
-    }
+      const values = form.getValues() as FormT;
 
-    let frete = 0;
-    const discount = checkPackage()
-    
-    const paymentType = values.paymentType
-    const delivery = values.delivery
-    const selectedDelivery = values.selectedDelivery
-    if (delivery === 'entrega' && selectedDelivery && deliveryOptions) {
-      const selectedOption = deliveryOptions.find(({ referencia }) => referencia === selectedDelivery)
+      for (const [key, value] of Object.entries(values)) {
+        setFormInfo(form, key, value)
+      }
+
+      const customerAsaas = await createCustomer(values, customer?.id);
+
+      if (isError(customerAsaas)) {
+        throw new Error(customerAsaas.error.message)
+      }
+
+      const clientStrapi = await createNewClient({ values, asaasCustomerId: customerAsaas.id });
+
+      if (isError(clientStrapi)) {
+        throw new Error(clientStrapi.error.message)
+      }
+
+      const updatedCustomerAsaas = await updateCustomerExternalRef(customerAsaas.id, clientStrapi.id);
+
+      if (isError(updatedCustomerAsaas)) {
+        throw new Error(updatedCustomerAsaas.error.message)
+      };
+  
+      let freight = 0;
+      const discount = checkPackage()
       
-      frete = selectedOption?.vlrFrete || 0
+      const paymentType = values.paymentType
+      const delivery = values.delivery
+      const selectedDelivery = values.selectedDelivery
+
+      if (delivery === 'entrega' && selectedDelivery && deliveryOptions) {
+        const selectedOption = deliveryOptions.find(({ referencia }) => referencia === selectedDelivery)
+        freight = selectedOption?.vlrFrete || 0
+      }
+  
+      let total = totalPrice() + freight - discount;
+
+      const sale = await createNewSale({ values, total, cartItems, freight, discount, strapiClientId: clientStrapi.id.toString() });
+
+      if (isError(sale)) {
+        throw new Error(sale.error.message)
+      }
+      
+      if (paymentType === 'credit') {
+        total = parcelOptions.find(({ id }) =>  id === values.parcels).value
+      }
+  
+      setInfo('successCallback', () => {
+        setInfo('paymentStatus', undefined);
+        resetCart()
+        setInfo('loading', false);
+        stepper.goTo('complete');
+      })
+      
+      //setInfo('customer', updatedCustomerAsaas);
+  
+      await makePayment(updatedCustomerAsaas.id, sale.id.toString(), total, values, cartItemsToString(cartItems, false));
+    } catch (error) {
+      toast({
+        title: `Erro ao criar pagamento`,
+        description: error.message,
+        variant: "destructive",
+        duration: 3000,
+      });
+      resetPayment()
     }
-
-    let total = totalPrice() + frete - discount
-    
-    if (paymentType === 'credit') {
-      total = parcelOptions.find(({ id }) =>  id === values.parcels).value
-    }
-
-    setInfo('successCallback', async () => {
-      setInfo('loading', true);
-      await onBuy(form.getValues() as FormT, total, frete, discount);
-      setInfo('paymentStatus', undefined)
-      setInfo('loading', false);
-      stepper.goTo('complete')
-      await new Promise(resolve => setTimeout(resolve, 4000));
-      resetCart()
-    })
-
-    await makePayment(total, form.getValues() as FormT, cartItemsToString(cartItems,false));
-    
   };
 
   const onChangeStep = async (id?: string, direction?: 'next' | 'prev') => {

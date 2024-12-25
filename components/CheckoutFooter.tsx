@@ -27,10 +27,10 @@ export default function CheckoutFooter({ children }: { children: React.ReactNode
           <p>Subtotal</p>
           <span>{formatToBRL(total)}</span>
         </div>
-        <div className='flex uppercase text-lg md:text-xl text-foreground justify-between'>
+        {discount > 0 && <div className='flex uppercase text-lg md:text-xl text-foreground justify-between'>
           <p>Desconto</p>
           <span>- {formatToBRL(discount)}</span>
-        </div>
+        </div>}
         <div className='flex w-full uppercase md:text-xl text-lg text-foreground/70 justify-between'>
           <p>Entrega</p>
           <span>

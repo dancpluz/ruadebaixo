@@ -96,7 +96,7 @@ export async function simulateShipping(inputCep: string, cartItems: CartItem[]):
   return options;
 }
 
-export async function postShipping(values: FormT, cartItems: CartItem[])  {
+export async function postShipping(values: FormT, cartItems: CartItem[]): Promise<{ error: CustomError } | any> {
   checkEnvVars(['NEXT_PUBLIC_KANGU_API_URL', 'KANGU_API_TOKEN']);
 
   const { pesoMerc, vlrMerc, produtos } = calculateCartInfo(cartItems);
@@ -154,10 +154,13 @@ export async function postShipping(values: FormT, cartItems: CartItem[])  {
   });
 
   if (!response.ok) {
-    throw new Error(`Erro ao solicitar frete: ${response.statusText} (${response.status})`);
+    const error = { error: { code: response.status, message: `Erro ao solicitar frete: ${response.statusText}` } };
+    logError(error);
+    return error;
   }
 
   const data = await response.json();
 
+  console.log(data)
   return data;
 }

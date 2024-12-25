@@ -17,8 +17,8 @@ export function checkEnvVars(envVars: string[]) {
   });
 }
 
-export function buildImgUrl(url: string) {
-  return process.env.NEXT_PUBLIC_STRAPI_API_URL + url;
+export function buildImgUrl(url?: string) {
+  return url ? process.env.NEXT_PUBLIC_STRAPI_API_URL + url :  undefined;
 }
 
 export function roundToDecimal(number: number) {
@@ -48,7 +48,15 @@ function formatValueToString(emoji: string, value?: string, nextLine: boolean = 
   return value ? `${emoji} ${value}${nextLine ? '\n' : ''}` : ''
 }
 
-export function orderMessage(values: FormT, cartItems: CartItem[], total: number, freight: number, discount: number) {
+type Message = {
+  values: FormT;
+  cartItems: CartItem[];
+  total: number;
+  freight: number;
+  discount: number;
+}
+
+export function orderMessage({ values, cartItems, total, freight, discount }: Message) {
   const { name, email, cpf, phone, insta, delivery, selectedLocation, selectedDelivery, cep, address, district, city, number, state, complement, feedback, paymentType, parcels } = values;
 
   const deliveryString = delivery === 'entrega' ? 'Entrega' : 'Retirada'

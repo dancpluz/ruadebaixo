@@ -1,6 +1,6 @@
 'use server'
 
-import { checkEnvVars } from "@/lib/utils";
+import { checkEnvVars, logError } from "@/lib/utils";
 import { ZAP_API_TOKEN, ZAP_URL } from "./env";
 
 export async function sendMessageToClient(message: string = 'message', phone: string) {
@@ -46,13 +46,20 @@ export async function sendMessageToGroup(message: string) {
   });
 
   if (!response.ok) {
-    throw new Error(`Erro ao enviar mensagem: ${response.statusText} (${response.status})`);
+    const error = { error: { code: response.status, message: `Erro ao enviar mensagem ao grupo ${response.statusText}` } }
+    logError(error);
+    return error;
   }
 
   const data = await response.json();
+
   if (!data.success) {
-    throw new Error(`Erro ao enviar mensagem: ${data.error}`);
+    const error = { error: { code: 500, message: data.error } }
+    logError(error);
+    return error;
   }
+
+  return data;
 }
 
 export async function sendMessageToGroupError(message: string) {

@@ -38,6 +38,8 @@ export interface Venda {
     id_pagamento?: string;
     parcelas?: number;
     descricao?: string;
+    cartItems?: any;
+    confirmed?: boolean;
   };
 }
 export interface Venda_Plain {
@@ -58,6 +60,8 @@ export interface Venda_Plain {
   id_pagamento?: string;
   parcelas?: number;
   descricao?: string;
+  cartItems?: any;
+  confirmed?: boolean;
 }
 
 export interface Venda_NoRelations {
@@ -78,6 +82,8 @@ export interface Venda_NoRelations {
   id_pagamento?: string;
   parcelas?: number;
   descricao?: string;
+  cartItems?: any;
+  confirmed?: boolean;
 }
 
 export interface Venda_AdminPanelLifeCycle {
@@ -98,4 +104,6 @@ export interface Venda_AdminPanelLifeCycle {
   id_pagamento?: string;
   parcelas?: number;
   descricao?: string;
+  cartItems?: any;
+  confirmed?: boolean;
 }

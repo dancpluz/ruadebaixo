@@ -9,6 +9,7 @@ import { Home } from "@/types/api/home";
 import { Toaster } from "@/components/ui/toaster"
 import { Pacote } from "@/types/api/pacote";
 import { buildImgUrl } from '@/lib/utils';
+import { GoogleAnalytics } from '@next/third-parties/google'
 
 const clashDisplay = localFont({
   src: "./fonts/ClashDisplay-Variable.ttf",
@@ -93,6 +94,7 @@ export default async function RootLayout({
         </StoreProvider>
         <Toaster />
       </body>
+      <GoogleAnalytics gaId='G-RBGRPDSH2E'/>
     </html>
   );
 }
