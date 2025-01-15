@@ -5,6 +5,7 @@ export type FormPersonalValues = z.infer<typeof personalSchema>;
 export type FormPaymentValues = z.infer<typeof paymentSchema>;
 export type FormOrderValues = z.infer<typeof orderSchema>;
 
+
 export type FormPersonal = {
   name: string;
   email: string;

@@ -67,7 +67,7 @@ const nextConfig = {
       {
         protocol: 'https',
         hostname: 'portal.kangu.com.br',
-        pathname: '/ged/**',
+        pathname: '/**',
       },
     ]
   },
