@@ -14,35 +14,38 @@ type EventName =
   | "PAYMENT_CREATED"
 ;
 
-async function handleWebhook(body: any) {
+async function handleWebhook(body: { event: EventName; payment: Payment }) {
   const event = body.event as EventName;
   const payment = body.payment as Payment;
 
-  let message;
+  const message: string[] = [];
 
   switch (event) {
     case 'PAYMENT_CREATED':
-      message = `Pagamento criado`
+      message.push(`[WEBHOOK-200] Pagamento criado`)
       return NextResponse.json({ message }, { status: 200 });
     case 'PAYMENT_RECEIVED':
-      message = `Pagamento recebido`
+      message.push(`[WEBHOOK-200] Pagamento recebido`)
 
       const sale = await getSale(Number(payment.externalReference));
       
       if (isError(sale)) {
-        return NextResponse.json({ message: sale.error.message }, { status: Number(sale.error.code) });
+        message.push(`[WEBHOOK-500] ${sale.error.message}`)
+        return NextResponse.json({ message}, { status: 200 });
       } else {
-        console.log(`[WEBHOOK-200] Venda ${sale.id} atualizada com sucesso`);
+        message.push(`[WEBHOOK-200] Venda ${sale.id} atualizada com sucesso`)
       }
 
       const { cliente, confirmed } = sale.attributes;
 
       if (confirmed) {
-        return NextResponse.json({ message: 'Pagamento já confirmado' }, { status: 200 });
+        message.push(`[WEBHOOK-500] Pagamento já confirmado`)
+        return NextResponse.json({ message }, { status: 200 });
       }
 
       if (!cliente) {
-        return NextResponse.json({ message: 'Cliente não vinculado' }, { status: 500 });
+        message.push(`[WEBHOOK-500] Cliente não vinculado`)
+        return NextResponse.json({ message }, { status: 200 });
       }
 
       const { nome, email, celular, insta, cpf, cep, endereco, distrito, cidade, estado, numero, complemento } = cliente.data.attributes;
@@ -74,9 +77,9 @@ async function handleWebhook(body: any) {
         const shipping = await postShipping(values, cartItems)
 
         if (isError(shipping)) {
-          console.log(`[WEBHOOK-500] Erro ao postar entrega: ${shipping.error.message}`);
+          message.push(`[WEBHOOK-500] Erro ao postar entrega: ${shipping.error.message}`)
         } else {
-          console.log(`[WEBHOOK-200] Entrega postada com sucesso`);
+          message.push(`[WEBHOOK-200] Entrega postada com sucesso`)
         }
       }
 
@@ -89,36 +92,37 @@ async function handleWebhook(body: any) {
       const messageGroup = await sendMessageToGroup(orderMessage({ values, cartItems, total, freight: frete, discount: subtotal - (total - frete) }))
 
       if (isError(messageGroup)) {
-        console.log(`[WEBHOOK-500] Erro ao enviar mensagem: ${messageGroup.error.message}`);
+        message.push(`[WEBHOOK-500] Erro ao enviar mensagem: ${messageGroup.error.message}`)
       } else {
-        console.log(`[WEBHOOK-200] Mensagem enviada com sucesso ao grupo`);
+        message.push(`[WEBHOOK-200] Mensagem enviada com sucesso ao grupo`)
       }
 
       const quantities = await updateProductQuantities(cartItems);
 
       if (isError(quantities)) {
-        console.log(`[WEBHOOK-500] Erro ao atualizar quantidades: ${quantities.error.message}`);
+        message.push(`[WEBHOOK-500] Erro ao atualizar quantidades: ${quantities.error.message}`)
       } else {
-        console.log(`[WEBHOOK-200] Quantidades atualizadas no site com sucesso`);
+        message.push(`[WEBHOOK-200] Quantidades atualizadas no site com sucesso`)
       }
 
       const updatedSale = await updateSale(Number(payment.externalReference), payment.id);
 
       if (isError(updatedSale)) {
-        return NextResponse.json({ message: updatedSale.error.message }, { status: Number(updatedSale.error.code) });
+        message.push(`[WEBHOOK-500] ${updatedSale.error.message}`)
+        return NextResponse.json({ message }, { status: 200 });
       } else {
-        console.log(`[WEBHOOK-200] Venda ${updatedSale.id} atualizada com sucesso`);
+        message.push(`[WEBHOOK-200] Venda ${updatedSale.id} atualizada com sucesso`)
       }
 
       return NextResponse.json({ message }, { status: 200 });
     case 'PAYMENT_OVERDUE':
-      message = `Pagamento vencido`
+      message.push(`Pagamento vencido`)
       return NextResponse.json({ message }, { status: 200 });
     case 'PAYMENT_CONFIRMED':
-      message = `Pagamento confirmado`
+      message.push(`Pagamento confirmado`)
       return NextResponse.json({ message }, { status: 200 });
     default:
-      message = `Tipo de evento inválido`
+      message.push(`Tipo de evento inválido`)
       return NextResponse.json({ message }, { status: 400 });
   }
 }
@@ -131,7 +135,8 @@ export async function POST(request: Request) {
 
     const responseBody = await webhookResponse.json();
     const status = webhookResponse?.status || 200;
-    console.log(`[WEBHOOK-${status}] ${responseBody.message}`);
+    responseBody.message = responseBody.message.join('\n');
+    console.log(responseBody.message);
 
     return NextResponse.json(responseBody, {
       status,
