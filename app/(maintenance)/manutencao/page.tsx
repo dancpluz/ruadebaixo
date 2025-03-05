@@ -1,7 +1,5 @@
-import { fetchFromStrapi } from '@/app/actions/strapi';
 import LogoAnimation from '@/components/LogoAnimation'
 import SocialIcons from '@/components/SocialIcons'
-import { Home } from '@/types/api/home';
 
 export const metadata = {
   title: "MANUTENÇÃO",

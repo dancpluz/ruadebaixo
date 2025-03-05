@@ -1,8 +1,30 @@
-export const routes = [
-  { label: 'Catálogo', href: '/catalogo' },
-  { label: 'Lookbook', href: '/contato' },
-  { label: 'Adesivo', href: '/sobre' },
-  { label: 'Links', href: '/links' },
+import { RouteT } from "@/types/const"
+
+export const routes: RouteT[] = [
+  {
+    title: 'CATÁLOGO',
+    image: 'https://images.unsplash.com/photo-1522312346375-d1a52e2b99b3?q=80&w=1894&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    href: '/catalogo',
+    alt: 'Imagem de um catálogo'
+  },
+  {
+    title: 'LOOKBOOK',
+    image: 'https://images.unsplash.com/photo-1571945153237-4929e783af4a?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    href: '/lookbook',
+    alt: 'Imagem de um lookbook'
+  },
+  {
+    title: 'SOBRE E FAQ',
+    image: 'https://images.unsplash.com/photo-1588099768531-a72d4a198538?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    href: '/sobre',
+    alt: '',
+  },
+  {
+    title: 'RELÓGIOS',
+    image: 'https://images.unsplash.com/photo-1501127122-f385ca6ddd9d?q=80&w=1935&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    href: '/adesivo',
+    alt: '',
+  }
 ]
 
 export const clothesWeight = {

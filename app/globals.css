@@ -1,47 +1,40 @@
 @import "tailwindcss";
 
-:root {
-  -webkit-font-smoothing: antialiased;
+@theme {
+  --font-archivo: "Archivo", sans-serif;
+  --font-clash: "Clash Grotesk", sans-serif;
+  --color-background: #141414;
+  --color-foreground: #EFEFEF;
 }
 
-.dark {
-  --background: 0 0% 0%;
-  --foreground: 0 0% 100%;
-  --accent: 0 100% 50%;
-  --alternate: 0 0% 43.53%;
+@layer base {
+  [data-theme='dark'] {
+    --color-background: #141414;
+    --color-foreground: #EFEFEF;
+  }
 
-  background: hsl(var(--background));
-  color: hsl(var(--foreground));
+  [data-theme='light'] {
+    --color-background: #EFEFEF;
+    --color-foreground: #141414;
+  }
 }
 
-.light {
-  --background: 255 255% 255%;
-  --foreground: 0 0% 0%;
-  --accent: 0 0% 255%;
-  --alternate: 160 160% 160%;
+@layer {
+  :root {
+    -webkit-font-smoothing: antialiased;
+    --radius: 0.5rem;
+  }
 
-  background: hsl(var(--background));
-  color: hsl(var(--foreground));
-}
-
-.clash {
-  font-family: var(--font-clash);
-}
-
-body {
-  color: hsl(var(--foreground));
-  background: hsl(var(--background));
-  font-family: var(--font-archivo);
+  body {
+    background: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-archivo);
+    font-weight: 700;
+  }
 }
 
 @layer utilities {
   .text-balance {
     text-wrap: balance;
-  }
-}
-
-@layer base {
-  :root {
-    --radius: 0.5rem;
   }
 }
