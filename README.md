@@ -23,7 +23,7 @@
 - [x] Integração de pagamento (asaas.dev/stripe)
 - [x] Integração com bot do zap
 - [ ] SEO
-- [ ] Modo Manutenção
+- [x] Modo Manutenção
 - [x] Responsivo
 - [ ] Analytics
 - [ ] Melhorar final do checkout

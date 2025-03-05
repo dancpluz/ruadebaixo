@@ -3,7 +3,6 @@ import { Button } from "@/components/ui/button"
 import LogoAnimation from '@/components/LogoAnimation'
 
 export default function Custom404() {
-
   return (
     <main className="flex flex-col flex-1 justify-center items-center gap-2 px-5">
       <LogoAnimation />

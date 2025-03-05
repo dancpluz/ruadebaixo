@@ -1,9 +1,9 @@
 import type { Produto } from "@/types/api/produto";
 import type { Pacote } from "@/types/api/pacote";
-import { fetchFromStrapi } from "../actions/strapi";
 import ProductCard from "@/components/ProductCard";
 import PackageCard from "@/components/PackageCard";
 import { Metadata } from "next";
+import { fetchFromStrapi } from "@/app/actions/strapi";
 
 export const dynamic = 'force-dynamic'
 

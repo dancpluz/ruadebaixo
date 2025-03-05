@@ -19,7 +19,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     }
   });
 
-  const routes = ["","/catalogo","/comprar","/links", "/lookbook", "/adesivo"].map((route, i) => ({
+  const routes = ["","/catalogo","/comprar","/links", "/lookbook", "/adesivo", "/manutencao"].map((route, i) => ({
     url: `${URL}${route}`,
     lastModified: new Date().toISOString(),
     changeFrequency: "monthly" as const,
