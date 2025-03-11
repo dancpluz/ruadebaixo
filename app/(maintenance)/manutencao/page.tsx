@@ -1,3 +1,4 @@
+import { fetchGeneral } from '@/app/actions/db/read';
 import LogoAnimation from '@/components/LogoAnimation'
 import SocialIcons from '@/components/SocialIcons'
 
@@ -7,14 +8,14 @@ export const metadata = {
 };
 
 export default async function Maintenance() {
-  // const data = await fetchFromStrapi<Home>('home', true);
-  // const maintenanceText = data.data?.attributes?.texto_manutencao || 'No momento estamos melhorando o site para você';
+  const { data } = await fetchGeneral();
+  const maintenanceText = data.maintenance_text || 'No momento estamos melhorando o site para você';
 
   return (
     <main className="flex flex-col flex-1 justify-center items-center gap-2 px-5">
       <LogoAnimation />
       <h1 className="text-4xl text-center font-semibold uppercase clash">Estamos em Manutenção</h1>
-      <p className="text-xl text-center text-muted-foreground mb-6 lg:mb-4">{'maintenanceText'}</p>
+      <p className="text-xl text-center text-muted-foreground mb-6 lg:mb-4">{maintenanceText}</p>
       <SocialIcons />
     </main>
   )
