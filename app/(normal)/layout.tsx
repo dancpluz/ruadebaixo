@@ -1,87 +1,15 @@
-import type { Metadata } from "next";
-//import "../globals.css";
 import Header from "@/components/Header";
-import StoreProvider, { Pkg } from '@/app/Context'
-import Footer from "@/components/Footer";
-import { fetchFromStrapi } from "../actions/strapi";
-import { Home } from "@/types/api/home";
-import { Toaster } from "@/components/ui/toaster"
-import { Pacote } from "@/types/api/pacote";
-import { buildImgUrl } from '@/lib/utils';
-import { GoogleAnalytics } from '@next/third-parties/google'
 
-export async function generateMetadata(): Promise<Metadata> {
-  const defaultMetadata = {
-    title: {
-      template: `%s | RDB`,
-      default: 'RUA DE BAIXO'
-    },
-    description: "Os donos da Rua",
-    metadataBase: new URL('https://www.ruadebaixo.com.br'),
-    icons: {
-      icon: '/favicon.ico',
-    },
-  }
-  try {
-    const data = await fetchFromStrapi<Home>('home?populate[0]=seo.metaImage');
-    const seo = data.data?.attributes?.seo;
-  
-    if (seo) {
-      return { ...defaultMetadata, ...{
-        title: {
-          template: `%s | RDB`,
-          default: 'Rua de Baixo'
-        },
-        description: seo.metaDescription,
-        keywords: seo.keywords?.split(','),
-        alternates: {
-          canonical: seo.canonicalURL,
-        },
-        image: buildImgUrl(seo.metaImage?.data?.attributes?.url),
-        // openGraph: {
-        //   title: seo.opengraphTitle,
-        //   description: seo.opengraphDescription,
-        //   url: seo.opengraphUrl,
-        //   type: seo.opengraphType,
-        //   image: seo.opengraphImage,
-        // }
-        }
-      }
-    }
-
-    return defaultMetadata
-  } catch (error) {
-    return defaultMetadata
-  }
-}
-
-export default async function Layout({
+export default function Layout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const data = await fetchFromStrapi<Home>('home', true);
-  const marqueeStrings = data.data?.attributes?.anuncios || [];
-  const finalDate = data.data?.attributes?.data_lancamento || '';
-
-  let pkgs;
-
-  const dataPackage = await fetchFromStrapi<Pacote[]>('pacotes?populate[0]=produtos');
-  if (dataPackage) {
-    pkgs = dataPackage.data.map((pkg) => ({ id: pkg.attributes.produtos.data.map((product) => product.id ), desconto: pkg.attributes.desconto})) as Pkg[]
-  }
 
   return (
-    <html lang="pt-BR">
-      <body>
-        <StoreProvider finalDate={finalDate} pkgs={pkgs}>
-          <Header marqueeStrings={marqueeStrings} />
-          {children}
-          <Footer />
-        </StoreProvider>
-        <Toaster />
-      </body>
-      <GoogleAnalytics gaId='G-RBGRPDSH2E'/>
-    </html>
+    <>
+      <Header />
+      {children}
+    </>
   );
 }

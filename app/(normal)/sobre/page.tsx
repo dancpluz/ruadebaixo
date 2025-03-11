@@ -1,4 +1,4 @@
-export default function Catalogo() {
+export default function Sobre() {
   return (
     <div>page</div>
   )

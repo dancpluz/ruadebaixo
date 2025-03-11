@@ -1,13 +1,34 @@
 // middleware.ts
 import { NextResponse } from 'next/server';
-import { fetchFromStrapi } from './app/actions/strapi';
-import { Home } from './types/api/home';
+import { NEXT_PUBLIC_STRAPI_API_URL, STRAPI_TOKEN, DISABLE_MAINTENANCE_MODE } from './lib/env';
+import { GeneralResponse } from './types/strapi';
+import { checkEnvVars } from './lib/utils';
 
 export async function middleware(request: Request) {
-  const { pathname } = new URL(request.url);
-  const data = await fetchFromStrapi<Home>('home', true);
-  const maintenance = data.data?.attributes?.manutencao || false;
+  let maintenance = true;
 
+  if (DISABLE_MAINTENANCE_MODE) {
+    return NextResponse.next();
+  }
+
+  try {
+    checkEnvVars(['STRAPI_TOKEN', 'NEXT_PUBLIC_STRAPI_API_URL']);
+  } catch (error) {
+    console.error('Erro ao verificar variáveis de ambiente:', error);
+  }
+
+  const { pathname } = new URL(request.url);
+  const response = await fetch(`${NEXT_PUBLIC_STRAPI_API_URL}/api/general`, {
+    headers: {
+      Authorization: `bearer ${STRAPI_TOKEN}`,
+    },
+  });
+
+
+  if (response.ok) {
+    const { data } = await response.json() as GeneralResponse;
+    maintenance = data.maintenance && true;
+  }
 
   // Paths to exclude from maintenance
   const excludedPaths = [

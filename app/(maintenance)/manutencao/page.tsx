@@ -1,7 +1,6 @@
-import { fetchFromStrapi } from '@/app/actions/strapi';
+import { fetchGeneral } from '@/app/actions/db/read';
 import LogoAnimation from '@/components/LogoAnimation'
 import SocialIcons from '@/components/SocialIcons'
-import { Home } from '@/types/api/home';
 
 export const metadata = {
   title: "MANUTENÇÃO",
@@ -9,8 +8,8 @@ export const metadata = {
 };
 
 export default async function Maintenance() {
-  const data = await fetchFromStrapi<Home>('home', true);
-  const maintenanceText = data.data?.attributes?.texto_manutencao || 'No momento estamos melhorando o site para você';
+  const { data } = await fetchGeneral();
+  const maintenanceText = data.maintenance_text || 'No momento estamos melhorando o site para você';
 
   return (
     <main className="flex flex-col flex-1 justify-center items-center gap-2 px-5">
