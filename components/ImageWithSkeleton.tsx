@@ -3,11 +3,9 @@
 import { useState } from 'react'
 import Image from 'next/image'
 import { Skeleton } from '@/components/ui/skeleton'
-import { cn } from './../lib/utils';
+import { cn } from '@/lib/utils';
 
-interface ImageWithSkeletonProps extends React.ComponentProps<typeof Image> { }
-
-export default function ImageWithSkeleton({ src, alt, ...props }: ImageWithSkeletonProps) {
+export default function ImageWithSkeleton({ src, alt, ...props }: React.ComponentProps<typeof Image>) {
   const [isLoaded, setIsLoaded] = useState(false)
 
   const handleLoad = () => {

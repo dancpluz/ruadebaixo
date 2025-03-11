@@ -1,4 +1,4 @@
-import { RouteT } from "@/types/const"
+import { RouteT } from "@/types/other"
 
 export const routes: RouteT[] = [
   {

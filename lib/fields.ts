@@ -48,9 +48,8 @@ export const orderSchemaRefined = orderSchema.superRefine((values, ctx) => {
         path: ['cep'],
       })
     }
-
     [['cep', 'CEP'], ['address', 'Endereço'], ['district', 'Bairro'], ['city', 'Cidade'], ['state', 'Estado'], ['number', 'Número']].forEach(([id, name]) => {
-      if (!values[id]) {
+      if (!values[id as keyof typeof values]) {
         return ctx.addIssue({
           code: z.ZodIssueCode.custom,
           message: name + ' é obrigatório',
@@ -91,7 +90,7 @@ export const paymentSchema = z.object({
 export const paymentSchemaRefined = paymentSchema.superRefine((values, ctx) => {
   if (values.paymentType === 'credit') {
     [['cvv', 'CVV'], ['expirationDate', 'Data de validade'], ['cardNumber', 'Número do cartão'], ['holderName', 'Nome do titular'], ['cep', 'CEP'], ['address', 'Endereço'], ['district', 'Bairro'], ['city', 'Cidade'], ['state', 'Estado'], ['number', 'Número']].forEach(([id, name]) => {
-      if (!values[id]) {
+      if (!values[id as keyof typeof values]) {
         return ctx.addIssue({
           code: z.ZodIssueCode.custom,
           message: name + ' é obrigatório',

@@ -5,6 +5,8 @@
   --font-clash: "Clash Grotesk", sans-serif;
   --color-background: #141414;
   --color-foreground: #EFEFEF;
+  --color-dark: #141414;
+  --color-light: #EFEFEF;
 }
 
 @layer base {
