@@ -1,6 +1,8 @@
 import { fetchGeneral } from '@/app/actions/db/read';
 import LogoAnimation from '@/components/LogoAnimation'
 import SocialIcons from '@/components/SocialIcons'
+import { DEFAULT_VALUES } from '@/lib/const';
+import * as Sentry from "@sentry/nextjs";
 
 export const dynamic = 'force-dynamic';
 
@@ -10,14 +12,18 @@ export const metadata = {
 };
 
 export default async function Maintenance() {
-  let maintenanceText = 'No momento estamos melhorando o site para você';
+  let maintenanceText = DEFAULT_VALUES.general.data.maintenance_text;
   
-  try {
-    const { data } = await fetchGeneral();
-    maintenanceText = data.maintenance_text || 'No momento estamos melhorando o site para você';
-  } catch (error) {
-    console.error(`Erro ao tentar puxar geral:`, error);
+  const generalResult = await fetchGeneral();
+
+  if (generalResult.isOk()) {
+    maintenanceText = generalResult.value.data.maintenance_text || DEFAULT_VALUES.general.data.maintenance_text;
+  } else {
+    Sentry.captureException(generalResult.error, {
+      extra: { action: 'maintenance-page' }
+    });
   }
+
   return (
     <main className="flex flex-col flex-1 justify-center items-center gap-2 px-5">
       <LogoAnimation />
