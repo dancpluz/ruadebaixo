@@ -53,5 +53,15 @@
     "eslint-config-next": "15.2.1",
     "tailwindcss": "^4",
     "typescript": "^5"
+  },
+  "overrides": {
+    "react-text-mask": {
+      "react": "^19.0.0",
+      "react-dom": "^19.0.0"
+    },
+    "@strapi/strapi": {
+      "react": "^19.0.0",
+      "react-dom": "^19.0.0"
+    }
   }
 }
