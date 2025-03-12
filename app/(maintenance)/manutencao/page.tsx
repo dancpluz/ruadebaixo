@@ -10,9 +10,14 @@ export const metadata = {
 };
 
 export default async function Maintenance() {
-  const data = await fetchGeneral();
-  const maintenanceText = data?.data.maintenance_text || 'No momento estamos melhorando o site para você';
-
+  let maintenanceText = 'No momento estamos melhorando o site para você';
+  
+  try {
+    const { data } = await fetchGeneral();
+    maintenanceText = data.maintenance_text || 'No momento estamos melhorando o site para você';
+  } catch (error) {
+    console.error(`Erro ao tentar puxar geral:`, error);
+  }
   return (
     <main className="flex flex-col flex-1 justify-center items-center gap-2 px-5">
       <LogoAnimation />

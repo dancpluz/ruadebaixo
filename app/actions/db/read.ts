@@ -19,13 +19,14 @@ type CacheOptions = {
   revalidate?: number;
 };
 
-export async function fetchGeneral(): Promise<GeneralResponse | undefined> {
+export async function fetchGeneral(): Promise<GeneralResponse> {
   try {
     const general = db.single('general');
     const result = await general.find({ populate: ['links', 'questions'] });
     return result as GeneralResponse;
   } catch (error) {
     console.error(`Erro ao tentar puxar geral:`, error);
+    throw error;
   }
 }
 
