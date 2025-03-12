@@ -2,6 +2,8 @@ import { fetchGeneral } from '@/app/actions/db/read';
 import LogoAnimation from '@/components/LogoAnimation'
 import SocialIcons from '@/components/SocialIcons'
 
+export const dynamic = 'force-dynamic';
+
 export const metadata = {
   title: "MANUTENÇÃO",
   description: "O site está em manutenção. Por favor, volte mais tarde.",
