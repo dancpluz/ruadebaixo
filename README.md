@@ -28,6 +28,7 @@
 - [ ] Analytics
 - [ ] Melhorar final do checkout
 - [ ] Mensagem para o cliente
+- [x] Error Handling Sentry
 
 # Backlog:
 

@@ -1,4 +1,5 @@
 import { RouteT } from "@/types/other"
+import { GeneralResponse } from '@/types/strapi';
 
 export const routes: RouteT[] = [
   {
@@ -50,3 +51,20 @@ export const clothesWeight = {
   'Suéter': 0.6,
   'Tênis': 0.8,
 }
+
+export const DEFAULT_VALUES = {
+  general: {
+    data: {
+      links: [],
+      questions: [],
+      maintenance_text: 'No momento estamos melhorando o site para você',
+      maintenance: true,
+      id: 1,
+      documentId: 'fallback',
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+      publishedAt: new Date().toISOString(),
+    },
+    meta: {}
+  } as unknown as GeneralResponse
+};

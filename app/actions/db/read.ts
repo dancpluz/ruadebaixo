@@ -1,6 +1,6 @@
 'use server'
 
-import db from "@/lib/strapi";
+import db, { checkStrapiAvailability } from "@/lib/strapi";
 import { 
   GeneralResponse, 
   ProductStoreResponse, 
@@ -9,112 +9,43 @@ import {
   StrapiCollectionResponseFrom
 } from "@/types/strapi";
 import { unstable_cache } from 'next/cache';
-
-// Importando tipos diretamente se precisarmos criar respostas para outros endpoints
 import type { ApiSellerSeller, ApiLookbookLookbook } from "@/types/contentTypes";
+import { tryCatch } from '@/lib/errorHandler';
+import { ApiResult, ApiError } from '@/types/errors';
+import { ok, err } from 'neverthrow';
+import { DEFAULT_VALUES } from '@/lib/const';
 
 /**
- * Tipo para opções de cache
+ * Busca os dados gerais com tratamento de erro à prova de falhas
+ * Sempre retorna um valor, nunca um erro no modo de desenvolvimento
  */
-type CacheOptions = {
-  tags?: string[];
-  revalidate?: number;
-};
-
-export async function fetchGeneral(): Promise<GeneralResponse> {
+export async function fetchGeneral(): Promise<ApiResult<GeneralResponse>> {
   try {
-    const general = db.single('general');
-    const result = await general.find({ populate: ['links', 'questions'] });
-    return result as GeneralResponse;
+    // 1. Verifica se o Strapi está disponível
+    const availabilityResult = await checkStrapiAvailability();
+    if (availabilityResult.isErr()) {
+      // Se o Strapi estiver indisponível, retorna valor padrão
+      console.log('Strapi indisponível, usando valores padrão');
+      return ok(DEFAULT_VALUES.general);
+    }
+
+    // 2. Tenta buscar os dados
+    const result = await tryCatch(
+      db?.single('general').find({ populate: ['links', 'questions'] }) as Promise<GeneralResponse>,
+      { action: 'fetchGeneral' }
+    );
+
+    // 3. Se houver erro, retorna valor padrão
+    if (result.isErr()) {
+      console.log('Erro ao buscar dados gerais, usando valores padrão');
+      return ok(DEFAULT_VALUES.general);
+    }
+
+    // 4. Retorna os dados encontrados
+    return result;
   } catch (error) {
-    //console.error(`Erro ao tentar puxar geral:`, error);
-    throw error;
+    // 5. Captura qualquer outro erro inesperado e retorna valor padrão
+    console.error('Erro inesperado:', error);
+    return ok(DEFAULT_VALUES.general);
   }
 }
-
-const fetchStoreProducts = (filters: any, options?: CacheOptions) => unstable_cache(
-  async (): Promise<ProductStoreResponse> => {
-    try {
-      const productStore = db.collection('product-store');
-      const result = await productStore.find({ 
-        populate: ['images_3d', 'images_banner', 'seller', 'variants', 'main_variant', 'info'],
-        filters
-      });
-      return result as ProductStoreResponse;
-    } catch (error) {
-      console.error(`Erro ao buscar produtos da loja:`, error);
-      throw error;
-    }
-  },
-  ['fetchStoreProducts', JSON.stringify(filters)],
-  { 
-    tags: options?.tags || ['store-products'],
-    revalidate: options?.revalidate
-  }
-)();
-
-const fetchDrops = (filters: any, options?: CacheOptions) => unstable_cache(
-  async (): Promise<DropResponse> => {
-    try {
-      const drops = db.collection('drop');
-      const result = await drops.find({
-        populate: ['store_products', 'thrift_products', 'seller', 'lookbook'],
-        filters
-      });
-      return result as DropResponse;
-    } catch (error) {
-      throw error;
-    }
-  },
-  ['fetchDrops', JSON.stringify(filters)],
-  { 
-    tags: options?.tags || ['drops'],
-    revalidate: options?.revalidate
-  }
-)();
-
-const fetchSellers = (filters: any, options?: CacheOptions) => unstable_cache(
-  async () => {
-    try {
-      const sellers = db.collection('seller');
-      const result = await sellers.find({
-        populate: ['logo', 'drops'],
-        filters
-      });
-      return result as StrapiCollectionResponseFrom<ApiSellerSeller>;
-    } catch (error) {
-      throw error;
-    }
-  },
-  ['fetchSellers', JSON.stringify(filters)],
-  { 
-    tags: options?.tags || ['sellers'],
-    revalidate: options?.revalidate
-  }
-)();
-
-const fetchLookbook = (id: number, options?: CacheOptions) => unstable_cache(
-  async () => {
-    try {
-      const lookbooks = db.collection('lookbook');
-      const result = await lookbooks.find({
-        filters: { id: { $eq: id } },
-        populate: ['cover', 'images', 'drop']
-      });
-      
-      const singleResult = {
-        data: result.data[0],
-        meta: result.meta
-      };
-      
-      return singleResult as StrapiSingleTypeResponseFrom<ApiLookbookLookbook>;
-    } catch (error) {
-      throw error;
-    }
-  },
-  ['fetchLookbook', id.toString()],
-  { 
-    tags: options?.tags || ['lookbook'],
-    revalidate: options?.revalidate
-  }
-)();
