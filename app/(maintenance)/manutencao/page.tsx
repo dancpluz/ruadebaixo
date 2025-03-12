@@ -10,8 +10,8 @@ export const metadata = {
 };
 
 export default async function Maintenance() {
-  const { data } = await fetchGeneral();
-  const maintenanceText = data.maintenance_text || 'No momento estamos melhorando o site para você';
+  const data = await fetchGeneral();
+  const maintenanceText = data?.data.maintenance_text || 'No momento estamos melhorando o site para você';
 
   return (
     <main className="flex flex-col flex-1 justify-center items-center gap-2 px-5">

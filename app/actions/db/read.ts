@@ -9,8 +9,6 @@ import {
   StrapiCollectionResponseFrom
 } from "@/types/strapi";
 import { unstable_cache } from 'next/cache';
-
-// Importando tipos diretamente se precisarmos criar respostas para outros endpoints
 import type { ApiSellerSeller, ApiLookbookLookbook } from "@/types/contentTypes";
 
 /**
@@ -21,14 +19,13 @@ type CacheOptions = {
   revalidate?: number;
 };
 
-export async function fetchGeneral(): Promise<GeneralResponse> {
+export async function fetchGeneral(): Promise<GeneralResponse | undefined> {
   try {
     const general = db.single('general');
     const result = await general.find({ populate: ['links', 'questions'] });
     return result as GeneralResponse;
   } catch (error) {
-    //console.error(`Erro ao tentar puxar geral:`, error);
-    throw error;
+    console.error(`Erro ao tentar puxar geral:`, error);
   }
 }
 
