@@ -1,13 +1,12 @@
 // middleware.ts
 import { NextResponse } from 'next/server';
-import { NEXT_PUBLIC_STRAPI_API_URL, STRAPI_TOKEN, DISABLE_MAINTENANCE_MODE } from './lib/env';
 import { GeneralResponse } from './types/strapi';
 import { checkEnvVars } from './lib/utils';
 
 export async function middleware(request: Request) {
   let maintenance = true;
 
-  if (DISABLE_MAINTENANCE_MODE) {
+  if (process.env.DISABLE_MAINTENANCE_MODE) {
     return NextResponse.next();
   }
 
@@ -18,9 +17,9 @@ export async function middleware(request: Request) {
   }
 
   const { pathname } = new URL(request.url);
-  const response = await fetch(`${NEXT_PUBLIC_STRAPI_API_URL}/api/general`, {
+  const response = await fetch(`${process.env.NEXT_PUBLIC_STRAPI_API_URL}/api/general`, {
     headers: {
-      Authorization: `bearer ${STRAPI_TOKEN}`,
+      Authorization: `bearer ${process.env.STRAPI_TOKEN}`,
     },
   });
 
