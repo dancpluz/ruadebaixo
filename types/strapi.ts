@@ -5,7 +5,8 @@ import { Public } from '@strapi/strapi';
 import type { 
   ApiGeneralGeneral,
   ApiProductStoreProductStore,
-  ApiDropDrop
+  ApiDropDrop,
+  ApiInviteInvite
 } from './contentTypes';
 
 /**
@@ -177,3 +178,6 @@ export type ProductStoreResponse = StrapiCollectionResponseFrom<ApiProductStoreP
 
 export type DropEntity = StrapiEntityFrom<ApiDropDrop>;
 export type DropResponse = StrapiCollectionResponseFrom<ApiDropDrop>;
+
+export type InviteEntity = StrapiEntityFrom<ApiInviteInvite>;
+export type InviteResponse = StrapiCollectionResponseFrom<ApiInviteInvite>;

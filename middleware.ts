@@ -16,6 +16,7 @@ export async function middleware(request: Request) {
   // Paths excluídas da manutenção
   const excludedPaths = [
     '/manutencao',
+    '/convite',
     '/api/webhook',
     '/_next',
     '/anim',

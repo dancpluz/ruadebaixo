@@ -506,6 +506,52 @@ export interface ApiGiftGift extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiInviteInvite extends Struct.CollectionTypeSchema {
+  collectionName: 'invites';
+  info: {
+    description: '';
+    displayName: 'Convite';
+    pluralName: 'invites';
+    singularName: 'invite';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    confirmed: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    confirmed_at: Schema.Attribute.DateTime;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    insta: Schema.Attribute.String;
+    key: Schema.Attribute.UID<
+      undefined,
+      {
+        'uuid-format': '^[A-HJ-NP-Z2-9]{6,12}$';
+      }
+    > &
+      Schema.Attribute.Required &
+      Schema.Attribute.CustomField<
+        'plugin::strapi-advanced-uuid.uuid',
+        {
+          'uuid-format': '^[A-HJ-NP-Z2-9]{6,12}$';
+        }
+      >;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::invite.invite'
+    > &
+      Schema.Attribute.Private;
+    name: Schema.Attribute.String & Schema.Attribute.Required;
+    publishedAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    whatsapp: Schema.Attribute.String;
+  };
+}
+
 export interface ApiLookbookLookbook extends Struct.CollectionTypeSchema {
   collectionName: 'lookbooks';
   info: {
@@ -601,7 +647,7 @@ export interface ApiOrderThriftOrderThrift extends Struct.CollectionTypeSchema {
       'api::order-thrift.order-thrift'
     > &
       Schema.Attribute.Private;
-    produtos_brechos: Schema.Attribute.Relation<
+    products: Schema.Attribute.Relation<
       'oneToMany',
       'api::product-thrift.product-thrift'
     >;
@@ -1286,6 +1332,7 @@ declare module '@strapi/strapi' {
       'api::drop.drop': ApiDropDrop;
       'api::general.general': ApiGeneralGeneral;
       'api::gift.gift': ApiGiftGift;
+      'api::invite.invite': ApiInviteInvite;
       'api::lookbook.lookbook': ApiLookbookLookbook;
       'api::order-store.order-store': ApiOrderStoreOrderStore;
       'api::order-thrift.order-thrift': ApiOrderThriftOrderThrift;

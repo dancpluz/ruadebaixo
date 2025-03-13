@@ -66,5 +66,5 @@ export const DEFAULT_VALUES = {
       publishedAt: new Date().toISOString(),
     },
     meta: {}
-  } as unknown as GeneralResponse
+  } as unknown as GeneralResponse,
 };
