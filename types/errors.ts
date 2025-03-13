@@ -4,6 +4,7 @@ import { Result } from 'neverthrow';
 export type StrapiErrorTypes = 'ApplicationError' | 'ValidationError' | 'NotFoundError' | 'ForbiddenError' | 'UnauthorizedError';
 
 export interface StrapiErrorDetails {
+  errors?: Array<{ path: string[]; message: string; name: string }>;
   [key: string]: any;
 }
 
@@ -11,7 +12,7 @@ export interface StrapiError {
   status: number;
   name: StrapiErrorTypes;
   message: string;
-  details: StrapiErrorDetails;
+  details?: StrapiErrorDetails;
 }
 
 export interface StrapiErrorResponse {
@@ -46,6 +47,18 @@ export class ApiError extends Error {
       strapiError.details,
       originalError
     );
+  }
+
+  /**
+   * Extrai mensagens de erro legíveis para o usuário
+   */
+  getReadableMessage(): string {
+    if (this.details?.errors && Array.isArray(this.details.errors)) {
+      return this.details.errors
+        .map(err => err.message || 'Erro desconhecido')
+        .join(', ');
+    }
+    return this.message;
   }
 }
 

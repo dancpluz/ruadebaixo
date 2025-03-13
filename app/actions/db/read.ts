@@ -93,3 +93,35 @@ export async function fetchInvite(key: string): Promise<ApiResult<InviteResponse
     return err(new ApiError('Erro ao buscar dados do convite', 500));
   }
 }
+
+export async function fetchInvites(): Promise<ApiResult<InviteResponse>> {
+  try {
+    // 1. Verifica se o Strapi está disponível
+    const availabilityResult = await checkStrapiAvailability();
+    if (availabilityResult.isErr()) {
+      console.log('Strapi indisponível');
+      return err(new ApiError('Erro ao buscar dados dos convites', 500));
+    }
+
+    // 2. Tenta buscar os dados
+    const result = await tryCatch(
+      db?.collection('invites').find({
+        sort: ['createdAt:desc']
+      }) as Promise<InviteResponse>,
+      { action: 'fetchInvites' }
+    );
+
+    // 3. Se houver erro, retorna erro
+    if (result.isErr()) {
+      console.log('Erro ao buscar dados dos convites');
+      return err(new ApiError('Erro ao buscar dados dos convites', 500));
+    }
+
+    // 4. Retorna os dados encontrados
+    return result;
+  } catch (error) {
+    // 5. Captura qualquer outro erro inesperado
+    console.error('Erro inesperado:', error);
+    return err(new ApiError('Erro ao buscar dados dos convites', 500));
+  }
+}

@@ -1,7 +1,7 @@
 import { fetchInvite } from "@/app/actions/db/read";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { redirect } from "next/navigation";
-import FormInvite from "@/app/components/FormInvite";
+import FormInvite from "./FormInvite";
 
 export const dynamic = 'force-dynamic';
 
@@ -58,7 +58,7 @@ export default async function Convite({ params }: { params: Promise<{ key: strin
   }
 
   const invite = invitation.value.data[0];
-  const { id, name, confirmed } = invite;
+  const { documentId, name, confirmed } = invite;
   
   if (!invite) {
     // Redundância extra para garantir que não há convite
@@ -73,7 +73,7 @@ export default async function Convite({ params }: { params: Promise<{ key: strin
           <CardDescription>Você foi convidado para a festa secreta da Rua de Baixo</CardDescription>
         </CardHeader>
         <CardContent>
-          <FormInvite invitationId={id} />
+          <FormInvite documentId={documentId} />
         </CardContent>
       </Card>
     </div>

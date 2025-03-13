@@ -8,7 +8,7 @@ import { Form, FormField, FormItem, FormLabel, FormControl, FormDescription, For
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form";
 
-export default function FormInvite({ invitationId }: { invitationId: number }) {
+export default function FormInvite({ documentId }: { documentId: string }) {
   const form = useForm<z.infer<typeof invitationFormSchema>>({
     resolver: zodResolver(invitationFormSchema),
     defaultValues: {

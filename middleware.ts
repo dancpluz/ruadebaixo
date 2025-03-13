@@ -5,18 +5,61 @@ import { checkEnvVars } from './lib/utils';
 import { reportError, tryCatch, tryCatchSync } from '@/lib/errorHandler';
 
 export async function middleware(request: Request) {
+  const { pathname } = new URL(request.url);
+
+  // Autenticação básica para a página de convites
+  if (pathname.startsWith('/convidar')) {
+    // Verificar as credenciais de autenticação básica
+    const authHeader = request.headers.get('authorization');
+    
+    // Credenciais esperadas (em produção, use variáveis de ambiente)
+    const ADMIN_INVITE_USER = process.env.ADMIN_INVITE_USER || 'admin';
+    const ADMIN_INVITE_PASSWORD = process.env.ADMIN_INVITE_PASSWORD || 'guigaomemama';
+    
+    if (!authHeader || !authHeader.startsWith('Basic ')) {
+      // Se não houver credenciais, solicita autenticação
+      return new NextResponse(null, {
+        status: 401,
+        headers: {
+          'WWW-Authenticate': 'Basic realm="Acesso à página de convites"',
+          'Content-Type': 'text/html',
+        },
+      });
+    }
+    
+    // Decodifica as credenciais
+    const base64Credentials = authHeader.split(' ')[1];
+    const credentials = atob(base64Credentials);
+    const [username, password] = credentials.split(':');
+    
+    // Verifica se as credenciais são válidas
+    if (username !== ADMIN_INVITE_USER || password !== ADMIN_INVITE_PASSWORD) {
+      // Credenciais inválidas, solicita novamente
+      return new NextResponse(null, {
+        status: 401,
+        headers: {
+          'WWW-Authenticate': 'Basic realm="Acesso à página de convites"',
+          'Content-Type': 'text/html',
+        },
+      });
+    }
+    
+    // Credenciais válidas, continua
+    return NextResponse.next();
+  }
+
+  // Modo de manutenção
   let maintenance = true;
 
   if (process.env.DISABLE_MAINTENANCE_MODE === 'true') {
     return NextResponse.next();
   }
 
-  const { pathname } = new URL(request.url);
-
   // Paths excluídas da manutenção
   const excludedPaths = [
     '/manutencao',
     '/convite',
+    '/convidar',
     '/api/webhook',
     '/_next',
     '/anim',
