@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 export const invitationFormSchema = z.object({
-  phone: z
+  whatsapp: z
     .string()
     .max(20, { message: "Número muito longo (máx. 20 dígitos)" })
     .optional().or(z.literal("")),
@@ -10,6 +10,12 @@ export const invitationFormSchema = z.object({
     .max(30, { message: "Instagram muito longo (máx. 30 caracteres)" })
     .refine((value) => !value.includes(" "), { message: "Não pode conter espaços" })
     .or(z.literal("")),
-})
+}).refine(data => {
+  // Pelo menos um dos campos deve ser preenchido
+  return !!data.whatsapp || !!data.insta;
+}, {
+  message: "Coloca pelo menos seu Instagram ou WhatsApp",
+  path: ["whatsapp"] // Marca o campo whatsapp como inválido
+});
 
 export type InvitationFormValues = z.infer<typeof invitationFormSchema>

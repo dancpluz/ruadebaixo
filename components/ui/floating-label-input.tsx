@@ -4,8 +4,8 @@ import { cn } from '@/lib/utils';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 
-function FloatingInput({ className, ...props }: React.ComponentProps<"input">) {
-  return <Input placeholder=" " className={cn('peer', className)} {...props} />;
+function FloatingInput({ className, mask, ...props }: React.ComponentProps<"input"> & { mask?: (string | RegExp)[] }) {
+  return <Input placeholder=" " className={cn('peer', className)} {...props} mask={mask} />;
 }
 
 function FloatingLabel({ className, ...props }: React.ComponentProps<"label">) {
@@ -20,10 +20,10 @@ function FloatingLabel({ className, ...props }: React.ComponentProps<"label">) {
   );
 }
 
-function FloatingLabelInput({ id, label, ...props }: { id: string; label?: string } & React.ComponentProps<typeof FloatingInput>) {
+function FloatingLabelInput({ id, label, mask, ...props }: { id: string; label?: string; mask?: (string | RegExp)[] } & React.ComponentProps<typeof FloatingInput>) {
   return (
     <div className="relative">
-      <FloatingInput id={id} {...props} />
+      <FloatingInput id={id} {...props} mask={mask} />
       <FloatingLabel htmlFor={id}>{label}</FloatingLabel>
     </div>
   );

@@ -2,6 +2,7 @@
 
 import db, { checkStrapiAvailability } from "@/lib/strapi";
 import { ApiError } from '@/types/errors';
+import { revalidatePath } from "next/cache";
 
 /**
  * Deleta um convite pelo documentId
@@ -23,6 +24,7 @@ export async function deleteInvite(documentId: string): Promise<{ data?: void; e
       await db?.collection('invites').delete(documentId);
       
       // 3. Retorna sucesso
+      revalidatePath('/convidar');
       return { data: undefined };
     } catch (error) {
       console.log('Erro ao deletar convite:', error);

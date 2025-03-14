@@ -1,7 +1,7 @@
 import { RouteT } from "@/types/other"
 import { GeneralResponse } from '@/types/strapi';
 
-export const routes: RouteT[] = [
+export const ROUTES: RouteT[] = [
   {
     title: 'CATÁLOGO',
     image: 'https://images.unsplash.com/photo-1522312346375-d1a52e2b99b3?q=80&w=1894&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
@@ -68,3 +68,7 @@ export const DEFAULT_VALUES = {
     meta: {}
   } as unknown as GeneralResponse,
 };
+
+export const INSTA_MASK = ['@', ...Array(20).fill(/^[a-zA-Z0-9._]/)]
+
+export const PHONE_MASK = ['(', /[0-9]/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/]

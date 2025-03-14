@@ -1,6 +1,6 @@
 import React from 'react'
 import TiltCard from './TiltCard';
-import { routes } from '@/lib/const';
+import { ROUTES } from '@/lib/const';
 
 export default function NavBar() {
 
@@ -8,7 +8,7 @@ export default function NavBar() {
     <nav className='flex flex-col w-full gap-4'>
       <h1 className='text-2xl'>EXPLORE</h1>
       <div className='flex gap-4'>
-        {routes.map((route, index) => (
+        {ROUTES.map((route, index) => (
           <TiltCard key={index} title={route.title} image={route.image} href={route.href} alt={route.alt} />
         ))}
       </div>

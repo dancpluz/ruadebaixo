@@ -2,6 +2,7 @@
 
 import db, { checkStrapiAvailability } from "@/lib/strapi";
 import { ApiError } from '@/types/errors';
+import { revalidatePath } from "next/cache";
 
 // Interface para o erro do Strapi com tipagem mais precisa
 interface StrapiErrorResponse {
@@ -60,6 +61,7 @@ export async function createInvites(names: string[]): Promise<{ data?: void; err
     try {
       await Promise.all(createPromises);
       // 4. Retorna sucesso
+      revalidatePath('/convidar');
       return { data: undefined };
     } catch (error) {
       console.log('Erro ao criar convites:', error);
