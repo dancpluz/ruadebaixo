@@ -62,7 +62,6 @@ function showStrapiError(error: ApiError) {
 }
 
 export default function DeleteButton({ documentId, name }: DeleteButtonProps) {
-  const router = useRouter();
   const [isPending, startTransition] = useTransition();
 
   function handleDelete() {
@@ -86,7 +85,6 @@ export default function DeleteButton({ documentId, name }: DeleteButtonProps) {
         toast.success("Convite excluído", {
           description: `O convite para "${name}" foi excluído com sucesso.`,
         });
-        router.refresh();
       } catch (error) {
         console.error("Erro ao excluir convite:", error);
         toast.error("Erro ao excluir convite", {

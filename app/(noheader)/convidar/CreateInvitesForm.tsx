@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
-import { useRouter } from "next/navigation";
 import { useTransition } from "react";
 import { z } from "zod";
 import { createInvites } from "@/app/actions/db/create";
@@ -69,7 +68,6 @@ function showStrapiError(error: ApiError) {
 }
 
 export default function CreateInvitesForm() {
-  const router = useRouter();
   const [isPending, startTransition] = useTransition();
 
   async function onSubmit(formData: FormData) {
@@ -113,7 +111,6 @@ export default function CreateInvitesForm() {
               ? `Foram criados ${names.length} convites` 
               : `Foi criado 1 convite para ${names[0]}`,
           });
-          router.refresh();
         } catch (error) {
           console.error("Erro ao criar convites:", error);
           toast.error("Erro ao criar convites", {
