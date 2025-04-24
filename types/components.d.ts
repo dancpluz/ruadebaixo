@@ -3,13 +3,16 @@ import type { Schema, Struct } from '@strapi/strapi';
 export interface CheckoutCheckout extends Struct.ComponentSchema {
   collectionName: 'components_checkout_checkouts';
   info: {
+    description: '';
     displayName: 'Checkout';
     icon: 'shoppingCart';
   };
   attributes: {
     feedback: Schema.Attribute.Text;
     freight: Schema.Attribute.Decimal & Schema.Attribute.DefaultTo<0>;
-    local_pickup: Schema.Attribute.String;
+    local_pickup: Schema.Attribute.Enumeration<
+      ['UnB', 'Rodovi\u00E1ria', 'Guar\u00E1 II', 'Asa Norte', 'Parano\u00E1']
+    >;
     parcels: Schema.Attribute.Integer &
       Schema.Attribute.Required &
       Schema.Attribute.SetMinMax<
@@ -19,8 +22,8 @@ export interface CheckoutCheckout extends Struct.ComponentSchema {
         number
       > &
       Schema.Attribute.DefaultTo<1>;
-    payment_type: Schema.Attribute.String & Schema.Attribute.Required;
-    shipping_type: Schema.Attribute.String & Schema.Attribute.Required;
+    payment_type: Schema.Attribute.Enumeration<['credit', 'pix']>;
+    shipping_type: Schema.Attribute.Enumeration<['retirada', 'entrega']>;
     subtotal: Schema.Attribute.Decimal &
       Schema.Attribute.Required &
       Schema.Attribute.SetMinMax<

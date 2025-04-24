@@ -1,7 +1,6 @@
 import localFont from "next/font/local";
 import "./globals.css";
 import { cn } from "@/lib/utils";
-import { Providers } from "./providers";
 
 const clashDisplay = localFont({
   src: "./fonts/ClashDisplay-Variable.ttf",
@@ -21,11 +20,9 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html className={cn(clashDisplay.variable, archivo.variable)} lang="pt-BR" suppressHydrationWarning>
+    <html className={clashDisplay.variable + ' ' + archivo.variable} lang="pt-BR">
       <body className='antialiased min-h-screen flex flex-col relative'>
-        <Providers>
-          {children}
-        </Providers>
+        {children}
       </body>
     </html>
   );

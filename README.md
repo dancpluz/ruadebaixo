@@ -1,51 +1,26 @@
-- [x] Pág. Landing
-  - [x] Header
-  - [x] Animação
-  - [x] Countdown
-  - [x] Rodapé
-- [ ] Pág. Catalogo
-  - [x] Card Produto
-  - [ ] Infinite Scroll
-  - [ ] Filtragem
-- [x] Pág. Produto
-- [ ] Pág. Adesivo
-- [x] Pág. Checkout
-  - [x] Carrinho de Compras
-  - [ ] Local Storage
-- [ ] Pág. Links
-- [ ] Pág. Lookbook
-- [x] Rotas de API definidas
- - [x] Asaas
- - [x] Strapi
- - [x] Kangu
- - [x] Whatsapp
-- [x] Integração com entregas (kangu)
-- [x] Integração de pagamento (asaas.dev/stripe)
-- [x] Integração com bot do zap
-- [ ] SEO
-- [x] Modo Manutenção
-- [x] Responsivo
-- [ ] Analytics
-- [ ] Melhorar final do checkout
-- [ ] Mensagem para o cliente
-- [x] Error Handling Sentry
+- [ ] Gerador de arte
+  - [ ] Estilo windows xp
+  - [ ] Fundo windows xp
+  - [ ] Puxar do banco de dados
+  - [ ] Gerador aleatorio
+  - [ ] Animar aparecendo imagem
+  - [ ] Clips animado
+  - [ ] Texto animado na fala do clips
+  - [ ] Layout do paint
+  - [ ] Seta animada
+- [ ] Mouse diferente
+- [ ] Tela de Loading
+- [ ] Animação chatgpt pegando fogo
+- [ ] Seção instagram
+  - [ ] Puxar dados da api instagram
+  - [ ] Layout caixa antiga
+  - [ ] Efeito paralax
+  - [ ] Posição aleatoria pros cards
+  - [ ] Animação cards
+  - [ ] Interatividade cards instagram
+  - [ ] Fundo de fogo
+- [ ] Sessão final
+- [ ] Deploy
 
 # Backlog:
 
-- [ ] Melhorar Context
-- [ ] Query state (nuqs)
-- [ ] Reduzir info no cartitems
-- [x] Salvar vendas e clientes
-- [ ] Verificação produto vendido
-- [ ] Essência
-- [ ] Avaliações
-- [ ] FAQ e Sobre
-- [ ] Loading state
-- [ ] Dark/Light Mode
-- [ ] Backup
-- [x] Webhooks
-- [ ] Segurança Webhook
-- [ ] Página de transmissão
-- [ ] Melhorar Local Storage
-- [ ] Melhorar Página de Produto
-- [ ] Melhorar Imagens

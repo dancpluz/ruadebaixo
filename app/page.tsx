@@ -1,4 +1,5 @@
-export default function Catalogo() {
+
+export default function page() {
   return (
     <div>page</div>
   )
