@@ -1,3 +1,7 @@
+- [ ] Mouse diferente
+- [ ] Tela de Loading
+- [ ] Animação chatgpt pegando fogo
+- [ ] Metadata
 - [ ] Gerador de arte
   - [ ] Estilo windows xp
   - [ ] Fundo windows xp
@@ -8,9 +12,6 @@
   - [ ] Texto animado na fala do clips
   - [ ] Layout do paint
   - [ ] Seta animada
-- [ ] Mouse diferente
-- [ ] Tela de Loading
-- [ ] Animação chatgpt pegando fogo
 - [ ] Seção instagram
   - [ ] Puxar dados da api instagram
   - [ ] Layout caixa antiga
@@ -21,6 +22,7 @@
   - [ ] Fundo de fogo
 - [ ] Sessão final
 - [ ] Deploy
+- [ ] Autenticação da api do instagram
 
 # Backlog:
 
