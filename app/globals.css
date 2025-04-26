@@ -1,15 +1,12 @@
 @import "tailwindcss";
+@import './xp-theme.css';
 
 @theme {
-  --font-archivo: "Archivo", sans-serif;
-  --font-clash: "Clash Grotesk", sans-serif;
-  --color-background: #141414;
-  --color-foreground: #EFEFEF;
-  --color-dark: #141414;
-  --color-light: #EFEFEF;
+  --color-background: #FFF;
+  --color-foreground: #222;
 }
 
-@layer base {
+/* @layer base {
   [data-theme='dark'] {
     --color-background: #141414;
     --color-foreground: #EFEFEF;
@@ -19,19 +16,45 @@
     --color-background: #EFEFEF;
     --color-foreground: #141414;
   }
-}
+} */
 
 @layer {
-  :root {
+  /* :root {
     -webkit-font-smoothing: antialiased;
     --radius: 0.5rem;
-  }
+  } */
 
   body {
     background: var(--color-background);
     color: var(--color-foreground);
-    font-family: var(--font-archivo);
-    font-weight: 700;
+  }
+  /* h1 {
+    font-size: 0.6rem
+  }
+
+  h2 {
+    font-size: 2.5rem
+  }
+
+  h3 {
+    font-size: 2rem
+  }
+
+  h4 {
+    font-size: 1.5rem
+  } */
+  
+  u {
+    text-decoration: none;
+    border-bottom: .5px solid #222
+  }
+
+  a {
+    color: #00f
+  }
+
+  a:focus {
+    outline: 1px dotted #00f
   }
 }
 
