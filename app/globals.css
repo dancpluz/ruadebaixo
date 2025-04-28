@@ -4,6 +4,8 @@
 @theme {
   --color-background: #FFF;
   --color-foreground: #222;
+  --color-accent: #00f;
+  --color-border: #AAA;
 }
 
 /* @layer base {
@@ -46,15 +48,15 @@
   
   u {
     text-decoration: none;
-    border-bottom: .5px solid #222
+    border-bottom: .5px solid var(--color-foreground)
   }
 
   a {
-    color: #00f
+    color: var(--color-accent)
   }
 
   a:focus {
-    outline: 1px dotted #00f
+    outline: 1px dotted var(--color-accent)
   }
 }
 
