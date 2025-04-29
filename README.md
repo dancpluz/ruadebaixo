@@ -1,16 +1,17 @@
 - [ ] Mouse diferente
 - [ ] Tela de Loading
 - [ ] Animação chatgpt pegando fogo
-- [ ] Metadata
+- [ ] Metadata SEO
 - [ ] Gerador de arte
-  - [ ] Estilo windows xp
-  - [ ] Fundo windows xp
+  - [x] Estilo windows xp
+  - [x] Fundo windows xp
   - [ ] Puxar do banco de dados
   - [ ] Gerador aleatorio
   - [ ] Animar aparecendo imagem
   - [ ] Clips animado
   - [ ] Texto animado na fala do clips
-  - [ ] Layout do paint
+  - [x] Layout do paint
+  - [ ] Botão de gerar
   - [ ] Seta animada
 - [ ] Seção instagram
   - [ ] Puxar dados da api instagram

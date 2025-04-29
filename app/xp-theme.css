@@ -752,7 +752,6 @@ menu[role=tablist].justified button {
 button {
   font-family: "Pixelated MS Sans Serif", Arial;
   -webkit-font-smoothing: antialiased;
-  font-size: 11px;
   box-sizing: border-box;
   border: 1px solid #003c74;
   background: linear-gradient(180deg, #fff, #ecebe5 86%, #d8d0c4);

@@ -29,6 +29,7 @@
   body {
     background: var(--color-background);
     color: var(--color-foreground);
+    font-family: "Trebuchet MS";
   }
   /* h1 {
     font-size: 0.6rem
@@ -58,10 +59,41 @@
   a:focus {
     outline: 1px dotted var(--color-accent)
   }
+
 }
 
 @layer utilities {
   .text-balance {
     text-wrap: balance;
+  }
+
+  .absolute-center {
+    @apply absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2;
+  }
+
+  .inset-bevel {
+    @apply relative;
+    box-shadow: inset 1px 1px 0px #808080;
+  }
+
+  .inset-bevel::after {
+    content: "";
+    @apply absolute inset-0;
+    box-shadow: inset -1px -1px 0px #ffffff;
+  }
+
+  .inset-bevel-bg {
+    @apply relative;
+    box-shadow: inset 2px 2px 0px #1d1d1d;
+  }
+
+  .inset-bevel-bg::after {
+    content: "";
+    @apply absolute inset-0;
+    box-shadow: inset -2px -2px 0px #ffffff;
+  }
+
+  .font-pixelated {
+    font-family: "Pixelated MS Sans Serif", Arial;
   }
 }
