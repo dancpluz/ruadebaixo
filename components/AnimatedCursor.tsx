@@ -16,13 +16,10 @@ export default function AnimatedCursor({
         const data = new Uint8Array(await response.arrayBuffer())
 
         const style = document.createElement('style')
-        // Add !important to override default styles
         style.innerHTML = `
           ${convertAniBinaryToCSS(selector, data)}
           ${selector} * {
             cursor: inherit !important;
-            image-rendering: crisp-edges;
-            image-rendering: pixelated;
           }
         `;
 

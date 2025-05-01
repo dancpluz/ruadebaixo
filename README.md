@@ -6,7 +6,8 @@
 - [ ] Gerador de arte
   - [x] Estilo windows xp
   - [x] Fundo windows xp
-  - [ ] Puxar do banco de dados
+  - [x] Puxar do banco de dados
+  - [ ] Mostrar imagens puxadas
   - [ ] Gerador aleatorio
   - [ ] Animar aparecendo imagem
   - [ ] Clips animado

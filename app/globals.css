@@ -23,6 +23,8 @@
 @layer {
   .custom-cursor * {
     cursor: inherit !important;
+    image-rendering: crisp-edges;
+    image-rendering: pixelated;
   }
   
   body {

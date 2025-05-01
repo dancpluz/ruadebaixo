@@ -5,12 +5,11 @@ import { UserInfoResponse, UserMediasResponse } from "@/types/instagram";
 async function loginToInstagram(): Promise<any> {
   return await fetch(`${process.env.INSTAGRAM_API_URL!}/auth/login_by_sessionid`, {
     method: 'POST',
-    body: JSON.stringify({
-      sessionid: process.env.SESSION_ID,
+    body: new URLSearchParams({
+      sessionid: process.env.SESSION_ID!,
     }),
     headers: {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
+      'Content-Type': 'application/x-www-form-urlencoded',
     },
   }).then((res) => res.json());
 }

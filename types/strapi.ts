@@ -1,11 +1,9 @@
 import { Schema, Struct } from '@strapi/strapi';
 import { Public } from '@strapi/strapi';
 
-// Importações dos tipos de contentTypes.d.ts
+// Importações manuais dos tipos de contentTypes.d.ts
 import type { 
-  ApiGeneralGeneral,
-  ApiProductStoreProductStore,
-  ApiDropDrop
+  ApiArtistArtist
 } from './contentTypes';
 
 /**
@@ -168,12 +166,6 @@ export type StrapiSingleTypeResponseFrom<T extends Struct.Schema> =
 export type StrapiCollectionResponseFrom<T extends Struct.Schema> = 
   StrapiCollectionResponse<StrapiEntityFrom<T>>;
 
-// Exemplos de uso
-export type GeneralEntity = StrapiEntityFrom<ApiGeneralGeneral>;
-export type GeneralResponse = StrapiSingleTypeResponseFrom<ApiGeneralGeneral>;
-
-export type ProductStoreEntity = StrapiEntityFrom<ApiProductStoreProductStore>;
-export type ProductStoreResponse = StrapiCollectionResponseFrom<ApiProductStoreProductStore>;
-
-export type DropEntity = StrapiEntityFrom<ApiDropDrop>;
-export type DropResponse = StrapiCollectionResponseFrom<ApiDropDrop>;
+// Adicione manualmente os tipos de resposta para cada contentType
+export type ArtistEntity = StrapiEntityFrom<ApiArtistArtist>;
+export type ArtistResponse = StrapiCollectionResponseFrom<ApiArtistArtist>;

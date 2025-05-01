@@ -32,7 +32,7 @@ export default function LoadingScreen() {
       <div style={{ display: isLoading ? 'flex' : 'none'}} className="fixed w-screen z-100 h-screen flex items-center justify-center flex-col">
         <div style={{
           clipPath: `inset(${progress}% 0 0 0)`,
-          transition: 'clip-path 0.5s ease-out'
+          transition: 'clip-path 0.2s linear'
         }} className='absolute bg-background size-full'></div>
         <div className='relative size-64'>
           <Image

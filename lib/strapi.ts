@@ -16,6 +16,7 @@ const dbResult = tryCatchSync(() => {
 // Verificação simplificada da disponibilidade
 export const checkStrapiAvailability = async () => {
   if (dbResult.isErr()) {
+    console.error('Erro ao conectar ao Strapi:', dbResult.error.message);
     return err(dbResult.error);
   }
 

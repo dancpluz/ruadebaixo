@@ -1,4 +1,5 @@
 // import localFont from "next/font/local";
+import LoadingScreen from "@/components/LoadingScreen";
 import "./globals.css";
 import AnimatedCursor from '@/components/AnimatedCursor'
 
@@ -21,8 +22,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="pt-BR">
-      <AnimatedCursor selector=".custom-cursor" aniPath="/wag.ani" />
       <body className='custom-cursor antialiased min-h-screen flex flex-col relative'>
+        <LoadingScreen />
+        <AnimatedCursor selector=".custom-cursor" aniPath="/wag.ani" />
         {children}
       </body>
     </html>

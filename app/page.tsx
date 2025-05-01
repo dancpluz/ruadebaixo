@@ -1,46 +1,22 @@
-import LoadingScreen from "@/components/LoadingScreen"
 import { UserInfoResponse, UserMediasResponse } from "@/types/instagram"
 import Link from "next/link"
 import { Suspense } from "react"
 import Image from 'next/image';
-
-const randomColor = (() => {
-  const randomInt = (min: number, max: number) => {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-  };
-
-  return () => {
-    var h = randomInt(0, 360);
-    var s = randomInt(42, 98);
-    var l = randomInt(40, 90);
-    return `hsl(${h},${s}%,${l}%)`;
-  };
-})();
+import { ICONS } from "@/lib/const";
+import { checkStrapiAvailability } from "@/lib/strapi";
+import { getArtists } from "./actions/db/read";
+import { generateRandomColor } from "@/lib/utils";
 
 export default async function Landing() {
+  const availabilityResult = await checkStrapiAvailability();
+  if (availabilityResult.isErr()) return <pre>Erro \n{JSON.stringify(availabilityResult,null,2)}</pre>
 
-  const icons = [
-    { src: '/paint/star.webp', alt: 'Ícone Estrela' },
-    { src: '/paint/rectangle-dotted.webp', alt: 'Ícone Retângulo Pontilhado' },
-    { src: '/paint/eraser.webp', alt: 'Ícone Borracha' },
-    { src: '/paint/bucket.webp', alt: 'Ícone Balde de Tinta' },
-    { src: '/paint/drop.webp', alt: 'Ícone Gota' },
-    { src: '/paint/magnify.webp', alt: 'Ícone Lupa' },
-    { src: '/paint/pencil.webp', alt: 'Ícone Lápis' },
-    { src: '/paint/brush.webp', alt: 'Ícone Pincel' },
-    { src: '/paint/spray.webp', alt: 'Ícone Spray' },
-    { src: '/paint/text.webp', alt: 'Ícone Texto' },
-    { src: '/paint/line.webp', alt: 'Ícone Linha' },
-    { src: '/paint/curve.webp', alt: 'Ícone Curva' },
-    { src: '/paint/rectangle.webp', alt: 'Ícone Retângulo' },
-    { src: '/paint/shape.webp', alt: 'Ícone Forma' },
-    { src: '/paint/oval.webp', alt: 'Ícone Oval' },
-    { src: '/paint/rounded.webp', alt: 'Ícone Retângulo Arredondado' },
-  ]
+  const artists = await getArtists();
+  //console.log(artists)
 
   return (
     <>
-      <LoadingScreen />
+      <pre>{JSON.stringify(artists,null,2)}</pre>
       <div className='h-screen relative flex flex-col items-center justify-center px-64'>
         <Image
           src='/wallpaper.webp'
@@ -70,7 +46,7 @@ export default async function Landing() {
             <div className='flex'>
               <div className='flex p-2 flex-col gap-2 border-r border-border'>
                 <div className='grid grid-cols-2 grid-flow-row'>
-                  {icons.map((icon, i) => (
+                  {ICONS.map((icon, i) => (
                     <div className='relative size-8 hover:outline-1 outline-border rounded-sm' key={i}>
                       <Image
                         key={i}
@@ -110,7 +86,7 @@ export default async function Landing() {
             </div>
             <div className='grid grid-rows-2 grid-flow-col gap-0.5'>
               {Array(28).fill(0).map((_, i) => (
-                <div key={i} style={{ background: randomColor() }} className='hover:opacity-80 size-5 inset-bevel-bg' />
+                <div key={i} style={{ background: generateRandomColor() }} className='hover:opacity-80 size-5 inset-bevel-bg' />
               ))}
             </div>
             <button className='absolute-center h-[70%] text-sx'>GERAR ARTE</button>
