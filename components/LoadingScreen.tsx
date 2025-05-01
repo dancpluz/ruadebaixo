@@ -2,33 +2,17 @@
 
 import { useEffect, useState } from 'react'
 import Image from 'next/image'
+import useProgressLoader from '@/hooks/useProgressLoader'
 
 export default function LoadingScreen() {
-  const [progress, setProgress] = useState(0)
-  const [isLoading, setIsLoading] = useState(true)
-
-  useEffect(() => {
-    const steps = [25, 50, 75, 100]
-    let currentStep = 0
-
-    const interval = setInterval(() => {
-      if (currentStep < steps.length) {
-        setProgress(steps[currentStep])
-        currentStep++
-      } else {
-        clearInterval(interval)
-        setIsLoading(false)
-      }
-    }, 750) // 3 seconds total for 4 steps
-
-    return () => clearInterval(interval)
-  }, [isLoading])
-
-  //if (!isLoading) return null
+  const { progress, isLoading, resetLoading } = useProgressLoader({
+    steps: [25, 50, 75, 100],
+    interval: 750
+  })
 
   return (
     <>
-      <button onClick={() => { setProgress(0); setIsLoading(true) }}>RESET</button>
+      <button onClick={() => resetLoading()}>RESET</button>
       <div style={{ display: isLoading ? 'flex' : 'none'}} className="fixed w-screen z-100 h-screen flex items-center justify-center flex-col">
         <div style={{
           clipPath: `inset(${progress}% 0 0 0)`,

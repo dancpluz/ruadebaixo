@@ -1,3 +1,10 @@
+import { clsx, type ClassValue } from "clsx"
+import { twMerge } from "tailwind-merge"
+
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs))
+}
+
 export function checkEnvVars(envVars: string[]) {
   envVars.forEach(envVar => {
     if (!process.env[envVar]) {
@@ -6,8 +13,8 @@ export function checkEnvVars(envVars: string[]) {
   });
 }
 
-export function buildImgUrl(url?: string) {
-  return url ? process.env.NEXT_PUBLIC_STRAPI_API_URL + url :  undefined;
+export function buildImgUrl(url: string): string {
+  return process.env.NEXT_PUBLIC_STRAPI_API_URL + url;
 }
 
 export function generateRandomColor(): string {

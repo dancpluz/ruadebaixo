@@ -7,9 +7,9 @@
   - [x] Estilo windows xp
   - [x] Fundo windows xp
   - [x] Puxar do banco de dados
-  - [ ] Mostrar imagens puxadas
+  - [x] Mostrar imagens puxadas
   - [ ] Gerador aleatorio
-  - [ ] Animar aparecendo imagem
+  - [x] Animar aparecendo imagem
   - [ ] Clips animado
   - [ ] Texto animado na fala do clips
   - [x] Layout do paint
