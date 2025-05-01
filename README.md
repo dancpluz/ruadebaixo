@@ -1,5 +1,6 @@
-- [ ] Mouse diferente
-- [ ] Tela de Loading
+- [x] Mouse diferente
+- [x] Tela de Loading
+- [ ] Tela de Erro
 - [ ] Animação chatgpt pegando fogo
 - [ ] Metadata SEO
 - [ ] Gerador de arte

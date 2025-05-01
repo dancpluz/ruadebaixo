@@ -11,6 +11,9 @@ importers:
       '@strapi/client':
         specifier: ^1.2.0
         version: 1.2.0
+      ani-cursor:
+        specifier: ^0.0.5
+        version: 0.0.5
       motion:
         specifier: ^12.9.0
         version: 12.9.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
@@ -676,6 +679,9 @@ packages:
   ajv@6.12.6:
     resolution: {integrity: sha512-j3fVLgvTo527anyYyJOGTYJbG+vnnQYvE0m5mmkc1TK+nxAppkCLMIL0aZ4dblVCNoGShhm+kzE4ZUykBoMg4g==}
 
+  ani-cursor@0.0.5:
+    resolution: {integrity: sha512-gGxst72lG9TOwEfbVpX9vHhzUGw+4Ee2XB6AfYq5JP+bxBtpAjgnTBepCVxYF5t1TPrWHN23nWqLTflJOA3/ag==}
+
   ansi-styles@4.3.0:
     resolution: {integrity: sha512-zbB9rCJAT1rbjiVDb2hqKFHNYLxgtk8NURxZ3IZwD3F6NtxbXZQCnnSi1Lkx+IDohdPlFp222wVALIheZJQSEg==}
     engines: {node: '>=8'}
@@ -754,6 +760,10 @@ packages:
   busboy@1.6.0:
     resolution: {integrity: sha512-8SFQbg/0hQ9xy3UNTB0YEnsNBbWfhf7RtnzpL7TkBiTBRfrQ9Fxcnz7VJsleJpyp6rVLvXiuORqjlHi5q+PYuA==}
     engines: {node: '>=10.16.0'}
+
+  byte-data@18.1.1:
+    resolution: {integrity: sha512-Kv/B0r7adgnCcrs/y703sac2XFLdHW5kPfis1j8+Ij/hmEcWhBKf+1pNTv+vsNqXb207Uiyri8bpnogNxR/4Lg==}
+    engines: {node: '>=8'}
 
   call-bind-apply-helpers@1.0.2:
     resolution: {integrity: sha512-Sp1ablJ0ivDkSzjcaJdxEunN5/XvksFJ2sMBFfq6x0ryhQV/2b/KwFe21cMpmHtPOSij8K99/wSfoEuTObmuMQ==}
@@ -874,6 +884,10 @@ packages:
 
   emoji-regex@9.2.2:
     resolution: {integrity: sha512-L18DaJsXSUk2+42pv8mLs5jJT2hqFkFE4j21wOmgbUqsZ2hL72NsUU785g9RXgo3s0ZNgVl42TiHp3ZtOv/Vyg==}
+
+  endianness@8.0.2:
+    resolution: {integrity: sha512-IU+77+jJ7lpw2qZ3NUuqBZFy3GuioNgXUdsL1L9tooDNTaw0TgOnwNuc+8Ns+haDaTifK97QLzmOANJtI/rGvw==}
+    engines: {node: '>=8'}
 
   enhanced-resolve@5.18.1:
     resolution: {integrity: sha512-ZSW3ma5GkcQBIpwZTSRAI8N71Uuwgs93IezB7mf7R60tC8ZbJideoDNKjHn2O9KIlx6rkGTTEk1xUCK2E1Y2Yg==}
@@ -1176,6 +1190,10 @@ packages:
   hasown@2.0.2:
     resolution: {integrity: sha512-0hJU9SCPvmMzIBdZFqNPXWa6dqh7WdH0cII9y+CyS8rG3nL48Bclra9HmKhVVUHyPWNH5Y7xDwAB7bfgSjkUMQ==}
     engines: {node: '>= 0.4'}
+
+  ieee754-buffer@2.0.0:
+    resolution: {integrity: sha512-AXUAT0nMEi7h1Is8HXGXof3eejl/GabZFKSj8Ym6kVRUSwrAb52EkAXywiCQYSHGQMRn7lvfY7vhPMjVc+Kybg==}
+    engines: {node: '>=8'}
 
   ignore@5.3.2:
     resolution: {integrity: sha512-hsBTNUqQTDwkWtcdYI2i06Y/nUBEsNEDJKjWdigLvegy8kDuJAS8uRlpkkcQpyEXL0Z/pjDy5HBmMjRCJ2gq+g==}
@@ -1673,6 +1691,10 @@ packages:
     resolution: {integrity: sha512-g6QUff04oZpHs0eG5p83rFLhHeV00ug/Yf9nZM6fLeUrPguBTkTQOdpAWWspMh55TZfVQDPaN3NQJfbVRAxdIw==}
     engines: {iojs: '>=1.0.0', node: '>=0.10.0'}
 
+  riff-file@1.0.3:
+    resolution: {integrity: sha512-Vv8wwGr0BCks7VMI3Lv0houZee4DaHFjjTT0LMhMJKio2YmLncLeIVpK63ydSverngNk8XQPU3fbeP3bWgSIig==}
+    engines: {node: '>=8'}
+
   run-parallel@1.2.0:
     resolution: {integrity: sha512-5l4VyZR86LZ/lDxZTR6jqL8AFE2S0IFLMP26AbjsLVADxHdhB/c0GUsH+y39UfCi3dzz8OlQuPmnaJOMoDHQBA==}
 
@@ -1875,6 +1897,10 @@ packages:
 
   uri-js@4.4.1:
     resolution: {integrity: sha512-7rKUyy33Q1yc98pQ1DAmLtwX109F7TIfWlW1Ydo8Wl1ii1SeHieeh0HHfPeL2fMXK6z0s8ecKs9frCuLJvndBg==}
+
+  utf8-buffer@1.0.0:
+    resolution: {integrity: sha512-ueuhzvWnp5JU5CiGSY4WdKbiN/PO2AZ/lpeLiz2l38qwdLy/cW40XobgyuIWucNyum0B33bVB0owjFCeGBSLqg==}
+    engines: {node: '>=8'}
 
   web-vitals@4.2.4:
     resolution: {integrity: sha512-r4DIlprAGwJ7YM11VZp4R884m0Vmgr6EAKe3P+kO0PPj3Unqyvv59rczf6UiGcb9Z8QxZVcqKNwv/g0WNdWwsw==}
@@ -2427,6 +2453,11 @@ snapshots:
       json-schema-traverse: 0.4.1
       uri-js: 4.4.1
 
+  ani-cursor@0.0.5:
+    dependencies:
+      byte-data: 18.1.1
+      riff-file: 1.0.3
+
   ansi-styles@4.3.0:
     dependencies:
       color-convert: 2.0.1
@@ -2530,6 +2561,12 @@ snapshots:
   busboy@1.6.0:
     dependencies:
       streamsearch: 1.1.0
+
+  byte-data@18.1.1:
+    dependencies:
+      endianness: 8.0.2
+      ieee754-buffer: 2.0.0
+      utf8-buffer: 1.0.0
 
   call-bind-apply-helpers@1.0.2:
     dependencies:
@@ -2650,6 +2687,8 @@ snapshots:
       gopd: 1.2.0
 
   emoji-regex@9.2.2: {}
+
+  endianness@8.0.2: {}
 
   enhanced-resolve@5.18.1:
     dependencies:
@@ -3101,6 +3140,8 @@ snapshots:
   hasown@2.0.2:
     dependencies:
       function-bind: 1.1.2
+
+  ieee754-buffer@2.0.0: {}
 
   ignore@5.3.2: {}
 
@@ -3583,6 +3624,10 @@ snapshots:
 
   reusify@1.1.0: {}
 
+  riff-file@1.0.3:
+    dependencies:
+      byte-data: 18.1.1
+
   run-parallel@1.2.0:
     dependencies:
       queue-microtask: 1.2.3
@@ -3878,6 +3923,8 @@ snapshots:
   uri-js@4.4.1:
     dependencies:
       punycode: 2.3.1
+
+  utf8-buffer@1.0.0: {}
 
   web-vitals@4.2.4: {}
 

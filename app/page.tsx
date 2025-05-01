@@ -18,39 +18,6 @@ const randomColor = (() => {
 })();
 
 export default async function Landing() {
-  // const login = await fetch(`${process.env.INSTAGRAM_API_URL!}/auth/login_by_sessionid`, {
-  //   method: 'POST',
-  //   body: JSON.stringify({
-  //     sessionid: process.env.SESSION_ID,
-  //   }),
-  //   headers: {
-  //     'Content-Type': 'application/json',
-  //     'Accept': 'application/json',
-  //   },
-  // }).then((res) => res.json())
-
-  const user: UserInfoResponse = await fetch(`${process.env.INSTAGRAM_API_URL!}/user/info_by_username`, {
-    method: 'POST',
-    body: new URLSearchParams({
-      sessionid: process.env.SESSION_ID!,
-      username: 'dancpluz',
-    }),
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
-    },
-  }).then((res) => res.json())
-
-  const posts: UserMediasResponse = await fetch(`${process.env.INSTAGRAM_API_URL!}/media/user_medias`, {
-    method: 'POST',
-    body: new URLSearchParams({
-      sessionid: process.env.SESSION_ID!,
-      user_id: user.pk,
-      amount: 6,
-    }),
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
-    },
-  }).then((res) => res.json())
 
   const icons = [
     { src: '/paint/star.webp', alt: 'Ícone Estrela' },

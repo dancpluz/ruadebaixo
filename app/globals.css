@@ -21,11 +21,10 @@
 } */
 
 @layer {
-  /* :root {
-    -webkit-font-smoothing: antialiased;
-    --radius: 0.5rem;
-  } */
-
+  .custom-cursor * {
+    cursor: inherit !important;
+  }
+  
   body {
     background: var(--color-background);
     color: var(--color-foreground);

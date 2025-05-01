@@ -1,5 +1,6 @@
 // import localFont from "next/font/local";
 import "./globals.css";
+import AnimatedCursor from '@/components/AnimatedCursor'
 
 // const clashDisplay = localFont({
 //   src: "./fonts/ClashDisplay-Variable.ttf",
@@ -20,7 +21,8 @@ export default function RootLayout({
 }) {
   return (
     <html lang="pt-BR">
-      <body className='antialiased min-h-screen flex flex-col relative'>
+      <AnimatedCursor selector=".custom-cursor" aniPath="/wag.ani" />
+      <body className='custom-cursor antialiased min-h-screen flex flex-col relative'>
         {children}
       </body>
     </html>
