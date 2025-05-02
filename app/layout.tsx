@@ -2,6 +2,10 @@
 import LoadingScreen from "@/components/LoadingScreen";
 import "./globals.css";
 import AnimatedCursor from '@/components/AnimatedCursor'
+import { GeneratorProvider } from "@/hooks/useGeneratorContext";
+import { getArtists } from "./actions/strapi";
+import { checkStrapiAvailability } from "@/lib/strapi";
+import { ArtistEntity } from "@/types/strapi";
 
 // const clashDisplay = localFont({
 //   src: "./fonts/ClashDisplay-Variable.ttf",
@@ -15,17 +19,28 @@ import AnimatedCursor from '@/components/AnimatedCursor'
 //   display: 'swap',
 // });
 
-export default function RootLayout({
+export const dynamic = 'force-dynamic'
+
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
+  const availabilityResult = await checkStrapiAvailability();
+  if (availabilityResult.isErr()) return <pre>Erro \n{JSON.stringify(availabilityResult,null,2)}</pre>
+
+  const resultArtists = await getArtists();
+  if (resultArtists.isErr()) return <pre>Erro \n{JSON.stringify(resultArtists,null,2)}</pre>
+  const initialArtists = resultArtists.value.data as ArtistEntity[]
+
   return (
     <html lang="pt-BR">
       <body className='custom-cursor antialiased min-h-screen flex flex-col relative'>
         <LoadingScreen />
         <AnimatedCursor selector=".custom-cursor" aniPath="/wag.ani" />
-        {children}
+        <GeneratorProvider initialArtists={initialArtists}>
+          {children}
+        </GeneratorProvider>
       </body>
     </html>
   );

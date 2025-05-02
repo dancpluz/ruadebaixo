@@ -3,13 +3,15 @@
 - [ ] Tela de Erro
 - [ ] Animação chatgpt pegando fogo
 - [ ] Metadata SEO
+- [x] Loading organico randomizado
 - [ ] Gerador de arte
   - [x] Estilo windows xp
   - [x] Fundo windows xp
   - [x] Puxar do banco de dados
   - [x] Mostrar imagens puxadas
-  - [ ] Gerador aleatorio
+  - [x] Gerador aleatorio
   - [x] Animar aparecendo imagem
+  - [x] Caixa de texto clips
   - [ ] Clips animado
   - [ ] Texto animado na fala do clips
   - [x] Layout do paint
@@ -24,6 +26,7 @@
   - [ ] Interatividade cards instagram
   - [ ] Fundo de fogo
 - [ ] Sessão final
+- [ ] Som
 - [ ] Deploy
 - [ ] Autenticação da api do instagram
 

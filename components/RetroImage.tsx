@@ -13,8 +13,8 @@ interface RetroImageProps {
 
 export default function RetroImage({ image, className, style }: RetroImageProps) {
   const { progress, isLoading, setIsLoading } = useProgressLoader({
-    steps: [25, 50, 75, 100],
-    interval: 750
+    steps: [12, 25, 37, 50, 62, 75, 87, 100],
+    interval: 700
   })
   
   if (!image) {
@@ -28,21 +28,19 @@ export default function RetroImage({ image, className, style }: RetroImageProps)
   // }
 
   return (
-    <>
-      <Image
-        alt={image.alternativeText || 'Imagem gerada de artista real'}
-        src={buildImgUrl(image.url)}
-        width={image.width}
-        height={image.height}
-        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-        className={cn(`border-2 border-border object-contain max-w-[${image.width}px] max-h-[${image.width}px] `, className)}
-        onLoad={() => setIsLoading(false)}
-        style={{
-          clipPath: `inset(${100 - progress}% 0 0 0)`,
-          //transition: 'clip-path 0.8s linear',
-          ...style
-        }}
-      />
-    </>
+    <Image
+      alt={image.alternativeText || 'Imagem gerada de artista real'}
+      src={buildImgUrl(image.url)}
+      width={image.width}
+      height={image.height}
+      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+      className={cn(`border-2 border-border object-contain max-w-[${image.width}px] max-h-[${image.width}px] `, className)}
+      onLoad={() => setIsLoading(false)}
+      style={{
+        clipPath: `inset(0 0 ${100 - progress}% 0)`,
+        //transition: 'clip-path 0.8s linear',
+        ...style
+      }}
+    />
   )
 }

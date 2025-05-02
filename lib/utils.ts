@@ -27,3 +27,16 @@ export function generateRandomColor(): string {
 
   return `hsl(${hue},${saturation}%,${lightness}%)`;
 }
+
+export function getRandomArrayElement<T extends { id: number }>(arr: T[], previousId?: number): T | undefined {
+  if (arr.length === 0) return undefined;
+
+  const availableItems = previousId ? arr.filter(item => item.id !== previousId) : arr
+
+  if (availableItems.length === 0) return arr[0];
+
+  const randomIndex = Math.floor(Math.random() * availableItems.length);
+  const selected = availableItems[randomIndex];
+
+  return selected;
+}
