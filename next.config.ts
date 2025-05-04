@@ -20,6 +20,11 @@ const nextConfig: NextConfig = {
         hostname: 'ia.ruadebaixo.com.br',
         pathname: '/uploads/**',
       },
+      {
+        protocol: 'https',
+        hostname: '*.cdninstagram.com',
+        //pathname: '/v/**',
+      },
     ]
   },
 };

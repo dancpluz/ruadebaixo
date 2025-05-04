@@ -19,7 +19,8 @@
   - [ ] Botão de gerar
   - [ ] Seta animada
 - [ ] Seção instagram
-  - [ ] Puxar dados da api instagram
+  - [x] Puxar dados da api instagram
+  - [ ] Melhorar api
   - [ ] Layout caixa antiga
   - [ ] Efeito paralax
   - [ ] Posição aleatoria pros cards

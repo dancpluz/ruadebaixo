@@ -14,7 +14,7 @@ async function loginToInstagram(): Promise<any> {
   }).then((res) => res.json());
 }
 
-async function getUserInfo(username: string): Promise<UserInfoResponse> {
+export async function getUserInfo(username: string): Promise<UserInfoResponse> {
   return await fetch(`${process.env.INSTAGRAM_API_URL!}/user/info_by_username`, {
     method: 'POST',
     body: new URLSearchParams({
@@ -27,7 +27,7 @@ async function getUserInfo(username: string): Promise<UserInfoResponse> {
   }).then((res) => res.json());
 }
 
-async function getUserPosts(userId: string, amount: number): Promise<UserMediasResponse> {
+export async function getUserPosts(userId: string, amount: number): Promise<UserMediasResponse> {
   return await fetch(`${process.env.INSTAGRAM_API_URL!}/media/user_medias`, {
     method: 'POST',
     body: new URLSearchParams({
