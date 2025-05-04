@@ -16,3 +16,15 @@ export const ICONS = [
   { src: '/paint/oval.webp', alt: 'Ícone Oval' },
   { src: '/paint/rounded.webp', alt: 'Ícone Retângulo Arredondado' },
 ]
+
+export const GIF_DURATIONS: { [key: string]: number } = {
+  '/clippy/clippy0.gif': 0, // Idle state
+  '/clippy/clippy1.gif': 2650,
+  '/clippy/clippy2.gif': 2250,
+  '/clippy/clippy3.gif': 4500,
+  '/clippy/clippy4.gif': 8100,
+  '/clippy/clippy5.gif': 8400,
+  '/clippy/clippy6.gif': 13600,
+}
+
+// ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 clippy6.gif

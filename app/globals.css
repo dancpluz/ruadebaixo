@@ -26,6 +26,17 @@
     cursor: inherit !important;
     image-rendering: crisp-edges;
     image-rendering: pixelated;
+    -webkit-touch-callout: none;
+    /* iOS Safari */
+    -webkit-user-select: none;
+    /* Safari */
+    -khtml-user-select: none;
+    /* Konqueror HTML */
+    -moz-user-select: none;
+    /* Old versions of Firefox */
+    -ms-user-select: none;
+    /* Internet Explorer/Edge */
+    user-select: none;
   }
   
   body {
@@ -69,6 +80,17 @@
 
     to {
       left: 100%;
+    }
+  }
+
+  @keyframes clippy-float {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+
+    50% {
+      transform: translateY(-8px);
     }
   }
 }
@@ -120,5 +142,10 @@
   .clippy-text::before {
     @apply absolute inset-0 bg-textbox;
     content: '';
+  }
+  
+  .clippy-float {
+    animation: clippy-float 3s ease-in-out infinite;
+    filter: drop-shadow(4px 4px 4px rgba(0, 0, 0, 0.568));
   }
 }

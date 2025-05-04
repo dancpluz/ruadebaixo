@@ -12,9 +12,10 @@
   - [x] Gerador aleatorio
   - [x] Animar aparecendo imagem
   - [x] Caixa de texto clips
-  - [ ] Clips animado
-  - [ ] Texto animado na fala do clips
+  - [x] Clips animado
+  - [x] Texto animado na fala do clips
   - [x] Layout do paint
+  - [ ] Texto melhor para clippy
   - [ ] Botão de gerar
   - [ ] Seta animada
 - [ ] Seção instagram
@@ -26,9 +27,12 @@
   - [ ] Interatividade cards instagram
   - [ ] Fundo de fogo
 - [ ] Sessão final
-- [ ] Som
 - [ ] Deploy
 - [ ] Autenticação da api do instagram
 
 # Backlog:
+- [ ] Clipes flutuando
+- [ ] Mudar amostras de acordo com imagem gerada
+- [ ] Som
+- [ ] Fundo animado (https://www.youtube.com/watch?v=bNHsAdHLaCA)
 

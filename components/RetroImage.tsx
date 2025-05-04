@@ -14,7 +14,7 @@ interface RetroImageProps {
 export default function RetroImage({ image, className, style }: RetroImageProps) {
   const { progress, isLoading, setIsLoading } = useProgressLoader({
     steps: [12, 25, 37, 50, 62, 75, 87, 100],
-    interval: 700
+    interval: 500
   })
   
   if (!image) {
