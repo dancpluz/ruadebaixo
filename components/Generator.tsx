@@ -20,7 +20,7 @@ export default function Generator() {
         </div>
       </div>
       <div className="window-body mx-1 flex grow flex-col">
-        <div className="window-body-content font-normal flex items-center border-b border-border lg:*:text-sm *:text-sx *:text-black *:px-2 *:py-1 *:hover:bg-border/20 overflow-hidden">
+        <div className="font-normal flex items-center border-b border-border lg:*:text-sm *:text-sx *:text-black *:px-2 *:py-1 *:hover:bg-border/20 overflow-hidden">
           <p>Arquivo</p>
           <p>Editar</p>
           <p>Exibir</p>

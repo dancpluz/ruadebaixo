@@ -1,6 +1,7 @@
 - [x] Mouse diferente
 - [x] Tela de Loading
 - [ ] Tela de Erro
+- [ ] 404
 - [ ] Animação chatgpt pegando fogo
 - [ ] Metadata SEO
 - [x] Loading organico randomizado
@@ -21,11 +22,11 @@
 - [ ] Seção instagram
   - [x] Puxar dados da api instagram
   - [ ] Melhorar api
-  - [ ] Layout caixa antiga
+  - [x] Layout caixa antiga
   - [ ] Efeito paralax
   - [ ] Posição aleatoria pros cards
   - [ ] Animação cards
-  - [ ] Interatividade cards instagram
+  - [x] Interatividade cards instagram
   - [ ] Fundo de fogo
 - [ ] Sessão final
 - [ ] Deploy
