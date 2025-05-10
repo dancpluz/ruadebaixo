@@ -19,7 +19,7 @@ import { ArtistEntity } from "@/types/strapi";
 //   display: 'swap',
 // });
 
-export const dynamic = 'force-dynamic'
+//export const dynamic = 'force-dynamic'
 
 export default async function RootLayout({
   children,

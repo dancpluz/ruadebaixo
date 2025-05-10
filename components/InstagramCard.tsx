@@ -1,15 +1,17 @@
-import { getUserInfo } from '@/app/actions/instagram'
+import { getUserInfo, getUserPosts } from '@/app/actions/instagram'
 import React from 'react'
 import Image from 'next/image';
-import { HTTPValidationError, User } from '@/types/instagram';
+import { HTTPValidationError, Media, User } from '@/types/instagram';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
+import Popup from 'reactjs-popup';
+import Tooltip from './Tooltip';
 
 export default async function InstagramCard() {
-  const result = await getUserInfo('dancpluz')
+  const userResult = await getUserInfo('dancpluz')
   let user;
-  if (result.details) {
-    user = result as HTTPValidationError
+  if (userResult.details) {
+    user = userResult as HTTPValidationError
     return (
       <div className='window relative min-w-64'>
         <div className="title-bar-text flex items-center gap-1 text-sx">
@@ -33,10 +35,39 @@ export default async function InstagramCard() {
       </div>
     )
   } else {
-    user = result as User
+    user = userResult as User
   }
 
-  const { username, full_name, profile_pic_url_hd, biography, media_count, follower_count, following_count } = user
+  const { username, full_name, profile_pic_url_hd, biography, media_count, follower_count, following_count, pk } = user
+
+  const mediasResult = await getUserPosts(pk, 9)
+  if (mediasResult.details) {
+    const medias = mediasResult as HTTPValidationError
+    return (
+      <div className='window relative min-w-64'>
+        <div className="title-bar-text flex items-center gap-1 text-sx">
+          <h1 className="title-bar-text flex items-center gap-1 text-sx">
+            <Image
+              src='/insta.svg'
+              alt='Instagram Logo'
+              width={20}
+              height={20}
+              className='object-cover rounded-full'
+            />
+            FCK IA - Erro
+          </h1>
+        </div>
+        <div className="window-body mx-1 flex grow flex-col">
+          <div className="text-foreground">
+            <h1 className='text-2xl font-bold'>Erro ao buscar publicações</h1>
+            <p className='text-sm'>{medias.details[0].msg}</p>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  const medias = mediasResult as Media[]
 
   return (
     <>
@@ -106,7 +137,7 @@ export default async function InstagramCard() {
             </div>
             <div className='flex flex-col p-2 border-b border-border'>
               <h1 className='text-[1rem] font-bold'>{full_name}</h1>
-              <p className='text-sm'>{JSON.stringify(biography)}</p>
+              <p className='text-sm whitespace-pre-line'>{biography}</p>
             </div>
             <div className='flex grow gap-0.5'>
               <SocialTabsButtons href={`https://instagram.com/${username}`} imageSrc='/insta/cam.webp' active />
@@ -114,16 +145,10 @@ export default async function InstagramCard() {
               <SocialTabsButtons href={`https://instagram.com/${username}/tagged`} imageSrc='/insta/globe.webp' />
             </div>
             <div className='grid grid-cols-3 gap-0.5'>
-              {Array.from({ length: 9 }).map((_, index) => (
-              <div key={index} className='relative w-full aspect-square bg-border'>
-                <Image
-                src={`/gpt.png`}
-                alt={`Image ${index + 1}`}
-                className='size-full object-cover'
-                fill
-                />
-              </div>
-              ))}
+              {/* <pre>
+                {JSON.stringify(medias[0].resources[0], null, 2)}
+              </pre> */}
+              {medias.map(media => <InstagramMedia key={media.pk} media={media} />)}
             </div>
             <div className='flex grow gap-0.5'>
               <SocialTabsButtons href={`https://instagram.com/${username}`} imageSrc='/insta/magnify.webp' />
@@ -172,5 +197,28 @@ function SocialTabsButtons({ href, imageSrc, active }: { href: string, imageSrc:
         />
       </button>
     </Link>
+  )
+}
+
+function InstagramMedia({ media }: { media: Media }) {
+  const firstResource = media.resources[0]
+  return (
+    <Tooltip
+      key={media.pk}
+      trigger={
+        <div className='relative w-full aspect-square bg-border hover:opacity-80'>
+          <Image
+            src={firstResource.thumbnail_url}
+            alt={media.caption_text}
+            className='size-full object-cover'
+            fill
+          />
+        </div>
+      }
+    >
+      <div className="bg-background text-sm font-pixelated text-foreground py-1 px-2 rounded-sm border-border border max-w-[250px] whitespace-pre-line">
+        {media.caption_text}
+      </div>
+    </Tooltip>
   )
 }

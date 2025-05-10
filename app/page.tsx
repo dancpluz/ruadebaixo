@@ -1,7 +1,6 @@
 import Image from 'next/image';
 import Generator from "@/components/Generator";
 import InstagramCard from '@/components/InstagramCard';
-import client from '@/lib/apify';
 
 export default async function Landing() {
   return (

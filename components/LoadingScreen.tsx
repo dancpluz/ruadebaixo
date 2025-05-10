@@ -1,6 +1,5 @@
 'use client'
 
-import { useEffect, useState } from 'react'
 import Image from 'next/image'
 import useProgressLoader from '@/hooks/useProgressLoader'
 
@@ -18,13 +17,13 @@ export default function LoadingScreen() {
           clipPath: `inset(${progress}% 0 0 0)`,
           transition: 'clip-path 0.2s linear'
         }} className='absolute bg-background size-full'></div>
-        <div className='relative size-64'>
+        <div className='relative h-64 w-92'>
           <Image
             style={{
               clipPath: `inset(0 ${100 - progress}% 0 0)`,
               //transition: 'clip-path 0.5s ease-out'
             }}
-            src='/logo.webp'
+            src='/fck-ia-logo.png'
             alt='Logo'
             fill
             className="size-full object-contain"
