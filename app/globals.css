@@ -93,6 +93,26 @@
       transform: translateY(-8px);
     }
   }
+
+    @keyframes loading-dots {
+      0%, 20% {
+        content: '.';
+      }
+      40% {
+        content: '..';
+      }
+      60%, 100% {
+        content: '...';
+      }
+    }
+  
+    .loading-dots::after {
+      content: '...';
+      animation: loading-dots 1.5s infinite;
+      /* font-family: "MS Sans Serif", Arial; */
+      display: inline-block;
+      width: 3ch;
+      text-align: left; }
 }
 
 @layer utilities {

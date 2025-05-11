@@ -6,6 +6,8 @@ import { GeneratorProvider } from "@/hooks/useGeneratorContext";
 import { getArtists } from "./actions/strapi";
 import { checkStrapiAvailability } from "@/lib/strapi";
 import { ArtistEntity } from "@/types/strapi";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import Providers from "./providers";
 
 // const clashDisplay = localFont({
 //   src: "./fonts/ClashDisplay-Variable.ttf",
@@ -38,9 +40,9 @@ export default async function RootLayout({
       <body className='custom-cursor antialiased min-h-screen flex flex-col relative'>
         <LoadingScreen />
         <AnimatedCursor selector=".custom-cursor" aniPath="/wag.ani" />
-        <GeneratorProvider initialArtists={initialArtists}>
+        <Providers initialArtists={initialArtists}>
           {children}
-        </GeneratorProvider>
+        </Providers>
       </body>
     </html>
   );

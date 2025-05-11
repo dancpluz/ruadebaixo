@@ -19,13 +19,20 @@
   - [ ] Texto melhor para clippy
   - [ ] Botão de gerar
   - [ ] Seta animada
+  - [ ] Error state
 - [ ] Seção instagram
+  - [ ] Degrade entre a outra sessão
   - [x] Puxar dados da api instagram
   - [ ] Melhorar api
   - [x] Layout caixa antiga
   - [ ] Efeito paralax
+  - [ ] Seleção aleatoria dos cards
   - [ ] Posição aleatoria pros cards
   - [ ] Animação cards
+  - [x] Imagens animadas
+  - [x] Descrição de posts
+  - [x] Loading State
+  - [ ] Error state
   - [x] Interatividade cards instagram
   - [ ] Fundo de fogo
 - [ ] Sessão final
@@ -33,7 +40,8 @@
 - [ ] Autenticação da api do instagram
 
 # Backlog:
-- [ ] Clipes flutuando
+- [ ] Exportar imagem do insta vintage
+- [x] Clipes flutuando
 - [ ] Mudar amostras de acordo com imagem gerada
 - [ ] Som
 - [ ] Fundo animado (https://www.youtube.com/watch?v=bNHsAdHLaCA)

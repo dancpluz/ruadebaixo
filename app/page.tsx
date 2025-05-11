@@ -1,11 +1,12 @@
 import Image from 'next/image';
 import Generator from "@/components/Generator";
 import InstagramCard from '@/components/InstagramCard';
+import InstagramSection from '@/components/InstagramSection';
 
 export default async function Landing() {
   return (
     <main>
-      {/* <section className='h-screen relative flex flex-col items-center justify-center lg:px-64 px-4'>
+      <section className='h-screen relative flex flex-col items-center justify-center lg:px-64 px-4'>
         <Image
           src='/wallpaper.webp'
           alt='Wallpaper'
@@ -13,9 +14,9 @@ export default async function Landing() {
           fill
         />
         <Generator />
-      </section> */}
+      </section>
       <section className='min-h-screen relative flex flex-col items-center justify-center text-background bg-foreground'>
-        <InstagramCard />
+        <InstagramSection />
       </section>
     </main>
   )

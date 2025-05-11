@@ -14,6 +14,8 @@ interface GeneratorContextType {
   selectRandomArtist: () => void;
   loading: boolean;
   setLoading: React.Dispatch<React.SetStateAction<boolean>>;
+  pagination: number;
+  setPagination: React.Dispatch<React.SetStateAction<number>>;
 }
 
 const GeneratorContext = createContext<GeneratorContextType | undefined>(undefined);
@@ -28,6 +30,7 @@ export const GeneratorProvider = ({ children, initialArtists }: GeneratorProvide
   const [artists, setArtists] = useState<GeneratorContextType['artists']>(initialArtists || []);
   const [currentArtist, setCurrentArtist] = useState<GeneratorContextType['currentArtist']>(undefined);
   const [loading, setLoading] = useState(false);
+  const [pagination, setPagination] = useState(0);
 
   function selectRandomArtist() {
     if (artists.length === 0) return null;
@@ -44,7 +47,9 @@ export const GeneratorProvider = ({ children, initialArtists }: GeneratorProvide
       setCurrentArtist,
       selectRandomArtist,
       loading,
-      setLoading
+      setLoading,
+      pagination,
+      setPagination,
     }}>
       {children}
     </GeneratorContext.Provider>
