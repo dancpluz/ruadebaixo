@@ -16,8 +16,8 @@
   - [x] Clips animado
   - [x] Texto animado na fala do clips
   - [x] Layout do paint
-  - [ ] Texto melhor para clippy
-  - [ ] Botão de gerar
+  - [x] Texto melhor para clippy
+  - [ ] Melhorar Botão de gerar
   - [ ] Seta animada
   - [ ] Error state
 - [ ] Seção instagram
@@ -37,12 +37,13 @@
   - [ ] Fundo de fogo
 - [ ] Sessão final
 - [ ] Deploy
+- [ ] Formulario email
 - [ ] Autenticação da api do instagram
 
 # Backlog:
+- [ ] Mouse diferente ao passar por cima de botão
 - [ ] Exportar imagem do insta vintage
 - [x] Clipes flutuando
 - [ ] Mudar amostras de acordo com imagem gerada
 - [ ] Som
 - [ ] Fundo animado (https://www.youtube.com/watch?v=bNHsAdHLaCA)
-

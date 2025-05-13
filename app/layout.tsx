@@ -2,11 +2,9 @@
 import LoadingScreen from "@/components/LoadingScreen";
 import "./globals.css";
 import AnimatedCursor from '@/components/AnimatedCursor'
-import { GeneratorProvider } from "@/hooks/useGeneratorContext";
 import { getArtists } from "./actions/strapi";
 import { checkStrapiAvailability } from "@/lib/strapi";
 import { ArtistEntity } from "@/types/strapi";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import Providers from "./providers";
 
 // const clashDisplay = localFont({

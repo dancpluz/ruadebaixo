@@ -94,25 +94,27 @@
     }
   }
 
-    @keyframes loading-dots {
-      0%, 20% {
-        content: '.';
-      }
-      40% {
-        content: '..';
-      }
-      60%, 100% {
-        content: '...';
-      }
+  @keyframes loading-dots {
+    0%, 20% {
+      content: '.';
     }
-  
-    .loading-dots::after {
+    40% {
+      content: '..';
+    }
+    60%, 100% {
       content: '...';
-      animation: loading-dots 1.5s infinite;
-      /* font-family: "MS Sans Serif", Arial; */
-      display: inline-block;
-      width: 3ch;
-      text-align: left; }
+    }
+  }
+
+  @keyframes typewriter-line {
+    from {
+      width: 100%
+    }
+
+    to {
+      width: 0
+    }
+  }
 }
 
 @layer utilities {
@@ -156,7 +158,7 @@
   }
 
   .clippy-text {
-    @apply relative w-[max-content];
+    @apply relative overflow-hidden;
   }
   
   .clippy-text::before {
@@ -167,5 +169,14 @@
   .clippy-float {
     animation: clippy-float 3s ease-in-out infinite;
     filter: drop-shadow(4px 4px 4px rgba(0, 0, 0, 0.568));
+  }
+
+  .loading-dots::after {
+    content: '...';
+    animation: loading-dots 1.5s infinite;
+    /* font-family: "MS Sans Serif", Arial; */
+    display: inline-block;
+    width: 3ch;
+    text-align: left;
   }
 }
