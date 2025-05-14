@@ -60,10 +60,10 @@
     font-size: 1.5rem
   } */
   
-  u {
+  /* u {
     text-decoration: none;
     border-bottom: .5px solid var(--color-foreground)
-  }
+  } */
 
   a {
     color: var(--color-accent)

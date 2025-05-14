@@ -21,14 +21,13 @@
   - [ ] Seta animada
   - [ ] Error state
 - [ ] Seção instagram
-  - [ ] Degrade entre a outra sessão
+  - [x] Degrade entre a outra sessão
   - [x] Puxar dados da api instagram
   - [ ] Melhorar api
   - [x] Layout caixa antiga
-  - [ ] Efeito paralax
-  - [ ] Seleção aleatoria dos cards
-  - [ ] Posição aleatoria pros cards
-  - [ ] Animação cards
+  - [x] Seleção aleatoria dos cards
+  - [x] Posição aleatoria pros cards
+  - [x] Efeito erro janelas windows
   - [x] Imagens animadas
   - [x] Descrição de posts
   - [x] Loading State

@@ -57,7 +57,7 @@ export default function InstagramCard({ insta }: { insta: string }) {
   } = user || {};
 
   return (
-    <div className='window relative w-[400px]'>
+    <div className='window w-[400px] max-w-[400px] min-w-[400px] transform transition-transform duration-300 hover:scale-[1.02]'>
       <div className="title-bar max-h-0 min-h-7">
         {isLoadingUser ? 
           <div className='flex items-center gap-1'>
@@ -81,6 +81,8 @@ export default function InstagramCard({ insta }: { insta: string }) {
           </Link>
         }
         <div className="title-bar-controls">
+          <button aria-label="Minimize" />
+          <button aria-label="Maximize" />
           <button aria-label="Close" />
         </div>
       </div>
@@ -160,9 +162,21 @@ export default function InstagramCard({ insta }: { insta: string }) {
             <SocialTabsButtons href={isLoadingUser ? undefined : `https://instagram.com/${username}/reels`} imageSrc='/insta/videocam.webp' />
             <SocialTabsButtons href={isLoadingUser ? undefined : `https://instagram.com/${username}/tagged`} imageSrc='/insta/globe.webp' />
           </div>
-          <div className='grid grid-cols-3 gap-0.5 min-h-[250px]'>
-            {isLoadingMedia || isLoadingUser ? (
-              Array(9).fill(0).map((_, i) => (
+          <div className='relative grid grid-cols-3 gap-0.5 min-h-[250px]'>
+            {isLoadingMedia || isLoadingUser ? 
+            <>
+              <div className='window absolute-center w-[80%]'>
+                <div className="title-bar max-h-0 min-h-7">
+                  <h1 className="title-bar-text text-sx loading-dots">{isLoadingUser ? 'artista carregando' : 'arte carregando'}</h1>
+                  <div className="title-bar-controls">
+                      <button aria-label="Close" />
+                  </div>
+                </div>
+                <div className="window-body p-4 mx-1 flex grow flex-col font-pixelated text-foreground">
+                  <p className='text-xl font-bold loading-dots'>{isLoadingUser ? 'artistas não são algoritmos' : 'arte não é imediata'}</p>
+                </div>
+              </div>
+              {Array(9).fill(0).map((_, i) => (
                 <div key={i} className="aspect-square bg-border flex items-center justify-center">
                   <Image
                     src="/hourglass.webp"
@@ -171,8 +185,8 @@ export default function InstagramCard({ insta }: { insta: string }) {
                     height={48}
                   />
                 </div>
-              ))
-            ) : (
+              ))}
+            </> : (
               medias?.length === 0 || !medias ? 
                   <div className='w-full text-sm font-bold decoration-none py-4 text-foreground col-span-3'>nenhuma publicação</div>
               :
