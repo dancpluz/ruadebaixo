@@ -14,7 +14,7 @@ export default async function Landing() {
           className='absolute w-full h-full object-cover -z-1'
           fill
         />
-        <div className='absolute -top-8 left-1/2 -translate-x-1/2 size-64 z-100'>
+        <div className='absolute hover:scale-110 transition-transform -top-8 left-1/2 -translate-x-1/2 size-64 z-100'>
           <AnimatedImage
             src='/fck-ia-logo.webp'
             alt='FCK AI'
@@ -31,7 +31,7 @@ export default async function Landing() {
           height={128}
         />
       </section>
-      <section className='min-h-screen pt-16 gap-16 relative flex flex-col justify-center text-background bg-foreground'>
+      <section className='min-h-screen pt-16 pb-52 gap-16 relative flex flex-col justify-center text-background bg-foreground'>
         <div className='flex px-4 flex-col items-center gap-6'>
           <AnimatedImage
             src='/burning.gif'
@@ -44,7 +44,15 @@ export default async function Landing() {
         </div>
         <InstagramSection />
       </section>
-      <section className='bg-foreground h-32 flex'></section>
+      <section className='relative bg-background min-h-screen flex'>
+        <Image
+          src='/fire-bg.webp'
+          alt='Fire Background'
+          className='absolute -top-32 left-1/2 -translate-x-1/2'
+          width={1920}
+          height={391}
+        />
+      </section>
     </main>
   )
 }

@@ -2,8 +2,8 @@
 - [x] Tela de Loading
 - [ ] Tela de Erro
 - [ ] 404
-- [ ] Animação chatgpt pegando fogo
-- [ ] Metadata SEO
+- [x] Animação chatgpt pegando fogo
+- [x] Metadata SEO
 - [x] Loading organico randomizado
 - [ ] Gerador de arte
   - [x] Estilo windows xp
@@ -18,7 +18,7 @@
   - [x] Layout do paint
   - [x] Texto melhor para clippy
   - [ ] Melhorar Botão de gerar
-  - [ ] Seta animada
+  - [x] Seta animada
   - [ ] Error state
 - [ ] Seção instagram
   - [x] Degrade entre a outra sessão
@@ -33,7 +33,7 @@
   - [x] Loading State
   - [ ] Error state
   - [x] Interatividade cards instagram
-  - [ ] Fundo de fogo
+  - [x] Fundo de fogo
 - [ ] Sessão final
 - [ ] Deploy
 - [ ] Formulario email

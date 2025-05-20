@@ -91,7 +91,7 @@ export default function Clippy() {
             />
           </div>
         </div>
-        <div className='clippy-float size-[150px]'>
+        <div className='clippy-float hover:scale-110 transition-transform size-[150px]'>
           <Image
             key={`clippy-${gifVersion}`}
             className='size-[150px]'
