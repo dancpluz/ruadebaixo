@@ -27,4 +27,7 @@ export const GIF_DURATIONS: { [key: string]: number } = {
   '/clippy/clippy6.gif': 13600,
 }
 
+export const FORM_LINK = 'https://forms.gle/MKQ2efd1m7YxGZaR9'
+
+export const WHATSAPP_GROUP_ID = '120363159389024765@g.us'
 // ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 clippy6.gif

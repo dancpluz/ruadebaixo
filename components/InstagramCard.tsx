@@ -10,6 +10,7 @@ import Tooltip from './Tooltip';
 import { ArtistEntity } from '@/types/strapi';
 import { useQuery } from '@tanstack/react-query';
 import AnimatedImage from './AnimatedImage';
+import { FORM_LINK } from '@/lib/const';
 
 export default function InstagramCard({ insta }: { insta: string }) {
   const {
@@ -81,8 +82,9 @@ export default function InstagramCard({ insta }: { insta: string }) {
           </Link>
         }
         <div className="title-bar-controls">
-          <button aria-label="Minimize" />
-          <button aria-label="Maximize" />
+          <Link href={FORM_LINK} target='_blank'>
+            <button aria-label="Help" />
+          </Link>
           <button aria-label="Close" />
         </div>
       </div>
@@ -183,6 +185,7 @@ export default function InstagramCard({ insta }: { insta: string }) {
                     alt="Loading"
                     width={48}
                     height={48}
+                    unoptimized
                   />
                 </div>
               ))}

@@ -36,8 +36,10 @@
   - [x] Fundo de fogo
 - [ ] Sessão final
 - [ ] Deploy
-- [ ] Formulario email
+- [x] Formulario email
+- [x] Mensagem pro zap
 - [ ] Autenticação da api do instagram
+- [ ] Responsivo
 
 # Backlog:
 - [ ] Mouse diferente ao passar por cima de botão

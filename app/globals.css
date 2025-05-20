@@ -83,7 +83,7 @@
     }
   }
 
-  @keyframes clippy-float {
+  @keyframes float {
     0%,
     100% {
       transform: translateY(0);
@@ -165,9 +165,13 @@
     @apply absolute inset-0 bg-textbox;
     content: '';
   }
+
+  .simple-float {
+    animation: float 3s ease-in-out infinite;
+  }
   
   .clippy-float {
-    animation: clippy-float 3s ease-in-out infinite;
+    animation: float 3s ease-in-out infinite;
     filter: drop-shadow(4px 4px 4px rgba(0, 0, 0, 0.568));
   }
 

@@ -2,6 +2,7 @@ import Image from 'next/image';
 import Generator from "@/components/Generator";
 import InstagramSection from '@/components/InstagramSection';
 import AnimatedImage from '@/components/AnimatedImage';
+import ContactForm from '@/components/ContactForm';
 
 export default async function Landing() {
   return (
@@ -39,12 +40,13 @@ export default async function Landing() {
             className='w-32 h-32'
             width={128}
             height={128}
+            unoptimized
           />
           <h1 className='text-3xl font-pixelated font-bold text-center'>Artistas <u>REAIS</u> que apoiam o projeto:</h1>
         </div>
         <InstagramSection />
       </section>
-      <section className='relative bg-background min-h-screen flex'>
+      <section className='relative bg-background min-h-screen flex flex-col items-center pt-92 pb-64 gap-32'>
         <Image
           src='/fire-bg.webp'
           alt='Fire Background'
@@ -52,6 +54,18 @@ export default async function Landing() {
           width={1920}
           height={391}
         />
+        <h1 className='text-3xl font-pixelated text-foreground font-bold text-center'><u>IA</u> não faz arte, essas pessoas <u>sim</u>.</h1>
+        <div className='flex flex-col justify-center items-center'>
+          <h1 className='text-3xl font-pixelated text-foreground font-bold text-center -mb-8'>Feito por</h1>
+          <AnimatedImage
+            src='/logo.webp'
+            alt='Logo Rua de Baixo'
+            className='object-contain animate-pulse size-64'
+            width={96}
+            height={96}
+          />
+        </div>
+        <ContactForm />
       </section>
     </main>
   )
