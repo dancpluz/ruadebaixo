@@ -45,6 +45,7 @@
 
 # Backlog:
 - [ ] Mouse diferente ao passar por cima de botão
+- [ ] Posthog
 - [ ] Exportar imagem do insta vintage
 - [x] Clipes flutuando
 - [ ] Mudar amostras de acordo com imagem gerada
