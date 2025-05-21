@@ -25,7 +25,7 @@ export async function getArtists(): Promise<ApiResult<ArtistResponse>> {
 }
 
 export async function submitEmail(prevState: { error?: string; success?: string }, formData: FormData): Promise<{ error?: string; success?: string }> {
-  const email = formData.get('email')?.toString()?.trim() || ''
+  const email = formData.get('email')?.toString()?.trim().toLowerCase() || ''
 
   // Simple email validation
   const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
