@@ -36,7 +36,7 @@ export default function InstagramCard({ insta }: { insta: string }) {
 
   if (userError) {
     return (
-      <div className='window relative w-[400px]'>
+      <div className='window relative max-w-[400px]'>
         <div className="title-bar max-h-0 min-h-7">
           <h1 className="title-bar-text text-sx">Error</h1>
         </div>
@@ -58,7 +58,7 @@ export default function InstagramCard({ insta }: { insta: string }) {
   } = user || {};
 
   return (
-    <div className='window w-[400px] max-w-[400px] min-w-[400px] transform transition-transform duration-300 hover:scale-[1.02]'>
+    <div className='window max-w-[400px] transform transition-transform duration-300 hover:scale-[1.02]'>
       <div className="title-bar max-h-0 min-h-7">
         {isLoadingUser ? 
           <div className='flex items-center gap-1'>

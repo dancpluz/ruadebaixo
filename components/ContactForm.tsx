@@ -58,7 +58,7 @@ export default function ContactForm() {
         </form>
         <div className="status-bar">
           <Link href={FORM_LINK} target='_blank' className='status-bar-field text-blue-500 hover:underline'>
-            Ainda estamos aceitando inscrições de artistas para este projeto! <u>Clique Aqui</u>
+            Ainda estamos aceitando inscrições de artistas! <u>Clique Aqui</u>
           </Link>
         </div>
       </div>

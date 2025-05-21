@@ -34,12 +34,14 @@
   - [ ] Error state
   - [x] Interatividade cards instagram
   - [x] Fundo de fogo
-- [ ] Sessão final
+- [x] Sessão final
+- [x] Logo fixa
 - [ ] Deploy
 - [x] Formulario email
 - [x] Mensagem pro zap
 - [ ] Autenticação da api do instagram
-- [ ] Responsivo
+- [x] Responsivo
+- [x] Redirecionar instagram browser para browser normal
 
 # Backlog:
 - [ ] Mouse diferente ao passar por cima de botão
