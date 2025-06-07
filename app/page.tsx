@@ -4,10 +4,19 @@ import InstagramSection from '@/components/InstagramSection';
 import AnimatedImage from '@/components/AnimatedImage';
 import ContactForm from '@/components/ContactForm';
 import ScrollLogo from '@/components/ScrollLogo';
+import InviteButton from '@/components/InviteButton';
 
-export default async function Landing() {
+export default async function Landing({ searchParams }: { searchParams: Promise<{ [key: string]: string }> }) {
+  const convite = (await searchParams).convite;
+
   return (
     <main>
+      {convite !== undefined &&
+        <InviteButton />
+      }
+      {/* <h1 className='absolute text-2xl z-100'>
+        {JSON.stringify(convite !== undefined)}
+      </h1> */}
       <ScrollLogo />
       <section className='h-[115vh] relative flex flex-col items-center pt-48 lg:px-64 px-4 gap-16'>
         <div className="absolute bottom-0 w-full h-[45%] bg-gradient-to-b from-transparent to-foreground z-0" />

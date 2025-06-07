@@ -84,7 +84,7 @@ export default async function RootLayout({
   children: React.ReactNode
 }) {
   const availabilityResult = await checkStrapiAvailability();
-  if (availabilityResult.isErr()) return <pre>Erro \n{JSON.stringify(availabilityResult,null,2)}</pre>
+  if (availabilityResult.isErr()) return <pre>Erro {JSON.stringify(availabilityResult,null,2)}</pre>
 
   const resultArtists = await getArtists();
   if (resultArtists.isErr()) return <pre>Erro \n{JSON.stringify(resultArtists,null,2)}</pre>

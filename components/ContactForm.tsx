@@ -27,8 +27,8 @@ export default function ContactForm() {
       </div>
       <div className="window-body">
         <form action={formAction} className='flex flex-col gap-2 px-4 py-2'>
-          <p className='text-[17px]'>Fique sabendo com <u>antecedência</u> quando lançarmos novos projetos.</p>
-          <p className='text-[15px]'>Acesso a <u>descontos</u> e informações <u>exclusivas!</u></p>
+          <p className='text-[17px] text-justify'>Fique sabendo com <u>antecedência</u> quando lançarmos novos projetos.</p>
+          <p className='text-[15px] text-justify'>Acesso a <u>descontos</u> e informações <u>exclusivas!</u></p>
 
           <div className="field-row flex gap-1">
             <label className='text-[12px]' htmlFor="email">seu email</label>

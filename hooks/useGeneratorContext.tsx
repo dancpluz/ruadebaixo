@@ -12,8 +12,6 @@ interface GeneratorContextType {
   currentArtist?: ArtistEntity;
   setCurrentArtist: React.Dispatch<React.SetStateAction<ArtistEntity | undefined>>;
   selectRandomArtist: () => void;
-  loading: boolean;
-  setLoading: React.Dispatch<React.SetStateAction<boolean>>;
   pagination: number;
   setPagination: React.Dispatch<React.SetStateAction<number>>;
 }
@@ -29,7 +27,6 @@ export const GeneratorProvider = ({ children, initialArtists }: GeneratorProvide
   const [clippyAnimation, setClippyAnimation] = useState<GeneratorContextType['clippyAnimation']>('');
   const [artists, setArtists] = useState<GeneratorContextType['artists']>(initialArtists || []);
   const [currentArtist, setCurrentArtist] = useState<GeneratorContextType['currentArtist']>(undefined);
-  const [loading, setLoading] = useState(false);
   const [pagination, setPagination] = useState(0);
 
   function selectRandomArtist() {
@@ -46,8 +43,6 @@ export const GeneratorProvider = ({ children, initialArtists }: GeneratorProvide
       currentArtist,
       setCurrentArtist,
       selectRandomArtist,
-      loading,
-      setLoading,
       pagination,
       setPagination,
     }}>

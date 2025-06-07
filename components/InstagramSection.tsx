@@ -12,7 +12,7 @@ export default function InstagramSection() {
   const artistSlice = shuffleArray(artists).slice(0, currentSlice);
   
   return (
-    <div className='relative'>
+    <div className='relative overflow-clip'>
       {artistSlice.map((artist, index) => (
         <div
           key={`${artist.id}-${artist.insta}`}

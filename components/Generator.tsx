@@ -1,4 +1,4 @@
-import { ICONS } from '@/lib/const'
+import { ICONS, INSTAGRAM_LINK } from '@/lib/const'
 import { generateRandomColor } from '@/lib/utils'
 import Link from 'next/link'
 import Clippy from './Clippy'
@@ -65,13 +65,13 @@ export default function Generator() {
         </div>
         <div className='grid grid-rows-2 max-w-[40%] overflow-hidden grid-flow-col gap-0.5'>
           {Array(28).fill(0).map((_, i) => (
-            <div key={i} style={{ background: generateRandomColor() }} className='hover:opacity-80 lg:size-5 size-4 inset-bevel-bg' />
+            <div key={i} style={{ background: generateRandomColor() }} className={`hover:opacity-80 lg:size-5 size-4 inset-bevel-bg md:block ${i < 6 ? 'md:block' : 'hidden'}`} />
           ))}
         </div>
         <GenerateButton />
       </div>
       <div className='status-bar'>
-        <p className="status-bar-field">Para ajuda, procure em <Link className='hover:underline' href='https://www.instagram.com/ruadebaixoloja/' target='_blank'>@ruadebaixoloja</Link></p>
+        <p className="status-bar-field">Para ajuda, procure em <Link className='hover:underline' href={INSTAGRAM_LINK} target='_blank'>@ruadebaixoloja</Link></p>
         <p className="status-bar-field">Feito por Rua de Baixo ®</p>
       </div>
     </div>

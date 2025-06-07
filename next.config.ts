@@ -31,6 +31,11 @@ const nextConfig: NextConfig = {
         hostname: '*.cdninstagram.com',
         //pathname: '/v/**',
       },
+      {
+        protocol: 'https',
+        hostname: '*.fbcdn.net',
+        //pathname: '/v/**',
+      },
     ]
   },
 };
