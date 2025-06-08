@@ -17,7 +17,7 @@
   - [x] Texto animado na fala do clips
   - [x] Layout do paint
   - [x] Texto melhor para clippy
-  - [ ] Melhorar Botão de gerar
+  - [x] Melhorar Botão de gerar
   - [x] Seta animada
   - [ ] Error state
 - [ ] Seção instagram

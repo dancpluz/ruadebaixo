@@ -18,7 +18,7 @@ export default async function Landing({ searchParams }: { searchParams: Promise<
         {JSON.stringify(convite !== undefined)}
       </h1> */}
       <ScrollLogo />
-      <section className='h-[115vh] relative flex flex-col items-center pt-48 lg:px-64 px-4 gap-16'>
+      <section id='gerador' className='h-[115vh] relative flex flex-col items-center pt-48 lg:px-64 px-4 gap-16'>
         <div className="absolute bottom-0 w-full h-[45%] bg-gradient-to-b from-transparent to-foreground z-0" />
         <Image
           src='/wallpaper.webp'

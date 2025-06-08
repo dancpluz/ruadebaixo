@@ -6,6 +6,7 @@ import Image from 'next/image';
 import { FORM_LINK, INSTAGRAM_LINK } from '@/lib/const';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import AnimatedImage from './AnimatedImage';
 
 export default function InviteButton() {
   const [open, setOpen] = useState(false);
@@ -37,7 +38,7 @@ export default function InviteButton() {
             <div className="window-body">
               <div className='flex flex-col gap-2 px-4 py-2'>
                 <div className='flex items-center gap-2'>
-                  <Image
+                  <AnimatedImage
                     src='/bucket.webp'
                     alt='Envelope aberto'
                     width={80}

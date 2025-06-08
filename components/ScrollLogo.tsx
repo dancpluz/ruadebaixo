@@ -17,9 +17,12 @@ export default function ScrollLogo() {
   }, [])
 
   const scrollToSection = () => {
-    const section = document.getElementById('participe')
-    if (section) {
-      section.scrollIntoView({ behavior: 'smooth' })
+    const sectionStart = document.getElementById('gerador')
+    const sectionEnd = document.getElementById('participe')
+    if (sectionEnd && !isScrolled) {
+      sectionEnd.scrollIntoView({ behavior: 'smooth' })
+    } else if (sectionStart && isScrolled) {
+      sectionStart.scrollIntoView({ behavior: 'smooth' })
     }
   }
 
