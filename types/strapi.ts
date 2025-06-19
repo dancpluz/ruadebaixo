@@ -6,7 +6,8 @@ import type {
   ApiGeneralGeneral,
   ApiProductStoreProductStore,
   ApiDropDrop,
-  ApiInviteInvite
+  ApiInviteInvite,
+  ApiGameCoverGameCover
 } from './contentTypes';
 
 /**
@@ -181,3 +182,6 @@ export type DropResponse = StrapiCollectionResponseFrom<ApiDropDrop>;
 
 export type InviteEntity = StrapiEntityFrom<ApiInviteInvite>;
 export type InviteResponse = StrapiCollectionResponseFrom<ApiInviteInvite>;
+
+export type GameCoverEntity = StrapiEntityFrom<ApiGameCoverGameCover>;
+export type GameCoverResponse = StrapiCollectionResponseFrom<ApiGameCoverGameCover>;

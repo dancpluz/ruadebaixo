@@ -34,6 +34,10 @@ export interface AdminApiToken extends Struct.CollectionTypeSchema {
         minLength: 1;
       }> &
       Schema.Attribute.DefaultTo<''>;
+    encryptedKey: Schema.Attribute.Text &
+      Schema.Attribute.SetMinMaxLength<{
+        minLength: 1;
+      }>;
     expiresAt: Schema.Attribute.DateTime;
     lastUsedAt: Schema.Attribute.DateTime;
     lifespan: Schema.Attribute.BigInteger;
@@ -369,6 +373,68 @@ export interface AdminUser extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiArtistArtist extends Struct.CollectionTypeSchema {
+  collectionName: 'artists';
+  info: {
+    description: '';
+    displayName: 'Artista';
+    pluralName: 'artists';
+    singularName: 'artist';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    image: Schema.Attribute.Media<'images'> & Schema.Attribute.Required;
+    insta: Schema.Attribute.String & Schema.Attribute.Required;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::artist.artist'
+    > &
+      Schema.Attribute.Private;
+    message: Schema.Attribute.Text & Schema.Attribute.Required;
+    publishedAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    verified: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    whatsapp: Schema.Attribute.String;
+  };
+}
+
+export interface ApiClassificationClassification
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'classifications';
+  info: {
+    displayName: 'Classifica\u00E7\u00E3o Indicativa';
+    pluralName: 'classifications';
+    singularName: 'classification';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    image: Schema.Attribute.Media<'images'> & Schema.Attribute.Required;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::classification.classification'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiClientClient extends Struct.CollectionTypeSchema {
   collectionName: 'clients';
   info: {
@@ -439,6 +505,133 @@ export interface ApiDropDrop extends Struct.CollectionTypeSchema {
       'api::product-thrift.product-thrift'
     >;
     title: Schema.Attribute.String & Schema.Attribute.Required;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiGameCoverGameCover extends Struct.CollectionTypeSchema {
+  collectionName: 'game_covers';
+  info: {
+    displayName: 'Capa de Jogo';
+    pluralName: 'game-covers';
+    singularName: 'game-cover';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    classification: Schema.Attribute.Relation<
+      'oneToOne',
+      'api::classification.classification'
+    >;
+    cover: Schema.Attribute.Media<'images'> & Schema.Attribute.Required;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    description: Schema.Attribute.Text &
+      Schema.Attribute.Required &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 400;
+      }>;
+    game_tags: Schema.Attribute.JSON &
+      Schema.Attribute.Required &
+      Schema.Attribute.CustomField<
+        'plugin::multi-select.multi-select',
+        [
+          'Indie',
+          'A\u00E7\u00E3o',
+          'Aventura',
+          'Casual',
+          'RPG',
+          'Simula\u00E7\u00E3o',
+          'Um jogador',
+          'Estrat\u00E9gia',
+          'Acesso antecipado',
+          'Gratuito para jogar',
+          '2D',
+          '3D',
+          'Atmosf\u00E9rico',
+          'Colorido',
+          'Narrativa rica',
+          'Fantasia',
+          'Multijogador',
+          'Explora\u00E7\u00E3o',
+          'Puzzle',
+          'Gr\u00E1ficos em pixel',
+          'Fofo',
+          'Combate',
+          'Primeira pessoa',
+          'Multijogador massivo',
+          'Esportes',
+          'A\u00E7\u00E3o e Aventura',
+          'Violento',
+          'Engra\u00E7ado',
+          'Arcade',
+          'Anime',
+          'Relaxante',
+          'Fic\u00E7\u00E3o cient\u00EDfica',
+          'Corrida',
+          'Tiro',
+          'Terror',
+          'Conte\u00FAdo sexual',
+          'Suporte a controle',
+          'Estilizado',
+          'Nudez',
+          'Terceira pessoa',
+          'Adequado para fam\u00EDlia',
+          'Retr\u00F4',
+          'Protagonista feminina',
+          'Mundo aberto',
+          'Cooperativo',
+          'PvE',
+          'Viol\u00EAncia gr\u00E1fica',
+          'Decis\u00F5es importantes',
+          'Vis\u00E3o de cima',
+          'PvP',
+        ]
+      > &
+      Schema.Attribute.SetMinMax<
+        {
+          min: 4;
+        },
+        number
+      > &
+      Schema.Attribute.DefaultTo<'[]'>;
+    headline: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 55;
+        minLength: 45;
+      }>;
+    link: Schema.Attribute.String & Schema.Attribute.Required;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::game-cover.game-cover'
+    > &
+      Schema.Attribute.Private;
+    logo_back: Schema.Attribute.Media<'images'> & Schema.Attribute.Required;
+    logo_front: Schema.Attribute.Media<'images'> & Schema.Attribute.Required;
+    publishedAt: Schema.Attribute.DateTime;
+    tags: Schema.Attribute.JSON &
+      Schema.Attribute.CustomField<'plugin::tagsinput.tags'>;
+    title: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 25;
+        minLength: 18;
+      }>;
+    topics: Schema.Attribute.Component<'topic.topic', true> &
+      Schema.Attribute.Required &
+      Schema.Attribute.SetMinMax<
+        {
+          max: 4;
+          min: 3;
+        },
+        number
+      >;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -549,6 +742,31 @@ export interface ApiInviteInvite extends Struct.CollectionTypeSchema {
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     whatsapp: Schema.Attribute.String;
+  };
+}
+
+export interface ApiLeadLead extends Struct.CollectionTypeSchema {
+  collectionName: 'leads';
+  info: {
+    displayName: 'Lead';
+    pluralName: 'leads';
+    singularName: 'lead';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    email: Schema.Attribute.Email & Schema.Attribute.Unique;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<'oneToMany', 'api::lead.lead'> &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
   };
 }
 
@@ -1328,11 +1546,15 @@ declare module '@strapi/strapi' {
       'admin::transfer-token': AdminTransferToken;
       'admin::transfer-token-permission': AdminTransferTokenPermission;
       'admin::user': AdminUser;
+      'api::artist.artist': ApiArtistArtist;
+      'api::classification.classification': ApiClassificationClassification;
       'api::client.client': ApiClientClient;
       'api::drop.drop': ApiDropDrop;
+      'api::game-cover.game-cover': ApiGameCoverGameCover;
       'api::general.general': ApiGeneralGeneral;
       'api::gift.gift': ApiGiftGift;
       'api::invite.invite': ApiInviteInvite;
+      'api::lead.lead': ApiLeadLead;
       'api::lookbook.lookbook': ApiLookbookLookbook;
       'api::order-store.order-store': ApiOrderStoreOrderStore;
       'api::order-thrift.order-thrift': ApiOrderThriftOrderThrift;

@@ -1,3 +1,17 @@
+- [ ] Modo manutenção
+- [ ] HUB
+  - [ ] Logo em cima
+  - [x] Capa de Jogo Componente
+    - [x] Frente
+    - [ ] Verso
+  - [ ] Puxar dados do banco
+  - [ ] Carrosel
+  - [ ] Lógica de seleção
+  - [ ] Animações
+  - [ ] Butões
+
+# ANTIGO
+
 - [x] Pág. Landing
   - [x] Header
   - [x] Animação

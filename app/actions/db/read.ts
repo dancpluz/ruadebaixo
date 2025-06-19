@@ -2,6 +2,7 @@
 
 import db, { checkStrapiAvailability } from "@/lib/strapi";
 import { 
+  GameCoverResponse,
   GeneralResponse, 
   InviteResponse
 } from "@/types/strapi";
@@ -106,5 +107,48 @@ export async function fetchInvites(): Promise<ApiResult<InviteResponse>> {
     // 5. Captura qualquer outro erro inesperado
     console.error('Erro inesperado:', error);
     return err(new ApiError('Erro ao buscar dados dos convites', 500));
+  }
+}
+
+/**
+ * Busca os Game Covers populando o componente topic e a relação classification
+ */
+export async function fetchGameCovers(): Promise<ApiResult<GameCoverResponse>> {
+  try {
+    const availabilityResult = await checkStrapiAvailability();
+    if (availabilityResult.isErr()) {
+      console.log('Strapi indisponível');
+      return err(new ApiError('Erro ao buscar game covers', 500));
+    }
+
+    const result = await tryCatch(
+      db?.collection('game-covers').find({
+        populate: {
+          logo_front: true,
+          logo_back: true,
+          classification: {
+            populate: {
+              image: true,
+            },
+          },
+          topics: {
+            populate: {
+              image: true,
+            },
+          }
+        },
+      }) as Promise<GameCoverResponse>,
+      { action: 'fetchGameCovers' }
+    );
+
+    if (result.isErr()) {
+      console.log('Erro ao buscar game covers');
+      return err(new ApiError('Erro ao buscar game covers', 500));
+    }
+
+    return result;
+  } catch (error) {
+    console.error('Erro inesperado:', error);
+    return err(new ApiError('Erro ao buscar game covers', 500));
   }
 }

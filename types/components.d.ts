@@ -204,6 +204,19 @@ export interface ProductVariant extends Struct.ComponentSchema {
   };
 }
 
+export interface TopicTopic extends Struct.ComponentSchema {
+  collectionName: 'components_topic_topics';
+  info: {
+    displayName: 'Topic';
+    icon: 'bulletList';
+  };
+  attributes: {
+    description: Schema.Attribute.Text;
+    image: Schema.Attribute.Media<'images'> & Schema.Attribute.Required;
+    title: Schema.Attribute.String;
+  };
+}
+
 declare module '@strapi/strapi' {
   export module Public {
     export interface ComponentSchemas {
@@ -215,6 +228,7 @@ declare module '@strapi/strapi' {
       'product.product-info': ProductProductInfo;
       'product.size': ProductSize;
       'product.variant': ProductVariant;
+      'topic.topic': TopicTopic;
     }
   }
 }
