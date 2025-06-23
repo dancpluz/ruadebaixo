@@ -18,7 +18,7 @@ export default function ScrollLogo() {
 
   const scrollToSection = () => {
     const sectionStart = document.getElementById('gerador')
-    const sectionEnd = document.getElementById('participe')
+    const sectionEnd = document.getElementById('manifesto')
     if (sectionEnd && !isScrolled) {
       sectionEnd.scrollIntoView({ behavior: 'smooth' })
     } else if (sectionStart && isScrolled) {

@@ -1,7 +1,8 @@
 - [x] Mouse diferente
 - [x] Tela de Loading
 - [ ] Tela de Erro
-- [ ] 404
+- [ ] Melhorar 404
+- [ ] Manifesto
 - [x] Animação chatgpt pegando fogo
 - [x] Metadata SEO
 - [x] Loading organico randomizado

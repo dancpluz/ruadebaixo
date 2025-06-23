@@ -5,6 +5,7 @@ import AnimatedImage from '@/components/AnimatedImage';
 import ContactForm from '@/components/ContactForm';
 import ScrollLogo from '@/components/ScrollLogo';
 import InviteButton from '@/components/InviteButton';
+import Manifesto from '@/components/Manifesto';
 
 export default async function Landing({ searchParams }: { searchParams: Promise<{ [key: string]: string }> }) {
   const convite = (await searchParams).convite;
@@ -73,7 +74,10 @@ export default async function Landing({ searchParams }: { searchParams: Promise<
           />
         </div>
       </section>
-      <section id='participe' className='relative h-[50vh] flex flex-col items-center justify-center pb-64 px-4'>
+      <section id='manifesto' className='flex justify-center grow min-h-screen px-4'>
+        <Manifesto />
+      </section>
+      <section id='participe' className='relative min-h-[80vh] flex flex-col items-center justify-center pb-64 px-4'>
         <ContactForm />
       </section>
     </main>
