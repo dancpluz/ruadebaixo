@@ -4,7 +4,7 @@
   - [x] Capa de Jogo Componente
     - [x] Frente
     - [ ] Verso
-  - [ ] Puxar dados do banco
+  - [x] Puxar dados do banco
   - [ ] Carrosel
   - [ ] Lógica de seleção
   - [ ] Animações

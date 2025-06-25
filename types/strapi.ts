@@ -183,5 +183,14 @@ export type DropResponse = StrapiCollectionResponseFrom<ApiDropDrop>;
 export type InviteEntity = StrapiEntityFrom<ApiInviteInvite>;
 export type InviteResponse = StrapiCollectionResponseFrom<ApiInviteInvite>;
 
-export type GameCoverEntity = StrapiEntityFrom<ApiGameCoverGameCover>;
+export type GameCoverEntity = StrapiEntityFrom<ApiGameCoverGameCover> & {
+  tags: string[];
+  topics: GameTopics[];
+};
+
+export type GameTopics = {
+  title: string;
+  description: string;
+  image: string;
+}
 export type GameCoverResponse = StrapiCollectionResponseFrom<ApiGameCoverGameCover>;
