@@ -32,7 +32,7 @@
     background: var(--color-background);
     color: var(--color-foreground);
     font-family: var(--font-roboto-condensed);
-    font-weight: 700;
+    font-weight: 500;
   }
 }
 

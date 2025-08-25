@@ -107,7 +107,7 @@ export default async function Home() {
   
   return (
     <main className='h-screen w-screen'>
-      <div className='flex h-full justify-center items-center gap-2 px-5'>
+      <div className='flex h-full justify-center items-center gap-4 px-5'>
         {/* <pre style={{ wordBreak: 'break-all', whiteSpace: 'pre-wrap' }}>
           {JSON.stringify(mockGameCovers, null, 2)}
         </pre> */}
@@ -115,7 +115,7 @@ export default async function Home() {
           <GameCard key={gameCover.id} gameCover={gameCover} />
         ))}
       </div>
-      {/* <DarkModeToggle /> */}
+      <DarkModeToggle />
     </main>
   )
 }

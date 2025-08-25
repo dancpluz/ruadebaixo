@@ -1,24 +1,39 @@
-import { Fragment } from 'React'
-import { GameCoverEntity, GameTopics } from "@/types/strapi";
+import React, { Fragment } from 'react';
 import Image from 'next/image';
 
-export default function GameCard({ gameCover }: { gameCover: GameCoverEntity }) {
-  const { cover, classification, logo_front } = gameCover
-
+export default function GameCard({ gameCover }: { gameCover: any }) {
   return (
-    <div className="bg-black aspect-[88/125] w-auto h-[500px] overflow-hidden hover:scale-150 flex flex-col">
-      <BackCover gameCover={gameCover} />
-    </div>
-  )
+    <div className="perspective-normal w-[352px] h-[500px] group">
+      {/* Inner container for 3D transform */} 
+      <div className="relative size-full transition-transform duration-700 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)]">
+        <div className="absolute inset-0 -z-1 bg-white opacity-20 blur-lg" />
+        {/* Front Cover */}
+        <div className="absolute size-full [backface-visibility:hidden] overflow-hidden ">
+          <FrontCover gameCover={gameCover} />
+        </div>
+        <div className="absolute size-full [backface-visibility:hidden]
+         translate-y-[100%] [transform:scaleY(-1)] pointer-events-none overflow-hidden blur-[2px] opacity-70 [mask-image:linear-gradient(to_bottom,transparent_70%,var(--color-background)_100%)]">
+          <FrontCover gameCover={gameCover} />
+        </div>
 
-  
+        {/* Back Cover */}
+        <div className="absolute size-full [backface-visibility:hidden] [transform:rotateY(180deg)]">
+          <BackCover gameCover={gameCover} />
+        </div>
+        <div className="absolute size-full [backface-visibility:hidden] translate-y-[100%] [transform:rotateY(180deg)_scaleY(-1)] pointer-events-none overflow-hidden blur-[2px] opacity-70 [mask-image:linear-gradient(to_bottom,transparent_70%,var(--color-background)_100%)]">
+          <BackCover gameCover={gameCover} />
+        </div>
+        {/* <div className="absolute translate-y-[100%] inset-0 bg-gradient-to-b from-transparent via-black to-black"/> */}
+      </div>
+    </div>
+  );
 }
 
-export function FrontCover({ gameCover }: { gameCover: GameCoverEntity }) {
-  const { title, cover, classification, logo_front } = gameCover
+export function FrontCover({ gameCover }: { gameCover: any }) {
+  const { title, cover, classification, logo_front } = gameCover;
 
   return (
-    <>
+    <div className="bg-black w-full h-full flex flex-col">
       <div className='bg-black border-b border-white h-[55px] flex items-center justify-between px-3 py-2'>
         <div className='relative aspect-[514/121] h-full'>
           <Image
@@ -52,7 +67,7 @@ export function FrontCover({ gameCover }: { gameCover: GameCoverEntity }) {
         <div className='absolute bottom-0 w-full flex justify-between items-center p-3'>
           <Image
             src={classification.image}
-            alt={classification.name}
+            alt={classification.name || 'Classificação Indicativa'}
             width={100}
             height={200}
             className='h-16 w-auto'
@@ -66,12 +81,12 @@ export function FrontCover({ gameCover }: { gameCover: GameCoverEntity }) {
           />
         </div>
       </div>
-    </>
-  )
+    </div>
+  );
 }
 
-export function Topic({ topic }: GameTopics) {
-  const { title, description, image } = topic
+export function Topic({ topic }: any) {
+  const { title, description, image } = topic;
   return (
     <div className='flex flex-col grow gap-1'>
       <div className='flex flex-1 relative'>
@@ -87,18 +102,18 @@ export function Topic({ topic }: GameTopics) {
       </div>
       <p className='text-[10px] leading-none font-normal text-justify'>{description}</p>
     </div>
-  )
+  );
 }
 
-export function BackCover({ gameCover }: { gameCover: GameCoverEntity }) {
-  const { title, headline, topics, logo_back, description, tags, game_tags } = gameCover
+export function BackCover({ gameCover }: { gameCover: any }) {
+  const { title, headline, topics, logo_back, classification, description, tags, game_tags } = gameCover;
 
   return (
-    <>
+    <div className="bg-black w-full h-full flex flex-col">
       <div className='flex flex-col gap-2 px-2 pt-2 pb-1'>
-        <h1 className='text-3xl uppercase leading-none font-extrabold'>{title}</h1>
-        <div className='p-1 border border-foreground'>
-          <h2 className='text-[9px] font-bold uppercase leading-none'>{headline}</h2>
+        <h1 className='text-2xl uppercase leading-none font-extrabold text-white'>{title}</h1>
+        <div className='p-1 border border-white'>
+          <h2 className='text-[9px] font-bold uppercase leading-none text-white'>{headline}</h2>
         </div>
         <div className="flex h-50 gap-1">
           <div className='flex flex-col basis-2/3 gap-1 grow'>
@@ -110,61 +125,94 @@ export function BackCover({ gameCover }: { gameCover: GameCoverEntity }) {
           </div>
         </div>
         <div className='flex gap-2 items-center'>
-          <Image
-            src={logo_back}
-            alt={`${title} Logo`}
-            width={200}
-            height={200}
-            className='size-18 object-contain'
-          />
-          <p className='text-justify text-[10px] leading-tight font-normal'>{description}</p>
+          <div className="relative size-18">
+            <Image
+              src={logo_back}
+              alt={`${title} Logo`}
+              fill
+              className='object-contain'
+            />
+          </div>
+          <p className='text-justify text-[10px] leading-tight font-normal text-white'>{description}</p>
         </div>
       </div>
-      <div className='bg-red-700 px-3 py-1.5 flex items-center justify-between gap-1 *:font-bold *:uppercase *:leading-none *:text-xs'>
+      <div className='bg-red-700 px-3 py-1.5 flex items-center justify-between gap-1 *:font-bold *:uppercase *:leading-none *:text-xs *:text-white'>
         {tags.map((tag: string, i: number) => (
           <Fragment key={i}>
             <span>{tag}</span>
-            {i !== tags.length-1 && <span>|</span>}
+            {i !== tags.length - 1 && <span>|</span>}
           </Fragment>
         ))}
       </div>
-      <div className='bg-white text-black flex gap-2 p-2'>
-      <div className='flex flex-col gap-1'>
-          <div className='flex flex-wrap gap-1 flex-0 w-full'>
-            {game_tags.map(game_tag => (
-              <span className='border-red-700 font-medium border rounded-full text-red-700 px-1.5 py-0.5 text-[9px] line-clamp-1 uppercase'>
+      <div className='bg-white text-black flex gap-2 p-2 grow'>
+        <div className='flex flex-col gap-1 flex-1 min-w-0'>
+          <div className='flex flex-wrap gap-0.5'>
+            {game_tags.map((game_tag: string, i: number) => (
+              <span key={game_tag + i} className='border-red-700 font-medium border rounded-full text-red-700 px-1 py-0.5 text-[7px] line-clamp-1 uppercase'>
                 {game_tag}
               </span>
             ))}
           </div>
-          <p className='leading-tight text-[7px] font-bold text-justify'>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus consequat, leo sit amet pulvinar eleifend, ante sapien placerat liberoturpis. Nulla vitae nisi augue. Pellentesque ornare velit ante, 
+          <p className='leading-tight text-[7px] font-bold text-justify line-clamp-2'>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus consequat, leo sit amet pulvinar eleifend, ante sapien placerat liberoturpis.
           </p>
-          <p className='leading-tight text-[7px] font-normal text-justify'>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus consequat, leo sit amet pulvinar eleifend, ante sapien placerat libero, ut condimentum est ipsum a arcu. Maecenas tincidunt convallis sem quis pretium. Nam eget mattis nulla. Nam ac risus luctus, eleifend ligula non, gravida libero. Mauris tempor finibus purus in mollis. Morbi eu rutrum velit, ut efficitur turpis. Nulla vitae nisi augue. Pellentesque ornare velit ante, ut o
+          <p className='leading-tight text-[7px] font-normal text-justify line-clamp-1'>
+            Middle text asfasgsgadgdsghsdhdfhdfhdfhdfhdfhdhdfhdfh
           </p>
-          <div className='relative border border-black p-0.5'>
+          <div className='relative border border-black p-0.5 mt-1'>
             <span className='absolute text-[10px] bg-red-700 text-white border border-black font-semibold top-0 left-0 -translate-x-[1px] -translate-y-[1px] px-1'>
               AVISO
             </span>
-            <p className='text-[7px] indent-9 text-justify leading-tight'>
+            <p className='text-[7px] indent-9 text-justify leading-tight line-clamp-3'>
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus consequat, leo sit amet pulvinar eleifend, ante sapien placerat libero, ut condim
             </p>
           </div>
         </div>
-        <div className='flex flex-col bg-gray-200'>
-          asf
+        <div className='flex flex-col items-center justify-between max-h-[80px] shrink-0'>
+          <div className="relative max-w-[30px] w-full aspect-square">
+            <Image
+              src='/logordb.svg'
+              alt='Logo RDB reduzida'
+              fill
+              className='object-contain'
+            />
+          </div>
+          <div className="relative max-w-[30px] w-full aspect-square">
+            <Image
+              src='/logorua.svg'
+              alt='Logo Rua de Baixo'
+              fill
+              className='object-contain'
+            />
+          </div>
+          <div className="relative max-w-[30px] w-full aspect-square">
+            <Image
+              src='/setinha.png'
+              alt='Setinha Rua de Baixo'
+              fill
+              className='object-contain'
+            />
+          </div>
         </div>
-        <div className='flex flex-col'>
-          <Image
-            src='/barcode.webp'
-            alt='Código de Barras'
-            width={200}
-            height={100}
-            className='w-[80px] object-cover'
-          />
+        <div className='flex flex-col items-end gap-1 max-h-[80px] shrink-0'>
+          <div className="relative w-[70%] aspect-[40/80]">
+            <Image
+              src={classification.image}
+              alt={classification.name || 'Classificação Indicativa'}
+              fill
+              className='object-contain'
+            />
+          </div>
+          <div className="relative min-w-[60px] w-full aspect-[100/80]">
+            <Image
+              src='/barcode.webp'
+              alt='Código de Barras'
+              fill
+              className='object-contain'
+            />
+          </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }

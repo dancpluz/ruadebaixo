@@ -3,9 +3,9 @@
   - [ ] Logo em cima
   - [x] Capa de Jogo Componente
     - [x] Frente
-    - [ ] Verso
+    - [x] Verso
   - [x] Puxar dados do banco
-  - [ ] Carrosel
+  - [x] Carrosel
   - [ ] Lógica de seleção
   - [ ] Animações
   - [ ] Butões
