@@ -1,0 +1,51 @@
+- [x] Pág. Landing
+  - [x] Header
+  - [x] Animação
+  - [x] Countdown
+  - [x] Rodapé
+- [ ] Pág. Catalogo
+  - [x] Card Produto
+  - [ ] Infinite Scroll
+  - [ ] Filtragem
+- [x] Pág. Produto
+- [ ] Pág. Adesivo
+- [x] Pág. Checkout
+  - [x] Carrinho de Compras
+  - [ ] Local Storage
+- [ ] Pág. Links
+- [ ] Pág. Lookbook
+- [x] Rotas de API definidas
+ - [x] Asaas
+ - [x] Strapi
+ - [x] Kangu
+ - [x] Whatsapp
+- [x] Integração com entregas (kangu)
+- [x] Integração de pagamento (asaas.dev/stripe)
+- [x] Integração com bot do zap
+- [ ] SEO
+- [x] Modo Manutenção
+- [x] Responsivo
+- [ ] Analytics
+- [ ] Melhorar final do checkout
+- [ ] Mensagem para o cliente
+- [x] Error Handling Sentry
+
+# Backlog:
+
+- [ ] Melhorar Context
+- [ ] Query state (nuqs)
+- [ ] Reduzir info no cartitems
+- [x] Salvar vendas e clientes
+- [ ] Verificação produto vendido
+- [ ] Essência
+- [ ] Avaliações
+- [ ] FAQ e Sobre
+- [ ] Loading state
+- [ ] Dark/Light Mode
+- [ ] Backup
+- [x] Webhooks
+- [ ] Segurança Webhook
+- [ ] Página de transmissão
+- [ ] Melhorar Local Storage
+- [ ] Melhorar Página de Produto
+- [ ] Melhorar Imagens
