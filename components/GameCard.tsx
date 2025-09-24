@@ -1,18 +1,24 @@
-import React, { Fragment } from 'react';
-import Image from 'next/image';
+'use client'
 
-export default function GameCard({ gameCover }: { gameCover: any }) {
+import React, { Fragment, useRef, useState } from 'react';
+import Image from 'next/image';
+import { cn } from '@/lib/utils';
+import { useGameContext } from '@/hooks/useGameContext';
+
+export default function GameCard({ gameCover, active, handleSelect }: { gameCover: any, active: boolean, handleSelect: (e: React.MouseEvent) => void }) {
+  const { backSide } = useGameContext();
+
   return (
-    <div className="perspective-normal w-[352px] h-[500px] group">
+    <div onClick={handleSelect} className={cn("cursor-pointer perspective-normal transition-all duration-800 ease-[cubic-bezier(0.4,0,0.2,1)] aspect-[88/125] h-screen group", active ? 'pointer-events-none scale-100 z-5 mx-8' : 'scale-80')}>
       {/* Inner container for 3D transform */} 
-      <div className="relative size-full transition-transform duration-700 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)]">
-        <div className="absolute inset-0 -z-1 bg-white opacity-20 blur-lg" />
+      <div className={cn("relative size-full transition-transform duration-700 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)]", backSide && active ? '[transform:rotateY(180deg)]' : '')}>
+        <div className={cn("absolute inset-0 transition-opacity duration-1000 -z-1 bg-foreground blur-lg", active ? 'opacity-30' : 'opacity-0')} />
         {/* Front Cover */}
         <div className="absolute size-full [backface-visibility:hidden] overflow-hidden ">
           <FrontCover gameCover={gameCover} />
         </div>
         <div className="absolute size-full [backface-visibility:hidden]
-         translate-y-[100%] [transform:scaleY(-1)] pointer-events-none overflow-hidden blur-[2px] opacity-70 [mask-image:linear-gradient(to_bottom,transparent_70%,var(--color-background)_100%)]">
+         translate-y-[100%] [transform:scaleY(-1)] pointer-events-none overflow-hidden blur-[2px] opacity-80 [mask-image:linear-gradient(to_bottom,transparent_70%,var(--color-background)_100%)]">
           <FrontCover gameCover={gameCover} />
         </div>
 
@@ -20,10 +26,9 @@ export default function GameCard({ gameCover }: { gameCover: any }) {
         <div className="absolute size-full [backface-visibility:hidden] [transform:rotateY(180deg)]">
           <BackCover gameCover={gameCover} />
         </div>
-        <div className="absolute size-full [backface-visibility:hidden] translate-y-[100%] [transform:rotateY(180deg)_scaleY(-1)] pointer-events-none overflow-hidden blur-[2px] opacity-70 [mask-image:linear-gradient(to_bottom,transparent_70%,var(--color-background)_100%)]">
+        <div className="absolute size-full [backface-visibility:hidden] translate-y-[100%] [transform:rotateY(180deg)_scaleY(-1)] pointer-events-none overflow-hidden blur-[2px] opacity-80 [mask-image:linear-gradient(to_bottom,transparent_75%,var(--color-background)_100%)]">
           <BackCover gameCover={gameCover} />
         </div>
-        {/* <div className="absolute translate-y-[100%] inset-0 bg-gradient-to-b from-transparent via-black to-black"/> */}
       </div>
     </div>
   );
@@ -34,7 +39,7 @@ export function FrontCover({ gameCover }: { gameCover: any }) {
 
   return (
     <div className="bg-black w-full h-full flex flex-col">
-      <div className='bg-black border-b border-white h-[55px] flex items-center justify-between px-3 py-2'>
+      <div className='bg-black border-b border-white h-[92px] flex items-center justify-between px-6 py-2'>
         <div className='relative aspect-[514/121] h-full'>
           <Image
             src={'/RuaStationText.svg'}
@@ -50,7 +55,7 @@ export function FrontCover({ gameCover }: { gameCover: any }) {
           />
         </div>
       </div>
-      <div className='relative h-[calc(100%-55px)] w-full'>
+      <div className='relative h-[calc(100%-92px)] w-full'>
         <Image
           src={cover}
           alt={cover?.alt || 'Capa'}
@@ -62,7 +67,7 @@ export function FrontCover({ gameCover }: { gameCover: any }) {
           alt={'RDB'}
           width={100}
           height={16}
-          className='h-1.5 w-auto absolute top-3 right-3 object-cover'
+          className='h-3 w-auto absolute top-3 right-6 object-cover'
         />
         <div className='absolute bottom-0 w-full flex justify-between items-center p-3'>
           <Image
@@ -70,14 +75,14 @@ export function FrontCover({ gameCover }: { gameCover: any }) {
             alt={classification.name || 'Classificação Indicativa'}
             width={100}
             height={200}
-            className='h-16 w-auto'
+            className='h-32 w-auto'
           />
           <Image
             src={logo_front}
             alt={`${title} Logo`}
             width={200}
             height={200}
-            className='size-16 object-contain'
+            className='size-32 object-contain'
           />
         </div>
       </div>
@@ -110,10 +115,10 @@ export function BackCover({ gameCover }: { gameCover: any }) {
 
   return (
     <div className="bg-black w-full h-full flex flex-col">
-      <div className='flex flex-col gap-2 px-2 pt-2 pb-1'>
-        <h1 className='text-2xl uppercase leading-none font-extrabold text-white'>{title}</h1>
+      <div className='flex flex-col gap-2 px-2 pt-2 pb-1 w-full'>
+        <h1 className='whitespace-nowrap w-full text-6xl uppercase leading-none font-extrabold text-white'>{title}</h1>
         <div className='p-1 border border-white'>
-          <h2 className='text-[9px] font-bold uppercase leading-none text-white'>{headline}</h2>
+          <h2 className='text-base font-bold nowrap uppercase leading-none text-white'>{headline}</h2>
         </div>
         <div className="flex h-50 gap-1">
           <div className='flex flex-col basis-2/3 gap-1 grow'>

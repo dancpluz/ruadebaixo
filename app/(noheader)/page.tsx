@@ -1,6 +1,8 @@
 import DarkModeToggle from "@/components/DarkModeToggle";
 import { fetchGameCovers } from "../actions/db/read";
-import GameCard from "@/components/GameCard";
+import GameSelect from "@/components/GameSelect";
+import Image from 'next/image';
+import GameButtons from "@/components/GameButtons";
 
 const mockGameCovers = [
   {
@@ -106,16 +108,19 @@ export default async function Home() {
   const gameCoversResult = await fetchGameCovers();
   
   return (
-    <main className='h-screen w-screen'>
-      <div className='flex h-full justify-center items-center gap-4 px-5'>
-        {/* <pre style={{ wordBreak: 'break-all', whiteSpace: 'pre-wrap' }}>
-          {JSON.stringify(mockGameCovers, null, 2)}
-        </pre> */}
-        {mockGameCovers.map((gameCover) => (
-          <GameCard key={gameCover.id} gameCover={gameCover} />
-        ))}
+    <main className='h-screen w-screen overflow-clip'>
+      <div className='absolute top-4 left-8 size-32 z-10 mix-blend-difference'>
+        <Image
+          src="/logordb.svg"
+          alt="Rua de Baixo Logo"
+          width={200}
+          height={200}
+          className='object-contain size-full'
+        />
       </div>
-      <DarkModeToggle />
+      <GameSelect gameCovers={mockGameCovers} />
+      <GameButtons />
+      {/* <DarkModeToggle /> */}
     </main>
   )
 }

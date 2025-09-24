@@ -12,19 +12,19 @@
 
 @layer base {
   [data-theme='dark'] {
-    --color-background: #141414;
+    --color-background: #080808;
     --color-foreground: #EFEFEF;
   }
 
   [data-theme='light'] {
     --color-background: #EFEFEF;
-    --color-foreground: #141414;
+    --color-foreground: #080808;
   }
 }
 
 @layer {
   :root {
-    -webkit-font-smoothing: antialiased;
+    -webkit-font-smoothing: subpixel-antialiased;
     --radius: 0.5rem;
   }
 

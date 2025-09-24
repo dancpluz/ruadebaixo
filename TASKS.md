@@ -1,14 +1,14 @@
 - [ ] Modo manutenção
 - [ ] HUB
-  - [ ] Logo em cima
+  - [x] Logo em cima
   - [x] Capa de Jogo Componente
     - [x] Frente
     - [x] Verso
   - [x] Puxar dados do banco
   - [x] Carrosel
-  - [ ] Lógica de seleção
+  - [ ] Lógica de seleção (Context)
   - [ ] Animações
-  - [ ] Butões
+  - [ ] Botões
 
 # ANTIGO
 
