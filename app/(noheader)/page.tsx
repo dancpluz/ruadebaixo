@@ -109,7 +109,7 @@ export default async function Home() {
   
   return (
     <main className='h-screen w-screen overflow-clip'>
-      <div className='absolute top-4 left-8 size-32 z-10 mix-blend-difference'>
+      <div className='absolute md:top-6 top-4 left-1/2 -translate-x-1/2 md:translate-x-0 md:left-8 size-24 z-10 mix-blend-difference'>
         <Image
           src="/logordb.svg"
           alt="Rua de Baixo Logo"

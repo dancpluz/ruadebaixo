@@ -10,10 +10,12 @@ export default function GameSelect({ gameCovers }: { gameCovers: any[] }) {
 
   const text = 'Selecione seu jogo';
 
+  const textStyle = 'absolute text-center md:text-5xl text-4xl md:top-12 top-36 left-1/2 -translate-x-1/2 w-full'
+
   return (
-    <div className='flex h-full justify-center items-center gap-[1vw] px-5'>
-      <h1 className={cn('absolute text-5xl top-12 left-1/2 -translate-x-1/2 transition-opacity duration-800', selected ? 'opacity-0' : 'opacity-100')}>{text}</h1>
-      <h1 className={cn('absolute text-5xl top-12 left-1/2 -translate-x-1/2 blur-md animate-pulse', selected ? 'opacity-0' : 'opacity-80')}>{text}</h1>
+    <div className='flex h-full justify-center items-center gap-[1vw] px-4'>
+      <h1 className={cn(textStyle, 'transition-opacity duration-800', selected ? 'opacity-0' : 'opacity-100')}>{text}</h1>
+      <h1 className={cn(textStyle, 'blur-md animate-pulse', selected ? 'opacity-0' : 'opacity-80')}>{text}</h1>
       {/* <pre style={{ wordBreak: 'break-all', whiteSpace: 'pre-wrap' }}>
           {JSON.stringify(mockGameCovers, null, 2)}
         </pre> */}

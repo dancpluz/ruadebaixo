@@ -14,9 +14,9 @@ export default function GameButtons() {
   };
 
   return (
-    <div className='fixed z-50 bottom-[8vw] w-full grid grid-cols-3 gap-4 px-16 justify-items-center content-center'>
+    <div className='fixed z-50 md:bottom-[8vw] bottom-28 w-full grid md:grid-cols-3 grid-rows-2 gap-4 md:px-16 px-5 justify-items-center content-center'>
       <div/>
-      <div className='flex gap-8'>
+      <div className='flex justify-between w-full gap-8'>
         <Button disabled={!selected}>
           <Image
             src={'/ButtonX.svg'}
