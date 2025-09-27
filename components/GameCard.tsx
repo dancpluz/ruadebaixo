@@ -2,10 +2,11 @@
 
 import React, { Fragment, useRef, useState } from 'react';
 import Image from 'next/image';
-import { cn } from '@/lib/utils';
+import { buildImgUrl, cn } from '@/lib/utils';
 import { useGameContext } from '@/hooks/useGameContext';
+import { GameCoverEntity, GameTopics } from '@/types/strapi';
 
-export default function GameCard({ gameCover, active, handleSelect }: { gameCover: any, active: boolean, handleSelect: (e: React.MouseEvent) => void }) {
+export default function GameCard({ gameCover, active, handleSelect }: { gameCover: GameCoverEntity, active: boolean, handleSelect: (e: React.MouseEvent) => void }) {
   const { backSide } = useGameContext();
 
   return (
@@ -34,7 +35,7 @@ export default function GameCard({ gameCover, active, handleSelect }: { gameCove
   );
 }
 
-export function FrontCover({ gameCover }: { gameCover: any }) {
+export function FrontCover({ gameCover }: { gameCover: GameCoverEntity }) {
   const { title, cover, classification, logo_front } = gameCover;
 
   return (
@@ -57,7 +58,7 @@ export function FrontCover({ gameCover }: { gameCover: any }) {
       </div>
       <div className='relative h-[calc(100%-92px)] w-full'>
         <Image
-          src={cover}
+          src={buildImgUrl(cover)}
           alt={cover?.alt || 'Capa'}
           className='object-cover'
           fill
@@ -71,14 +72,14 @@ export function FrontCover({ gameCover }: { gameCover: any }) {
         />
         <div className='absolute bottom-0 w-full flex justify-between items-center p-6'>
           <Image
-            src={classification.image}
+            src={buildImgUrl(classification.image)}
             alt={classification.name || 'Classificação Indicativa'}
             width={100}
             height={200}
             className='h-32 w-auto'
           />
           <Image
-            src={logo_front}
+            src={buildImgUrl(logo_front)}
             alt={`${title} Logo`}
             width={200}
             height={200}
@@ -90,13 +91,13 @@ export function FrontCover({ gameCover }: { gameCover: any }) {
   );
 }
 
-export function Topic({ topic }: any) {
+export function Topic({ topic }: { topic: GameTopics }) {
   const { title, description, image } = topic;
   return (
     <div className='flex flex-col grow gap-2'>
       <div className='flex flex-1 relative'>
         <Image
-          src={image}
+          src={buildImgUrl(image)}
           alt={title}
           fill
           className='object-cover border border-white'
@@ -110,7 +111,7 @@ export function Topic({ topic }: any) {
   );
 }
 
-export function BackCover({ gameCover }: { gameCover: any }) {
+export function BackCover({ gameCover }: { gameCover: GameCoverEntity }) {
   const { title, headline, topics, logo_back, classification, description, tags, game_tags } = gameCover;
 
   return (
@@ -132,7 +133,7 @@ export function BackCover({ gameCover }: { gameCover: any }) {
         <div className='flex gap-4 items-center'>
           <div className="relative size-20">
             <Image
-              src={logo_back}
+              src={buildImgUrl(logo_back)}
               alt={`${title} Logo`}
               fill
               className='object-contain'
@@ -142,9 +143,9 @@ export function BackCover({ gameCover }: { gameCover: any }) {
         </div>
       </div>
       <div className='bg-red-700 px-6 py-2 flex items-center justify-between gap-1 *:font-bold *:uppercase *:leading-none *:text-base *:text-white'>
-        {tags.map((tag: string, i: number) => (
+        {tags.map(({ name }, i: number) => (
           <Fragment key={i}>
-            <span>{tag}</span>
+            <span>{name}</span>
             {i !== tags.length - 1 && <span>|</span>}
           </Fragment>
         ))}
@@ -202,7 +203,7 @@ export function BackCover({ gameCover }: { gameCover: any }) {
         <div className='flex flex-col items-end gap-1 justify-end'>
           <div className="relative h-full aspect-[110/176]">
             <Image
-              src={classification.image}
+              src={buildImgUrl(classification.image)}
               alt={classification.name || 'Classificação Indicativa'}
               fill
               className='object-contain'

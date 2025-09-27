@@ -4,6 +4,7 @@ import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
 import { FormT } from "@/types/checkout";
 import { CustomError } from "@/types/api";
+import { StrapiMedia } from "@/types/strapi";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -17,8 +18,8 @@ export function checkEnvVars(envVars: string[]) {
   });
 }
 
-export function buildImgUrl(url?: string) {
-  return url ? process.env.NEXT_PUBLIC_STRAPI_API_URL + url :  undefined;
+export function buildImgUrl(image: StrapiMedia | null | undefined) {
+  return process.env.NEXT_PUBLIC_STRAPI_API_URL + (image?.url || '');
 }
 
 export function roundToDecimal(number: number) {

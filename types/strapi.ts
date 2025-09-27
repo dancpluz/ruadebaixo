@@ -7,7 +7,8 @@ import type {
   ApiProductStoreProductStore,
   ApiDropDrop,
   ApiInviteInvite,
-  ApiGameCoverGameCover
+  ApiGameCoverGameCover,
+  ApiClassificationClassification
 } from './contentTypes';
 
 /**
@@ -133,7 +134,7 @@ type ExtractMediaType<MediaType, Multiple> =
 /**
  * Tipo para mídia do Strapi
  */
-interface StrapiMedia {
+export interface StrapiMedia {
   id: number;
   url: string;
   width?: number;
@@ -184,9 +185,12 @@ export type InviteEntity = StrapiEntityFrom<ApiInviteInvite>;
 export type InviteResponse = StrapiCollectionResponseFrom<ApiInviteInvite>;
 
 export type GameCoverEntity = StrapiEntityFrom<ApiGameCoverGameCover> & {
-  tags: string[];
+  tags: { name: string }[];
   topics: GameTopics[];
+  classification: ClassificationEntity;
 };
+
+export type ClassificationEntity = StrapiEntityFrom<ApiClassificationClassification>;
 
 export type GameTopics = {
   title: string;

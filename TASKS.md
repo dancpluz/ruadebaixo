@@ -1,3 +1,19 @@
+API erros:
+- 500 Internal Server Error: O servidor encontrou uma condição inesperada que o impediu de atender à solicitação. É um erro genérico que pode ter diversas causas, como bugs no código do servidor, falhas de conexão com bancos de dados ou problemas de configuração. 
+
+- 501 Not Implemented: O servidor não consegue atender ao pedido, pois não possui a funcionalidade necessária. Isso geralmente indica um problema na implementação do servidor, não no pedido do cliente. 
+
+- 502 Bad Gateway: Um servidor que está a atuar como gateway ou proxy recebeu uma resposta inválida de um servidor de origem, indicando um problema na comunicação entre os servidores. 
+
+- 503 Service Unavailable: O servidor está temporariamente indisponível para atender ao pedido, muitas vezes devido a uma sobrecarga de tráfego ou problemas de manutenção. 
+
+- 504 Gateway Timeout: O servidor que atua como gateway ou proxy não recebeu uma resposta em tempo hábil do servidor de origem. Isso ocorre quando dois ou mais servidores estão envolvidos no processamento da requisição. 
+
+- 505 HTTP Version Not Supported: O servidor não suporta a versão do protocolo HTTP utilizada na requisição.
+ 
+- 508 Resource Limit Is Reached: O servidor atingiu um limite de recursos (como largura de banda ou capacidade de processamento) e não consegue atender ao pedido. 
+
+
 - [ ] Modo manutenção
 - [ ] HUB
   - [x] Logo em cima
@@ -6,9 +22,11 @@
     - [x] Verso
   - [x] Puxar dados do banco
   - [x] Carrosel
-  - [ ] Lógica de seleção (Context)
-  - [ ] Animações
-  - [ ] Botões
+  - [x] Lógica de seleção (Context)
+  - [x] Puxar dados
+  - [ ] 
+  - [x] Animações
+  - [x] Botões
 
 # ANTIGO
 

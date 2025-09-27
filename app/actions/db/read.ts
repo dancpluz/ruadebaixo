@@ -84,7 +84,7 @@ export async function fetchInvites(): Promise<ApiResult<InviteResponse>> {
     const availabilityResult = await checkStrapiAvailability();
     if (availabilityResult.isErr()) {
       console.log('Strapi indisponível');
-      return err(new ApiError('Erro ao buscar dados dos convites', 500));
+      return err(new ApiError('Strapi indisponível', 503));
     }
 
     // 2. Tenta buscar os dados
@@ -106,7 +106,7 @@ export async function fetchInvites(): Promise<ApiResult<InviteResponse>> {
   } catch (error) {
     // 5. Captura qualquer outro erro inesperado
     console.error('Erro inesperado:', error);
-    return err(new ApiError('Erro ao buscar dados dos convites', 500));
+    return err(new ApiError('Erro inesperado', 500));
   }
 }
 
@@ -118,12 +118,13 @@ export async function fetchGameCovers(): Promise<ApiResult<GameCoverResponse>> {
     const availabilityResult = await checkStrapiAvailability();
     if (availabilityResult.isErr()) {
       console.log('Strapi indisponível');
-      return err(new ApiError('Erro ao buscar game covers', 500));
+      return err(new ApiError('Strapi indisponível', 503));
     }
 
     const result = await tryCatch(
       db?.collection('game-covers').find({
         populate: {
+          cover: true,
           logo_front: true,
           logo_back: true,
           classification: {
@@ -149,6 +150,6 @@ export async function fetchGameCovers(): Promise<ApiResult<GameCoverResponse>> {
     return result;
   } catch (error) {
     console.error('Erro inesperado:', error);
-    return err(new ApiError('Erro ao buscar game covers', 500));
+    return err(new ApiError('Erro inesperado', 500));
   }
 }

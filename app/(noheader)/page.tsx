@@ -3,6 +3,7 @@ import { fetchGameCovers } from "../actions/db/read";
 import GameSelect from "@/components/GameSelect";
 import Image from 'next/image';
 import GameButtons from "@/components/GameButtons";
+import { GameCoverEntity } from "@/types/strapi";
 
 const mockGameCovers = [
   {
@@ -106,10 +107,12 @@ const mockGameCovers = [
 export default async function Home() {
   // Utilizando o padrão Result para lidar com possíveis erros
   const gameCoversResult = await fetchGameCovers();
+  const gameCovers = gameCoversResult.isOk() ? gameCoversResult.value.data as GameCoverEntity[] : [];
   
   return (
     <main className='h-screen w-screen overflow-clip'>
       <div className='absolute md:top-6 top-4 left-1/2 -translate-x-1/2 md:translate-x-0 md:left-8 size-24 z-10 mix-blend-difference'>
+        {/* <pre>{JSON.stringify(gameCovers, null, 2)}</pre> */}
         <Image
           src="/logordb.svg"
           alt="Rua de Baixo Logo"
@@ -118,7 +121,7 @@ export default async function Home() {
           className='object-contain size-full'
         />
       </div>
-      <GameSelect gameCovers={mockGameCovers} />
+      <GameSelect gameCovers={gameCovers} />
       <GameButtons />
       {/* <DarkModeToggle /> */}
     </main>
